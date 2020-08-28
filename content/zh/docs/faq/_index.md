@@ -12,7 +12,7 @@ weight: 8
 information, [file an issue](https://github.com/helm/helm-www/issues) or send us
 a pull request.
 
-## Changes since Helm 2
+## Helm 2的变化
 
 Here's an exhaustive list of all the major changes introduced in Helm 3.
 
@@ -65,11 +65,11 @@ in the chart's state, the live state was left unchanged.
 In Helm 3, we now use a three-way strategic merge patch. Helm considers the old
 manifest, its live state, and the new manifest when generating a patch.
 
-#### Examples
+#### 示例
 
-Let's go through a few common examples what this change impacts.
+让我们通过一些常见的例子来看看变化带来的影响。
 
-##### Rolling back where live state has changed
+##### 回滚存活状态已经改变的
 
 Your team just deployed their application to production on Kubernetes using
 Helm. The chart contains a Deployment object where the number of replicas is set

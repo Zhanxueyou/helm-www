@@ -22,68 +22,55 @@ Chart包(_chart archive_)是被tar和gzip压缩(并且可选签名)的chart.
 
 Chart可以依赖于其他的chart。 依赖可能会以以下两种方式出现:
 
-- 软依赖： A chart may simply not function without another chart being
-  installed in a cluster. Helm does not provide tooling for this case. In this
-  case, dependencies may be managed separately.
-- 硬依赖： A chart may contain (inside of its `charts/` directory)
-  another chart upon which it depends. In this case, installing the chart will
-  install all of its dependencies. In this case, a chart and its dependencies
-  are managed as a collection.
+- 软依赖： 如果另一个chart没有在集群中安装，chart可能会无法使用。Helm未对这个案例提供工具。
+这个案例中，依赖会被分别管理。
+- 硬依赖： 一个chart可以包含 (在它的`charts/`目录中) 另一个它所依赖的chart。这个案例中，
+安装chart的同时会安装所有依赖。chart和它的依赖会作为一个集合进行管理。
 
-When a chart is packaged (via `helm package`) all of its hard dependencies are
-bundled with it.
+当一个chart(通过`helm package`)打包时所有的依赖都会和它绑定。
 
 ## Chart版本
 
-Charts are versioned according to the [SemVer 2 spec](https://semver.org). A
-version number is required on every chart.
+Chart版本根据 [语义化版本2.0 细则](https://semver.org) 发布。每个chart都需要版本号。
 
 ## Chart.yaml
 
-Information about a chart is stored in a special file called `Chart.yaml`. Every
-chart must have this file.
+chart的信息说明被存储在一个特定文件`Chart.yaml`。每个chart都必须有这个文件。
 
 ## Helm (以及helm)
 
-Helm is the package manager for Kubernetes. As an operating system package
-manager makes it easy to install tools on an OS, Helm makes it easy to install
-applications and resources into Kubernetes clusters.
+Helm 是Kubernetes的包管理器。作为一个操作系统包管理器，使其很容易在操作系统中安装工具。Helm使得Kubernetes集群中安装应用和资源变得异常简单。
 
-While _Helm_ is the name of the project, the command line client is also named
-`helm`. By convention, when speaking of the project, _Helm_ is capitalized. When
-speaking of the client, _helm_ is in lowercase.
+当 _Helm_ 是项目名称时, 命令行客户端也可以使用 `helm`。按照惯例，当指项目时，_Helm_ 使用大写。当指命令行时, _helm_ 使用小写。
 
 ## Helm配置文件 (XDG)
 
-Helm stores its configuration files in XDG directories. These directories are
-created the first time `helm` is run.
+Helm将配置文件存储在XDG目录中。`helm`第一次运行时这些目录会自动生成。
 
 ## Kube 配置 (KUBECONFIG)
 
-The Helm client learns about Kubernetes clusters by using files in the _Kube
-config_ file format. By default, Helm attempts to find this file in the place
-where `kubectl` creates it (`$HOME/.kube/config`).
+Helm客户端会通过使用 _Kube config_ 文件格式来理解Kubernetes集群。
+默认情况下，Helm会尝试在 `kubectl` 创建的 (`$HOME/.kube/config`) 目录中查找这些文件。
 
 ## 代码规范 (进行中)
 
-规范(_lint_) 一个chart是去验证其遵照Helm chart的标准规范和要求。Helm提供了工具来处理，尤其是`helm lint`命令。
+规范(_lint_) 一个chart是去验证其遵照Helm chart的标准规范和要求。
+Helm提供了工具来处理，尤其是`helm lint`命令。
 
 ## 来源 (来源文件)
 
 Helm chart可以由来源文件(_provenance file_)提供chart的出处及它所包含的内容。
 
-Provenance files are one part of the Helm security story. A provenance contains
-a cryptographic hash of the chart archive file, the Chart.yaml data, and a
-signature block (an OpenPGP "clearsign" block). When coupled with a keychain,
-this provides chart users with the ability to:
+来源文件是Helm安全故事的一部分。一个来源包含chart包文件的加密哈希值，Chart.yaml数据，
+和一个签名块（一个OpenPGP "clearsign" 块）。当再加上一个钥匙链时，可以为chart用户提供
+以下能力：
 
-- Validate that a chart was signed by a trusted party
-- Validate that the chart file has not been tampered with
-- Validate the contents of a chart metadata (`Chart.yaml`)
-- Quickly match a chart to its provenance data
+- 验证chart被可信第三方签名
+- 验证chart文件没有被篡改
+- 验证chart的元数据内容(`Chart.yaml`)
+- 快速匹配chart的数据来源
 
-Provenance files have the `.prov` extension, and can be served from a chart
-repository server or any other HTTP server.
+来源文件有`.prov`扩展名，可以由chart仓库服务器或其他HTTP服务器提供。
 
 ## 发布版本
 
