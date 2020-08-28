@@ -4,31 +4,28 @@ description: "用于描述Helm体系结构的组件。"
 weight: 9
 ---
 
-# Glossary
+# 术语表
 
 ## Chart
 
-A Helm package that contains information sufficient for installing a set of
-Kubernetes resources into a Kubernetes cluster.
+Helm包涵盖了将Kubernetes资源安装到Kubernetes集群所需要的足够多的信息。
 
-Charts contain a `Chart.yaml` file as well as templates, default values
-(`values.yaml`), and dependencies.
+Charts包含`Chart.yaml`文件和模板，默认值(`values.yaml`)，以及相关依赖。
 
-Charts are developed in a well-defined directory structure, and then packaged
-into an archive format called a _chart archive_.
+Charts开发设计了良好定义的目录结构，并且打包成了一种称为 _chart archive_ 文件格式。
 
-## Chart Archive
+## Chart 包
 
-A _chart archive_ is a tarred and gzipped (and optionally signed) chart.
+_chart archive_ 是被tar和gzip压缩(并且可选签名)的chart.
 
-## Chart Dependency (Subcharts)
+## Chart依赖 (子chart)
 
-Charts may depend upon other charts. There are two ways a dependency may occur:
+Chart可以依赖于其他的chart。 依赖可能会以以下两种方式出现:
 
-- Soft dependency: A chart may simply not function without another chart being
+- 软依赖： A chart may simply not function without another chart being
   installed in a cluster. Helm does not provide tooling for this case. In this
   case, dependencies may be managed separately.
-- Hard dependency: A chart may contain (inside of its `charts/` directory)
+- 硬依赖： A chart may contain (inside of its `charts/` directory)
   another chart upon which it depends. In this case, installing the chart will
   install all of its dependencies. In this case, a chart and its dependencies
   are managed as a collection.
