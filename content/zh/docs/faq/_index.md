@@ -1,13 +1,9 @@
 ---
-title: "Frequently Asked Questions"
+title: "常见问答(FAQ)"
 weight: 8
-aliases: [
-  "/docs/topics/faq/",
-  "/docs/faq/"
-]
 ---
 
-# Frequently Asked Questions
+# 常见问答
 
 > What are the key differences between Helm 2 and Helm 3?  
 > This page provides help with the most common questions.
