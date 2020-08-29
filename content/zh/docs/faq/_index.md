@@ -5,32 +5,20 @@ weight: 8
 
 # 常见问答
 
-> What are the key differences between Helm 2 and Helm 3?  
-> This page provides help with the most common questions.
+> Helm 2和Helm 3的主要区别是什么?  
+> 该页面为最常见的问题提供帮助。
 
-**We'd love your help** making this document better. To add, correct, or remove
-information, [file an issue](https://github.com/helm/helm-www/issues) or send us
-a pull request.
+**我们喜欢您的帮助** 使得该文档变得更好。添加、修改或移除信息, [提问题](https://github.com/helm/helm-www/issues)或者向我们提交pull request。
 
-## Helm 2的变化
+## 从Helm 2发生的变化
 
-Here's an exhaustive list of all the major changes introduced in Helm 3.
+这里会展示一个对Helm3主要引入的变化的详尽列表。
 
-### Removal of Tiller
+### 移除了Tiller
 
-During the Helm 2 development cycle, we introduced Tiller. Tiller played an
-important role for teams working on a shared cluster - it made it possible for
-multiple different operators to interact with the same set of releases.
+在Helm 2的开发周期中，我们引入了Tiller。Tiller在团队协作中共享集群时扮演了重要角色。它使得不同的操作员与相同的版本进行交互称为了可能。
 
-With role-based access controls (RBAC) enabled by default in Kubernetes 1.6,
-locking down Tiller for use in a production scenario became more difficult to
-manage. Due to the vast number of possible security policies, our stance was to
-provide a permissive default configuration. This allowed first-time users to
-start experimenting with Helm and Kubernetes without having to dive headfirst
-into the security controls. Unfortunately, this permissive configuration could
-grant a user a broad range of permissions they weren’t intended to have. DevOps
-and SREs had to learn additional operational steps when installing Tiller into a
-multi-tenant cluster.
+Kubernetes 1.6默认使用了基于角色的访问控制（RBAC），在生产环境对Tiller的锁定使用变得难于管理。由于大量可能的安全策略，我们的立场是提供一个自由的默认配置。这样可以允许新手用户可以乐于尝试Helm和Kubernetes而不需要深挖安全控制。 不幸的是这种自由的配置会授予用户他们不该有的权限。DevOps和SRE在安装多用户集群时不得不去学习额外的操作步骤。
 
 After hearing how community members were using Helm in certain scenarios, we
 found that Tiller’s release management system did not need to rely upon an
