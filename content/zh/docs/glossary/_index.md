@@ -109,13 +109,10 @@ Helm库（或SDK）涉及到go代码，可以直接与Kubernetes API服务交互
 
 ## 仓库 (Repo, Chart Repository)
 
-Helm charts may be stored on dedicated HTTP servers called _chart repositories_
-(_repositories_, or just _repos_).
+Helm图标chart可以被存储在专用的HTTP服务器上，称之为 _chart 仓库_（_repositories_，或者就叫 _repos_）。
 
-A chart repository server is a simple HTTP server that can serve an `index.yaml`
-file that describes a batch of charts, and provides information on where each
-chart can be downloaded from. (Many chart repositories serve the charts as well
-as the `index.yaml` file.)
+chart仓库服务器就是一个简单的HTTP服务器，提供一个`index.yaml` 文件来描述一批chart，
+并且提供每个chart的下载位置信息。(很多chart仓库同时提供chart和 `index.yaml`文件。)
 
 A Helm client can point to zero or more chart repositories. By default, Helm
 clients are not configured with any chart repositories. Chart repositories can
