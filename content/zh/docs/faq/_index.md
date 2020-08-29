@@ -17,21 +17,21 @@ weight: 8
 
 ### 移除了Tiller
 
-在Helm 2的开发周期中，我们引入了Tiller。Tiller在团队协作中共享集群时扮演了重要角色。
+&emsp;&emsp;在Helm 2的开发周期中，我们引入了Tiller。Tiller在团队协作中共享集群时扮演了重要角色。
 它使得不同的操作员与相同的版本进行交互称为了可能。
 
-Kubernetes 1.6默认使用了基于角色的访问控制（RBAC），在生产环境对Tiller的锁定使用变得难于管理。
+&emsp;&emsp;Kubernetes 1.6默认使用了基于角色的访问控制（RBAC），在生产环境对Tiller的锁定使用变得难于管理。
 由于大量可能的安全策略，我们的立场是提供一个自由的默认配置。这样可以允许新手用户可以乐于尝试Helm
 和Kubernetes而不需要深挖安全控制。 不幸的是这种自由的配置会授予用户他们不该有的权限。DevOps和SRE
 在安装多用户集群时不得不去学习额外的操作步骤。
 
-在听取了社区成员在特定场景使用Helm之后，我们发现Tiller的版本管理系统不需要依赖于集群内部用户去维护
+&emsp;&emsp;在听取了社区成员在特定场景使用Helm之后，我们发现Tiller的版本管理系统不需要依赖于集群内部用户去维护
 状态或者作为一个Helm版本信息的中心hub。取而代之的是，我们可以简单地从Kubernetes API server获取信息，
 在Chart客户端处理并在Kubernetes中存储安装记录。
 
 Tiller的首要目标可以在没有Tiller的情况下实现，因此针对于 Helm 3 我们做的首要决定之一就是完全移除Tiller。
 
-随着Tiller的消失，Helm的安全模块从根本上被简化。Helm 3 现在支持所有Kubernetes流行的安全、
+&emsp;&emsp;随着Tiller的消失，Helm的安全模块从根本上被简化。Helm 3 现在支持所有Kubernetes流行的安全、
 身份和授权特性。Helm的权限通过你的[kubeconfig文件](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/)进行评估。集群管理员可以限制用户权限，只要他们觉得合适，
 无论什么粒度都可以做到。版本发布记录和Helm的剩余保留功能仍然会被记录在集群中。
 
@@ -54,27 +54,21 @@ manifest, its live state, and the new manifest when generating a patch.
 
 让我们通过一些常见的例子来看看变化带来的影响。
 
-##### 回滚已经改变的存活状态
+##### 回滚已经改变的活动状态
 
-Your team just deployed their application to production on Kubernetes using
-Helm. The chart contains a Deployment object where the number of replicas is set
-to three:
+你的团队正好在Kubernetes上使用Helm部署了生产环境应用。chart包含了一个部署对象使用了三套副本：
 
 ```console
 $ helm install myapp ./myapp
 ```
 
-A new developer joins the team. On their first day while observing the
-production cluster, a horrible coffee-spilling-on-the-keyboard accident happens
-and they `kubectl scale` the production deployment from three replicas down to
-zero.
+&emsp;&emsp;一个开发新人加入了团队。当他们第一点观察生产环境集群时，发生了一个像是咖啡洒在了键盘上一样的严重事故，他们使用 `kubectl scale` 对生产环境部署进行缩容，将副本数从3降到了0 。
 
 ```console
 $ kubectl scale --replicas=0 deployment/myapp
 ```
 
-Another developer on your team notices that the production site is down and
-decides to rollback the release to its previous state:
+&emsp;&emsp;团队里面的另一个人看到线上环境已经挂了就决定回滚这个版本到之前的状态：
 
 ```console
 $ helm rollback myapp
