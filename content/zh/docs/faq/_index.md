@@ -8,7 +8,8 @@ weight: 8
 > Helm 2和Helm 3的主要区别是什么?  
 > 该页面为最常见的问题提供帮助。
 
-**我们喜欢您的帮助** 使得该文档变得更好。添加、修改或移除信息, [提问题](https://github.com/helm/helm-www/issues)或者向我们提交pull request。
+**我们喜欢您的帮助** 使得该文档变得更好。添加、修改或移除信息,
+ [提问题](https://github.com/helm/helm-www/issues)或者向我们提交pull request。
 
 ## 从Helm 2发生的变化
 
@@ -16,29 +17,25 @@ weight: 8
 
 ### 移除了Tiller
 
-在Helm 2的开发周期中，我们引入了Tiller。Tiller在团队协作中共享集群时扮演了重要角色。它使得不同的操作员与相同的版本进行交互称为了可能。
+在Helm 2的开发周期中，我们引入了Tiller。Tiller在团队协作中共享集群时扮演了重要角色。
+它使得不同的操作员与相同的版本进行交互称为了可能。
 
-Kubernetes 1.6默认使用了基于角色的访问控制（RBAC），在生产环境对Tiller的锁定使用变得难于管理。由于大量可能的安全策略，我们的立场是提供一个自由的默认配置。这样可以允许新手用户可以乐于尝试Helm和Kubernetes而不需要深挖安全控制。 不幸的是这种自由的配置会授予用户他们不该有的权限。DevOps和SRE在安装多用户集群时不得不去学习额外的操作步骤。
+Kubernetes 1.6默认使用了基于角色的访问控制（RBAC），在生产环境对Tiller的锁定使用变得难于管理。
+由于大量可能的安全策略，我们的立场是提供一个自由的默认配置。这样可以允许新手用户可以乐于尝试Helm
+和Kubernetes而不需要深挖安全控制。 不幸的是这种自由的配置会授予用户他们不该有的权限。DevOps和SRE
+在安装多用户集群时不得不去学习额外的操作步骤。
 
-After hearing how community members were using Helm in certain scenarios, we
-found that Tiller’s release management system did not need to rely upon an
-in-cluster operator to maintain state or act as a central hub for Helm release
-information. Instead, we could simply fetch information from the Kubernetes API
-server, render the Charts client-side, and store a record of the installation in
-Kubernetes.
+在听取了社区成员在特定场景使用Helm之后，我们发现Tiller的版本管理系统不需要依赖于集群内部用户去维护
+状态或者作为一个Helm版本信息的中心hub。取而代之的是，我们可以简单地从Kubernetes API server获取信息，
+在Chart客户端处理并在Kubernetes中存储安装记录。
 
-Tiller’s primary goal could be accomplished without Tiller, so one of the first
-decisions we made regarding Helm 3 was to completely remove Tiller.
+Tiller的首要目标可以在没有Tiller的情况下实现，因此针对于 Helm 3 我们做的首要决定之一就是完全移除Tiller。
 
-With Tiller gone, the security model for Helm is radically simplified. Helm 3
-now supports all the modern security, identity, and authorization features of
-modern Kubernetes. Helm’s permissions are evaluated using your [kubeconfig
-file](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/).
-Cluster administrators can restrict user permissions at whatever granularity
-they see fit. Releases are still recorded in-cluster, and the rest of Helm’s
-functionality remains.
+随着Tiller的消失，Helm的安全模块从根本上被简化。Helm 3 现在支持所有Kubernetes流行的安全、
+身份和授权特性。Helm的权限通过你的[kubeconfig文件](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/)进行评估。集群管理员可以限制用户权限，只要他们觉得合适，
+无论什么粒度都可以做到。版本发布记录和Helm的剩余保留功能仍然会被记录在集群中。
 
-### Improved Upgrade Strategy: 3-way Strategic Merge Patches
+### 改进升级策略: 三种合并Patch的策略
 
 Helm 2 used a two-way strategic merge patch. During an upgrade, it compared the
 most recent chart's manifest against the proposed chart's manifest (the one
@@ -57,7 +54,7 @@ manifest, its live state, and the new manifest when generating a patch.
 
 让我们通过一些常见的例子来看看变化带来的影响。
 
-##### 回滚存活状态已经改变的
+##### 回滚已经改变的存活状态
 
 Your team just deployed their application to production on Kubernetes using
 Helm. The chart contains a Deployment object where the number of replicas is set
@@ -83,7 +80,7 @@ decides to rollback the release to its previous state:
 $ helm rollback myapp
 ```
 
-What happens?
+发生了什么？
 
 In Helm 2, it would generate a patch, comparing the old manifest against the new
 manifest. Because this is a rollback, it's the same manifest. Helm would
@@ -96,7 +93,7 @@ the new manifest. Helm recognizes that the old state was at three, the live
 state is at zero and the new manifest wishes to change it back to three, so it
 generates a patch to change the state back to three.
 
-##### Upgrades where live state has changed
+##### 活动状态已更改的情况下升级
 
 Many service meshes and other controller-based applications inject data into
 Kubernetes objects. This can be something like a sidecar, labels, or other
@@ -127,7 +124,7 @@ containers:
   image: nginx:2.1.0
 ```
 
-What happens?
+发生了什么？
 
 In Helm 2, Helm generates a patch of the `containers` object between the old
 manifest and the new manifest. The cluster's live state is not considered during
@@ -157,7 +154,7 @@ containers:
   image: my-cool-mesh:1.0.0
 ```
 
-### Release Names are now scoped to the Namespace
+### 发布名称现在限制在namespace范围内
 
 With the removal of Tiller, the information about each release had to go
 somewhere. In Helm 2, this was stored in the same namespace as Tiller. In
@@ -177,7 +174,7 @@ shown when you run `kubectl config view --minify`). It also means you must
 supply the `--all-namespaces` flag to `helm list` to get behaviour similar to
 Helm 2.
 
-### Secrets as the default storage driver
+### 作为默认存储器的密钥
 
 In Helm 3, Secrets are now used as the [default storage
 driver](/docs/topics/advanced/#storage-backends). Helm 2 used ConfigMaps by
@@ -196,7 +193,7 @@ Kubernetes 1.13. This allows users to encrypt Helm release metadata at rest, and
 so it is a good starting point that can be expanded later into using something
 like Vault.
 
-### Go import path changes
+### 更改了Go的path导入
 
 In Helm 3, Helm switched the Go import path over from `k8s.io/helm` to
 `helm.sh/helm/v3`. If you intend to upgrade to the Helm 3 Go client libraries,
@@ -209,7 +206,7 @@ been simplified.
 
 [Built-in Objects](/docs/chart_template_guide/builtin_objects/)
 
-### Validating Chart Values with JSONSchema
+### 使用Json格式验证Chart Values
 
 A JSON Schema can now be imposed upon chart values. This ensures that values
 provided by the user follow the schema laid out by the chart maintainer,
@@ -309,7 +306,7 @@ information on how to package a chart and push it to a Docker registry.
 
 For more info, please see [this page](/docs/topics/registries/).
 
-### Removal of `helm serve`
+### 移除了`helm serve`
 
 `helm serve` ran a local Chart Repository on your machine for development
 purposes. However, it didn't receive much uptake as a development tool and had
@@ -322,7 +319,7 @@ storage option in
 and the [servecm plugin](https://github.com/jdolitsky/helm-servecm).
 
 
-### Library chart support
+### Library chart支持
 
 Helm 3 supports a class of chart called a “library chart”. This is a chart that
 is shared by other charts, but does not create any release artifacts of its own.
@@ -345,7 +342,7 @@ We’re very excited to see the use cases this feature opens up for chart
 developers, as well as any best practices that arise from consuming library
 charts.
 
-### Chart.yaml apiVersion bump
+### Chart.yaml api版本 bump
 
 With the introduction of library chart support and the consolidation of
 requirements.yaml into Chart.yaml, clients that understood Helm 2's package
@@ -451,9 +448,9 @@ Note that if you have existing repositories, you will need to re-add them with
 `helm repo add...`.
 
 
-## Uninstalling
+## 卸载
 
-### I want to delete my local Helm. Where are all its files?
+### 我想删除我本地Helm. 全部文件在什么位置？
 
 Along with the `helm` binary, Helm stores some files in the following locations:
 
