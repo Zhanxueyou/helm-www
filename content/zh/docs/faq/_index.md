@@ -155,46 +155,36 @@ In Helm 3, 密钥被作为[默认存储驱动](/docs/topics/advanced/#storage-ba
 Helm 2默认使用ConfigMaps记录版本信息。在Helm 2.7.0中，新的存储后台使用密钥来存储版本信息，
 现在是Helm 3的默认设置。
 
-Changing to Secrets as the Helm 3 default allows for additional security in
-protecting charts in conjunction with the release of Secret encryption in
-Kubernetes.
+Helm 3默认允许更改密钥作为额外的安全措施在Kubernetes中和密钥加密一起保护chart。
 
-[Encrypting secrets at
-rest](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/) became
-available as an alpha feature in Kubernetes 1.7 and became stable as of
-Kubernetes 1.13. This allows users to encrypt Helm release metadata at rest, and
-so it is a good starting point that can be expanded later into using something
-like Vault.
+[静态加密密钥](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/)
+在Kubernetes 1.7中作为alpha特性可以使用了，在Kubernetes 1.13中变成了稳定特性。
+这允许用户静态加密Helm的发布元数据，同时也是一个类似Vault的以后可扩展的良好起点。
 
 ### 更改了Go的path导入
 
-In Helm 3, Helm switched the Go import path over from `k8s.io/helm` to
-`helm.sh/helm/v3`. If you intend to upgrade to the Helm 3 Go client libraries,
-make sure to change your import paths.
+在Helm 3中，Helm将Go的import路径从`k8s.io/helm`切换到了`helm.sh/helm/v3`。如果你打算
+升级到Helm 3的Go客户端库，确保你已经更改了import路径。
 
 ### Capabilities
 
-The `.Capabilities` built-in object available during the rendering stage has
-been simplified.
+`.Capabilities`内置对象会在已经简化的渲染阶段生效。
 
-[Built-in Objects](/docs/chart_template_guide/builtin_objects/)
+[内置对象](/docs/chart_template_guide/builtin_objects/)
 
 ### 使用Json格式验证Chart Values
 
-A JSON Schema can now be imposed upon chart values. This ensures that values
-provided by the user follow the schema laid out by the chart maintainer,
-providing better error reporting when the user provides an incorrect set of
-values for a chart.
+chart values现在可以使用JSON结构了。这保证用户提供value可以按照chart维护人员设置的结构排列，
+并且当用户提供了错误的chart value时会有更好错误提示。
 
-Validation occurs when any of the following commands are invoked:
+当调用以下命令时会进行JSON格式验证：
 
 * `helm install`
 * `helm upgrade`
 * `helm template`
 * `helm lint`
 
-See the documentation on [Schema files](/docs/topics/charts#schema-files) for
-more information.
+查看 [格式文档](/docs/topics/charts#schema-files) 了解更多信息。
 
 ### Consolidation of `requirements.yaml` into `Chart.yaml`
 
