@@ -32,23 +32,19 @@ weight: 8
 Tiller的首要目标可以在没有Tiller的情况下实现，因此针对于 Helm 3 我们做的首要决定之一就是完全移除Tiller。
 
 &emsp;&emsp;随着Tiller的消失，Helm的安全模块从根本上被简化。Helm 3 现在支持所有Kubernetes流行的安全、
-身份和授权特性。Helm的权限通过你的[kubeconfig文件](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/)进行评估。集群管理员可以限制用户权限，只要他们觉得合适，
+身份和授权特性。Helm的权限通过你的
+[kubeconfig文件](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/)进行评估。
+集群管理员可以限制用户权限，只要他们觉得合适，
 无论什么粒度都可以做到。版本发布记录和Helm的剩余保留功能仍然会被记录在集群中。
 
-### 改进升级策略: 三种合并Patch的策略
+### 改进升级策略: 三路策略合并补丁
 
-Helm 2 used a two-way strategic merge patch. During an upgrade, it compared the
-most recent chart's manifest against the proposed chart's manifest (the one
-supplied during `helm upgrade`). It compared the differences between these two
-charts to determine what changes needed to be applied to the resources in
-Kubernetes. If changes were applied to the cluster out-of-band (such as during a
-`kubectl edit`), those changes were not considered. This resulted in resources
-being unable to roll back to its previous state: because Helm only considered
-the last applied chart's manifest as its current state, if there were no changes
-in the chart's state, the live state was left unchanged.
+Helm 2 使用了一种双路策略合并补丁。在升级过程中，会对比最近一次的chart manifest和提出的
+chart manifest(通过`helm upgrade`提供)。升级会对比两个chart的不同来决定哪些更改会应用到Kubernetes资源中。
+如果更改是集群外带的（比如通过`kubectl edit`），则不会被考虑。结果就是资源不会回滚到之前的状态：
+因为Helm只考虑最后一次应用的chart manifest作为它的当前状态，如果chart状态没有更改，则资源的活动状态不会更改。
 
-In Helm 3, we now use a three-way strategic merge patch. Helm considers the old
-manifest, its live state, and the new manifest when generating a patch.
+现在Helm 3中，我们使用一种三路策略来合并补丁。Helm在生成一个补丁时会考虑之前老的manifest的活动状态。
 
 #### 示例
 
@@ -62,7 +58,8 @@ manifest, its live state, and the new manifest when generating a patch.
 $ helm install myapp ./myapp
 ```
 
-&emsp;&emsp;一个开发新人加入了团队。当他们第一点观察生产环境集群时，发生了一个像是咖啡洒在了键盘上一样的严重事故，他们使用 `kubectl scale` 对生产环境部署进行缩容，将副本数从3降到了0 。
+&emsp;&emsp;一个开发新人加入了团队。当他们第一点观察生产环境集群时，发生了一个像是咖啡洒在了键盘上一样的严重事故，
+他们使用 `kubectl scale` 对生产环境部署进行缩容，将副本数从3降到了0 。
 
 ```console
 $ kubectl scale --replicas=0 deployment/myapp
@@ -76,22 +73,16 @@ $ helm rollback myapp
 
 发生了什么？
 
-In Helm 2, it would generate a patch, comparing the old manifest against the new
-manifest. Because this is a rollback, it's the same manifest. Helm would
-determine that there is nothing to change because there is no difference between
-the old manifest and the new manifest. The replica count continues to stay at
-zero. Panic ensues.
+在Helm 2中，会生成一个补丁并对比老的manifest和新的manifest。因为这是一个回滚，manifest是一样的。
+Helm会认为新老manifest没有区别，因此没有需要更改的内容。副本统计数量继续保持为0。恐慌就接踵而至。
 
-In Helm 3, the patch is generated using the old manifest, the live state, and
-the new manifest. Helm recognizes that the old state was at three, the live
-state is at zero and the new manifest wishes to change it back to three, so it
-generates a patch to change the state back to three.
+在Helm 3中，是用老的manifest生成新的补丁，活动状态和新的manifest。Helm 意识到老的状态是3，而现有活动状态是0，
+并且新的manifest希望改回3，因此会生成一个补丁将状态改回3。
 
 ##### 活动状态已更改的情况下升级
 
-Many service meshes and other controller-based applications inject data into
-Kubernetes objects. This can be something like a sidecar, labels, or other
-information. Previously if you had the given manifest rendered from a Chart:
+很多服务网格和其他基于controller的应用向Kubernetes对象中注入数据。比如sidecar、label和其他信息。
+之前如果你从Chart渲染给定的manifest如下:
 
 ```yaml
 containers:
@@ -99,7 +90,7 @@ containers:
   image: nginx:2.0.0
 ```
 
-And the live state was modified by another application to
+并且另一个应用修改活动状态如下：
 
 ```yaml
 containers:
@@ -109,8 +100,7 @@ containers:
   image: my-cool-mesh:1.0.0
 ```
 
-Now, you want to upgrade the `nginx` image tag to `2.1.0`. So, you upgrade to a
-chart with the given manifest:
+现在你想升级`nginx`镜像到`2.1.0`。因此用指定的manifest升级chart：
 
 ```yaml
 containers:
@@ -120,11 +110,9 @@ containers:
 
 发生了什么？
 
-In Helm 2, Helm generates a patch of the `containers` object between the old
-manifest and the new manifest. The cluster's live state is not considered during
-the patch generation.
+在Helm 2中，Helm 在新老manifest之间生成了一个`containers`对象的补丁。生成补丁的过程中不考虑集群的活动状态。
 
-The cluster's live state is modified to look like the following:
+集群的活动状态被修改成了这样:
 
 ```yaml
 containers:
@@ -132,13 +120,12 @@ containers:
   image: nginx:2.1.0
 ```
 
-The sidecar pod is removed from live state. More panic ensues.
+sidecar pod从活动状态中移除了。更多的恐慌袭来。
 
-In Helm 3, Helm generates a patch of the `containers` object between the old
-manifest, the live state, and the new manifest. It notices that the new manifest
-changes the image tag to `2.1.0`, but live state contains a sidecar container.
+在Helm 3中，Helm 在新的manifest、活动状态和老manifest之间生成了一个`containers`对象的补丁。会注意到新的manifest
+将镜像tag更新为`2.1.0`, 但是活动状态中包含了一个sidecar容器。
 
-The cluster's live state is modified to look like the following:
+集群的活动状态被修改成了下面这样：
 
 ```yaml
 containers:
