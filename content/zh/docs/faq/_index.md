@@ -137,31 +137,23 @@ containers:
 
 ### 发布名称现在限制在namespace范围内
 
-With the removal of Tiller, the information about each release had to go
-somewhere. In Helm 2, this was stored in the same namespace as Tiller. In
-practice, this meant that once a name was used by a release, no other release
-could use that same name, even if it was deployed in a different namespace.
+&emsp;&emsp;随着Tiller的移除， 每个版本的信息需要保存在某个地方。在Helm 2中，是存储在Tiller相同的命名空间中。 
+实际上这意味着一个发布版本使用一个名称，其他发布不能使用相同的名称，即使在不同的命名空间中也不行。
 
-In Helm 3, information about a particular release is now stored in the same
-namespace as the release itself. This means that users can now `helm install
-wordpress stable/wordpress` in two separate namespaces, and each can be referred
-with `helm list` by changing the current namespace context (e.g. `helm list
---namespace foo`).
+&emsp;&emsp;在Helm 3中，特定的版本信息作为发布本身存储在相同的命名空间中。意味着用户现在可以在两个分开的命名空间中使用
+`helm install wordpress stable/wordpress`，并且每个都能使用 `helm list` 改变当前命名空间。
+ (例如 `helm list --namespace foo`)。
 
-With this greater alignment to native cluster namespaces, the `helm list`
-command no longer lists all releases by default. Instead, it will list only the
-releases in the namespace of your current kubernetes context (i.e. the namespace
-shown when you run `kubectl config view --minify`). It also means you must
-supply the `--all-namespaces` flag to `helm list` to get behaviour similar to
-Helm 2.
+&emsp;&emsp;与本地集群命名空间更好的一致性，使得 `helm list` 命令不再需要默认列出所有发布版本的列表。
+取而代之的是，仅仅会在命名空间中列出当前kubernetes上下文的版本。
+(也就是说运行`kubectl config view --minify`时会显示命名空间). 也就意味着您在执行`helm list`时必须提供
+ `--all-namespaces` 标识才能获得和Helm 2同样的结果。
 
 ### 作为默认存储器的密钥
 
-In Helm 3, Secrets are now used as the [default storage
-driver](/docs/topics/advanced/#storage-backends). Helm 2 used ConfigMaps by
-default to store release information. In Helm 2.7.0, a new storage backend that
-uses Secrets for storing release information was implemented, and it is now the
-default starting in Helm 3.
+In Helm 3, 密钥被作为[默认存储驱动](/docs/topics/advanced/#storage-backends)使用。
+Helm 2默认使用ConfigMaps记录版本信息。在Helm 2.7.0中，新的存储后台使用密钥来存储版本信息，
+现在是Helm 3的默认设置。
 
 Changing to Secrets as the Helm 3 default allows for additional security in
 protecting charts in conjunction with the release of Secret encryption in
