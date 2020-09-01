@@ -314,76 +314,62 @@ Helm插件期望支持Heml 3 就建议使用新的环境变量。
 
 ### CLI 命令重新命名
 
-In order to better align the verbiage from other package managers, `helm delete`
-was re-named to `helm uninstall`. `helm delete` is still retained as an alias to
-`helm uninstall`, so either form can be used.
+为了更好地从包管理器中调整不当措辞，`helm delete`被重命名为`helm uninstall`。
+ `helm delete` 依然作为 `helm uninstall` 的别名保留， 因此其他格式也能使用。
 
-In Helm 2, in order to purge the release ledger, the `--purge` flag had to be
-provided. This functionality is now enabled by default. To retain the previous
-behavior, use `helm uninstall --keep-history`.
+Helm 2 中为了清除版本清单，必须提供`--purge`参数。这个功能现在是默认使用的。
+为保留之前的操作行为，要使用 `helm uninstall --keep-history`。
 
-Additionally, several other commands were re-named to accommodate the same
-conventions:
+另外，其他一些重命名的命令提供了以下约定：
 
 - `helm inspect` -> `helm show`
 - `helm fetch` -> `helm pull`
 
-These commands have also retained their older verbs as aliases, so you can
-continue to use them in either form.
+这些命令都保留了老的动词作为别名，因此您能够使用任意一种格式。
 
 ### 自动创建namespace
 
-When creating a release in a namespace that does not exist, Helm 2 created the
-namespace.  Helm 3 follows the behavior of other Kubernetes tooling and returns
-an error if the namespace does not exist.  Helm 3 will create the namespace if
-you explicitly specify `--create-namespace` flag.
+当创建了一个命名空间中不存在的版本时，Heml 2会创建一个命名空间。
+Heml 3中沿用了其他Kubernetes 工具的形式，如果命名空间不存在，就返回错误。
+如果您明确指定 `--create-namespace` 参数，Helm 3 会创建一个命名空间。
 
 ## 安装
 
-### Why aren't there native packages of Helm for Fedora and other Linux distros?
+### 为什么没有针对Fedora和其他Linux发行版的Helm原生包?
 
-The Helm project does not maintain packages for operating systems and
-environments. The Helm community may provide native packages and if the Helm
-project is made aware of them they will be listed. This is how the Homebrew
-formula was started and listed. If you're interested in maintaining a package,
-we'd love it.
+Heml 项目不维护针对操作系统和环境的包。Helm 社区如果觉得需要提供原生包时，可以提供原生包。
+这是Homebrew 开始列出的方案。如果您有兴趣维护一个包，我们会很高兴的。
 
-### Why do you provide a `curl ...|bash` script?
+### 为什么会提供 `curl ...|bash` 脚本?
 
-There is a script in our repository (`scripts/get-helm-3`) that can be executed
-as a `curl ..|bash` script. The transfers are all protected by HTTPS, and the
-script does some auditing of the packages it fetches. However, the script has
-all the usual dangers of any shell script.
+我们的仓库(`scripts/get-helm-3`)中有个脚本可以作为 `curl ..|bash` 脚本执行。
+使用HTTPS传输，The transfers are all protected by HTTPS, 并且这个脚本对它获取到包做一些审核。
+然而这个脚本有任何shell脚本的所有常见危险。
 
-We provide it because it is useful, but we suggest that users carefully read the
-script first. What we'd really like, though, are better packaged releases of
-Helm.
+我们提供这个脚本因为它很好用，但是我们建议用户先仔细阅读这个脚本。不过我们真正想要的是更好的Heml打包版本。
 
-### How do I put the Helm client files somewhere other than their defaults?
+### 我如何将Helm客户端文件放置在其他位置而不是默认位置?
 
-Helm uses the XDG structure for storing files. There are environment variables
-you can use to override these locations:
+Helm 使用XDG结构存储文件。这些环境变量可以用来覆盖默认位置:
 
-- `$XDG_CACHE_HOME`: set an alternative location for storing cached files.
-- `$XDG_CONFIG_HOME`: set an alternative location for storing Helm
-  configuration.
-- `$XDG_DATA_HOME`: set an alternative location for storing Helm data.
+- `$XDG_CACHE_HOME`: 设置另一个存储缓存文件的位置。
+- `$XDG_CONFIG_HOME`: 设置另一个存储Helm配置的位置。
+- `$XDG_DATA_HOME`: 设置另一个存储Helm数据的位置。
 
-Note that if you have existing repositories, you will need to re-add them with
-`helm repo add...`.
+注意，如果有已经存在的仓库，您需要使用 `helm repo add...` 重新添加。
 
 
 ## 卸载
 
 ### 我想删除我本地Helm. 全部文件在什么位置？
 
-Along with the `helm` binary, Helm stores some files in the following locations:
+连同 `helm` 二进制文件一起，Heml将文件存储在以下位置：
 
 - $XDG_CACHE_HOME
 - $XDG_CONFIG_HOME
 - $XDG_DATA_HOME
 
-The following table gives the default folder for each of these, by OS:
+下面这个表格按照操作系统给出了对应的默认文件夹位置：
 
 | Operating System | Cache Path                  | Configuration Path               | Data Path                 |
 |------------------|-----------------------------|----------------------------------|---------------------------|
@@ -393,37 +379,30 @@ The following table gives the default folder for each of these, by OS:
 
 ## 故障排除
 
-### On GKE (Google Container Engine) I get "No SSH tunnels currently open"
+### 在 GKE (Google Container Engine) 我遇到了 "No SSH tunnels currently open"
 
 ```
 Error: Error forwarding ports: error upgrading connection: No SSH tunnels currently open. Were the targets able to accept an ssh-key for user "gke-[redacted]"?
 ```
 
-Another variation of the error message is:
+另一个错误消息的形式：
 
 
 ```
 Unable to connect to the server: x509: certificate signed by unknown authority
 ```
 
-The issue is that your local Kubernetes config file must have the correct
-credentials.
+这个问题是说您本地的Kubernetes 配置文件需要有正确的证书。
 
-When you create a cluster on GKE, it will give you credentials, including SSL
-certificates and certificate authorities. These need to be stored in a
-Kubernetes config file (Default: `~/.kube/config` so that `kubectl` and `helm`
-can access them.
+当你在GKE上创建集群时，它会为您提供一个证书，包括SSL证书和证书颁发机构。
+这些需要放在Kubernetes配置文件中（默认位置: `~/.kube/config`），保证 `kubectl` 和 `helm` 可以访问他们。
 
-### After migration from Helm 2, `helm list` shows only some (or none) of my releases
+### 从Helm 2迁移后， `helm list` 仅显示部分（或者不显示）我的发布版本
 
-It is likely that you have missed the fact that Helm 3 now uses cluster
-namespaces throughout to scope releases. This means that for all commands
-referencing a release you must either:
+您很可能忽略了一个事实：Helm 3 现在使用集群的命名空间来确定版本范围。 这意味着所有涉及版本的命令您都必须：
 
-* rely on the current namespace in the active kubernetes context (as described
-  by the `kubectl config view --minify` command),
-* specify the correct namespace using the `--namespace`/`-n` flag, or
-* for the `helm list` command, specify the `--all-namespaces`/`-A` flag
+* 在活动的kubernetes上下文中需要依赖当前的命名空间 (如 `kubectl config view --minify` 命令所述)，
+* 使用 `--namespace`/`-n` 参数指定正确命名空间，或者
+* 对于 `helm list` 命令，指定 `--all-namespaces`/`-A` 参数
 
-This applies to `helm ls`, `helm uninstall`, and all other `helm` commands
-referencing a release.
+这适用于 `helm ls`、 `helm uninstall` 以及其他所有涉及版本的 `helm` 命令。
