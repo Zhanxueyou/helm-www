@@ -1,10 +1,10 @@
 ---
-title: "Built-in Objects"
-description: "Built-in objects available to templates."
+title: "内置对象"
+description: "模板可用的内置对象"
 weight: 3
 ---
 
-Objects are passed into a template from the template engine. And your code can
+对象从模板引擎传递到模板中。 And your code can
 pass objects around (we'll see examples when we look at the `with` and `range`
 statements). There are even a few ways to create new objects within your
 templates, like with the `tuple` function we'll see later.
