@@ -4,9 +4,7 @@ description: "模板可用的内置对象"
 weight: 3
 ---
 
-对象从模板引擎传递到模板中。 And your code can
-pass objects around (we'll see examples when we look at the `with` and `range`
-statements). There are even a few ways to create new objects within your
+对象从模板引擎传递到模板中。 你的代码也可以传递对象。（我们在使用`with`和`range`语句时，会看到示例）。甚至于有几种方式可以在你的模板中创建新对象， There are even a few ways to create new objects within your
 templates, like with the `tuple` function we'll see later.
 
 Objects can be simple, and have just one value. Or they can contain other
