@@ -1,7 +1,6 @@
 ---
-title: "Registries"
-description: "Describes how to use OCI for Chart distribution."
-aliases: ["/docs/registries/"]
+title: "注册中心"
+description: "描述如何使用 OCI 进行Chart的分发。"
 weight: 7
 ---
 

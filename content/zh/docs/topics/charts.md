@@ -1,6 +1,6 @@
 ---
 title: "Charts"
-description: "Explains the chart format, and provides basic guidance for building charts with Helm."
+description: "阐述chart格式，并提供使用Helm构建chart的基本指导。"
 weight: 1
 ---
 

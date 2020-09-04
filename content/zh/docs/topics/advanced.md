@@ -1,7 +1,6 @@
 ---
-title: "Advanced Helm Techniques"
-description: "Explains various advanced features for Helm power users"
-aliases: ["/docs/advanced_helm_techniques"]
+title: "Helm高级技术"
+description: "为Helm的高级用户说明各种高级特性"
 weight: 9
 ---
 
