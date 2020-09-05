@@ -4,28 +4,16 @@ description: "为Helm的高级用户说明各种高级特性"
 weight: 9
 ---
 
-This section explains various advanced features and techniques for using Helm.
-The information in this section is intended for "power users" of Helm that wish
-to do advanced customization and manipulation of their charts and releases. Each
-of these advanced features comes with their own tradeoffs and caveats, so each
-one must be used carefully and with deep knowledge of Helm. Or in other words,
-remember the [Peter Parker
-principle](https://en.wikipedia.org/wiki/With_great_power_comes_great_responsibility)
+这部分解释说明了使用Helm的各种高级特性和技术。
+这部分旨在为Helm的高级用户提供高度自定义和操作chart及发布的信息。每个高级特性都会有它自己的权衡利弊，因此每个使用它们的都要有Helm的深度知识并小心使用。或者换言之，谨记 [Peter Parker 原则](https://en.wikipedia.org/wiki/With_great_power_comes_great_responsibility)
 
-## Post Rendering
-Post rendering gives chart installers the ability to manually manipulate,
-configure, and/or validate rendered manifests before they are installed by Helm.
-This allows users with advanced configuration needs to be able to use tools like
-[`kustomize`](https://kustomize.io) to apply configuration changes without the
-need to fork a public chart or requiring chart maintainers to specify every last
-configuration option for a piece of software. There are also use cases for
-injecting common tools and side cars in enterprise environments or analysis of
-the manifests before deployment.
+## 后置渲染
+后置渲染允许在通过Helm安装chart之前手动使用、配置或者验证渲染的manifest。这允许有高级配置需求的用户可以使用诸如[`kustomize`](https://kustomize.io) 来配置更改而不需要fork一个公共chart或要求chart维护人员为每个软件指定每个最新的配置项。 这里同样有一些示例用来在企业环境中注入常用工具和sidecar或者在部署前对manifest进行分析。
 
-### Prerequisites
+### 前提条件
 - Helm 3.1+
 
-### Usage
+### 使用
 A post-renderer can be any executable that accepts rendered Kubernetes manifests
 on STDIN and returns valid Kubernetes manifests on STDOUT. It should return an
 non-0 exit code in the event of a failure. This is the only "API" between the
@@ -50,7 +38,7 @@ simple as `renderer1 | renderer2 | renderer3`.
 You can see an example of using `kustomize` as a post renderer
 [here](https://github.com/thomastaylor312/advanced-helm-demos/tree/master/post-render).
 
-### Caveats
+### 警告
 When using post renderers, there are several important things to keep in mind.
 The most important of these is that when using a post-renderer, all people
 modifying that release **MUST** use the same renderer in order to have
@@ -64,7 +52,7 @@ other arbitrary executable). Using non-trusted or non-verified renderers is NOT
 recommended as they have full access to rendered templates, which often contain
 secret data.
 
-### Custom Post Renderers
+### 自定义后置渲染
 The post render step offers even more flexibility when used in the Go SDK. Any
 post renderer only needs to implement the following Go interface:
 
@@ -77,7 +65,7 @@ type PostRenderer interface {
 }
 ```
 
-For more information on using the Go SDK, See the [Go SDK section](#go-sdk)
+有关Go SDK的更多信息，请查看 [Go SDK 部分](#go-sdk)
 
 ## Go SDK
 Helm 3 debuted a completely restructured Go SDK for a better experience when
@@ -86,7 +74,7 @@ at [https://pkg.go.dev/helm.sh/helm/v3](https://pkg.go.dev/helm.sh/helm/v3), but
 a brief overview of some of the most common packages and a simple example follow
 below.
 
-### Package overview
+### 包概览
 This is a list of the most commonly used packages with a simple explanation
 about each one:
 
@@ -104,7 +92,7 @@ about each one:
 Obviously there are many more packages besides these, so go check out the
 documentation for more information!
 
-### Simple example
+### 简要示例
 This is a simple example of doing a `helm list` using the Go SDK:
 
 ```go
@@ -145,7 +133,7 @@ func main() {
 
 ```
 
-## Storage backends
+## 后台存储
 
 Helm 3 changed the default release information storage to Secrets in the
 namespace of the release. Helm 2 by default stores release information as
@@ -154,7 +142,7 @@ show how to configure different backends. This configuration is based on the
 `HELM_DRIVER` environment variable. It can be set to one of the values:
 `[configmap, secret, sql]`.
 
-### ConfigMap storage backend
+### ConfigMap 后台存储
 
 To enable the ConfigMap backend, you'll need to set the environmental variable
 `HELM_DRIVER` to `configmap`.
@@ -173,7 +161,7 @@ information with the following command:
 kubectl get secret --all-namespaces -l "owner=helm"
 ```
 
-**PRODUCTION NOTES**: The release information might contain sensitive data (like
+**产品说明**: The release information might contain sensitive data (like
 passwords, private keys, and other credentials) that needs to be protected from
 unauthorized access. When managing Kubernetes authorization, for instance with
 [RBAC](https://kubernetes.io/docs/reference/access-authn-authz/rbac/), it is
@@ -186,7 +174,7 @@ storage](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/).
 Please keep that in mind if you decide to switch to the ConfigMap backend, as it
 could expose your application's sensitive data.
 
-### SQL storage backend
+### SQL 后台存储
 
 There is a ***beta*** SQL storage backend that stores release information in an SQL
 database.
@@ -208,7 +196,7 @@ export HELM_DRIVER_SQL_CONNECTION_STRING=postgresql://helm-postgres:5432/helm?us
 
 > Note: Only PostgreSQL is supported at this moment.
 
-**PRODUCTION NOTES**: It is recommended to:
+**产品说明**: It is recommended to:
 - Make your database production ready. For PostgreSQL, refer to the [Server Administration](https://www.postgresql.org/docs/12/admin.html) docs for more details
 - Enable [permission management](/docs/permissions_sql_storage_backend/) to
 mirror Kubernetes RBAC for release information
