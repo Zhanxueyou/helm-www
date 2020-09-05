@@ -113,77 +113,51 @@ func main() {
 
 ```
 
-## 后台存储
+## 后端存储
 
-Helm 3 changed the default release information storage to Secrets in the
-namespace of the release. Helm 2 by default stores release information as
-ConfigMaps in the namespace of the Tiller instance. The subsections which follow
-show how to configure different backends. This configuration is based on the
-`HELM_DRIVER` environment variable. It can be set to one of the values:
-`[configmap, secret, sql]`.
+Helm 3 改变了存储命名空间版本秘钥的默认版本信息。Helm 2 默认将版本信息作为ConfigMap存储在命名空间的Tiller实例中。
+下面小节部分会演示如果配置不同的后端。配置是基于 `HELM_DRIVER` 环境变量。它会被设置成这几个值其中之一：`[configmap, secret, sql]`。
 
-### ConfigMap 后台存储
+### ConfigMap 后端存储
 
-To enable the ConfigMap backend, you'll need to set the environmental variable
-`HELM_DRIVER` to `configmap`.
+要使ConfigMap 后端生效， 你需要在 `configmap` 设置环境变量 `HELM_DRIVER`。
 
-You can set it in a shell as follows:
+你可以在shell中类似下面这样设置：
 
 ```shell
 export HELM_DRIVER=configmap
 ```
 
-If you want to switch from the default backend to the ConfigMap backend, you'll
-have to do the migration for this on your own. You can retrieve release
-information with the following command:
+如果你想从默认后端切到ConfigMap后端，你必须自己进行迁移。你可以使用以下命令找回版本信息：
 
 ```shell
 kubectl get secret --all-namespaces -l "owner=helm"
 ```
 
-**产品说明**: The release information might contain sensitive data (like
-passwords, private keys, and other credentials) that needs to be protected from
-unauthorized access. When managing Kubernetes authorization, for instance with
-[RBAC](https://kubernetes.io/docs/reference/access-authn-authz/rbac/), it is
-possible to grant broader access to ConfigMap resources, while restricting
-access to Secret resources. For instance, the default [user-facing
-role](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles)
-"view" grants access to most resources, but not to Secrets. Furthermore, secrets
-data can be configured for [encrypted
-storage](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/).
-Please keep that in mind if you decide to switch to the ConfigMap backend, as it
-could expose your application's sensitive data.
+**产品说明**: 版本信息可能包含敏感数据（比如密码，私钥，和其他认证）需要防止未经授权访问。 管理Kubernetes授权时使用 [RBAC](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)， 当限制访问私密资源是，它可能会授予ConfigMap 资源广泛的访问权限。对于实例，默认的 [面向用户角色](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles) “视图” 授予大多数资源的访问权限，但是不允许访问私密数据。此外，私密数据会针对于 [加密存储](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/) 进行配置。切换到ConfigMap后端时要记得这一点，因为它可能会暴露你应用程序的敏感数据。
 
 ### SQL 后台存储
 
-There is a ***beta*** SQL storage backend that stores release information in an SQL
-database.
+这是个 ***beta*** 版SQL存储后端，在SQL数据库中存储了版本信息。
 
-Using such a storage backend is particularly useful if your release information
-weighs more than 1MB (in which case, it can't be stored in ConfigMaps/Secrets
-because of internal limits in Kubernetes' underlying etcd key-value store).
+如果你的版本信息内容超过1MB这种存储后端会特别有用（在这种场景中，它无法存储在ConfigMaps/Secrets中，因为Kubernetes内部的etcd key-value存储有限制。
 
-To enable the SQL backend, you'll need to deploy a SQL database and set the
-environmental variable `HELM_DRIVER` to `sql`. The DB details are set with the
-environmental variable `HELM_DRIVER_SQL_CONNECTION_STRING`.
+要启用SQL后端，你需要部署SQL数据库并设置环境变量`HELM_DRIVER`到`sql`。DB的细节用环境变量`HELM_DRIVER_SQL_CONNECTION_STRING`设置。
 
-You can set it in a shell as follows:
+你可以在shell中设置如下：
 
 ```shell
 export HELM_DRIVER=sql
 export HELM_DRIVER_SQL_CONNECTION_STRING=postgresql://helm-postgres:5432/helm?user=helm&password=changeme
 ```
 
-> Note: Only PostgreSQL is supported at this moment.
+> 注意：目前只支持PostgreSQL。
 
-**产品说明**: It is recommended to:
-- Make your database production ready. For PostgreSQL, refer to the [Server Administration](https://www.postgresql.org/docs/12/admin.html) docs for more details
-- Enable [permission management](/docs/permissions_sql_storage_backend/) to
-mirror Kubernetes RBAC for release information
+**产品说明**: 建议如下：
+- 确保你的数据库产品可以使用。对于PostgreSQL，请参考 [Server Administration](https://www.postgresql.org/docs/12/admin.html) 文档了解更多细节内容
+- 为版本信息启用 [权限管理](http://helm.sh/docs/permissions_sql_storage_backend/) 镜像到 Kubernetes RBAC 
 
-If you want to switch from the default backend to the SQL backend, you'll have
-to do the migration for this on your own. You can retrieve release information
-with the following command:
+如果你想从默认后端切到SQL后端，I你必须自己完成迁移，你可以使用以下命令找回版本信息：
 
 ```shell
 kubectl get secret --all-namespaces -l "owner=helm"
