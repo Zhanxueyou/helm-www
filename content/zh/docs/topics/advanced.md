@@ -5,56 +5,48 @@ weight: 9
 ---
 
 这部分解释说明了使用Helm的各种高级特性和技术。
-这部分旨在为Helm的高级用户提供高度自定义和操作chart及发布的信息。每个高级特性都会有它自己的权衡利弊，因此每个使用它们的都要有Helm的深度知识并小心使用。或者换言之，谨记 [Peter Parker 原则](https://en.wikipedia.org/wiki/With_great_power_comes_great_responsibility)
+这部分旨在为Helm的高级用户提供高度自定义和操作chart及发布的信息。每个高级特性都会有它自己的权衡利弊，
+因此每个使用它们的都要有Helm的深度知识并小心使用。或者换言之，
+谨记 [Peter Parker 原则](https://en.wikipedia.org/wiki/With_great_power_comes_great_responsibility)
 
 ## 后置渲染
-后置渲染允许在通过Helm安装chart之前手动使用、配置或者验证渲染的manifest。这允许有高级配置需求的用户可以使用诸如[`kustomize`](https://kustomize.io) 来配置更改而不需要fork一个公共chart或要求chart维护人员为每个软件指定每个最新的配置项。 这里同样有一些示例用来在企业环境中注入常用工具和sidecar或者在部署前对manifest进行分析。
+后置渲染允许在通过Helm安装chart之前手动使用、配置或者验证渲染的manifest。
+这允许有高级配置需求的用户可以使用诸如[`kustomize`](https://kustomize.io) 来配置更改而不需要fork一个公共
+chart或要求chart维护人员为每个软件指定每个最新的配置项。 
+这里同样有一些示例用来在企业环境中注入常用工具和sidecar或者在部署前对manifest进行分析。
 
 ### 前提条件
 - Helm 3.1+
 
 ### 使用
-A post-renderer can be any executable that accepts rendered Kubernetes manifests
-on STDIN and returns valid Kubernetes manifests on STDOUT. It should return an
-non-0 exit code in the event of a failure. This is the only "API" between the
-two components. It allows for great flexibility in what you can do with your
-post-render process.
+后置渲染器是在STDIN能够接受渲染后的Kubernetes manifest并能在STDOUT返回有效的Kubernetes manifest，
+可以是任意可执行文件。它应该在出现失败事件时返回非0退出码。这是两个组件之间的唯一API。允许在你的后置渲染过程中有很好的灵活性。
 
-A post renderer can be used with `install`, `upgrade`, and `template`. To use a
-post-renderer, use the `--post-renderer` flag with a path to the renderer
-executable you wish to use:
+后置渲染器可以和`install`、`upgrade`以及`template`一起使用。使用后置渲染器时，使用`--post-renderer` 
+参数并指定要使用的渲染器可执行文件的路径：
 
 ```shell
 $ helm install mychart stable/wordpress --post-renderer ./path/to/executable
 ```
 
-If the path does not contain any separators, it will search in $PATH, otherwise
-it will resolve any relative paths to a fully qualified path
+如果路径中不包含任何分隔符，就会在$PATH中搜索，否则就会把相对路径转换成全路径。
 
-If you wish to use multiple post-renderers, call all of them in a script or
-together in whatever binary tool you have built. In bash, this would be as
-simple as `renderer1 | renderer2 | renderer3`.
+如果需要使用多个后置渲染器，在一个脚本中调用它们，或者在构建任何二进制工具时调用它们。
+在bash中，就像 `renderer1 | renderer2 | renderer3` 一样简单。
 
-You can see an example of using `kustomize` as a post renderer
-[here](https://github.com/thomastaylor312/advanced-helm-demos/tree/master/post-render).
+你可以在 [这里](https://github.com/thomastaylor312/advanced-helm-demos/tree/master/post-render) 
+查看作为一个后置渲染器使用 `kustomize` 的示例。
 
 ### 警告
-When using post renderers, there are several important things to keep in mind.
-The most important of these is that when using a post-renderer, all people
-modifying that release **MUST** use the same renderer in order to have
-repeatable builds. This feature is purposefully built to allow any user to
-switch out which renderer they are using or to stop using a renderer, but this
-should be done deliberately to avoid accidental modification or data loss.
+&emsp;&emsp;在使用后置渲染器时，以下这些事需要注意：使用后置渲染器时最重要的是，
+所有人在修改版本时**必须** 使用同样的渲染器来保证可重复的构建。
+这个功能是专门为允许任何用户切换他们正在使用或停止使用的渲染器而构建的， 但是这个应该谨慎操作，以避免意外修改或数据丢失。
 
-One other important note is around security. If you are using a post-renderer,
-you should ensure it is coming from a reliable source (as is the case for any
-other arbitrary executable). Using non-trusted or non-verified renderers is NOT
-recommended as they have full access to rendered templates, which often contain
-secret data.
+另一个重要的注意事项就是安全，如果您正在使用一个后置渲染器，要保证它来自一个可信源（对于其他任意可执行文件也是如此）。
+不推荐使用不可靠的或者未核实的可访问所有渲染器模板的渲染器，渲染器模板经常会包含隐私数据。
 
 ### 自定义后置渲染
-The post render step offers even more flexibility when used in the Go SDK. Any
-post renderer only needs to implement the following Go interface:
+使用Go SDK时后置渲染器甚至可以提供更多的灵活性。任意后置渲染器只需要执行下面的Go接口：
 
 ```go
 type PostRenderer interface {
@@ -68,32 +60,20 @@ type PostRenderer interface {
 有关Go SDK的更多信息，请查看 [Go SDK 部分](#go-sdk)
 
 ## Go SDK
-Helm 3 debuted a completely restructured Go SDK for a better experience when
-building software and tools that leverage Helm. Full documentation can be found
-at [https://pkg.go.dev/helm.sh/helm/v3](https://pkg.go.dev/helm.sh/helm/v3), but
-a brief overview of some of the most common packages and a simple example follow
-below.
+Helm 3 首次发布了完全重组的Go SDK，以便在构建利用Helm的软件和工具时有更好的体验。完整的文档可以在 [https://pkg.go.dev/helm.sh/helm/v3](https://pkg.go.dev/helm.sh/helm/v3) 查看，下面将要简要介绍一些常用的软件包和一个简单的示例。
 
 ### 包概览
-This is a list of the most commonly used packages with a simple explanation
-about each one:
+对每个最常用的包的简要说明列表：
 
-- `pkg/action`: Contains the main “client” for performing Helm actions. This is
-  the same package that the CLI is using underneath the hood. If you just need
-  to perform basic Helm commands from another Go program, this package is for
-  you
-- `pkg/{chart,chartutil}`: Methods and helpers used for loading and manipulating
-  charts
-- `pkg/cli` and its subpackages: Contains all the handlers for the standard Helm
-  environment variables and its subpackages contain output and values file
-  handling
-- `pkg/release`: Defines the `Release` object and statuses
+- `pkg/action`: 包含执行Helm操作的主要客户端。和CLI处理过程中使用的是同一个包。如果你仅仅需要执行来自另一个Go程序的最基本的Helm命令，这个包会很适合你
+- `pkg/{chart,chartutil}`: 加载和控制chart时使用的方法和帮助内容
+- `pkg/cli` 和它的子包： 包含标准Helm环境变量所有的处理程序以及子包涵盖了输出和正在处理的value文件
+- `pkg/release`: 定义了 `Release` 对象和状态值
 
-Obviously there are many more packages besides these, so go check out the
-documentation for more information!
+显然除了这些还有更多的包，查看SDK文档获取更多内容！
 
 ### 简要示例
-This is a simple example of doing a `helm list` using the Go SDK:
+这是一个使用Go SDK的 `helm list` 的简单示例：
 
 ```go
 package main
