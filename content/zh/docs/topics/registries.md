@@ -4,51 +4,42 @@ description: "描述如何使用 OCI 进行Chart的分发。"
 weight: 7
 ---
 
-Helm 3 supports <a href="https://www.opencontainers.org/"
-target="_blank">OCI</a> for package distribution. Chart packages are able to be
-stored and shared across OCI-based registries.
+Helm 3 支持 <a href="https://www.opencontainers.org/"
+target="_blank">OCI</a> 用于包分发。 Chart包可以通过基于OCI的注册中心存储和分发。
 
-## Enabling OCI Support
+## 激活对 OCI 的支持
 
-Currently OCI support is considered *experimental*.
+当前的对 OCI 的支持被认为具有*实验性*。
 
-In order to use the commands described below, please set `HELM_EXPERIMENTAL_OCI`
-in the environment:
+为了能使用下面描述的命令，需要在环境变量中设置 `HELM_EXPERIMENTAL_OCI`：
 
 ```console
 export HELM_EXPERIMENTAL_OCI=1
 ```
 
-## Running a registry
+## 运行一个注册中心
 
-Starting a registry for test purposes is trivial. As long as you have Docker
-installed, run the following command:
+为测试目的启动注册中心是比较简单的。只要你安装了Docker，运行以下命令即可：
 ```console
 docker run -dp 5000:5000 --restart=always --name registry registry
 ```
 
-This will start a registry server at `localhost:5000`.
+这样就会启动一个注册服务在 `localhost:5000`。
 
-Use `docker logs -f registry` to see the logs and `docker rm -f registry` to
-stop.
+使用 `docker logs -f registry` 可以查看日志， `docker rm -f registry` 可以停止服务。
 
-If you wish to persist storage, you can add `-v
-$(pwd)/registry:/var/lib/registry` to the command above.
+如果你希望持久化存储，可以在上面的命令中添加 `-v $(pwd)/registry:/var/lib/registry` 。
 
-For more configuration options, please see [the
-docs](https://docs.docker.com/registry/deploying/).
+关于更多配置选项，请查看 [文档](https://docs.docker.com/registry/deploying/).
 
-### Auth
+### 认证
 
-If you wish to enable auth on the registry, you can do the following-
-
-First, create file `auth.htpasswd` with username and password combo:
+如果您想启用注册中心认证，需要使用用户名和密码先创建 `auth.htpasswd` 文件：
 ```console
 htpasswd -cB -b auth.htpasswd myuser mypass
 ```
 
-Then, start the server, mounting that file and setting the `REGISTRY_AUTH` env
-var:
+然后启动服务，启动时挂载文件并设置 `REGISTRY_AUTH`环境变量：
 ```console
 docker run -dp 5000:5000 --restart=always --name registry \
   -v $(pwd)/auth.htpasswd:/etc/docker/registry/auth.htpasswd \
@@ -56,16 +47,15 @@ docker run -dp 5000:5000 --restart=always --name registry \
   registry
 ```
 
-## Commands for working with registries
+## 用于处理注册中心的命令
 
-Commands are available under both `helm registry` and `helm chart` that allow
-you to work with registries and local cache.
+ `helm registry` 和 `helm chart` 下的命令都可以用来操作注册中心和本地缓存。
 
-### The `registry` subcommand
+###  `registry` 子命令
 
 #### `login`
 
-login to a registry (with manual password entry)
+登录到注册中心 (手动输入密码)
 
 ```console
 $ helm registry login -u myuser localhost:5000
@@ -75,18 +65,18 @@ Login succeeded
 
 #### `logout`
 
-logout from a registry
+从注册中心注销
 
 ```console
 $ helm registry logout localhost:5000
 Logout succeeded
 ```
 
-### The `chart` subcommand
+### The `chart` 子命令
 
 #### `save`
 
-save a chart directory to local cache
+保存chart目录到本地缓存
 
 ```console
 $ helm chart save mychart/ localhost:5000/myrepo/mychart:2.7.0
@@ -100,7 +90,7 @@ version: 0.1.0
 
 #### `list`
 
-list all saved charts
+列举出所有的chart
 
 ```console
 $ helm chart list
@@ -115,7 +105,7 @@ localhost:5000/stable/anchore-engine:0.10.0             anchore-engine          
 
 #### `export`
 
-export a chart to directory
+导出chart到目录
 
 ```console
 $ helm chart export localhost:5000/myrepo/mychart:2.7.0
@@ -129,7 +119,7 @@ Exported chart to mychart/
 
 #### `push`
 
-push a chart to remote
+推送chart到远程
 
 ```console
 $ helm chart push localhost:5000/myrepo/mychart:2.7.0
@@ -144,7 +134,7 @@ version: 0.1.0
 
 #### `remove`
 
-remove a chart from cache
+从缓存中移除chart
 
 ```console
 $ helm chart remove localhost:5000/myrepo/mychart:2.7.0
@@ -153,7 +143,7 @@ $ helm chart remove localhost:5000/myrepo/mychart:2.7.0
 
 #### `pull`
 
-pull a chart from remote
+从远程拉取chart
 
 ```console
 $ helm chart pull localhost:5000/myrepo/mychart:2.7.0
@@ -166,13 +156,11 @@ version: 0.1.0
 Status: Downloaded newer chart for localhost:5000/myrepo/mychart:2.7.0
 ```
 
-## Where are my charts?
+## 我的chart在哪里?
 
-Charts stored using the commands above will be cached on the filesystem.
+使用上述命令存储的chart会被缓存到文件系统中。
 
-The [OCI Image Layout
-Specification](https://github.com/opencontainers/image-spec/blob/master/image-layout.md)
-is adhered to strictly for filesystem layout, for example:
+[OCI 镜像设计规范](https://github.com/opencontainers/image-spec/blob/master/image-layout.md) 严格遵守文件系统布局的。例如：
 ```console
 $ tree ~/Library/Caches/helm/
 /Users/myuser/Library/Caches/helm/
@@ -189,7 +177,7 @@ $ tree ~/Library/Caches/helm/
     └── config.json
 ```
 
-Example index.json, which contains refs to all Helm chart manifests:
+index.json示例， 包含了所有的Helm chart manifests的参考：
 ```console
 $ cat ~/Library/Caches/helm/registry/cache/index.json  | jq
 {
@@ -207,7 +195,7 @@ $ cat ~/Library/Caches/helm/registry/cache/index.json  | jq
 }
 ```
 
-Example Helm chart manifest (note the `mediaType` fields):
+Helm chart manifest示例 (注意 `mediaType` 字段):
 ```console
 $ cat ~/Library/Caches/helm/registry/cache/blobs/sha256/31fb454efb3c69fafe53672598006790122269a1b3b458607dbe106aba7059ef | jq
 {
@@ -227,8 +215,8 @@ $ cat ~/Library/Caches/helm/registry/cache/blobs/sha256/31fb454efb3c69fafe536725
 }
 ```
 
-## Migrating from chart repos
+## 从chart仓库迁移
 
-Migrating from classic [chart repositories]({{< ref "chart_repository.md" >}})
-(index.yaml-based repos) is as simple as a `helm fetch` (Helm 2 CLI), `helm
+从经典 [chart 仓库](https://helm.sh/docs/topics/chart_repository.md)
+（基于index.yaml的仓库） 尽量简单地 `helm fetch` (Helm 2 CLI), `helm
 chart save`, `helm chart push`.
