@@ -219,4 +219,4 @@ $ cat ~/Library/Caches/helm/registry/cache/blobs/sha256/31fb454efb3c69fafe536725
 
 从经典 [chart 仓库](https://helm.sh/docs/topics/chart_repository.md)
 （基于index.yaml的仓库） 尽量简单地 `helm fetch` (Helm 2 CLI), `helm
-chart save`, `helm chart push`.
+chart save`, `helm chart push`。
