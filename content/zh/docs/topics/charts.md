@@ -68,64 +68,49 @@ icon: 用做icon的SVG或PNG图片URL （可选）
 appVersion: 包含的应用版本（可选）。不需要是语义化的
 deprecated: 不被推荐的chart （可选，布尔值）
 annotations:
-  example: A list of annotations keyed by name （可选）.
+  example: 按名称输入的批注列表 （可选）.
 ```
 
 其他字段将被忽略。
 
 ### Chart和版本控制
 
-Every chart must have a version number. A version must follow the [SemVer
-2](https://semver.org/spec/v2.0.0.html) standard. Unlike Helm Classic, Helm v2
-and later uses version numbers as release markers. Packages in repositories are
-identified by name plus version.
+每个chart都必须有个版本号。版本必须遵循 [语义化版本 2](https://semver.org/spec/v2.0.0.html) 标准。
+不像经典Helm， Helm v2以及后续版本会使用版本号作为发布标记。仓库中的包通过名称加版本号标识。
 
-For example, an `nginx` chart whose version field is set to `version: 1.2.3`
-will be named:
+比如 `nginx` chart的版本字段`version: 1.2.3`按照名称被设置为：
 
 ```text
 nginx-1.2.3.tgz
 ```
 
-More complex SemVer 2 names are also supported, such as `version:
-1.2.3-alpha.1+ef365`. But non-SemVer names are explicitly disallowed by the
-system.
+更多复杂的语义化版本2 都是支持的，比如 `version: 1.2.3-alpha.1+ef365`。 但系统明确禁止非语义化版本名称。
 
-**NOTE:** Whereas Helm Classic and Deployment Manager were both very GitHub
-oriented when it came to charts, Helm v2 and later does not rely upon or require
-GitHub or even Git. Consequently, it does not use Git SHAs for versioning at
-all.
+**注意：** 鉴于经典Helm和部署管理器在使用chart时都非常倾向于GitHub，Helm v2 和后续版本不再依赖或需要GitHub甚至是Git。
+因此，它完全不使用Git SHA进行版本控制。
 
-The `version` field inside of the `Chart.yaml` is used by many of the Helm
-tools, including the CLI. When generating a package, the `helm package` command
-will use the version that it finds in the `Chart.yaml` as a token in the package
-name. The system assumes that the version number in the chart package name
-matches the version number in the `Chart.yaml`. Failure to meet this assumption
-will cause an error.
+`Chart.yaml`文件中的`version`字段被很多Helm工具使用，包括CLI。当生成一个包时，
+`helm package`命令可以用`Chart.yaml`文件中找到的版本号作为包名中的token。
+系统假设chart包名中的版本号可以与`Chart.yaml`文件中的版本号匹配。如果不满足这一假设会导致错误。
 
-### The `apiVersion` Field
+### `apiVersion` 字段
 
-The `apiVersion` field should be `v2` for Helm charts that require at least Helm
-3. Charts supporting previous Helm versions have an `apiVersion` set to `v1` and
-are still installable by Helm 3.
+对于至少需要Helm 3的chart，`apiVersion` 字段应该是 `v2`。Chart支持之前`apiVersion` 设置为 `v1` 的Helm 版本，
+并且在Helm 3中仍然可安装。
 
-Changes from `v1` to `v2`:
+`v1` 到 `v2`的改变：
 
-- A `dependencies` field defining chart dependencies, which were located in a
-  separate `requirements.yaml` file for `v1` charts (see [Chart
-  Dependencies](#chart-dependencies)).
-- The `type` field, discriminating application and library charts (see [Chart
-  Types](#chart-types)).
+- `dependencies`字段定义了chart的依赖，针对于`v1` 版本的chart被放置在分隔开的`requirements.yaml` 文件中
+（查看 [Chart 依赖](#Chart-依赖)).
+- `type`字段, 用于识别应用和库类型的chart（查看 [Chart 类型](#chart-类型)).
 
-### The `appVersion` Field
+### `appVersion` 字段
 
-Note that the `appVersion` field is not related to the `version` field. It is a
-way of specifying the version of the application. For example, the `drupal`
-chart may have an `appVersion: 8.2.1`, indicating that the version of Drupal
-included in the chart (by default) is `8.2.1`. This field is informational, and
-has no impact on chart version calculations.
+注意这个 `appVersion` 字段与 `version` 字段无关。它是指定应用程序版本的一种方式。
+比如`drupal` chart 可以是 `appVersion: 8.2.1`， 表示包含在chart中（默认）的Drupal 版本是 `8.2.1`。
+这个字段是信息字段，对chart版本的计算没有影响。
 
-### The `kubeVersion` Field
+### `kubeVersion` 字段
 
 The optional `kubeVersion` field can define semver constraints on supported
 Kubernetes versions. Helm will validate the version constraints when installing
@@ -173,7 +158,7 @@ followed by the [kubernetes/charts](https://github.com/helm/charts) project is:
 2. Release the new chart version in the Chart Repository
 3. Remove the chart from the source repository (e.g. git)
 
-### Chart Types
+### Chart 类型
 
 The `type` field defines the type of chart. There are two types: `application`
 and `library`. Application is the default type and it is the standard chart
@@ -219,7 +204,7 @@ connecting to a database, or accessing a web UI. Since this file is printed to
 STDOUT when running `helm install` or `helm status`, it is recommended to keep
 the content brief and point to the README for greater detail.
 
-## Chart Dependencies
+## Chart 依赖
 
 In Helm, one chart may depend on any number of other charts. These dependencies
 can be dynamically linked using the `dependencies` field in `Chart.yaml` or
