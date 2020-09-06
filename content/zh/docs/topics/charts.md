@@ -112,51 +112,36 @@ nginx-1.2.3.tgz
 
 ### `kubeVersion` 字段
 
-The optional `kubeVersion` field can define semver constraints on supported
-Kubernetes versions. Helm will validate the version constraints when installing
-the chart and fail if the cluster runs an unsupported Kubernetes version.
+可选的 `kubeVersion` 字段可以在支持的Kubernetes版本上定义语义化版本约束，Helm 在安装chart时会验证这个版本约束，
+并在集群运行不支持的Kubernetes版本时显示失败。
 
-Version constraints may comprise space separated AND comparisons such as
+版本约束可以包括空格分隔和比较运算符，比如：
 ```
 >= 1.13.0 < 1.15.0
 ```
-which themselves can be combined with the OR `||` operator like in the following
-example
+或者它们可以用或操作符 `||` 连接，比如：
 ```
 >= 1.13.0 < 1.14.0 || >= 1.14.1 < 1.15.0
 ```
-In this example the version `1.14.0` is excluded, which can make sense if a bug
-in certain versions is known to prevent the chart from running properly.
+这个例子中排除了 `1.14.0` 版本，如果确定某些版本中的错误导致chart无法正常运行，这一点就很有意义。
 
-Apart from version constrains employing operators `=` `!=` `>` `<` `>=` `<=` the
-following shorthand notations are supported
+除了版本约束外，使用运算符 `=` `!=` `>` `<` `>=` `<=` 支持一下速记符号：
 
- * hyphen ranges for closed intervals, where `1.1 - 2.3.4` is equivalent to `>=
-   1.1 <= 2.3.4`.
- * wildcards `x`, `X` and `*`, where `1.2.x` is equivalent to `>= 1.2.0 <
-   1.3.0`.
- * tilde ranges (patch version changes allowed), where `~1.2.3` is equivalent to
-   `>= 1.2.3 < 1.3.0`.
- * caret ranges (minor version changes allowed), where `^1.2.3` is equivalent to
-   `>= 1.2.3 < 2.0.0`.
+ * 闭合间隔的连字符范围， `1.1 - 2.3.4` 等价于 `>= 1.1 <= 2.3.4`
+ * 通配符 `x`， `X` 和 `*`， `1.2.x` 等价于 `>= 1.2.0 < 1.3.0`
+ * 波浪符号~范围 （允许改变补丁版本）， `~1.2.3` 等价于 `>= 1.2.3 < 1.3.0`
+ * 插入符号^范围 （允许改变次版本）， `^1.2.3` 等价于 `>= 1.2.3 < 2.0.0`
 
-For a detailed explanation of supported semver constraints see
-[Masterminds/semver](https://github.com/Masterminds/semver).
+支持的语义化版本约束的细节说明请查看 [Masterminds/semver](https://github.com/Masterminds/semver)
 
-### Deprecating Charts
+### 已弃用的Chart
 
-When managing charts in a Chart Repository, it is sometimes necessary to
-deprecate a chart. The optional `deprecated` field in `Chart.yaml` can be used
-to mark a chart as deprecated. If the **latest** version of a chart in the
-repository is marked as deprecated, then the chart as a whole is considered to
-be deprecated. The chart name can be later reused by publishing a newer version
-that is not marked as deprecated. The workflow for deprecating charts, as
-followed by the [kubernetes/charts](https://github.com/helm/charts) project is:
+在Chart仓库管理chart时，有时需要废弃一个chart。 `Chart.yaml` 中可选的`deprecated`字段可以用来标记已弃用的chart。
+如果**latest**版本被标记为已弃用，则所有的chart都会被认为是已弃用的。以后可以通过发布未标记为已弃用的新版本来重新使用chart名称。[kubernetes/charts](https://github.com/helm/charts) 项目遵循的弃用图标的工作流是：
 
-1. Update chart's `Chart.yaml` to mark the chart as deprecated, bumping the
-   version
-2. Release the new chart version in the Chart Repository
-3. Remove the chart from the source repository (e.g. git)
+1. 升级chart的 `Chart.yaml`  文件，将这个chart标记为已弃用， 并更改版本
+2. 在chart仓库中发布新版的chart 
+3. 从源仓库中移除这个chart （比如用 git）
 
 ### Chart 类型
 
