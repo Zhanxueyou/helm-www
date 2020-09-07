@@ -145,28 +145,18 @@ nginx-1.2.3.tgz
 
 ### Chart 类型
 
-The `type` field defines the type of chart. There are two types: `application`
-and `library`. Application is the default type and it is the standard chart
-which can be operated on fully. The [library chart]({{< ref
-"/docs/topics/library_charts.md" >}}) provides utilities or functions for the
-chart builder. A library chart differs from an application chart because it is
-not installable and usually doesn't contain any resource objects.
+`type`字段定义了chart的类型。有两种类型： `application` 和 `library`。 应用是默认类型，是可以完全操作的标准chart。
+ [库类型 chart](http://helm.sh/docs/topics/library_charts.md) 提供针对chart构建的实用程序和功能。
+ 库类型chart与应用类型chart不同，因为它不能安装，通常不包含任何资源对象。
 
-**Note:** An application chart can be used as a library chart. This is enabled
-by setting the type to `library`. The chart will then be rendered as a library
-chart where all utilities and functions can be leveraged. All resource objects
-of the chart will not be rendered.
+**注意：** 应用类型chart 可以作为库类型chart使用。可以通过将类型设置为 `library`来实现。
+然后这个库就被渲染成了一个库类型chart，所有的实用程序和功能都可以使用。所有的资源对象不会被渲染。
 
-## Chart LICENSE, README and NOTES
+## Chart 许可证，自述和注释
 
-Charts can also contain files that describe the installation, configuration,
-usage and license of a chart.
+Chart也可以包含描述安装，配置和使用文件，以及chart许可证。
 
-A LICENSE is a plain text file containing the
-[license](https://en.wikipedia.org/wiki/Software_license) for the chart. The
-chart can contain a license as it may have programming logic in the templates
-and would therefore not be configuration only. There can also be separate
-license(s) for the application installed by the chart, if required.
+许可证（LICENSE）是一个包含了chart [license](https://en.wikipedia.org/wiki/Software_license) 的纯文本文件。chart可以包含一个许可证，因为在模板里不只是配置，还可能有编码逻辑。如果需要，还可以为chart安装的应用程序提供单独的许可证。
 
 A README for a chart should be formatted in Markdown (README.md), and should
 generally contain:
