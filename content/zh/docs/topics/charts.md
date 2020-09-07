@@ -156,39 +156,27 @@ nginx-1.2.3.tgz
 
 Chart也可以包含描述安装，配置和使用文件，以及chart许可证。
 
-许可证（LICENSE）是一个包含了chart [license](https://en.wikipedia.org/wiki/Software_license) 的纯文本文件。chart可以包含一个许可证，因为在模板里不只是配置，还可能有编码逻辑。如果需要，还可以为chart安装的应用程序提供单独的许可证。
+许可证（LICENSE）是一个包含了chart [license](https://en.wikipedia.org/wiki/Software_license) 的纯文本文件。
+chart可以包含一个许可证，因为在模板里不只是配置，还可能有编码逻辑。如果需要，还可以为chart安装的应用程序提供单独的许可证。
 
-A README for a chart should be formatted in Markdown (README.md), and should
-generally contain:
+chart的自述文件README文件应该使用Markdown格式(README.md)，一般应包含：
 
-- A description of the application or service the chart provides
-- Any prerequisites or requirements to run the chart
-- Descriptions of options in `values.yaml` and default values
-- Any other information that may be relevant to the installation or
-  configuration of the chart
+- chart提供的应用或服务的描述
+- 运行chart的先决条件或要求
+- `values.yaml`的可选项和默认值的描述
+- 与chart的安装或配置相关的其他任何信息
 
-When hubs and other user interfaces display details about a chart that detail is
-pulled from the content in the `README.md` file.
+`README.md` 文件会包含hub和用户接口显示的chart的详细信息。
 
-The chart can also contain a short plain text `templates/NOTES.txt` file that
-will be printed out after installation, and when viewing the status of a
-release. This file is evaluated as a [template](#templates-and-values), and can
-be used to display usage notes, next steps, or any other information relevant to
-a release of the chart. For example, instructions could be provided for
-connecting to a database, or accessing a web UI. Since this file is printed to
-STDOUT when running `helm install` or `helm status`, it is recommended to keep
-the content brief and point to the README for greater detail.
+chart也会包含一个简短的纯文本 `templates/NOTES.txt` 文件，这会在安装后及查看版本状态时打印出来。 这个文件会作为一个 [模板](#模板和Values)来评估，并用来显示使用说明，后续步骤，或者其他chart版本的相关信息。 比如，可以提供连接数据库的说明，web UI的访问。由于此文件是在运行`helm install`或`helm status`时打印到STDOUT的，因此建议保持内容简短，并指向自述文件以获取更多详细信息。 
 
 ## Chart 依赖
 
-In Helm, one chart may depend on any number of other charts. These dependencies
-can be dynamically linked using the `dependencies` field in `Chart.yaml` or
-brought in to the `charts/` directory and managed manually.
+Helm 中，chart可能会依赖其他任意个cahrt。 这些依赖可以使用`Chart.yaml`文件中的`dependencies` 字段动态链接，或者被带入到 `charts/` 目录并手动配置。
 
-### Managing Dependencies with the `dependencies` field
+### 使用 `dependencies` 字段管理依赖
 
-The charts required by the current chart are defined as a list in the
-`dependencies` field.
+当前chart依赖的其他chart会在`dependencies`字段定义为一个列表。
 
 ```yaml
 dependencies:
@@ -200,11 +188,10 @@ dependencies:
     repository: https://another.example.com/charts
 ```
 
-- The `name` field is the name of the chart you want.
-- The `version` field is the version of the chart you want.
-- The `repository` field is the full URL to the chart repository. Note that you
-  must also use `helm repo add` to add that repo locally.
-- You might use the name of the repo instead of URL
+- `name`字段是你需要的chart的名称
+- `version`字段是你需要的chart的版本
+- `repository`字段是chart仓库的完整URL。注意你必须使用`helm repo add`在本地添加仓库
+- 你可以使用仓库的名称代替URL
 
 ```console
 $ helm repo add fantastic-charts https://fantastic-charts.storage.googleapis.com
@@ -217,9 +204,7 @@ dependencies:
     repository: "@fantastic-charts"
 ```
 
-Once you have defined dependencies, you can run `helm dependency update` and it
-will use your dependency file to download all the specified charts into your
-`charts/` directory for you.
+&emsp;&emsp;一旦你定义好了依赖，运行 `helm dependency update` 就会使用你的依赖文件下载所有你指定的chart到你的`charts/`目录。
 
 ```console
 $ helm dep up foochart
@@ -234,9 +219,7 @@ Downloading apache from repo https://example.com/charts
 Downloading mysql from repo https://another.example.com/charts
 ```
 
-When `helm dependency update` retrieves charts, it will store them as chart
-archives in the `charts/` directory. So for the example above, one would expect
-to see the following files in the charts directory:
+当 `helm dependency update` 拉取chart时，会在`charts/`目录中形成一个chart包。因此对于上面的示例，会在chart目录中期望看到以下文件：
 
 ```text
 charts/
@@ -244,7 +227,7 @@ charts/
   mysql-3.2.1.tgz
 ```
 
-#### Alias field in dependencies
+#### 依赖的别名字段
 
 In addition to the other fields above, each requirements entry may contain the
 optional field `alias`.
@@ -283,7 +266,7 @@ new-subchart-2
 The manual way of achieving this is by copy/pasting the same chart in the
 `charts/` directory multiple times with different names.
 
-#### Tags and Condition fields in dependencies
+#### 依赖中的tag和条件字段
 
 In addition to the other fields above, each requirements entry may contain the
 optional fields `tags` and `condition`.
@@ -548,7 +531,7 @@ The install order of Kubernetes types is given by the enumeration InstallOrder
 in kind_sorter.go (see [the Helm source
 file](https://github.com/helm/helm/blob/484d43913f97292648c867b56768775a55e4bba6/pkg/releaseutil/kind_sorter.go)).
 
-## Templates and Values
+## 模板和Values
 
 Helm Chart templates are written in the [Go template
 language](https://golang.org/pkg/text/template/), with the addition of 50 or so
