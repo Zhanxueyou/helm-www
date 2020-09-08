@@ -364,7 +364,7 @@ exports:
 Since we are specifying the key `data` in our import list, Helm looks in the
 `exports` field of the child chart for `data` key and imports its contents.
 
-The final parent values would contain our exported field:
+最终的父级value会包含我们的导出字段：
 
 ```yaml
 # parent's values
