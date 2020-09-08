@@ -262,22 +262,15 @@ new-subchart-2
 
 #### 依赖中的tag和条件字段
 
-除了上面的其他字段外，In addition to the other fields above, each requirements entry may contain the
-optional fields `tags` and `condition`.
+除了上面的其他字段外，每个需求项可以包含可选字段 `tags` 和 `condition`。
 
-All charts are loaded by default. If `tags` or `condition` fields are present,
-they will be evaluated and used to control loading for the chart(s) they are
-applied to.
+所有的chart会默认加载。如果存在 `tags` 或者 `condition` 字段，它们将被评估并用于控制它们应用的chart的加载。
 
-Condition - The condition field holds one or more YAML paths (delimited by
-commas). If this path exists in the top parent's values and resolves to a
-boolean value, the chart will be enabled or disabled based on that boolean
-value.  Only the first valid path found in the list is evaluated and if no paths
-exist then the condition has no effect.
+Condition - 条件字段field 包含一个或多个YAML路径（用逗号分隔）。 
+如果这个路径在上层values中已存在并解析为布尔值，chart会基于布尔值启用或禁用chart。 
+只会使用列表中找到的第一个有效路径，如果路径为未找到则条件无效。
 
-Tags - The tags field is a YAML list of labels to associate with this chart. In
-the top parent's values, all charts with tags can be enabled or disabled by
-specifying the tag and a boolean value.
+Tags - tag字段是与chart关联的YAML格式的标签列表。在顶层value中，通过指定tag和布尔值，可以启用或禁用所有的带tag的chart。
 
 ```yaml
 # parentchart/Chart.yaml
@@ -309,32 +302,26 @@ tags:
   back-end: true
 ```
 
-In the above example all charts with the tag `front-end` would be disabled but
-since the `subchart1.enabled` path evaluates to 'true' in the parent's values,
-the condition will override the `front-end` tag and `subchart1` will be enabled.
+在上面的例子中，所有带 `front-end`tag的chart都会被禁用，但只要上层的value中
+`subchart1.enabled` 路径被设置为 'true'，该条件会覆盖 `front-end`标签且 `subchart1` 会被启用。
 
-Since `subchart2` is tagged with `back-end` and that tag evaluates to `true`,
-`subchart2` will be enabled. Also note that although `subchart2` has a condition
-specified, there is no corresponding path and value in the parent's values so
-that condition has no effect.
+一旦 `subchart2`使用了`back-end`标签并被设置为了 `true`，`subchart2`就会被启用。
+也要注意尽管`subchart2` 指定了一个条件字段， 但是上层value没有相应的路径和value，因此这个条件不会生效。
 
-##### Using the CLI with Tags and Conditions
+##### 使用带有标签和条件的CLI
 
-The `--set` parameter can be used as usual to alter tag and condition values.
+`--set` 参数一如既往可以用来设置标签和条件值。
 
 ```console
 helm install --set tags.front-end=true --set subchart2.enabled=false
 ```
 
-##### Tags and Condition Resolution
+##### 标签和条件的解析
 
-- **Conditions (when set in values) always override tags.** The first condition
-  path that exists wins and subsequent ones for that chart are ignored.
-- Tags are evaluated as 'if any of the chart's tags are true then enable the
-  chart'.
-- Tags and conditions values must be set in the top parent's values.
-- The `tags:` key in values must be a top level key. Globals and nested `tags:`
-  tables are not currently supported.
+- **条件 （当设置在value中时）总是会覆盖标签** 第一个chart条件路径存在时会忽略后面的路径。
+- 标签被定义为 '如果任意的chart标签是true，chart就可以启用'。
+- 标签和条件值必须被设置在顶层value中。
+- value中的`tags:`键必须是顶层键。 全局和嵌套的`tags:`表现在不支持了。
 
 #### Importing Child Values via dependencies
 
