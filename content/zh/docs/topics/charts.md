@@ -323,12 +323,10 @@ helm install --set tags.front-end=true --set subchart2.enabled=false
 - 标签和条件值必须被设置在顶层value中。
 - value中的`tags:`键必须是顶层键。 全局和嵌套的`tags:`表现在不支持了。
 
-#### Importing Child Values via dependencies
+#### 通过依赖导入子Value
 
-In some cases it is desirable to allow a child chart's values to propagate to
-the parent chart and be shared as common defaults. An additional benefit of
-using the `exports` format is that it will enable future tooling to introspect
-user-settable values.
+在某些情况下，允许子chart的值作为公共默认传递到父chart中是值得的。使用
+`exports`格式的额外好处是它可是将来的工具可以自检用户可设置的值。
 
 The keys containing the values to be imported can be specified in the parent
 chart's `dependencies` in the field `import-values` using a YAML list. Each item
@@ -338,7 +336,7 @@ To import values not contained in the `exports` key, use the
 [child-parent](#using-the-child-parent-format) format. Examples of both formats
 are described below.
 
-##### Using the exports format
+##### 使用导出格式
 
 If a child chart's `values.yaml` file contains an `exports` field at the root,
 its contents may be imported directly into the parent's values by specifying the
@@ -377,7 +375,7 @@ myint: 99
 Please note the parent key `data` is not contained in the parent's final values.
 If you need to specify the parent key, use the 'child-parent' format.
 
-##### Using the child-parent format
+##### 使用子-父格式
 
 To access values that are not contained in the `exports` key of the child
 chart's values, you will need to specify the source key of the values to be
@@ -437,7 +435,7 @@ myimports:
 The parent's final values now contains the `myint` and `mybool` fields imported
 from subchart1.
 
-### Managing Dependencies manually via the `charts/` directory
+### 通过`charts/`目录手动管理依赖
 
 If more control over dependencies is desired, these dependencies can be
 expressed explicitly by copying the dependency charts into the `charts/`
@@ -470,7 +468,7 @@ Apache and MySQL by including those charts inside of its `charts/` directory.
 **TIP:** _To drop a dependency into your `charts/` directory, use the `helm
 pull` command_
 
-### Operational aspects of using dependencies
+### 使用依赖的操作部分
 
 The above sections explain how to specify chart dependencies, but how does this
 affect chart installation using `helm install` and `helm upgrade`?
@@ -534,12 +532,10 @@ Values for the templates are supplied two ways:
 When a user supplies custom values, these values will override the values in the
 chart's `values.yaml` file.
 
-### Template Files
+### 模板文件
 
-Template files follow the standard conventions for writing Go templates (see
-[the text/template Go package
-documentation](https://golang.org/pkg/text/template/) for details). An example
-template file might look something like this:
+模板文件遵守书写Go模板的标准惯例（查看[文本/模板 Go 包文档documentation](https://golang.org/pkg/text/template/)了解跟多）。
+模板文件的例子看起来像这样：
 
 ```yaml
 apiVersion: v1
