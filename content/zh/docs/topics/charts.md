@@ -262,7 +262,7 @@ new-subchart-2
 
 #### 依赖中的tag和条件字段
 
-In addition to the other fields above, each requirements entry may contain the
+除了上面的其他字段外，In addition to the other fields above, each requirements entry may contain the
 optional fields `tags` and `condition`.
 
 All charts are loaded by default. If `tags` or `condition` fields are present,
