@@ -229,14 +229,11 @@ charts/
 
 #### 依赖的别名字段
 
-In addition to the other fields above, each requirements entry may contain the
-optional field `alias`.
+除了上面的其他字段之外，每个需求项可以包含一个可选的字段 `alias`。
 
-Adding an alias for a dependency chart would put a chart in dependencies using
-alias as name of new dependency.
+为依赖chart添加一个别名，会使用别名作为新依赖chart的名称。
 
-One can use `alias` in cases where they need to access a chart with other
-name(s).
+需要使用其他名称访问chart时可以使用`alias`。
 
 ```yaml
 # parentchart/Chart.yaml
@@ -255,7 +252,7 @@ dependencies:
     version: 0.1.0
 ```
 
-In the above example we will get 3 dependencies in all for `parentchart`:
+上述例子中，我们会获得`parentchart`所有的3个依赖项：
 
 ```text
 subchart
@@ -263,8 +260,7 @@ new-subchart-1
 new-subchart-2
 ```
 
-The manual way of achieving this is by copy/pasting the same chart in the
-`charts/` directory multiple times with different names.
+手动完成的方式是将同一个chart用不同的名称复制/粘贴多次到`charts/`目录中。
 
 #### 依赖中的tag和条件字段
 
