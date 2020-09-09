@@ -371,14 +371,9 @@ myint: 99
 
 ##### 使用子-父格式
 
-To access values that are not contained in the `exports` key of the child
-chart's values, you will need to specify the source key of the values to be
-imported (`child`) and the destination path in the parent chart's values
-(`parent`).
+要访问子chart中未包含的 `exports` 键的值，你需要指定要导入的值的源键(`child`)和父chart(`parent`)中值的目标路径。
 
-The `import-values` in the example below instructs Helm to take any values found
-at `child:` path and copy them to the parent's values at the path specified in
-`parent:`
+下面示例中的`import-values` 指示Helm去拿到能再`child:`路径中找到的任何值，并拷贝到`parent:`的指定路径。
 
 ```yaml
 # parent's Chart.yaml file
@@ -393,9 +388,7 @@ dependencies:
         parent: myimports
 ```
 
-In the above example, values found at `default.data` in the subchart1's values
-will be imported to the `myimports` key in the parent chart's values as detailed
-below:
+上面的例子中，在subchart1里面找到的`default.data`的值会被导入到父chart的`myimports`键中，细节如下：
 
 ```yaml
 # parent's values.yaml file
@@ -415,7 +408,7 @@ default:
     mybool: true
 ```
 
-The parent chart's resulting values would be:
+父chart的结果值将会是这样：
 
 ```yaml
 # parent's final values
@@ -426,8 +419,7 @@ myimports:
   mystring: "helm rocks!"
 ```
 
-The parent's final values now contains the `myint` and `mybool` fields imported
-from subchart1.
+父chart中的最终值包含了从 subchart1中导入的`myint`和`mybool`字段。
 
 ### 通过`charts/`目录手动管理依赖
 
