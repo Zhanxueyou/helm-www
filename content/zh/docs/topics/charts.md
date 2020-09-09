@@ -328,19 +328,15 @@ helm install --set tags.front-end=true --set subchart2.enabled=false
 在某些情况下，允许子chart的值作为公共默认传递到父chart中是值得的。使用
 `exports`格式的额外好处是它可是将来的工具可以自检用户可设置的值。
 
-The keys containing the values to be imported can be specified in the parent
-chart's `dependencies` in the field `import-values` using a YAML list. Each item
-in the list is a key which is imported from the child chart's `exports` field.
+被导入的包含值的key可以在父chart的 `dependencies` 中的 `import-values` 字段以YAML列表形式指定。
+列表中的每一项是从子chart中`exports`字段导入的key。
 
-To import values not contained in the `exports` key, use the
-[child-parent](#using-the-child-parent-format) format. Examples of both formats
-are described below.
+导入`exports` key中未包含的值，使用[子-父](#使用子-父格式)格式。两种格式的示例如下所述。
 
 ##### 使用导出格式
 
-If a child chart's `values.yaml` file contains an `exports` field at the root,
-its contents may be imported directly into the parent's values by specifying the
-keys to import as in the example below:
+如果子chart的`values.yaml`文件中在根节点包含了`exports`字段，它的内容可以通过指定的可以被直接导入到父chart的value中，
+如下所示：
 
 ```yaml
 # parent's Chart.yaml file
@@ -361,8 +357,7 @@ exports:
     myint: 99
 ```
 
-Since we are specifying the key `data` in our import list, Helm looks in the
-`exports` field of the child chart for `data` key and imports its contents.
+只要我们再导入列表中指定了键`data`，Helm就会在子chart的`exports`字段查找`data`键并导入它的内容。
 
 最终的父级value会包含我们的导出字段：
 
@@ -372,8 +367,7 @@ Since we are specifying the key `data` in our import list, Helm looks in the
 myint: 99
 ```
 
-Please note the parent key `data` is not contained in the parent's final values.
-If you need to specify the parent key, use the 'child-parent' format.
+注意父级键 `data` 没有包含在父级最终的value中，如果想指定这个父级键，要使用'子-父' 格式。
 
 ##### 使用子-父格式
 
