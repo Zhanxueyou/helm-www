@@ -483,29 +483,23 @@ Kubernetes类型的安装顺序会按照kind_sorter.go(查看 [Helm源文件](ht
 
 ## 模板和Values
 
-Helm Chart templates are written in the [Go template
-language](https://golang.org/pkg/text/template/), with the addition of 50 or so
-add-on template functions [from the Sprig
-library](https://github.com/Masterminds/sprig) and a few other [specialized
-functions]({{< ref "/docs/howto/charts_tips_and_tricks.md" >}}).
+Helm Chart 模板是按照[Go模板语言](https://golang.org/pkg/text/template/)书写，
+增加了50个左右的附加模板函数[来自 Sprig库](https://github.com/Masterminds/sprig) 
+和一些其他[指定的函数](http://helm.sh/docs/howto/charts_tips_and_tricks.md)。
 
-All template files are stored in a chart's `templates/` folder. When Helm
-renders the charts, it will pass every file in that directory through the
-template engine.
+所有模板文件存储在chart的 `templates/` 文件夹。
+当Helm渲染chart时，它会通过模板引擎遍历目录中的每个文件。
 
-Values for the templates are supplied two ways:
+模板的Value通过两种方式提供：
 
-- Chart developers may supply a file called `values.yaml` inside of a chart.
-  This file can contain default values.
-- Chart users may supply a YAML file that contains values. This can be provided
-  on the command line with `helm install`.
+- Chart开发者可以在chart中提供一个命名为 `values.yaml` 的文件。这个文件包含了默认值。
+- Chart用户可以提供一个包含了value的YAML文件。可以在命令行使用 `helm install`命令时提供。
 
-When a user supplies custom values, these values will override the values in the
-chart's `values.yaml` file.
+当用户提供自定义value时，这些value会覆盖chart的`values.yaml`文件中value。
 
 ### 模板文件
 
-模板文件遵守书写Go模板的标准惯例（查看[文本/模板 Go 包文档documentation](https://golang.org/pkg/text/template/)了解跟多）。
+&emsp;&emsp;模板文件遵守书写Go模板的标准惯例（查看[文本/模板 Go 包文档](https://golang.org/pkg/text/template/)了解跟多）。
 模板文件的例子看起来像这样：
 
 ```yaml
@@ -537,59 +531,45 @@ spec:
               value: {{ default "minio" .Values.storage }}
 ```
 
-The above example, based loosely on
-[https://github.com/deis/charts](https://github.com/deis/charts), is a template
-for a Kubernetes replication controller. It can use the following four template
-values (usually defined in a `values.yaml` file):
+上面的例子，松散地基于[https://github.com/deis/charts](https://github.com/deis/charts)，
+是一个Kubernetes副本控制器的模板。可以使用下面四种模板值（一般被定义在`values.yaml`文件）：
 
-- `imageRegistry`: The source registry for the Docker image.
-- `dockerTag`: The tag for the docker image.
-- `pullPolicy`: The Kubernetes pull policy.
-- `storage`: The storage backend, whose default is set to `"minio"`
+- `imageRegistry`: Docker镜像的源注册表
+- `dockerTag`: Docker镜像的tag
+- `pullPolicy`: Kubernetes的拉取策略
+- `storage`: 后台存储，默认设置为`"minio"`
 
-All of these values are defined by the template author. Helm does not require or
-dictate parameters.
+所有的值都是模板作者定义的。Helm不需要或指定参数。
 
-To see many working charts, check out the [Kubernetes Charts
-project](https://github.com/helm/charts)
+要了解更多chart的工作，请查阅[Kubernetes Charts 项目](https://github.com/helm/charts)
 
 ### 预定义的Values
 
-Values that are supplied via a `values.yaml` file (or via the `--set` flag) are
-accessible from the `.Values` object in a template. But there are other
-pre-defined pieces of data you can access in your templates.
+Values通过模板中`.Values`对象可访问的`values.yaml`文件（或者通过 `--set` 参数)提供，
+但可以模板中访问其他预定义的数据片段。
 
-The following values are pre-defined, are available to every template, and
-cannot be overridden. As with all values, the names are _case sensitive_.
+以下值是预定义的，对每个模板都有效，并且可以被覆盖。和所有值一样，名称 _区分大小写_。
 
-- `Release.Name`: The name of the release (not the chart)
-- `Release.Namespace`: The namespace the chart was released to.
-- `Release.Service`: The service that conducted the release.
-- `Release.IsUpgrade`: This is set to true if the current operation is an
-  upgrade or rollback.
-- `Release.IsInstall`: This is set to true if the current operation is an
-  install.
-- `Chart`: The contents of the `Chart.yaml`. Thus, the chart version is
-  obtainable as `Chart.Version` and the maintainers are in `Chart.Maintainers`.
-- `Files`: A map-like object containing all non-special files in the chart. This
-  will not give you access to templates, but will give you access to additional
-  files that are present (unless they are excluded using `.helmignore`). Files
-  can be accessed using `{{ index .Files "file.name" }}` or using the
-  `{{.Files.Get name }}` function. You can also access the contents of the file
-  as `[]byte` using `{{ .Files.GetBytes }}`
-- `Capabilities`: A map-like object that contains information about the versions
-  of Kubernetes (`{{ .Capabilities.KubeVersion }}` and the supported Kubernetes
-  API versions (`{{ .Capabilities.APIVersions.Has "batch/v1" }}`)
+- `Release.Name`: 版本名称(非chart的)
+- `Release.Namespace`: 发布的chart版本的命名空间
+- `Release.Service`: 组织版本的服务
+- `Release.IsUpgrade`: 如果当前操作是升级或回滚，设置为true
+- `Release.IsInstall`: 如果当前操作是安装，设置为true
+- `Chart`: `Chart.yaml`的内容。因此，chart的版本可以从 `Chart.Version` 获得，
+  并且维护者在`Chart.Maintainers`里。
+- `Files`: chart中的包含了非特殊文件的类图对象。这将不允许您访问模板，
+  但是可以访问现有的其他文件（除非被`.helmignore`排除在外）。
+  使用`{{ index .Files "file.name" }}`可以访问文件或者使用`{{.Files.Get name }}`功能。
+  您也可以使用`{{ .Files.GetBytes }}`作为`[]byte`方位文件内容。
+- `Capabilities`: 包含了Kubernetes版本信息的类图对象。(`{{ .Capabilities.KubeVersion }}`
+  和支持的Kubernetes API 版本(`{{ .Capabilities.APIVersions.Has "batch/v1" }}`)
 
-**NOTE:** Any unknown `Chart.yaml` fields will be dropped. They will not be
-accessible inside of the `Chart` object. Thus, `Chart.yaml` cannot be used to
-pass arbitrarily structured data into the template. The values file can be used
-for that, though.
+**注意：** 任何未知的`Chart.yaml`字段会被抛弃。在`Chart`对象中无法访问。因此，
+`Chart.yaml`不能用于将任意结构的数据传递到模板中。不过values文件可用于此。
 
 ### Values文件
 
-Considering the template in the previous section, a `values.yaml` file that
-supplies the necessary values would look like this:
+考虑到前面部分的模板，`values.yaml`文件提供的必要值如下：
 
 ```yaml
 imageRegistry: "quay.io/deis"
@@ -598,23 +578,20 @@ pullPolicy: "Always"
 storage: "s3"
 ```
 
-A values file is formatted in YAML. A chart may include a default `values.yaml`
-file. The Helm install command allows a user to override values by supplying
-additional YAML values:
+values文件被定义为YAML格式。chart会包含一个默认的`values.yaml`文件。
+Helm安装命令允许用户使用附加的YAML values覆盖这个values：
 
 ```console
 $ helm install --generate-name --values=myvals.yaml wordpress
 ```
 
-When values are passed in this way, they will be merged into the default values
-file. For example, consider a `myvals.yaml` file that looks like this:
+以这种方式传递值时，它们会合并到默认的values文件中。比如，`myvals.yaml`文件如下：
 
 ```yaml
 storage: "gcs"
 ```
 
-When this is merged with the `values.yaml` in the chart, the resulting generated
-content will be:
+当在chart中这个值被合并到`values.yaml`文件中时，生成的内容是这样：
 
 ```yaml
 imageRegistry: "quay.io/deis"
@@ -623,20 +600,16 @@ pullPolicy: "Always"
 storage: "gcs"
 ```
 
-Note that only the last field was overridden.
+注意只有最后一个字段会覆盖。
 
-**注意：** The default values file included inside of a chart _must_ be named
-`values.yaml`. But files specified on the command line can be named anything.
+**注意：** chart包含的默认values文件 _必须_ 被命名为`values.yaml`。不过在命令行指定的文件可以是其他名称。
 
-**注意：** If the `--set` flag is used on `helm install` or `helm upgrade`, those
-values are simply converted to YAML on the client side.
+**注意：** 如果`helm install`或`helm upgrade`使用了`--set`参数，这些值在客户端会被简单地转换为YAML。
 
-**注意：** If any required entries in the values file exist, they can be declared
-as required in the chart template by using the ['required' function]({{< ref
-"/docs/howto/charts_tips_and_tricks.md" >}})
+**注意：** 如果values 文件存在任何必需的条目，它们会在chart模板中使用['required'
+函数](http://helm.sh/docs/howto/charts_tips_and_tricks.md) 声明为必需的。
 
-Any of these values are then accessible inside of templates using the `.Values`
-object:
+然后使用模板中的`.Values`对象就可以任意访问这些值了：
 
 ```yaml
 apiVersion: v1
