@@ -711,7 +711,6 @@ apache:
 子chart无法影响父chart的值。
 
 并且，父chart的全局变量优先于子chart中的全局变量。
-variables from subcharts.
 
 ### 架构Files
 
