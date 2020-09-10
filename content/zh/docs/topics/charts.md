@@ -553,7 +553,7 @@ dictate parameters.
 To see many working charts, check out the [Kubernetes Charts
 project](https://github.com/helm/charts)
 
-### Predefined Values
+### 预定义的Values
 
 Values that are supplied via a `values.yaml` file (or via the `--set` flag) are
 accessible from the `.Values` object in a template. But there are other
@@ -625,13 +625,13 @@ storage: "gcs"
 
 Note that only the last field was overridden.
 
-**NOTE:** The default values file included inside of a chart _must_ be named
+**注意：** The default values file included inside of a chart _must_ be named
 `values.yaml`. But files specified on the command line can be named anything.
 
-**NOTE:** If the `--set` flag is used on `helm install` or `helm upgrade`, those
+**注意：** If the `--set` flag is used on `helm install` or `helm upgrade`, those
 values are simply converted to YAML on the client side.
 
-**NOTE:** If any required entries in the values file exist, they can be declared
+**注意：** If any required entries in the values file exist, they can be declared
 as required in the chart template by using the ['required' function]({{< ref
 "/docs/howto/charts_tips_and_tricks.md" >}})
 
