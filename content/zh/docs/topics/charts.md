@@ -640,14 +640,11 @@ spec:
               value: {{ default "minio" .Values.storage }}
 ```
 
-### Scope, Dependencies, and Values
+### 范围，依赖和值
 
-Values files can declare values for the top-level chart, as well as for any of
-the charts that are included in that chart's `charts/` directory. Or, to phrase
-it differently, a values file can supply values to the chart as well as to any
-of its dependencies. For example, the demonstration WordPress chart above has
-both `mysql` and `apache` as dependencies. The values file could supply values
-to all of these components:
+Values文件可以声明顶级chart的值，以及`charts/`目录中包含的其他任意chart。 
+或者换个说法，values文件可以为chart及其任何依赖项提供值。比如，上面示范的WordPress chart同时有
+`mysql` 和 `apache` 作为依赖。values文件可以为以下所有这些组件提供依赖：
 
 ```yaml
 title: "My WordPress Site" # Sent to the WordPress template
@@ -660,21 +657,16 @@ apache:
   port: 8080 # Passed to Apache
 ```
 
-Charts at a higher level have access to all of the variables defined beneath. So
-the WordPress chart can access the MySQL password as `.Values.mysql.password`.
-But lower level charts cannot access things in parent charts, so MySQL will not
-be able to access the `title` property. Nor, for that matter, can it access
-`apache.port`.
+更高阶的chart可以访问下面定义的所有变量。因此WordPress chart可以用`.Values.mysql.password`访问MySQL密码。
+但是低阶的chart不能访问父级chart，所以MySQL无法访问`title`属性。同样也无法方位`apache.port`。
 
-Values are namespaced, but namespaces are pruned. So for the WordPress chart, it
-can access the MySQL password field as `.Values.mysql.password`. But for the
-MySQL chart, the scope of the values has been reduced and the namespace prefix
-removed, so it will see the password field simply as `.Values.password`.
+Values 被限制在命名空间中，但是命名空间被删减了。因此对于WordPress chart，
+它可以用`.Values.mysql.password`访问MySQL的密码字段。但是对于MySQL chart，值的范围被缩减了且命名空间前缀被移除了，
+因此它把密码字段简单地看作`.Values.password`。
 
-#### Global Values
+#### 全局Values
 
-As of 2.0.0-Alpha.2, Helm supports special "global" value. Consider this
-modified version of the previous example:
+从2.0.0-Alpha.2开始，Helm 支持特殊的"global"值。设想一下前面的示例中的修改版本：
 
 ```yaml
 title: "My WordPress Site" # Sent to the WordPress template
@@ -690,12 +682,10 @@ apache:
   port: 8080 # Passed to Apache
 ```
 
-The above adds a `global` section with the value `app: MyWordPress`. This value
-is available to _all_ charts as `.Values.global.app`.
+上面添加了`global`部分和一个值`app: MyWordPress`。这个值以`.Values.global.app`在 _所有_ chart中有效。
 
-For example, the `mysql` templates may access `app` as `{{
-.Values.global.app}}`, and so can the `apache` chart. Effectively, the values
-file above is regenerated like this:
+比如，`mysql`模板可以以`{{.Values.global.app}}`访问`app`，同样`apache`chart也可以访问。
+实际上，上面的values文件会重新生成为这样：
 
 ```yaml
 title: "My WordPress Site" # Sent to the WordPress template
@@ -715,17 +705,15 @@ apache:
   port: 8080 # Passed to Apache
 ```
 
-This provides a way of sharing one top-level variable with all subcharts, which
-is useful for things like setting `metadata` properties like labels.
+这提供了一种和所有的子chart共享顶级变量的方式，这在类似label设置`metadata`属性时会很有用。
 
-If a subchart declares a global variable, that global will be passed _downward_
-(to the subchart's subcharts), but not _upward_ to the parent chart. There is no
-way for a subchart to influence the values of the parent chart.
+如果子chart声明了一个全局变量，那这个变量会 _向下_ 传递（到子chart的子chart），但不会 _向上_ 传递到父级chart。
+子chart无法影响父chart的值。
 
-Also, global variables of parent charts take precedence over the global
+并且，父chart的全局变量优先于子chart中的全局变量。
 variables from subcharts.
 
-### Schema Files
+### 架构Files
 
 Sometimes, a chart maintainer might want to define a structure on their values.
 This can be done by defining a schema in the `values.schema.json` file. A schema
@@ -807,7 +795,7 @@ parent chart. This also works backwards - if a subchart has a requirement that
 is not met in the subchart's `values.yaml` file, the parent chart *must* satisfy
 those restrictions in order to be valid.
 
-### References
+### 参考
 
 When it comes to writing templates, values, and schema files, there are several
 standard references that will help you out.
