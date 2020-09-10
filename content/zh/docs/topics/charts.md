@@ -712,12 +712,10 @@ apache:
 
 并且，父chart的全局变量优先于子chart中的全局变量。
 
-### 架构Files
+### 架构文件
 
-Sometimes, a chart maintainer might want to define a structure on their values.
-This can be done by defining a schema in the `values.schema.json` file. A schema
-is represented as a [JSON Schema](https://json-schema.org/). It might look
-something like this:
+有时候，chart容器可能想基于它们的values值定义一个结构，这可以在`values.schema.json`文件中定义一个架构实现。
+架构使用[JSON 架构](https://json-schema.org/)表示。看起来像这样：
 
 ```json
 {
@@ -757,16 +755,14 @@ something like this:
 }
 ```
 
-This schema will be applied to the values to validate it. Validation occurs when
-any of the following commands are invoked:
+这个架构会应用values值并验证它。当执行以下任意命令时会进行验证：
 
 - `helm install`
 - `helm upgrade`
 - `helm lint`
 - `helm template`
 
-An example of a `values.yaml` file that meets the requirements of this schema
-might look something like this:
+一个符合此架构要求的`values.yaml`文件示例如下所示：
 
 ```yaml
 name: frontend
@@ -774,8 +770,8 @@ protocol: https
 port: 443
 ```
 
-Note that the schema is applied to the final `.Values` object, and not just to
-the `values.yaml` file. This means that the following `yaml` file is valid,
+注意这个架构被应用到了最终的 `.Values` 对象，而不仅仅是`values.yaml`文件。
+ This means that the following `yaml` file is valid,
 given that the chart is installed with the appropriate `--set` option shown
 below.
 
