@@ -418,4 +418,4 @@ Unable to connect to the server: x509: certificate signed by unknown authority
 如果你不想让Helm加载这个文件，你可以将Helm编译成一个静态库而不使用主机网络堆栈。
 这样做会导致Helm的二进制文件大小膨胀，但是会阻止这个文件打开。
 
-这个问题最初被标记为潜在的安全问题。 但后来已经确定，这种行为不存在任何缺陷或漏洞。
+这个问题最初被标记为潜在的安全问题。但后来已经确定，这种行为不存在任何缺陷或漏洞。
