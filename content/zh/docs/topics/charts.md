@@ -423,17 +423,11 @@ myimports:
 
 ### 通过`charts/`目录手动管理依赖
 
-If more control over dependencies is desired, these dependencies can be
-expressed explicitly by copying the dependency charts into the `charts/`
-directory.
+如果对依赖进行更多控制，通过将有依赖关系的chart复制到`charts/`目录中来显式表达这些依赖关系。
 
-A dependency can be either a chart archive (`foo-1.2.3.tgz`) or an unpacked
-chart directory. But its name cannot start with `_` or `.`. Such files are
-ignored by the chart loader.
+依赖可以是chart包(`foo-1.2.3.tgz`) 或者一个解压的chart目录。但是名字不能以`_`或`.`开头，否则会被chart加载器忽略。
 
-For example, if the WordPress chart depends on the Apache chart, the Apache
-chart (of the correct version) is supplied in the WordPress chart's `charts/`
-directory:
+比如，如果WordPress chart依赖于Apache chart，那么（正确版本的）Apache chart需要放在WordPress chart 的`charts/`目录中：
 
 ```yaml
 wordpress:
@@ -448,32 +442,27 @@ wordpress:
       # ...
 ```
 
-The example above shows how the WordPress chart expresses its dependency on
-Apache and MySQL by including those charts inside of its `charts/` directory.
+上面的例子展示了WordPress chart 如何通过将这些chart包含在 `charts/` 目录中来表达它对Apache 和 MySQL的依赖。
 
-**TIP:** _To drop a dependency into your `charts/` directory, use the `helm
-pull` command_
+**提示：** _要将依赖放入`charts/`目录，使用 `helm pull` 命令_
 
 ### 使用依赖的操作部分
 
-The above sections explain how to specify chart dependencies, but how does this
-affect chart installation using `helm install` and `helm upgrade`?
+上面的部分说明如何指定chart的依赖，但是对使用 `helm install` 和 `helm upgrade` 安装chart有什么影响？
 
-Suppose that a chart named "A" creates the following Kubernetes objects
+假设有个chart "A" 创建了下面的Kubernetes对象：
 
 - namespace "A-Namespace"
 - statefulset "A-StatefulSet"
 - service "A-Service"
 
-Furthermore, A is dependent on chart B that creates objects
+另外，A是依赖于chart B创建的对象：
 
 - namespace "B-Namespace"
 - replicaset "B-ReplicaSet"
 - service "B-Service"
 
-After installation/upgrade of chart A a single Helm release is created/modified.
-The release will create/update all of the above Kubernetes objects in the
-following order:
+安装/升级chart A后，会创建/修改一个单独的Helm版本。这个版本会按顺序创建/升级以下所有的Kubernetes对象：
 
 - A-Namespace
 - B-Namespace
@@ -482,19 +471,15 @@ following order:
 - B-ReplicaSet
 - A-StatefulSet
 
-This is because when Helm installs/upgrades charts, the Kubernetes objects from
-the charts and all its dependencies are
+这是因为当Helm安卓/升级chart时，chart中所有的Kubernetes对象以及依赖会
 
-- aggregrated into a single set; then
-- sorted by type followed by name; and then
-- created/updated in that order.
+- 聚合成一个单一的集合；然后
+- 按照类型和名称排序；然后
+- 按这个顺序创建/升级。
 
-Hence a single release is created with all the objects for the chart and its
-dependencies.
+至此会为chart及其依赖创建一个包含所有对象的release版本。
 
-The install order of Kubernetes types is given by the enumeration InstallOrder
-in kind_sorter.go (see [the Helm source
-file](https://github.com/helm/helm/blob/484d43913f97292648c867b56768775a55e4bba6/pkg/releaseutil/kind_sorter.go)).
+Kubernetes类型的安装顺序会按照kind_sorter.go(查看 [Helm源文件](https://github.com/helm/helm/blob/484d43913f97292648c867b56768775a55e4bba6/pkg/releaseutil/kind_sorter.go))中给出的枚举顺序进行。
 
 ## 模板和Values
 
@@ -601,7 +586,7 @@ accessible inside of the `Chart` object. Thus, `Chart.yaml` cannot be used to
 pass arbitrarily structured data into the template. The values file can be used
 for that, though.
 
-### Values files
+### Values文件
 
 Considering the template in the previous section, a `values.yaml` file that
 supplies the necessary values would look like this:
