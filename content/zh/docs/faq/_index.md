@@ -407,20 +407,15 @@ Unable to connect to the server: x509: certificate signed by unknown authority
 
 这适用于 `helm ls`、 `helm uninstall` 以及其他所有涉及版本的 `helm` 命令。
 
-### On macOS, the file `/etc/.mdns_debug` is accessed. Why?
+### 为什么在macOS上`/etc/.mdns_debug`文件可以访问？
 
-We are aware of a case on macOS where Helm will try to access a file named
-`/etc/.mdns_debug`. If the file exists, Helm holds the file handle open while it
-executes.
+我们了解到macOS上的一个案例是Helm会视图访问`/etc/.mdns_debug`文件。
+如果文件存在，Helm会在文件句柄执行的时候保持打开状态。
 
-This is caused by macOS's MDNS library. It attempts to load that file to read
-debugging settings (if enabled). The file handle probably should not be held open, and
-this issue has been reported to Apple. However, it is macOS, not Helm, that causes this
-behavior.
+这是因为macOS的 MDNS 库。它尝试去加载这个文件读取debug设置（如果已经启用）。
+这个文件句柄可能不会保持打开，且这个问题已经报告给了苹果。 然而这种行为是macOS导致的，并不是Helm。
 
-If you do not want Helm to load this file, you may be able to compile Helm to as
-a static library that does not use the host network stack. Doing so will inflate the
-binary size of Helm, but will prevent the file from being open.
+如果你不想让Helm加载这个文件，你可以将Helm编译成一个静态库而不使用主机网络堆栈。
+这样做会导致Helm的二进制文件大小膨胀，但是会阻止这个文件打开。
 
-This issue was originally flagged as a potential security problem. But it has since
-been determined that there is no flaw or vulnerability caused by this behavior.
+这个问题最初被标记为潜在的安全问题。 但后来已经确定，这种行为不存在任何缺陷或漏洞。
