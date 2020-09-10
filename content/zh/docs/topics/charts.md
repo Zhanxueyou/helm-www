@@ -771,9 +771,7 @@ port: 443
 ```
 
 注意这个架构被应用到了最终的 `.Values` 对象，而不仅仅是`values.yaml`文件。
- This means that the following `yaml` file is valid,
-given that the chart is installed with the appropriate `--set` option shown
-below.
+这意味着下面的`yaml`文件是有效的，给定的chart是用下面显示的适当的`--set`选项安装的： 
 
 ```yaml
 name: frontend
@@ -784,27 +782,22 @@ protocol: https
 helm install --set port=443
 ```
 
-Furthermore, the final `.Values` object is checked against *all* subchart
-schemas. This means that restrictions on a subchart can't be circumvented by a
-parent chart. This also works backwards - if a subchart has a requirement that
-is not met in the subchart's `values.yaml` file, the parent chart *must* satisfy
-those restrictions in order to be valid.
+此外，最终的`.Values`对象是根据*所有的*子chart架构检查。 这意味着父chart无法规避子chart的限制。
+这也是逆向的 - 如果子chart的`values.yaml`文件无法满足需求，父chart*必须* 满足这些限制才能有效。
 
 ### 参考
 
-When it comes to writing templates, values, and schema files, there are several
-standard references that will help you out.
+在编写模板，值和架构文件时，有几个标准的参考可以帮助您。
 
 - [Go templates](https://godoc.org/text/template)
 - [Extra template functions](https://godoc.org/github.com/Masterminds/sprig)
 - [The YAML format](https://yaml.org/spec/)
 - [JSON Schema](https://json-schema.org/)
 
-## Custom Resource Definitions (CRDs)
+## 用户自定义资源(CRD)
 
-Kubernetes provides a mechanism for declaring new types of Kubernetes objects.
-Using CustomResourceDefinitions (CRDs), Kubernetes developers can declare custom
-resource types.
+Kubernetes提供了一种声明Kubernetes新类型对象的机制。使用CustomResourceDefinition（CRD）， 
+Kubernetes开发者可以声明自定义资源类型。
 
 In Helm 3, CRDs are treated as a special kind of object. They are installed
 before the rest of the chart, and are subject to some limitations.
@@ -888,7 +881,7 @@ following limitations:
 Operators who want to upgrade or delete CRDs are encouraged to do this manually
 and with great care.
 
-## Using Helm to Manage Charts
+## 使用Helm管理Chart
 
 The `helm` tool has several commands for working with charts.
 
@@ -915,7 +908,7 @@ $ helm lint mychart
 No issues found
 ```
 
-## Chart Repositories
+## Chart仓库
 
 A _chart repository_ is an HTTP server that houses one or more packaged charts.
 While `helm` can be used to manage local chart directories, when it comes to
@@ -935,7 +928,7 @@ However, Helm does not provide tools for uploading charts to remote repository
 servers. This is because doing so would add substantial requirements to an
 implementing server, and thus raise the barrier for setting up a repository.
 
-## Chart Starter Packs
+## Chart Starter 包
 
 The `helm create` command takes an optional `--starter` option that lets you
 specify a "starter chart".
