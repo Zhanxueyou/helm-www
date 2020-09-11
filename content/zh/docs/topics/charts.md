@@ -799,25 +799,18 @@ helm install --set port=443
 Kubernetes提供了一种声明Kubernetes新类型对象的机制。使用CustomResourceDefinition（CRD）， 
 Kubernetes开发者可以声明自定义资源类型。
 
-In Helm 3, CRDs are treated as a special kind of object. They are installed
-before the rest of the chart, and are subject to some limitations.
+Helm 3中,CRD被视为一种特殊的对象。它们被安装在chart的其他部分之前，并受到一些限制。
 
-CRD YAML files should be placed in the `crds/` directory inside of a chart.
-Multiple CRDs (separated by YAML start and end markers) may be placed in the
-same file. Helm will attempt to load _all_ of the files in the CRD directory
-into Kubernetes.
+CRD YAML文件应被放置在chart的`crds/`目录中。
+多个CRD(用YAML的开始和结束符分隔)可以被放置在同一个文件中。Helm会尝试加载CRD目录中 _所有的_ 文件到Kubernetes。
 
-CRD files _cannot be templated_. They must be plain YAML documents.
+CRD 文件 _无法模板化_，必须是普通的YAML文档。
 
-When Helm installs a new chart, it will upload the CRDs, pause until the CRDs
-are made available by the API server, and then start the template engine, render
-the rest of the chart, and upload it to Kubernetes. Because of this ordering,
-CRD information is available in the `.Capabilities` object in Helm templates,
-and Helm templates may create new instances of objects that were declared in
-CRDs.
+当Helm安装新chart时，会上传CRD，暂停安装直到CRD可以被API服务使用，然后启动模板引擎，
+渲染chart其他部分，并上传到Kubernetes。因为这个顺序，CRD信息会在Helm模板中的
+`.Capabilities`对象中生效，并且Helm模板会创建在CRD中声明的新的实例对象。
 
-For example, if your chart had a CRD for `CronTab` in the `crds/` directory, you
-may create instances of the `CronTab` kind in the `templates/` directory:
+比如，如果您的chart在`crds/`目录中有针对于`CronTab`的CRD，您可以在`templates/`目录中创建`CronTab`类型实例：
 
 ```text
 crontabs/
@@ -828,7 +821,7 @@ crontabs/
     mycrontab.yaml
 ```
 
-The `crontab.yaml` file must contain the CRD with no template directives:
+`crontab.yaml`文件必须包含没有模板指令的CRD:
 
 ```yaml
 kind: CustomResourceDefinition
@@ -847,8 +840,7 @@ spec:
     kind: CronTab
 ```
 
-Then the template `mycrontab.yaml` may create a new `CronTab` (using templates
-as usual):
+然后模板`mycrontab.yaml`可以创建一个新的`CronTab`（照例使用模板）：
 
 ```yaml
 apiVersion: stable.example.com
@@ -859,49 +851,38 @@ spec:
    # ...
 ```
 
-Helm will make sure that the `CronTab` kind has been installed and is available
-from the Kubernetes API server before it proceeds installing the things in
-`templates/`.
+Helm在安装`templates/`内容之前会保证`CronTab`类型安装成功并对Kubernetes API可用。
 
-### Limitations on CRDs
+### CRD的限制
 
-Unlike most objects in Kubernetes, CRDs are installed globally. For that reason,
-Helm takes a very cautious approach in managing CRDs. CRDs are subject to the
-following limitations:
+不像大部分的Kubernetes对象，CRD是全局安装的。因此Helm管理CRD时会采取非常谨慎的方式。
+CRD受到以下限制：
 
-- CRDs are never reinstalled. If Helm determines that the CRDs in the `crds/`
-  directory are already present (regardless of version), Helm will not attempt
-  to install or upgrade.
-- CRDs are never installed on upgrade or rollback. Helm will only create CRDs on
-  installation operations.
-- CRDs are never deleted. Deleting a CRD automatically deletes all of the CRD's
-  contents across all namespaces in the cluster. Consequently, Helm will not
-  delete CRDs.
+- CRD从不重新安装。 如果Helm确定`crds/`目录中的CRD已经存在（忽略版本），Helm不会安装或升级。
+- CRD从不会在升级或回滚时安装。Helm只会在安装时创建CRD。
+- CRD从不会被删除。自动删除CRD会删除集群中所有命名空间中的所有CRD内容。因此Helm不会删除CRD。
 
-Operators who want to upgrade or delete CRDs are encouraged to do this manually
-and with great care.
+希望升级或删除CRD的操作员应该谨慎地手动执行此操作。
 
 ## 使用Helm管理Chart
 
-The `helm` tool has several commands for working with charts.
+`helm`工具有一些命令用来处理chart。
 
-It can create a new chart for you:
+它可以为您创建一个新chart：
 
 ```console
 $ helm create mychart
 Created mychart/
 ```
 
-Once you have edited a chart, `helm` can package it into a chart archive for
-you:
+编辑了chart之后，`helm`能为您把它打包成一个chart存档：
 
 ```console
 $ helm package mychart
 Archived mychart-0.1.-.tgz
 ```
 
-You can also use `helm` to help you find issues with your chart's formatting or
-information:
+您也可以使用`helm` 帮您找到chart的格式或信息的问题：
 
 ```console
 $ helm lint mychart
@@ -910,28 +891,21 @@ No issues found
 
 ## Chart仓库
 
-A _chart repository_ is an HTTP server that houses one or more packaged charts.
-While `helm` can be used to manage local chart directories, when it comes to
-sharing charts, the preferred mechanism is a chart repository.
+_chart仓库_ 是一个HTTP服务器，包含了一个或多个打包的chart。当`helm`用来管理本地chart目录时，
+共享chart时，首选的机制就是使用chart仓库。
 
-Any HTTP server that can serve YAML files and tar files and can answer GET
-requests can be used as a repository server. The Helm team has tested some
-servers, including Google Cloud Storage with website mode enabled, and S3 with
-website mode enabled.
+任何可以服务于YAML文件和tar文件并可以响应GET请求的HTTP服务器都可以用做仓库服务器。
+Helm 团队已经测试了一些服务器，包括激活websit模组的Google Cloud 存储，以及使用website的S3。
 
-A repository is characterized primarily by the presence of a special file called
-`index.yaml` that has a list of all of the packages supplied by the repository,
-together with metadata that allows retrieving and verifying those packages.
+仓库的主要特征存在一个名为 `index.yaml` 的特殊文件，文件中包含仓库提供的包的完整列表，
+以及允许检索和验证这些包的元数据。
 
-On the client side, repositories are managed with the `helm repo` commands.
-However, Helm does not provide tools for uploading charts to remote repository
-servers. This is because doing so would add substantial requirements to an
-implementing server, and thus raise the barrier for setting up a repository.
+在客户端，仓库使用`helm repo`命令管理。然而，Helm不提供上传chart到远程仓库的工具。
+这是因为这样做会给执行服务器增加大量的必要条件，也就增加了设置仓库的障碍。
 
 ## Chart Starter 包
 
-The `helm create` command takes an optional `--starter` option that lets you
-specify a "starter chart".
+`helm create`命令可以附带一个可选的 `--starter` 选项让您指定一个 "starter chart"。
 
 Starters are just regular charts, but are located in
 `$XDG_DATA_HOME/helm/starters`. As a chart developer, you may author charts that
