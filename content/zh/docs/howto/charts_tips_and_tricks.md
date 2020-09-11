@@ -1,8 +1,7 @@
 ---
-title: "Chart Development Tips and Tricks"
-description: "Covers some of the tips and tricks Helm chart developers have learned while building production-quality charts."
+title: "chart开发提示和技巧"
+description: "涵盖了Helm chart开发人员在构建产品质量chart时学到的一些提示和技巧"
 weight: 1
-aliases: ["/docs/charts_tips_and_tricks/"]
 ---
 
 This guide covers some of the tips and tricks Helm chart developers have learned

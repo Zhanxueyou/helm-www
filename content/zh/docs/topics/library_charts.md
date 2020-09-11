@@ -1,7 +1,6 @@
 ---
-title: "Library Charts"
-description: "Explains library charts and examples of usage"
-aliases: ["docs/library_charts/"]
+title: "库类型Chart"
+description: "阐述库类型chart及使用案例"
 weight: 4
 ---
 

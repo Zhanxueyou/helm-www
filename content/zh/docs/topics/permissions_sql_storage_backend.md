@@ -1,20 +1,19 @@
 ---
-title: "Permissions management for SQL storage backend"
-description: "Get to know how to setup permissions when using SQL storage backend."
-aliases: ["/docs/permissions_sql_storage_backend/"]
+title: "SQL存储后端的权限管理"
+description: "了解SQL存储后端的权限设置"
 ---
 
 This document aims to provide guidance to users for setting up and managing
 permissions when using the SQL storage backend.
 
-## Introduction
+## 介绍
 
 To handle permissions, Helm leverages the RBAC feature of Kubernetes. When using
 the SQL storage backend, Kubernetes' roles can't be used to determine whether or
 not an user can access a given resource. This document shows how to create and
 manage these permissions.
 
-## Initialization
+## 初始化
 
 The first time the Helm CLI will make connect to your database, the client will
 make sure that it was previously initialized. If it is not, it will take care of

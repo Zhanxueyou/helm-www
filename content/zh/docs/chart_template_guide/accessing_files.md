@@ -1,6 +1,6 @@
 ---
-title: "Accessing Files Inside Templates"
-description: "How to access files from within a template."
+title: "在模板内部访问文件"
+description: "如何从模板中访问文件"
 weight: 10
 ---
 

@@ -1,7 +1,6 @@
 ---
-title: "The Chart Repository Guide"
-description: "How to create and work with Helm chart repositories."
-aliases: ["/docs/chart_repository/"]
+title: "Chart仓库指南"
+description: "如何创建和使用Helm chart 仓库"
 weight: 6
 ---
 

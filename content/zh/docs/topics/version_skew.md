@@ -1,12 +1,12 @@
 ---
-title: "Helm Version Support Policy"
-description: "Describes Helm's patch release policy as well as the maximum version skew supported between Helm and Kubernetes."
+title: "Helm版本支持策略"
+description: "描述Helm的补丁发布策略，以及Helm和Kubernetes之间支持的最大版本偏差"
 ---
 
 This document describes the maximum version skew supported between Helm and
 Kubernetes.
 
-## Supported Versions
+## 支持的版本
 
 Helm versions are expressed as `x.y.z`, where `x` is the major version, `y` is
 the minor version, and z is the patch version, following [Semantic
@@ -17,7 +17,7 @@ Applicable fixes, including security fixes, are cherry-picked into the release
 branch, depending on severity and feasibility. Patch releases are cut from that
 branch as needed. This decision is owned by the release maintainer.
 
-## Supported Version Skew
+## 可支持的版本偏差
 
 When a new version of Helm is released, it is compiled against a particular
 minor version of Kubernetes. For example, Helm 3.0.0 interacts with Kubernetes
