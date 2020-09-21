@@ -425,3 +425,16 @@ Unable to connect to the server: x509: certificate signed by unknown authority
 这样做会导致Helm的二进制文件大小膨胀，但是会阻止这个文件打开。
 
 这个问题最初被标记为潜在的安全问题。但后来已经确定，这种行为不存在任何缺陷或漏洞。
+
+### helm 仓库使用时添加仓库失败
+
+在Helm 3.3.1及之前版本，`helm repo add <reponame> <url>`在你添加已经存在的仓库时不会输入内容。
+如果仓库已经存在，`--no-update` 参数会报错。
+
+在Helm3.3.2及之后版本，试图添加一个已存在的仓库时会报一下错误：
+
+`Error: repository name (reponame) already exists, please specify a different name`
+
+现在这个默认行为是相反的。`--no-update` 现在被忽略。当您想替换（覆盖）已有仓库时，您可以使用 `--force-update`。
+
+这是由于一个安全修复做出的重大更改，详情见[Helm 3.3.2 release notes](https://github.com/helm/helm/releases/tag/v3.3.2)。
