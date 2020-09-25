@@ -3,48 +3,35 @@ title: "Helm版本支持策略"
 description: "描述Helm的补丁发布策略，以及Helm和Kubernetes之间支持的最大版本偏差"
 ---
 
-This document describes the maximum version skew supported between Helm and
-Kubernetes.
+该文档描述了在Helm和Kubernetes之间支持的最大版本偏差。
 
 ## 支持的版本
 
-Helm versions are expressed as `x.y.z`, where `x` is the major version, `y` is
-the minor version, and z is the patch version, following [Semantic
-Versioning](https://semver.org/spec/v2.0.0.html) terminology.
+Helm的版本用 `x.y.z` 描述，`x`是主版本，`y`是次版本，`z`是补丁版本，遵循
+[语义化版本](https://semver.org/spec/v2.0.0.html) 术语。
 
-The Helm project maintains a release branch for the most recent minor release.
-Applicable fixes, including security fixes, are cherry-picked into the release
-branch, depending on severity and feasibility. Patch releases are cut from that
-branch as needed. This decision is owned by the release maintainer.
+Helm项目维护了一个针对最近次要版本的发布分支。适当的修复，包括安全修复、从发布分支中的cherry-pick，
+视严重程度而定。补丁的发布是按需从这个分支派生出来。这由维护发布的同事决定。
 
 ## 可支持的版本偏差
 
-When a new version of Helm is released, it is compiled against a particular
-minor version of Kubernetes. For example, Helm 3.0.0 interacts with Kubernetes
-using the Kubernetes 1.16.2 client, so it is compatible with Kubernetes 1.16.
+当一个Helm的新版本发布时，它是针对Kubernetes的一个特定的次版本编译的。比如，Helm 3.0.0
+与Kubernetes的1.16.2的客户端版本交互，一次可以兼容Kubernetes 1.16。
 
-As of Helm 3, Helm is assumed to be compatible with `n-3` versions of Kubernetes
-it was compiled against. Due to Kubernetes' changes between minor versions, Helm
-2's support policy is slightly stricter, assuming to be compatible with `n-1`
-versions of Kubernetes.
+从Helm 3开始，Helm 编译时假定与针对`n-3`版本的Kubernetes兼容。由于Helm 2对Kubernetes次版本变更的支持稍微严格一点，
+则假定与Kubernetes的`n-1`版本兼容。
 
-For example, if you are using a version of Helm 3 that was compiled against the
-Kubernetes 1.17 client APIs, then it should be safe to use with Kubernetes 1.17,
-1.16, 1.15, and 1.14. If you are using a version of Helm 2 that was compiled
-against the Kubernetes 1.16 client APIs, then it should be safe to use with
-Kubernetes 1.16 and 1.15.
+例如，如果您在使用一个针对Kubernetes 1.17客户端API版本编译的Helm 3版本，那么它应该可以安全地使用Kubernetes 1.17，
+1.16，1.15，以及1.14。如果您在使用一个针对Kubernetes 1.16客户端API版本编译的Helm 2版本，那么它应该可以安全地使用
+Kubernetes 1.16 和 1.15。
 
-It is not recommended to use Helm with a version of Kubernetes that is newer
-than the version it was compiled against, as Helm does not make any forward
-compatiblility guarantees.
+不推荐将Helm用于比编译它所依赖的版本更高的Kubernetes版本，因为Helm并没有做出任何向前兼容的保证。
 
-If you choose to use Helm with a version of Kubernetes that it does not support,
-you are using it at your own risk.
+如果您选择了一个Kubernetes版本不支持的Helm，需自负风险。
 
-Please refer to the table below to determine what version of Helm is compatible
-with your cluster.
+请参考下表来确定哪个版本的Helm与您的集群兼容。
 
-| Helm Version | Supported Kubernetes Versions |
+| Helm 版本    | 支持的 Kubernetes 版本         |
 |--------------|-------------------------------|
 | 3.3.x        | 1.18.x - 1.15.x               |
 | 3.2.x        | 1.18.x - 1.15.x               |
