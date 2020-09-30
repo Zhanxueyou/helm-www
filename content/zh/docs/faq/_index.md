@@ -438,3 +438,13 @@ Unable to connect to the server: x509: certificate signed by unknown authority
 现在这个默认行为是相反的。`--no-update` 现在被忽略。当您想替换（覆盖）已有仓库时，您可以使用 `--force-update`。
 
 这是由于一个安全修复做出的重大更改，详情见[Helm 3.3.2 release notes](https://github.com/helm/helm/releases/tag/v3.3.2)。
+
+### 开启 Kubernetes 客户端日志
+
+调试Kubernetes客户端打印日志时，可以使用[klog](https://pkg.go.dev/k8s.io/klog) 参数。使用`-v`可以设置日志级别应用于大多数场景。
+
+例如：
+
+```
+helm list -v 6
+```
