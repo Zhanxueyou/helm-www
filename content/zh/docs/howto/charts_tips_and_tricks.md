@@ -4,59 +4,46 @@ description: "涵盖了Helm chart开发人员在构建产品质量chart时学到
 weight: 1
 ---
 
-This guide covers some of the tips and tricks Helm chart developers have learned
-while building production-quality charts.
+本指南涵盖了Helm chart的开发人员在构建生产环境质量的chart时学到的一些提示和技巧。
 
-## Know Your Template Functions
+## 了解你的模板功能
 
-Helm uses [Go templates](https://godoc.org/text/template) for templating your
-resource files. While Go ships several built-in functions, we have added many
-others.
+Helm使用了[Go模板](https://godoc.org/text/template)将你的自由文件构建成模板。
+Go塑造了一些内置方法，我们增加了一些其他的。
 
-First, we added all of the functions in the [Sprig
-library](https://masterminds.github.io/sprig/).
+首先，我们添加了[Sprig库](https://masterminds.github.io/sprig/)中所有的方法。
 
-We also added two special template functions: `include` and `required`. The
-`include` function allows you to bring in another template, and then pass the
-results to other template functions.
+我们也添加了两个特殊的模板方法：`include`和`required`。`include`方法允许你引入另一个模板，并将结果传递给其他模板方法。
 
-For example, this template snippet includes a template called `mytpl`, then
-lowercases the result, then wraps that in double quotes.
+比如，这个模板片段包含了一个叫`mytpl`的模板，然后将其转成小写，并使用双引号括起来。
 
 ```yaml
 value: {{ include "mytpl" . | lower | quote }}
 ```
 
-The `required` function allows you to declare a particular values entry as
-required for template rendering.  If the value is empty, the template rendering
-will fail with a user submitted error message.
+`required`方法可以让你声明模板渲染所需的特定值。如果这个值时空的，模板渲染会出错并打印用户提交的错误信息。
 
-The following example of the `required` function declares an entry for
-.Values.who is required, and will print an error message when that entry is
-missing:
+下面这个`required`方法的例子声明了一个.Values.who需要的条目，并且当这个条目不存在时会打印错误信息：
 
 ```yaml
 value: {{ required "A valid .Values.who entry required!" .Values.who }}
 ```
 
-## Quote Strings, Don't Quote Integers
+## 字符串引号括起来，但整形不用
 
-When you are working with string data, you are always safer quoting the strings
-than leaving them as bare words:
+使用字符串数据时，你总是更安全地将字符串括起来而不是露在外面：
 
 ```yaml
 name: {{ .Values.MyName | quote }}
 ```
 
-But when working with integers _do not quote the values._ That can, in many
-cases, cause parsing errors inside of Kubernetes.
+但是使用整形时 _不要把值括起来_。在很多场景中那样会导致Kubernetes内解析失败。
 
 ```yaml
 port: {{ .Values.Port }}
 ```
 
-This remark does not apply to env variables values which are expected to be
-string, even if they represent integers:
+这个说明不适用于环境变量是字符串的情况，即使表现为整形：
 
 ```yaml
 env:
@@ -66,27 +53,21 @@ env:
     value: "1234"
 ```
 
-## Using the 'include' Function
+## 使用'include'方法
 
-Go provides a way of including one template in another using a built-in
-`template` directive. However, the built-in function cannot be used in Go
-template pipelines.
+Go提供了一种使用内置模板将一个模板包含在另一个模板中的方法。然而内置方法并不用用于Go模板流水线。
 
-To make it possible to include a template, and then perform an operation on that
-template's output, Helm has a special `include` function:
+为使包含模板成为可能，然后对该模板的输出执行操作，Helm有一个特殊的`include`方法：
 
 ```
 {{ include "toYaml" $value | indent 2 }}
 ```
 
-The above includes a template called `toYaml`, passes it `$value`, and then
-passes the output of that template to the `indent` function.
+上面这个包含的模板称为`toYaml`，传值给`$value`，然后将这个模板的输出传给`indent`方法。
 
-Because YAML ascribes significance to indentation levels and whitespace, this is
-one great way to include snippets of code, but handle indentation in a relevant
-context.
+由于YAML将重要性归因于缩进级别和空白，使其在包含代码片段时变成了一种好方法。但是在相关的上下文中要处理缩进。
 
-## Using the 'required' function
+## 使用 'required' 方法
 
 Go provides a way for setting template options to control behavior when a map is
 indexed with a key that's not present in the map. This is typically set with
