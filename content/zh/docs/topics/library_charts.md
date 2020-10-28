@@ -109,18 +109,16 @@ version: 0.1.0
 appVersion: 1.16.0
 ```
 
-The library chart is now ready to be shared and its ConfigMap definition to be
-re-used.
+这个库chart现在可以分享了，并且配置映射定义可以复用了。
 
-Before moving on, it is worth checking if Helm recognizes the chart as a library
-chart:
+此时，有必要去检测一下chart是否变成了库chart：
 
 ```console
 $ helm install mylibchart mylibchart/
 Error: library charts are not installable
 ```
 
-## Use the Simple Library Chart
+## 使用简单的库chart
 
 It is time to use the library chart. This means creating a scaffold chart again:
 
@@ -316,7 +314,7 @@ spec:
 {{- end -}}
 ```
 
-And now the service file, `demo/templates/service.yaml` as follows:
+现在这个service文件`demo/templates/service.yaml`变成了下面这样：
 
 ```yaml
 {{- template "common.service" (list . "demo.service") -}}
@@ -360,4 +358,4 @@ image:
   tag: 1.16.0
 ```
 
-It is good to go now, so deploy away!
+现在可以出发了，立刻行动吧！
