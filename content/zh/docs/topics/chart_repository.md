@@ -4,45 +4,31 @@ description: "如何创建和使用Helm chart 仓库"
 weight: 6
 ---
 
-This section explains how to create and work with Helm chart repositories. At a
-high level, a chart repository is a location where packaged charts can be stored
-and shared.
+本节介绍如何创建和使用chart仓库。在高层级中，chart仓库是打包的chart存储和分享的位置。
 
-The official chart repository is maintained by the [Kubernetes
-Charts](https://github.com/helm/charts), and we welcome participation. But Helm
-also makes it easy to create and run your own chart repository. This guide
-explains how to do so.
+官方chart仓库由[Kubernetes Charts](https://github.com/helm/charts)维护，我们欢迎加入。不过Helm也很容易创建并运行你自己的chart仓库。
+该指南将介绍如何操作。
 
-## Prerequisites
+## 先决条件
 
-* Go through the [Quickstart]({{< ref "quickstart.md" >}}) Guide
-* Read through the [Charts]({{< ref "/docs/topics/charts.md" >}}) document
+* 先阅读[快速开始](https://helm.sh/zh/docs/topics/quickstart/)
+* 阅读[Charts](https://helm.sh/zh/docs/topics/charts.md/)文档
 
-## Create a chart repository
+## 创建一个chart仓库
 
-A _chart repository_ is an HTTP server that houses an `index.yaml` file and
-optionally some packaged charts.  When you're ready to share your charts, the
-preferred way to do so is by uploading them to a chart repository.
+_chart仓库_ 是一个配置了`index.yaml`文件和一些已经打包chart的HTPP服务器。当你准备好分享chart时，最好的方法是将chart上传到chart仓库。
 
-**Note:** For Helm 2.0.0, chart repositories do not have any intrinsic
-authentication. There is an [issue tracking
-progress](https://github.com/helm/helm/issues/1038) in GitHub.
+**注意：** 针对Helm 2.0.0，chart仓库没有内部身份验证。GitHub上一个[问题跟踪进度](https://github.com/helm/helm/issues/1038)。
 
-Because a chart repository can be any HTTP server that can serve YAML and tar
-files and can answer GET requests, you have a plethora of options when it comes
-down to hosting your own chart repository. For example, you can use a Google
-Cloud Storage (GCS) bucket, Amazon S3 bucket, GitHub Pages, or even create your
-own web server.
+由于chart仓库可以是任何服务于YAML和tar文件并响应GET请求的HTTP服务器，托管你自己的chart仓库时就有很多选择。比如可以使用Google
+Cloud Storage(GCS)， Amazon S3，GitHub页面，甚至创建自己的web服务器。
 
-### The chart repository structure
+### chart仓库结构
 
-A chart repository consists of packaged charts and a special file called
-`index.yaml` which contains an index of all of the charts in the repository.
-Frequently, the charts that `index.yaml` describes are also hosted on the same
-server, as are the [provenance files]({{< ref "provenance.md" >}}).
+chart仓库由chart包和包含了仓库中所有chart索引的特殊文件`index.yaml`。
+通常描述chart的`index.yaml`也托管在同一个服务器上作为[来源文件](https://helm.sh/docs/topics/provenance/)。
 
-For example, the layout of the repository `https://example.com/charts` might
-look like this:
+比如，`https://example.com/charts`仓库布局可能看起来像这样：
 
 ```
 charts/
@@ -54,23 +40,17 @@ charts/
   |- alpine-0.1.2.tgz.prov
 ```
 
-In this case, the index file would contain information about one chart, the
-Alpine chart, and provide the download URL
-`https://example.com/charts/alpine-0.1.2.tgz` for that chart.
+在这个案例中，index文件包含了Alpine这一个chart的信息，并提供了下载地址：`https://example.com/charts/alpine-0.1.2.tgz`。
 
-It is not required that a chart package be located on the same server as the
-`index.yaml` file. However, doing so is often the easiest.
+`index.yaml`文件不是必须和chart包放在同一个服务器上，但是这样是最方便的。
 
-### The index file
+### index文件
 
-The index file is a yaml file called `index.yaml`. It contains some metadata
-about the package, including the contents of a chart's `Chart.yaml` file. A
-valid chart repository must have an index file. The index file contains
-information about each chart in the chart repository. The `helm repo index`
-command will generate an index file based on a given local directory that
-contains packaged charts.
+`index.yaml`文件是一个yaml格式的文件。包含了一些包的元信息，包括chart中`Chart.yaml`文件的内容。
+一个合法的chart仓库必须有一个index文件，包含了chart仓库中每一个chart的信息。
+`helm repo index`命令会基于给定的包含chart包的本地目录生成一个index文件。
 
-This is an example of an index file:
+index文件类似于这样：
 
 ```yaml
 apiVersion: v1
@@ -110,137 +90,104 @@ entries:
 generated: 2016-10-06T16:23:20.499029981-06:00
 ```
 
-## Hosting Chart Repositories
+## 托管chart仓库
 
-This part shows several ways to serve a chart repository.
+这部分展示了几种提供chart仓库的方法
 
-### Google Cloud Storage
+### Google Cloud存储
 
-The first step is to **create your GCS bucket**. We'll call ours
-`fantastic-charts`.
+第一步是**create your GCS bucket**。我们会调用`fantastic-charts`。
 
 ![Create a GCS Bucket](https://helm.sh/img/create-a-bucket.png)
 
-Next, make your bucket public by **editing the bucket permissions**.
+然后使用**editing the bucket permissions**保证你的bucket是公开的。
 
 ![Edit Permissions](https://helm.sh/img/edit-permissions.png)
 
-Insert this line item to **make your bucket public**:
+插入这一行 **保证你的bucket是公开的**:
 
 ![Make Bucket Public](https://helm.sh/img/make-bucket-public.png)
 
-Congratulations, now you have an empty GCS bucket ready to serve charts!
+恭喜，您现在准备好了一个提供chart的空GCS bucket！
 
-You may upload your chart repository using the Google Cloud Storage command line
-tool, or using the GCS web UI. This is the technique the official Kubernetes
-Charts repository hosts its charts, so you may want to take a [peek at that
-project](https://github.com/helm/charts) if you get stuck.
+你可以使用Google Cloud Storage命令行工具上传你的chart仓库，或者使用GCS的web页面。
+这是Kubernetes官方托管chart仓库技术，如果你卡住了[看看这个项目](https://github.com/helm/charts)。
 
-**Note:** A public GCS bucket can be accessed via simple HTTPS at this address
-`https://bucket-name.storage.googleapis.com/`.
+**主意：** 公共的GCS bucket可以通过简单的HTTPS访问`https://bucket-name.storage.googleapis.com/`。
 
 ### JFrog Artifactory
 
-You can also set up chart repositories using JFrog Artifactory. Read more about
-chart repositories with JFrog Artifactory
-[here](https://www.jfrog.com/confluence/display/RTF/Helm+Chart+Repositories)
+你也可以使用JFrog Artifactory设置你的仓库。在 [这里](https://www.jfrog.com/confluence/display/RTF/Helm+Chart+Repositories)
+阅读更多关于JFrog Artifactory配置chart仓库的内容。
 
-### GitHub Pages example
+### GitHub页面示例
 
-In a similar way you can create charts repository using GitHub Pages.
+你可以用GitHub页面以类似的方式创建chart仓库。
 
-GitHub allows you to serve static web pages in two different ways:
+GitHub允许你使用两种方式提供静态web页面：
 
-- By configuring a project to serve the contents of its `docs/` directory
-- By configuring a project to serve a particular branch
+- 通过`docs/`目录配置项目
+- 通过特定的分支配置项目
 
-We'll take the second approach, though the first is just as easy.
+我们将使用第二种方式，不过第一种方式也很简单。
 
-The first step will be to **create your gh-pages branch**.  You can do that
-locally as.
+第一步是**创建你的gh-pages分支**。可以在本地创建：
 
 ```console
 $ git checkout -b gh-pages
 ```
 
-Or via web browser using **Branch** button on your GitHub repository:
+或者在你的GitHub仓库通过web页面使用 **Branch** 按钮：
 
 ![Create GitHub Pages branch](https://helm.sh/img/create-a-gh-page-button.png)
 
-Next, you'll want to make sure your **gh-pages branch** is set as GitHub Pages,
-click on your repo **Settings** and scroll down to **GitHub pages** section and
-set as per below:
+然后，你要保证你的**gh-pages branch**设置为GitHub页面，点击你仓库的**Settings**并相信找到**GitHub pages**部分并设置如下：
 
 ![Create GitHub Pages branch](https://helm.sh/img/set-a-gh-page.png)
 
-By default **Source** usually gets set to **gh-pages branch**. If this is not
-set by default, then select it.
+默认**Source**一般设置为**gh-pages branch**。如果不是默认，把它选上。
 
-You can use a **custom domain** there if you wish so.
+如果想使用自定义域名使用**custom domain**。
 
-And check that **Enforce HTTPS** is ticked, so the **HTTPS** will be used when
-charts are served.
+然后确保勾选了**Enforce HTTPS**， 这样提供chart时会使用**HTTPS**。
 
-In such setup you can use **master branch** to store your charts code, and
-**gh-pages branch** as charts repository, e.g.:
-`https://USERNAME.github.io/REPONAME`. The demonstration [TS
-Charts](https://github.com/technosophos/tscharts) repository is accessible at
-`https://technosophos.github.io/tscharts/`.
+在这个配置中，你可以使用 **master branch** 存储你的chart代码，并使用**gh-pages branch**作为chart仓库，比如：
+`https://USERNAME.github.io/REPONAME`。[TS Charts](https://github.com/technosophos/tscharts)示范仓库可以访问
+`https://technosophos.github.io/tscharts/`。
 
-### Ordinary web servers
+### 普通web服务器
 
-To configure an ordinary web server to serve Helm charts, you merely need to do
-the following:
+配置一个一般的服务器来提供Helm chart，您只需执行以下操作：
 
-- Put your index and charts in a directory that the server can serve
-- Make sure the `index.yaml` file can be accessed with no authentication
-  requirement
-- Make sure `yaml` files are served with the correct content type (`text/yaml`
-  or `text/x-yaml`)
+- 将index和chart放置在可提供服务的服务器目录中
+- 确保`index.yaml`文件无需验证即可访问
+- 确保`yaml`文件是正确的内容类型(`text/yaml`或`text/x-yaml`)
 
-For example, if you want to serve your charts out of `$WEBROOT/charts`, make
-sure there is a `charts/` directory in your web root, and put the index file and
-charts inside of that folder.
+比如，如果你想在`$WEBROOT/charts`提供你的chart，要保证在web的root目录有一个`charts/`目录，并将index文件和chart放在这个目录中。
 
-### ChartMuseum Repository Server
+### ChartMuseum 仓库服务器
 
-ChartMuseum is an open-source Helm Chart Repository server written in Go
-(Golang), with support for cloud storage backends, including [Google Cloud
-Storage](https://cloud.google.com/storage/), [Amazon
-S3](https://aws.amazon.com/s3/), [Microsoft Azure Blob
-Storage](https://azure.microsoft.com/en-us/services/storage/blobs/), [Alibaba
-Cloud OSS Storage](https://www.alibabacloud.com/product/oss), [Openstack Object
-Storage](https://developer.openstack.org/api-ref/object-store/), [Oracle Cloud
-Infrastructure Object Storage](https://cloud.oracle.com/storage), [Baidu Cloud
-BOS Storage](https://cloud.baidu.com/product/bos.html), [Tencent Cloud Object
-Storage](https://intl.cloud.tencent.com/product/cos), [DigitalOcean
-Spaces](https://www.digitalocean.com/products/spaces/),
-[Minio](https://min.io/), and [etcd](https://etcd.io/).
+ChartMuseum 是一个用Go写的开源的Helm Chart仓库服务器，支持云存储后端，包括[Google Cloud Storage](https://cloud.google.com/storage/)，
+[Amazon S3](https://aws.amazon.com/s3/)，[Microsoft Azure Blob Storage](https://azure.microsoft.com/en-us/services/storage/blobs/)，
+[Alibaba Cloud OSS Storage](https://www.alibabacloud.com/product/oss)，[Openstack Object Storage](https://developer.openstack.org/api-ref/object-store/)，
+[Oracle Cloud Infrastructure Object Storage](https://cloud.oracle.com/storage)，[Baidu Cloud BOS Storage](https://cloud.baidu.com/product/bos.html)，
+[Tencent Cloud Object Storage](https://intl.cloud.tencent.com/product/cos)，[DigitalOcean Spaces](https://www.digitalocean.com/products/spaces/)，
+[Minio](https://min.io/)，以及[etcd](https://etcd.io/)。
 
-You can also use the
-[ChartMuseum](https://chartmuseum.com/docs/#using-with-local-filesystem-storage)
-server to host a chart repository from a local file system.
+你也可以使用[ChartMuseum](https://chartmuseum.com/docs/#using-with-local-filesystem-storage)服务从本地文件系统托管一个chart仓库。
 
+## 管理chart仓库
 
-## Managing Chart Repositories
+现在你拥有了一个chart仓库，最后一部分知道介绍如何下仓库中维护chart。
 
-Now that you have a chart repository, the last part of this guide explains how
-to maintain charts in that repository.
+### 在chart仓库中存储chart
 
+现在你拥有了一个chart仓库，上传一个chart和index文件到仓库中。仓库中的chart必须打包(`helm package chart-name/`)
+且使用正确的版本号(参照[SemVer 2](https://semver.org/)指导)。
 
-### Store charts in your chart repository
+下一步构建一个简单的示例工作流，不过欢迎你使用自己喜欢的工作流来存储和更新你的chart仓库。
 
-Now that you have a chart repository, let's upload a chart and an index file to
-the repository.  Charts in a chart repository must be packaged (`helm package
-chart-name/`) and versioned correctly (following [SemVer 2](https://semver.org/)
-guidelines).
-
-These next steps compose an example workflow, but you are welcome to use
-whatever workflow you fancy for storing and updating charts in your chart
-repository.
-
-Once you have a packaged chart ready, create a new directory, and move your
-packaged chart to that directory.
+一旦你准备好了打包的chart，创建一个新目录，然后将包移动到这个目录中。
 
 ```console
 $ helm package docs/examples/alpine/
@@ -249,37 +196,24 @@ $ mv alpine-0.1.0.tgz fantastic-charts/
 $ helm repo index fantastic-charts --url https://fantastic-charts.storage.googleapis.com
 ```
 
-The last command takes the path of the local directory that you just created and
-the URL of your remote chart repository and composes an `index.yaml` file inside
-the given directory path.
+最后一条命令会用刚才创建的本地路径和远程仓库url构建一个`index.yaml`文件放在给定的目录路径中。
 
-Now you can upload the chart and the index file to your chart repository using a
-sync tool or manually. If you're using Google Cloud Storage, check out this
-[example workflow]({{< ref "/docs/howto/chart_repository_sync_example.md" >}})
-using the gsutil client. For GitHub, you can simply put the charts in the
-appropriate destination branch.
+现在你可以使用同步工具或手动上传chart和index文件到chart仓库中。如果使用的是Google Cloud Storage，使用gsutil客户端检查
+[示范工作流](https://helm.sh/docs/howto/chart_repository_sync_example/)。针对于GitHub，你可以简单地将chart放在合适的目标分支中。
 
-### Add new charts to an existing repository
+### 添加一个新的chart到已有仓库中
 
-Each time you want to add a new chart to your repository, you must regenerate
-the index. The `helm repo index` command will completely rebuild the
-`index.yaml` file from scratch, including only the charts that it finds locally.
+每次你想在仓库中添加一个新的chart时，你必须重新生成index。`helm repo index`命令会完全无痕重建`index.yaml`文件。只包括在本地找到的chart。
 
-However, you can use the `--merge` flag to incrementally add new charts to an
-existing `index.yaml` file (a great option when working with a remote repository
-like GCS). Run `helm repo index --help` to learn more,
+不过你可以使用`--merge`参数增量添加新的chart到现有`index.yaml`文件中（使用类似GCS的远程仓库时很有用）。执行`helm repo index --help`了解更多。
 
-Make sure that you upload both the revised `index.yaml` file and the chart. And
-if you generated a provenance file, upload that too.
+确保修订过的`index.yaml`文件和chart都上传了，如果生成了源文件，也要上传。
 
-### Share your charts with others
+### 与别人分享你的chart
 
-When you're ready to share your charts, simply let someone know what the URL of
-your repository is.
+准备好分享你的chart时，只需要告诉别人你的仓库地址就可以了。
 
-From there, they will add the repository to their helm client via the `helm repo
-add [NAME] [URL]` command with any name they would like to use to reference the
-repository.
+他们会通过`helm repo add [NAME] [URL]`命令将仓库添加到他们的客户端，并使用想引用仓库的任何名称。
 
 ```console
 $ helm repo add fantastic-charts https://fantastic-charts.storage.googleapis.com
@@ -287,8 +221,7 @@ $ helm repo list
 fantastic-charts    https://fantastic-charts.storage.googleapis.com
 ```
 
-If the charts are backed by HTTP basic authentication, you can also supply the
-username and password here:
+如果chart支持HTTP的基础验证，你也需要提供用户名和密码：
 
 ```console
 $ helm repo add fantastic-charts https://fantastic-charts.storage.googleapis.com --username my-username --password my-password
@@ -296,18 +229,11 @@ $ helm repo list
 fantastic-charts    https://fantastic-charts.storage.googleapis.com
 ```
 
-**Note:** A repository will not be added if it does not contain a valid
-`index.yaml`.
+**注意：** 如果不存在有效的`index.yaml`就无法添加仓库。
 
-**Note:** If your helm repository is e.g. using a self signed
-certificate, you can use `helm repo add --insecure-skip-tls-verify ...` in order
-to skip the CA verification.
+**注意：** 如果你的helm仓库使用了类似于自签名的证书，为了跳过CA认证，可以使用`helm repo add --insecure-skip-tls-verify ...`。
 
-After that, your users will be able to search through your charts. After you've
-updated the repository, they can use the `helm repo update` command to get the
-latest chart information.
+然后，你的用户就可以通过你的chart进行搜索。更新了仓库之后，他们可以使用`helm repo update`命令获取最新的chart信息。
 
-*Under the hood, the `helm repo add` and `helm repo update` commands are
-fetching the index.yaml file and storing them in the
-`$XDG_CACHE_HOME/helm/repository/cache/` directory. This is where the `helm
-search` function finds information about charts.*
+*在内部 `helm repo add` 和 `helm repo update` 命令会检索index.yaml文件并将其存储在
+`$XDG_CACHE_HOME/helm/repository/cache/`目录中。这里是`helm search`方法查找chart信息的位置。*
