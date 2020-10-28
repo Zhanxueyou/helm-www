@@ -4,60 +4,45 @@ description: "阐述库类型chart及使用案例"
 weight: 4
 ---
 
-A library chart is a type of [Helm chart]({{< ref "/docs/topics/charts.md" >}})
-that defines chart primitives or definitions which can be shared by Helm
-templates in other charts. This allows users to share snippets of code that can
-be re-used across charts, avoiding repetition and keeping charts
-[DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself).
+库类型chart是一种[Helm chart](https://helm.sh/zh/docs/topics/charts)，定义了可以由其他chart中Helm
+模板共享的chart原语或定义。这允许用户通过chart分享可复用得代码片段来避免重复并保持chart
+[干燥](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself)。
 
-The library chart was introduced in Helm 3 to formally recognize common or
-helper charts that have been used by chart maintainers since Helm 2. By
-including it as a chart type, it provides:
-- A means to explicitly distinguish between common and application charts 
-- Logic to prevent installation of a common chart
-- No rendering of templates in a common chart which may contain release
-  artifacts 
+在Helm 3中引用了库chart，从形式上区别于Helm 2中chart维护的通用或辅助chart。
+作为一个chart类型引入，可以提供：
+- 一种明确区分通用和应用chart的方法
+- 逻辑上阻止安装通用chart
+- 通用chart中的未渲染模板可以包含版本组件
 
-A chart maintainer can define a common chart as a library chart and now be
-confident that Helm will handle the chart in a standard consistent fashion. It
-also means that definitions in an application chart can be shared by changing
-the chart type.
+chart维护者可以定义一个通用的chart作为库并且现在可以确信Helm将以标准一致的方式处理chart。
+也意味着通过改变chart类型来分享应用chart中的定义。
 
-## Create a Simple Library Chart
+## 创建一个简单的库chart
 
-As mentioned previously, a library chart is a type of [Helm chart]({{< ref
-"/docs/topics/charts.md" >}}). This means that you can start off by creating a
-scaffold chart:
+像之前提到的，库chart是一种[Helm chart](https://helm.sh/zh/docs/topics/charts)类型。意味着你可以从创建脚手架chart开始：
 
 ```console
 $ helm create mylibchart
 Creating mylibchart
 ```
 
-You will first remove all the files in `templates` directory as we will create
-our own templates definitions in this example.
+本示例中创建自己的模板需要先删除`templates`目录中的所有文件。
 
 ```console
 $ rm -rf mylibchart/templates/*
 ```
 
-The values file will not be required either.
+不再需要values文件。
 
 ```console
 $ rm -f mylibchart/values.yaml 
 ```
 
-Before we jump into creating common code, lets do a quick review of some
-relevant Helm concepts. A [named template]({{< ref
-"/docs/chart_template_guide/named_templates.md" >}}) (sometimes called a partial
-or a subtemplate) is simply a template defined inside of a file, and given a
-name.  In the `templates/` directory, any file that begins with an underscore(_)
-is not expected to output a Kubernetes manifest file. So by convention, helper
-templates and partials are placed in a `_*.tpl` or `_*.yaml` files. 
+在创建通用代码之前，先快速回顾一下相关Helm概念。[已命名的模板](https://helm.sh/docs/chart_template_guide/named_templates/)
+(有时称为局部模板或子模板)是定义在一个文件中的简单模板，并分配了一个名称。在`templates/`目录中，
+所有以下划线开始的文件(_)不会输出到Kubernetes清单文件中。因此依照惯例，辅助模板和局部模板被放置在`_*.tpl`或`_*.yaml`文件中。 
 
-In this example, we will code a common ConfigMap which creates an empty
-ConfigMap resource. We will define the common ConfigMap in file
-`mylibchart/templates/_configmap.yaml` as follows:
+这个示例中，我们要写一个通用的配置映射来创建一个空的配置映射源。在`mylibchart/templates/_configmap.yaml`文件中定义如下：
 
 ```yaml
 {{- define "mylibchart.configmap.tpl" -}}
@@ -72,17 +57,12 @@ data: {}
 {{- end -}}
 ```
 
-The ConfigMap construct is defined in named template `mylibchart.configmap.tpl`.
-It is a simple ConfigMap with an empty resource, `data`. Within this file there
-is another named template called `mylibchart.configmap`. This named template
-includes another named template `mylibchart.util.merge` which will take 2 named
-templates as arguments, the template calling `mylibchart.configmap` and
-`mylibchart.configmap.tpl`.
+这个配置映射结构被定义在名为`mylibchart.configmap.tpl`的模板文件中。`data`是一个空源的配置映射，
+这个文件中另一个命名的模板是`mylibchart.configmap`。这个模板包含了另一个模板`mylibchart.util.merge`，
+会使用两个命名的模板作为参数，称为`mylibchart.configmap`和`mylibchart.configmap.tpl`。
 
-The helper function `mylibchart.util.merge` is a named template in
-`mylibchart/templates/_util.yaml`. It is a handy util from [The Common Helm
-Helper Chart](#the-common-helm-helper-chart) because it merges the 2 templates
-and overrides any common parts in both:
+复制方法`mylibchart.util.merge`是`mylibchart/templates/_util.yaml`文件中的一个命名模板。
+是[通用Helm辅助Chart](#the-common-helm-helper-chart)的实用工具。因为它合并了两个模板并覆盖了两个模板的公共部分。
 
 ```yaml
 {{- /*
@@ -100,11 +80,9 @@ This takes an array of three values:
 {{- end -}}
 ```
 
-This is important when a chart wants to use common code that it needs to
-customize with its configuration.
+当chart希望使用通过配置自定义其通用代码时，这一点就非常重要。
 
-Finally, lets change the chart type to `library`. This requires editing
-`mylibchart/Chart.yaml` as follows:
+最后，将chart类型修改为`library`。需要按以下方式编辑`mylibchart/Chart.yaml`：
 
 ```yaml
 apiVersion: v2
