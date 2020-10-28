@@ -35,7 +35,7 @@ $ rm -rf mylibchart/templates/*
 不再需要values文件。
 
 ```console
-$ rm -f mylibchart/values.yaml 
+$ rm -f mylibchart/values.yaml
 ```
 
 在创建通用代码之前，先快速回顾一下相关Helm概念。[已命名的模板](https://helm.sh/docs/chart_template_guide/named_templates/)
@@ -120,21 +120,20 @@ Error: library charts are not installable
 
 ## 使用简单的库chart
 
-It is time to use the library chart. This means creating a scaffold chart again:
+现在可以使用库chart了，这意味着要创建另一个脚手架chart：
 
 ```console
 $ helm create mychart
 Creating mychart
 ```
 
-Lets clean out the template files again as we want to create a ConfigMap only:
+只需创建一个配置映射，需要再次清空模板文件：
 
 ```console
 $ rm -rf mychart/templates/*
 ```
 
-When we want to create a simple ConfigMap in a Helm template, it could look
-similar to the following:
+我们需要在Helm模板中创建简单的配置映射，看起来类似下面这样：
 
 ```yaml
 apiVersion: v1
@@ -145,9 +144,7 @@ data:
   myvalue: "Hello World"
 ```
 
-We are however going to re-use the common code already created in `mylibchart`.
-The ConfigMap can be created in the file `mychart/templates/configmap.yaml` as
-follows:
+我们将复用已经在`mylibchart`中创建的公共代码。在`mychart/templates/configmap.yaml`文件中构建配置映射如下：
 
 ```yaml
 {{- include "mylibchart.configmap" (list . "mychart.configmap") -}}
@@ -157,15 +154,10 @@ data:
 {{- end -}}
 ```
 
-You can see that it simplifies the work we have to do by inheriting the common
-ConfigMap definition which adds standard properties for ConfigMap. In our
-template we add the configuration, in this case the data key `myvalue` and its
-value. The configuration override the empty resource of the common ConfigMap.
-This is feasible because of the helper function `mylibchart.util.merge` we
-mentioned in the previous section.
+可以看到这简化了我们通过继承为添加了标准属性的公共配置映射定义必须要做的事情。在模板中添加了配置，在这个示例中的数据key
+`myvalue`和值。这个配置会覆盖公共配置映射中的空源。因为我们在上一节中提到的辅助方法`mylibchart.util.merge`，这是可行的。
 
-To be able to use the common code, we need to add `mylibchart` as a dependency.
-Add the following to the end of the file `mychart/Chart.yaml`:
+为了能使用通用代码，我们需要添加`mylibchart`作为依赖。将以下内容添加到`mychart/Chart.yaml`文件的末尾：
 
 ```yaml
 # My common code in my library chart
@@ -175,10 +167,8 @@ dependencies:
   repository: file://../mylibchart
 ```
 
-This includes the library chart as a dynamic dependency from the filesystem
-which is at the same parent path as our application chart. As we are including
-the library chart as a dynamic dependency, we need to run `helm dependency
-update`. It will copy the library chart into your `charts/` directory.
+这包含了作为文件系统动态依赖的库chart，和我们的应用chart位于同一父路径下。由于将库chart作为动态依赖，
+我们需要执行`helm dependency update`，它会拷贝库chart到你的`charts/`目录。
 
 ```console
 $ helm dependency update mychart/
@@ -189,8 +179,7 @@ Saving 1 charts
 Deleting outdated charts
 ```
 
-We are now ready to deploy our chart. Before installing, it is worth checking
-the rendered template first.
+现在我们准备好部署chart了。安装之前，需要先检测渲染过的模板。
 
 ```console
 $ helm install mydemo mychart/ --debug --dry-run
@@ -253,8 +242,7 @@ metadata:
   name: mychart-mydemo
 ```
 
-This looks like the ConfigMap we want with data override of `myvalue: Hello
-World`. Lets install it:
+这个看起来像是我们需要的用`myvalue: Hello World`覆盖的配置映射。现在安装：
 
 ```console
 $ helm install mydemo mychart/
@@ -266,7 +254,7 @@ REVISION: 1
 TEST SUITE: None
 ```
 
-We can retrieve the release and see that the actual template was loaded.
+我们可以检索这个版本并看到实际的版本已经加载。
 
 ```console
 $ helm get manifest mydemo
@@ -286,24 +274,19 @@ metadata:
 
 ## The Common Helm Helper Chart
 
-Bit of a mouth full of a title but this
-[chart](https://github.com/helm/charts/tree/master/incubator/common) is the
-original pattern for common charts. It provides utilities that reflect best
-practices of Kubernetes chart development. Best of all it can be used off the
-bat by you when developing your charts to give you handy shared code.
+满目都是标题但是这个[chart](https://github.com/helm/charts/tree/master/incubator/common)是公共chart的初始模式。
+它提供的应用程序反映了Kubernetes chart开发的最佳实践。最棒的是你开发chart时可以立即使用易用的共享代码。
 
-Here is a quick way to use it. For more details, have a look at the
-[README](https://github.com/helm/charts/blob/master/incubator/common/README.md).
+这里有一种快速使用它的方法。更多细节请查看[README](https://github.com/helm/charts/blob/master/incubator/common/README.md)。
 
-Create a scaffold chart again:
+再创建一个脚手架：
 
 ```console
 $ helm create demo
 Creating demo
 ```
 
-Lets use the common code from the helper chart. First, edit deployment
-`demo/templates/deployment.yaml` as follows:
+使用辅助chart中的公共代码。首先编辑负载文件`demo/templates/deployment.yaml`如下：
 
 ```yaml
 {{- template "common.deployment" (list . "demo.deployment") -}}
