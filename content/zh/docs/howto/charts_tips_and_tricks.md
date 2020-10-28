@@ -69,35 +69,26 @@ Go提供了一种使用内置模板将一个模板包含在另一个模板中的
 
 ## 使用 'required' 方法
 
-Go provides a way for setting template options to control behavior when a map is
-indexed with a key that's not present in the map. This is typically set with
-`template.Options("missingkey=option")`, where `option` can be `default`,
-`zero`, or `error`. While setting this option to error will stop execution with
-an error, this would apply to every missing key in the map. There may be
-situations where a chart developer wants to enforce this behavior for select
-values in the `values.yaml` file.
+Go提供了一种设置模板选项的方法去控制不在映射中的key来索引映射的行为。通常设置为`template.Options("missingkey=option")`，
+`option`是`default`，`zero`，或 `error`。 将此项设置为error时会停止执行并出现错误，这会应用到map中的每一个缺失的key中。
+某些情况下chart的开发人员希望在`values.yaml`中选择值强制执行此操作。
 
-The `required` function gives developers the ability to declare a value entry as
-required for template rendering. If the entry is empty in `values.yaml`, the
-template will not render and will return an error message supplied by the
-developer.
+`required`方法允许开发者声明一个模板渲染需要的值。如果在`values.yaml`中这个值是空的，模板就不会渲染并返回开发者提供的错误信息。
 
-For example:
+例如：
 
 ```
 {{ required "A valid foo is required!" .Values.foo }}
 ```
 
-The above will render the template when `.Values.foo` is defined, but will fail
-to render and exit when `.Values.foo` is undefined.
+上述示例表示当`.Values.foo`被定义时模板会被渲染，但是未定义时渲染会失败并退出。
 
-## Using the 'tpl' Function
+## 使用'tpl'方法
 
-The `tpl` function allows developers to evaluate strings as templates inside a
-template. This is useful to pass a template string as a value to a chart or
-render external configuration files. Syntax: `{{ tpl TEMPLATE_STRING VALUES }}`
+`tpl`方法允许开发者在模板中使用字符串作为模板。将模板字符串作为值传给chart或渲染额外的配置文件时会很有用。
+语法： `{{ tpl TEMPLATE_STRING VALUES }}`
 
-Examples:
+示例：
 
 ```yaml
 # values
@@ -111,7 +102,7 @@ name: "Tom"
 Tom
 ```
 
-Rendering an external configuration file:
+渲染额外的配置文件：
 
 ```yaml
 # external configuration file conf/app.conf
@@ -130,15 +121,13 @@ firstName=Peter
 lastName=Parker
 ```
 
-## Creating Image Pull Secrets
-Image pull secrets are essentially a combination of _registry_, _username_, and
-_password_.  You may need them in an application you are deploying, but to
-create them requires running `base64` a couple of times.  We can write a helper
-template to compose the Docker configuration file for use as the Secret's
-payload.  Here is an example: 
+## 创建图片拉取密钥
+图片拉取密钥本质上是 _注册表_， _用户名_ 和 _密码_ 的组合。在正在部署的应用程序中你可能需要它，
+但创建时需要用`base64`跑一会儿。我们可以写一个辅助模板来编写Docker的配置文件，用来承载密钥。示例如下：
+ 
 
-First, assume that the credentials are defined in the `values.yaml` file like
-so:
+首先，假定`values.yaml`文件中定义了证书如下：
+
 ```yaml
 imageCredentials:
   registry: quay.io
@@ -147,7 +136,7 @@ imageCredentials:
   email: someone@host.com
 ```
 
-We then define our helper template as follows:
+然后定义下面的辅助模板：
 ```
 {{- define "imagePullSecret" }}
 {{- with .Values.imageCredentials }}
@@ -156,8 +145,7 @@ We then define our helper template as follows:
 {{- end }}
 ```
 
-Finally, we use the helper template in a larger template to create the Secret
-manifest:
+最终，我们使用辅助模板在更大的模板中创建了密钥清单：
 ```yaml
 apiVersion: v1
 kind: Secret
@@ -168,17 +156,12 @@ data:
   .dockerconfigjson: {{ template "imagePullSecret" . }}
 ```
 
-## Automatically Roll Deployments
+## 自动滚动部署
 
-Often times ConfigMaps or Secrets are injected as configuration files in
-containers or there are other external dependency changes that require rolling
-pods. Depending on the application a restart may be required should those be
-updated with a subsequent `helm upgrade`, but if the deployment spec itself
-didn't change the application keeps running with the old configuration resulting
-in an inconsistent deployment.
+由于配置映射或密钥作为配置文件注入容器以及其他外部依赖更新导致经常需要滚动部署pod。
+随后的`helm upgrade`更新基于这个应用可能需要重新启动，但如果负载本身没有更改并使用原有配置保持运行，会导致部署不一致。
 
-The `sha256sum` function can be used to ensure a deployment's annotation section
-is updated if another file changes:
+`sha256sum`方法保证在另一个文件发生更改时更新负载说明：
 
 ```yaml
 kind: Deployment
@@ -190,9 +173,7 @@ spec:
 [...]
 ```
 
-In the event you always want to roll your deployment, you can use a similar
-annotation step as above, instead replacing with a random string so it always
-changes and causes the deployment to roll:
+这个场景下你通常想滚动更新你的负载，可以使用类似的说明步骤，而不是使用随机字符串替换，因而经常更改并导致负载滚动更新：
 
 ```yaml
 kind: Deployment
@@ -203,22 +184,15 @@ spec:
         rollme: {{ randAlphaNum 5 | quote }}
 [...]
 ```
-Each invocation of the template function will generate a unique random string.
-This means that if it's necessary to sync the random strings used by multiple
-resources, all relevant resources will need to be in the same template file.
+每次调用模板方法会生成一个唯一的随机字符串。这意味着如果需要同步多种资源使用的随机字符串，所有的相对资源都要在同一个模板文件中。
 
-Both of these methods allow your Deployment to leverage the built in update
-strategy logic to avoid taking downtime.
+这两种方法都允许你的部署利用内置的更新策略逻辑来避免停机。
 
-NOTE: In the past we recommended using the `--recreate-pods` flag as another
-option. This flag has been marked as deprecated in Helm 3 in favor of the more
-declarative method above.
+注意：过去我们推荐使用`--recreate-pods`参数作为另一个选项。这个参数在Helm 3中不推荐使用，而支持上面更具声明性的方法。
 
-## Tell Helm Not To Uninstall a Resource
+## 告诉Helm不要卸载资源
 
-Sometimes there are resources that should not be uninstalled when Helm runs a
-`helm uninstall`. Chart developers can add an annotation to a resource to
-prevent it from being uninstalled.
+有时在执行`helm uninstall`时有些资源不应该被卸载。Chart的开发者可以在资源中添加额外的说明避免被卸载。
 
 ```yaml
 kind: Secret
@@ -228,63 +202,41 @@ metadata:
 [...]
 ```
 
-(Quotation marks are required)
+（需要引号）
 
-The annotation `"helm.sh/resource-policy": keep` instructs Helm to skip deleting
-this resource when a helm operation (such as `helm uninstall`, `helm upgrade` or
-`helm rollback`) would result in its deletion. _However_, this resource becomes
-orphaned. Helm will no longer manage it in any way. This can lead to problems if
-using `helm install --replace` on a release that has already been uninstalled,
-but has kept resources.
+这个说明`"helm.sh/resource-policy": keep`指示Helm操作(比如`helm uninstall`，`helm upgrade`或`helm rollback`)要删除时跳过删除这个资源，
+_然而_，这个资源会变成孤立的。Helm不再以任何方式管理它。如果在已经卸载的但保留资源的版本上使用`helm install --replace`会出问题。
 
-## Using "Partials" and Template Includes
+## 使用"Partials"和模板引用 
 
-Sometimes you want to create some reusable parts in your chart, whether they're
-blocks or template partials. And often, it's cleaner to keep these in their own
-files.
+有时你想在chart中创建可以重复利用的部分，不管是块还是局部模板。通常将这些文件保存在自己的文件中会更干净。
 
-In the `templates/` directory, any file that begins with an underscore(`_`) is
-not expected to output a Kubernetes manifest file. So by convention, helper
-templates and partials are placed in a `_helpers.tpl` file.
+在`templates/`目录中，任何以下划线(`_`)开始的文件不希望输出到Kubernetes清单文件中。因此按照惯例，辅助模板和局部模板会被放在`_helpers.tpl`文件中。
 
-## Complex Charts with Many Dependencies
+## 使用很多依赖的复杂Chart
 
-Many of the charts in the [official charts
-repository](https://github.com/helm/charts) are "building blocks" for creating
-more advanced applications. But charts may be used to create instances of
-large-scale applications. In such cases, a single umbrella chart may have
-multiple subcharts, each of which functions as a piece of the whole.
+在[官方chart仓库](https://github.com/helm/charts)中的很多chart是创建更先进应用的“组成部分”。但是chart可能被用于创建大规模应用实例。
+在这种场景中，一个总的chart会有很多子chart，每一个是整体功能的一部分。
 
-The current best practice for composing a complex application from discrete
-parts is to create a top-level umbrella chart that exposes the global
-configurations, and then use the `charts/` subdirectory to embed each of the
-components.
+当前从离散组件组成一个复杂应用的最佳实践是创建一个顶层总体chart构建全局配置，然后使用`charts/`子目录嵌入每个组件。
 
-## YAML is a Superset of JSON
+## YAML是JSON的超集
 
-According to the YAML specification, YAML is a superset of JSON. That means that
-any valid JSON structure ought to be valid in YAML.
+根据YAML规范，YAML是JSON的超集。这意味着任意的合法JSON结构在YAML中应该是合法的。
 
-This has an advantage: Sometimes template developers may find it easier to
-express a datastructure with a JSON-like syntax rather than deal with YAML's
-whitespace sensitivity.
+这有个优势：有时候模板开发者会发现使用类JSON语法更容易表达数据结构而不是处理YAML的空白敏感度。
 
-As a best practice, templates should follow a YAML-like syntax _unless_ the JSON
-syntax substantially reduces the risk of a formatting issue.
+作为最佳实践，模板应遵循类YAML语法 _除非_ JSON语法大大降低了格式问题的风险。
 
-## Be Careful with Generating Random Values
+## 生成随机值时留神
 
-There are functions in Helm that allow you to generate random data,
-cryptographic keys, and so on. These are fine to use. But be aware that during
-upgrades, templates are re-executed. When a template run generates data that
-differs from the last run, that will trigger an update of that resource.
+Helm中有的方法允许你生成随机数据，加密密钥等等。这些很好用，但是在升级，模板重新执行时要注意，
+当模板运行与最后一次运行不一样的生成数据时，会触发资源升级。
 
-## Install or Upgrade a Release with One Command
+## 一条命令安装或升级版本
 
-Helm provides a way to perform an install-or-upgrade as a single command. Use
-`helm upgrade` with the `--install` command. This will cause Helm to see if the
-release is already installed. If not, it will run an install. If it is, then the
-existing release will be upgraded.
+Helm提供了一种简单命令执行安装或升级的方法。使用`helm upgrade`和`--install`命令，这会是Helm查看是否已经安装版本，
+如果没有，会执行安装；如果版本存在，会进行升级
 
 ```console
 $ helm upgrade --install <release name> --values <values file> <chart directory>
