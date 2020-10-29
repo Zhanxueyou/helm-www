@@ -6,7 +6,7 @@ weight: 1
 
 本指南介绍如何快速开始使用Helm。
 
-## Prerequisites
+## 先决条件
 
 想成功和正确地使用Helm，需要以下前置条件。
 
