@@ -1,6 +1,6 @@
 ---
-title: "Named Templates"
-description: "How to define named templates."
+title: "命名模板"
+description: "如何定义命名模板"
 weight: 9
 ---
 

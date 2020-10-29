@@ -1,6 +1,6 @@
 ---
-title: "Release schedule policy"
-description: "Describes Helm's release schedule policy."
+title: "发布计划策略"
+description: "描述Helm的版本发布的策略"
 ---
 
 For the benefit of its users, Helm defines and announces release dates in

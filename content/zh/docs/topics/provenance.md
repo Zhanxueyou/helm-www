@@ -1,6 +1,6 @@
 ---
-title: "Helm Provenance and Integrity"
-description: "Describes how to verify the integrity and origin of a Chart."
+title: "Helm来源和完整性"
+description: "描述如何验证Chart的完整性和来源。"
 weight: 5
 ---
 

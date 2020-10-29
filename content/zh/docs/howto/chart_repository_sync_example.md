@@ -1,6 +1,6 @@
 ---
-title: "Syncing Your Chart Repository"
-description: "Describes how to synchronize your local and remote chart repositories."
+title: "同步你的Chart仓库"
+description: "描述如何同步本地和远程仓库"
 weight: 2
 ---
 
