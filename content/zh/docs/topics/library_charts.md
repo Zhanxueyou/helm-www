@@ -312,12 +312,9 @@ spec:
 {{- end -}}
 ```
 
-These templates show how inheriting the common code from the helper chart
-simplifies your coding down to your configuration or customization of the
-resources.
+这些模板显示了如何从辅助模板中继承公共代码来将你的代码简化到资源的配置或自定义。
 
-To be able to use the common code, we need to add `common` as a dependency. Add
-the following to the end of the file `demo/Chart.yaml`:
+为了能使用公共代码，我们需要添加一个`common`依赖。在`demo/Chart.yaml`文件最后啊添加以下内容： 
 
 ```yaml
 dependencies:
@@ -326,15 +323,12 @@ dependencies:
   repository: "https://kubernetes-charts-incubator.storage.googleapis.com/"
 ```
 
-Note: You will need to add the `incubator` repo to the Helm repository list
-(`helm repo add`).
+注意：需要添加`incubator`仓库到Helm仓库列表中(`helm repo add`)。
 
-As we are including the chart as a dynamic dependency, we need to run `helm
-dependency update`. It will copy the helper chart into your `charts/` directory.
+由于我们引用了一个chart作为动态依赖，需要执行`helm dependency update`。这样会将辅助chart拷贝到你的`charts/`目录。
 
-As helper chart is using some Helm 2 constructs, you will need to add the
-following to `demo/values.yaml` to enable the `nginx` image to be loaded as this
-was updated in Helm 3 scaffold chart:
+由于辅助chart使用了一些Helm2的结构，所以需要在`demo/values.yaml`中添加以下内容，确保在Helm
+3脚手架中chart更新时可以加载`nginx`镜像：
 
 ```yaml
 image:
