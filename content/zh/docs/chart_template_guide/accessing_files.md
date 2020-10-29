@@ -208,5 +208,5 @@ data:
 
 在`helm install`过程中无法将文件传递到chart外。因此如果你想请求用户提供数据，必须使用`helm install -f`或`helm install --set`加载。
 
-该部分讨论整合了我们对编写Heml模板的工具和技术的深入研究。下个章节我们会看到如何使用特殊文件`templates/NOTES.txt`， 
+该部分讨论整合了我们对编写Helm模板的工具和技术的深入研究。下个章节我们会看到如何使用特殊文件`templates/NOTES.txt`， 
 向chart的用户发送安装后的说明。
