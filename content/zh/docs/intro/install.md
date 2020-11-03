@@ -26,7 +26,7 @@ and installed.
    destination (`mv linux-amd64/helm /usr/local/bin/helm`)
 
 From there, you should be able to run the client and [add the stable
-repo](https://helm.sh/docs/intro/quickstart/#initialize-a-helm-chart-repository):
+repo](https://helm.sh/zh/docs/intro/quickstart/#初始化):
 `helm help`.
 
 **Note:** Helm automated tests are performed for Linux AMD64 only during
