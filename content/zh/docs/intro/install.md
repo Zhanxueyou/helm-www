@@ -145,4 +145,4 @@ sophisticated things with Helm.
 
 Once you have the Helm Client successfully installed, you can move on to using
 Helm to manage charts and [add the stable
-repo](https://helm.sh/docs/intro/quickstart/#initialize-a-helm-chart-repository).
+repo](https://helm.sh/zh/docs/intro/quickstart/#初始化).
