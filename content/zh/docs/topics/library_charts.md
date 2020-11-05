@@ -38,7 +38,7 @@ $ rm -rf mylibchart/templates/*
 $ rm -f mylibchart/values.yaml
 ```
 
-在创建通用代码之前，先快速回顾一下相关Helm概念。[已命名的模板](https://helm.sh/docs/chart_template_guide/named_templates/)
+在创建通用代码之前，先快速回顾一下相关Helm概念。[已命名的模板](https://helm.sh/zh/docs/chart_template_guide/named_templates/)
 (有时称为局部模板或子模板)是定义在一个文件中的简单模板，并分配了一个名称。在`templates/`目录中，
 所有以下划线开始的文件(_)不会输出到Kubernetes清单文件中。因此依照惯例，辅助模板和局部模板被放置在`_*.tpl`或`_*.yaml`文件中。 
 
