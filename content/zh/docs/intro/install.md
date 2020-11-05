@@ -1,6 +1,6 @@
 ---
-title: "Installing Helm"
-description: "Learn how to install and get running with Helm."
+title: "安装Helm"
+description: "了解如何安装并运行Helm"
 weight: 2
 ---
 
