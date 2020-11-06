@@ -4,33 +4,26 @@ description: "描述如何验证Chart的完整性和来源。"
 weight: 5
 ---
 
-Helm has provenance tools which help chart users verify the integrity and origin
-of a package. Using industry-standard tools based on PKI, GnuPG, and
-well-respected package managers, Helm can generate and verify signature files.
+Helm有一个来源工具帮助chart用户检测包的完整性和来源。使用基于PKI，GnuPG及流行包管理器的行业标准工具，Helm可以生成和检测签名文件。
 
-## Overview
+## 概述
 
-Integrity is established by comparing a chart to a provenance record. Provenance
-records are stored in _provenance files_, which are stored alongside a packaged
-chart. For example, if a chart is named `myapp-1.2.3.tgz`, its provenance file
-will be `myapp-1.2.3.tgz.prov`.
+完整性是通过比较chart的出处记录来建立的。出处记录存储在 _出处文件_，和打包好的chart放在一起。比如，
+如果有个名为`myapp-1.2.3.tgz`的chart，则它的出处文件是`myapp-1.2.3.tgz.prov`。
 
-Provenance files are generated at packaging time (`helm package --sign ...`),
-and can be checked by multiple commands, notably `helm install --verify`.
+出处文件会在打包时生成(`helm package --sign ...`)，并可以通过多重命名检查，尤其是`helm install --verify`。
 
-## The Workflow
+## 工作流
+这部分描述有效使用源数据的潜在工作流。
 
-This section describes a potential workflow for using provenance data
-effectively.
+前置条件：
 
-Prerequisites:
+- 合法的二进制格式（非ASCII包裹）的PGP密钥对
+- `helm`命令行工具
+- GnuPG命令行工具（可选） 
+- Keybase命令行工具（可选）
 
-- A valid PGP keypair in a binary (not ASCII-armored) format
-- The `helm` command line tool
-- GnuPG command line tools (optional)
-- Keybase command line tools (optional)
-
-**NOTE:** If your PGP private key has a passphrase, you will be prompted to
+**注意：** If your PGP private key has a passphrase, you will be prompted to
 enter that passphrase for any commands that support the `--sign` option.
 
 Creating a new chart is the same as before:
@@ -48,14 +41,14 @@ corresponding private key:
 $ helm package --sign --key 'John Smith' --keyring path/to/keyring.secret mychart
 ```
 
-**Note:** The value of the `--key` argument must be a substring of the desired
+**注意：** The value of the `--key` argument must be a substring of the desired
 key's `uid` (in the output of `gpg --list-keys`), for example the name or email.
-**The fingerprint _cannot_ be used.**
+**指纹码 _不能_ 使用。**
 
-**TIP:** for GnuPG users, your secret keyring is in `~/.gnupg/secring.gpg`. You
+**提示：** for GnuPG users, your secret keyring is in `~/.gnupg/secring.gpg`. You
 can use `gpg --list-secret-keys` to list the keys you have.
 
-**Warning:**  the GnuPG v2 store your secret keyring using a new format `kbx` on
+**警告：**  the GnuPG v2 store your secret keyring using a new format `kbx` on
 the default location  `~/.gnupg/pubring.kbx`. Please use the following command
 to convert your keyring to the legacy gpg format:
 
@@ -93,9 +86,9 @@ PATH` as in the `helm package` example.
 If verification fails, the install will be aborted before the chart is even
 rendered.
 
-### Using Keybase.io credentials
+### 使用Keybase.io证书
 
-The [Keybase.io](https://keybase.io) service makes it easy to establish a chain
+[Keybase.io](https://keybase.io) service makes it easy to establish a chain
 of trust for a cryptographic identity. Keybase credentials can be used to sign
 charts.
 
@@ -105,7 +98,7 @@ Prerequisites:
 - GnuPG installed locally
 - The `keybase` CLI installed locally
 
-#### Signing packages
+#### 对包签名
 
 The first step is to import your keybase keys into your local GnuPG keyring:
 
@@ -145,7 +138,7 @@ $ helm package --sign --key technosophos --keyring ~/.gnupg/secring.gpg mychart
 As a result, the `package` command should produce both a `.tgz` file and a
 `.tgz.prov` file.
 
-#### Verifying packages
+#### 验证包
 
 You can also use a similar technique to verify a chart signed by someone else's
 Keybase key. Say you want to verify a package signed by
@@ -167,7 +160,7 @@ At this point, you can now use `helm verify` or any of the commands with a
 $ helm verify somechart-1.2.3.tgz
 ```
 
-### Reasons a chart may not verify
+### chart无法验证的原因
 
 These are common reasons for failure.
 
@@ -184,7 +177,7 @@ These are common reasons for failure.
 
 If a verification fails, there is reason to distrust the package.
 
-## The Provenance File
+## 来源文件
 
 The provenance file contains a chart’s YAML file plus several pieces of
 verification information. Provenance files are designed to be automatically
@@ -206,7 +199,7 @@ The combination of this gives users the following assurances:
 * The package itself has not been tampered with (checksum package `.tgz`).
 * The entity who released this package is known (via the GnuPG/PGP signature).
 
-The format of the file looks something like this:
+文件格式类似这样：
 
 ```
 Hash: SHA512
@@ -240,7 +233,7 @@ filenames to SHA-256 digests of that file's content at packaging time.
 The signature block is a standard PGP signature, which provides [tamper
 resistance](https://www.rossde.com/PGP/pgp_signatures.html).
 
-## Chart Repositories
+## Chart仓库
 
 Chart repositories serve as a centralized collection of Helm charts.
 
