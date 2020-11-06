@@ -123,7 +123,7 @@ ssb   2048R/D125E546 2016-07-25
 
 Note that your secret key will have an identifier string:
 
-```
+```shell
 technosophos (keybase.io/technosophos) <technosophos@keybase.io>
 ```
 
@@ -186,23 +186,23 @@ generated.
 
 The following pieces of provenance data are added:
 
-* The chart file (`Chart.yaml`) is included to give both humans and tools an
+- The chart file (`Chart.yaml`) is included to give both humans and tools an
   easy view into the contents of the chart.
-* The signature (SHA256, just like Docker) of the chart package (the `.tgz`
+- The signature (SHA256, just like Docker) of the chart package (the `.tgz`
   file) is included, and may be used to verify the integrity of the chart
   package.
-* The entire body is signed using the algorithm used by OpenPGP (see
+- The entire body is signed using the algorithm used by OpenPGP (see
   [Keybase.io](https://keybase.io) for an emerging way of making crypto
   signing and verification easy).
 
 The combination of this gives users the following assurances:
 
-* The package itself has not been tampered with (checksum package `.tgz`).
-* The entity who released this package is known (via the GnuPG/PGP signature).
+- The package itself has not been tampered with (checksum package `.tgz`).
+- The entity who released this package is known (via the GnuPG/PGP signature).
 
 文件格式类似这样：
 
-```
+```shell
 Hash: SHA512
 
 apiVersion: v2
