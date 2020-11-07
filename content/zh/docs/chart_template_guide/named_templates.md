@@ -119,18 +119,12 @@ data:
   {{- end }}
 ```
 
-如上所述，**模板名称是全局的**。 As a result of this, if two
-templates are declared with the same name the last occurrence will be the one
-that is used. Since templates in subcharts are compiled together with top-level
-templates, it is best to name your templates with _chart specific names_. A
-popular naming convention is to prefix each defined template with the name of
-the chart: `{{ define "mychart.labels" }}`.
+如上所述，**模板名称是全局的**。因此，如果两个模板使用相同名字声明，会使用最后出现的那个。由于子chart中的模板和顶层模板一起编译，
+最好用 _chart特定名称_ 命名你的模板。常用的命名规则是用chart的名字作为模板的前缀： `{{ define "mychart.labels" }}`。
 
 ## 设置模板范围
 
-In the template we defined above, we did not use any objects. We just used
-functions. Let's modify our defined template to include the chart name and chart
-version:
+在上面定义的模板中，我们没有使用任何对象，仅仅使用了方法。修改定义好的模板让其包含chart名称和版本号：
 
 ```yaml
 {{/* Generate basic labels */}}
@@ -143,7 +137,7 @@ version:
 {{- end }}
 ```
 
-If we render this, the result will not be what we expect:
+如果渲染这个，结果不是我们想要的：
 
 ```yaml
 # Source: mychart/templates/configmap.yaml
@@ -158,17 +152,14 @@ metadata:
     version:
 ```
 
-What happened to the name and version? They weren't in the scope for our defined
-template. When a named template (created with `define`) is rendered, it will
-receive the scope passed in by the `template` call. In our example, we included
-the template like this:
+名字和版本号怎么了？没有出现在我们定义的模板中。当一个（使用`define`创建的）命名模板被渲染时，会接收被`template`调用传入的内容。
+在我们的示例中，包含模板如下：
 
 ```yaml
 {{- template "mychart.labels" }}
 ```
 
-No scope was passed in, so within the template we cannot access anything in `.`.
-This is easy enough to fix, though. We simply pass a scope to the template:
+没有内容传入，所以模板中无法用`.`访问任何内容。但这个很容易解决，只需要传递一个范围给模板：
 
 ```yaml
 apiVersion: v1
@@ -178,12 +169,9 @@ metadata:
   {{- template "mychart.labels" . }}
 ```
 
-Note that we pass `.` at the end of the `template` call. We could just as easily
-pass `.Values` or `.Values.favorite` or whatever scope we want. But what we want
-is the top-level scope.
+注意这个在`template`调用末尾传入的`.`，我们可以简单传入`.Values`或`.Values.favorite`或其他需要的范围。但一定要是顶层范围。
 
-Now when we execute this template with `helm install --dry-run --debug
-plinking-anaco ./mychart`, we get this:
+现在我们可以用`helm install --dry-run --debug plinking-anaco ./mychart`执行模板，然后得到：
 
 ```yaml
 # Source: mychart/templates/configmap.yaml
@@ -198,12 +186,11 @@ metadata:
     version: 0.1.0
 ```
 
-Now `{{ .Chart.Name }}` resolves to `mychart`, and `{{ .Chart.Version }}`
-resolves to `0.1.0`.
+现在`{{ .Chart.Name }}`解析为`mychart`，`{{ .Chart.Version }}`解析为`0.1.0`。
 
-## The `include` function
+## `include`方法
 
-Say we've defined a simple template that looks like this:
+假设定义了一个简单模板如下：
 
 ```yaml
 {{- define "mychart.app" -}}
@@ -212,8 +199,7 @@ app_version: "{{ .Chart.Version }}"
 {{- end -}}
 ```
 
-Now say I want to insert this both into the `labels:` section of my template,
-and also the `data:` section:
+现在假设我想把这个插入到模板的`labels:`部分和`data:`部分：
 
 ```yaml
 apiVersion: v1
@@ -230,7 +216,7 @@ data:
 {{ template "mychart.app" . }}
 ```
 
-The output will not be what we expect:
+输入不是我们想要的：
 
 ```yaml
 # Source: mychart/templates/configmap.yaml
@@ -249,17 +235,12 @@ data:
 app_version: "0.1.0+1478129847"
 ```
 
-Note that the indentation on `app_version` is wrong in both places. Why? Because
-the template that is substituted in has the text aligned to the right. Because
-`template` is an action, and not a function, there is no way to pass the output
-of a `template` call to other functions; the data is simply inserted inline.
+注意两处的`app_version`缩进都不对，为啥？因为被替换的模板中文本是右对齐的。由于`template`是一个行为，不是方法，无法将
+`template`调用的输出传给其他方法，数据只是简单地按行插入。
 
-To work around this case, Helm provides an alternative to `template` that will
-import the contents of a template into the present pipeline where it can be
-passed along to other functions in the pipeline.
+为了处理这个问题，Helm提供了一个`template`的可选项，可以将模板内容导入当前管道，然后传递给管道中的其他方法。
 
-Here's the example above, corrected to use `indent` to indent the `mychart_app`
-template correctly:
+下面这个示例，使用`indent`正确地缩进了`mychart_app`模板：
 
 ```yaml
 apiVersion: v1
@@ -276,7 +257,7 @@ data:
 {{ include "mychart.app" . | indent 2 }}
 ```
 
-Now the produced YAML is correctly indented for each section:
+现在生成的YAML每一部分都可以正确缩进了：
 
 ```yaml
 # Source: mychart/templates/configmap.yaml
@@ -295,9 +276,8 @@ data:
   app_version: "0.1.0+1478129987"
 ```
 
-> It is considered preferable to use `include` over `template` in Helm templates
-> simply so that the output formatting can be handled better for YAML documents.
+> Helm模板中使用`include`而不是`template`被认为是更好的方式
+> 只是为了更好地处理YAML文档的输出格式
 
-Sometimes we want to import content, but not as templates. That is, we want to
-import files verbatim. We can achieve this by accessing files through the
-`.Files` object described in the next section.
+有时我们需要导入内容，但不是作为模板，也就是按字面意义导入文件内容，可以通过使用`.Files`对象访问文件来实现，
+这将在下一部分展开描述。
