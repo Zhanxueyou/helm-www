@@ -4,43 +4,30 @@ description: "了解如何安装并运行Helm"
 weight: 2
 ---
 
-This guide shows how to install the Helm CLI. Helm can be installed either from
-source, or from pre-built binary releases.
+该指南展示了如何安装Helm CLI。Helm可以用源码或构建的二进制版本安装。
 
-## From The Helm Project
+## 用Helm项目安装
 
-The Helm project provides two ways to fetch and install Helm. These are the
-official methods to get Helm releases. In addition to that, the Helm community
-provides methods to install Helm through different package managers.
-Installation through those methods can be found below the official methods.
+Helm项目提供了两种获取和安装Helm的方式。这是官方提供的获取Helm发布版本的方法。另外，
+Helm社区提供了通过不同包管理器安装Helm的方法。这些方法可以在下面的官方方法之后看到。
 
-### From the Binary Releases
+### 用二进制版本安装
 
-Every [release](https://github.com/helm/helm/releases) of Helm provides binary
-releases for a variety of OSes. These binary versions can be manually downloaded
-and installed.
+每个Helm[版本](https://github.com/helm/helm/releases)都提供了各种操作系统的二进制版本，这些版本可以手动下载和安装。
 
-1. Download your [desired version](https://github.com/helm/helm/releases)
-2. Unpack it (`tar -zxvf helm-v3.0.0-linux-amd64.tar.gz`)
-3. Find the `helm` binary in the unpacked directory, and move it to its desired
-   destination (`mv linux-amd64/helm /usr/local/bin/helm`)
+1. 下载[需要的版本](https://github.com/helm/helm/releases)
+2. 解压(`tar -zxvf helm-v3.0.0-linux-amd64.tar.gz`)
+3. 在解压目中找到`helm`程序，移动到需要的目录中(`mv linux-amd64/helm /usr/local/bin/helm`)
 
-From there, you should be able to run the client and [add the stable
-repo](https://helm.sh/zh/docs/intro/quickstart/#初始化):
-`helm help`.
+在哪里，就可以执行客户端程序并[添加稳定仓库](https://helm.sh/zh/docs/intro/quickstart/#初始化): `helm help`.
 
-**Note:** Helm automated tests are performed for Linux AMD64 only during
-CircleCi builds and releases. Testing of other OSes are the responsibility of
-the community requesting Helm for the OS in question. 
+**注意** 针对Linux AMD64，Helm的自动测试只有在CircleCi构建和发布时才会执行。测试其他操作系统是社区针对系统问题请求Helm的责任。
 
-### From Script
+### 使用脚本安装
 
-Helm now has an installer script that will automatically grab the latest version
-of Helm and [install it
-locally](https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3).
+Helm现在有个安装脚本可以自动拉取最新的Helm版本并在[本地安装](https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3)。
 
-You can fetch that script, and then execute it locally. It's well documented so
-that you can read through it and understand what it is doing before you run it.
+您可以获取这个脚本并在本地执行。它良好的文档会让您在执行之前知道脚本都做了什么。
 
 ```console
 $ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
@@ -48,42 +35,35 @@ $ chmod 700 get_helm.sh
 $ ./get_helm.sh
 ```
 
-Yes, you can `curl
-https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash` if
-you want to live on the edge.
+如果想直接执行安装，运行`curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+| bash`。
 
-## Through Package Managers
+## 通过包管理器安装
 
-The Helm community provides the ability to install Helm through operating system
-package managers. These are not supported by the Helm project and are not
-considered trusted 3rd parties.
+Helm社区提供了通过操作系统包管理器安装Helm的方式。但Helm项目不支持且不认为是可信的第三方。
 
-### From Homebrew (macOS)
+### 使用Homebrew (macOS)
 
-Members of the Helm community have contributed a Helm formula build to Homebrew.
-This formula is generally up to date.
+Helm社区成员贡献了一种在Homebrew构建Helm的方案，这个方案通常是最新的。
 
 ```console
 brew install helm
 ```
 
-(Note: There is also a formula for emacs-helm, which is a different project.)
+(注意：还有一个emacs-helm的方案，当然这是另一个项目了。)
 
-### From Chocolatey (Windows)
+### 使用Chocolatey (Windows)
 
-Members of the Helm community have contributed a [Helm
-package](https://chocolatey.org/packages/kubernetes-helm) build to
-[Chocolatey](https://chocolatey.org/). This package is generally up to date.
+Helm社区成员贡献了一个[Helm包](https://chocolatey.org/packages/kubernetes-helm)在[Chocolatey](https://chocolatey.org/)中构建，
+包通常是最新的。
 
 ```console
 choco install kubernetes-helm
 ```
 
-### From Apt (Debian/Ubuntu)
+### 使用Apt (Debian/Ubuntu)
 
-Members of the Helm community have contributed a [Helm
-package](https://helm.baltorepo.com/stable/debian/) for Apt. This package is
-generally up to date.
+Helm社区成员贡献了针对Apt的一个[Helm包](https://helm.baltorepo.com/stable/debian/)，包通常是最新的。
 
 ```console
 curl https://baltocdn.com/helm/signing.asc | sudo apt-key add -
@@ -93,40 +73,33 @@ sudo apt-get update
 sudo apt-get install helm
 ```
 
-### From Snap
+### 使用Snap
 
-The [Snapcrafters](https://github.com/snapcrafters) community maintains the Snap
-version of the [Helm package](https://snapcraft.io/helm):
+[Snapcrafters](https://github.com/snapcrafters)社区维护了[Helm 包](https://snapcraft.io/helm)的Snap版本：
 
 ```console
 sudo snap install helm --classic
 ```
 
-### Development Builds
+### 开发版本构建
 
-In addition to releases you can download or install development snapshots of
-Helm.
+另外您可以下载和安装Helm的开发版本。
 
-### From Canary Builds
+### 使用Canary构建
 
-"Canary" builds are versions of the Helm software that are built from the latest
-master branch. They are not official releases, and may not be stable. However,
-they offer the opportunity to test the cutting edge features.
+"Canary"版本是从Helm最新的master分支构建。这些不是官方版本，可能不稳定。但是这提供测试边缘特性的条件。
 
-Canary Helm binaries are stored at [get.helm.sh](https://get.helm.sh). Here are
-links to the common builds:
+Canary Helm二进制包存储在[get.helm.sh](https://get.helm.sh)。以下是一般构建的链接：
 
 - [Linux AMD64](https://get.helm.sh/helm-canary-linux-amd64.tar.gz)
 - [macOS AMD64](https://get.helm.sh/helm-canary-darwin-amd64.tar.gz)
-- [Experimental Windows
-  AMD64](https://get.helm.sh/helm-canary-windows-amd64.zip)
+- [实验性Windows AMD64](https://get.helm.sh/helm-canary-windows-amd64.zip)
 
-### From Source (Linux, macOS)
+### 使用源码Source (Linux, macOS)
 
-Building Helm from source is slightly more work, but is the best way to go if
-you want to test the latest (pre-release) Helm version.
+从源码构建Helm的工作要稍微多一点，但如果你想测试最新（预发布）的Helm版本，这是最好的方式。
 
-You must have a working Go environment.
+您必须有可用的Go环境。
 
 ```console
 $ git clone https://github.com/helm/helm.git
@@ -134,15 +107,10 @@ $ cd helm
 $ make
 ```
 
-If required, it will fetch the dependencies and cache them, and validate
-configuration. It will then compile `helm` and place it in `bin/helm`.
+如果需要，会拉取依赖并缓存，然后验证配置。然后会编译`helm`并放在`bin/helm`。
 
-## Conclusion
+## 总结
 
-In most cases, installation is as simple as getting a pre-built `helm` binary.
-This document covers additional cases for those who want to do more
-sophisticated things with Helm.
+大多数情况下，安装只需要简单地获取一个构建好的`helm`二进制包。本文档为想使用Helm做更复杂事情的人提供额外示例。
 
-Once you have the Helm Client successfully installed, you can move on to using
-Helm to manage charts and [add the stable
-repo](https://helm.sh/zh/docs/intro/quickstart/#初始化).
+一旦你成功安装了Helm客户端，就可以继续使用Helm管理chart和[添加稳定的仓库](https://helm.sh/zh/docs/intro/quickstart/#初始化)。
