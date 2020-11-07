@@ -108,7 +108,7 @@ ssb   2048R/D125E546 2016-07-25
 
 注意你的秘钥会有一个标识字符串：
 
-```shell
+```console
 technosophos (keybase.io/technosophos) <technosophos@keybase.io>
 ```
 
@@ -168,7 +168,7 @@ $ helm verify somechart-1.2.3.tgz
 
 文件格式类似这样：
 
-```shell
+```console
 Hash: SHA512
 
 apiVersion: v2
