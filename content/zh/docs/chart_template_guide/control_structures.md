@@ -1,6 +1,6 @@
 ---
-title: "Flow Control"
-description: "A quick overview on the flow structure within templates."
+title: "流控制"
+description: "模板中流结构的快速概述"
 weight: 7
 ---
 
