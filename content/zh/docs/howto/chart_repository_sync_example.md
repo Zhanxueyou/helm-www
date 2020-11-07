@@ -87,4 +87,3 @@ Downloading file://local-dir/index.yaml:                              346 B/346 
 * [gsutil rsync文档](https://cloud.google.com/storage/docs/gsutil/commands/rsync#description)
 * [Chart仓库指南](http://helm.sh/zh/docs/topics/chart_repository)
 * Google Cloud Storage的[对象版本控制和并发控制](https://cloud.google.com/storage/docs/gsutil/addlhelp/ObjectVersioningandConcurrencyControl#overview)
-  in Google Cloud Storage
