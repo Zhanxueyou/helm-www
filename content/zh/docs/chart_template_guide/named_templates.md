@@ -4,52 +4,36 @@ description: "如何定义命名模板"
 weight: 9
 ---
 
-It is time to move beyond one template, and begin to create others. In this
-section, we will see how to define _named templates_ in one file, and then use
-them elsewhere. A _named template_ (sometimes called a _partial_ or a
-_subtemplate_) is simply a template defined inside of a file, and given a name.
-We'll see two ways to create them, and a few different ways to use them.
+此时需要越过模板，开始创建其他内容了。该部分我们会看到如何在一个文件中定义
+_命名模板_，并在其他地方使用。_命名模板_ (有时称作一个 _部分_ 或一个
+_子模板_)仅仅是在文件内部定义的模板，并使用了一个名字。有两种创建方式和几种不同的使用方法。
 
-In the [Flow Control](../control_structures) section we introduced three actions
-for declaring and managing templates: `define`, `template`, and `block`. In this
-section, we'll cover those three actions, and also introduce a special-purpose
-`include` function that works similarly to the `template` action.
+在[流控制](http://helm.sh/docs/chart_template_guide/control_structures)部分，
+我们介绍了三种声明和管理模板的方法：`define`，`template`，和`block`。在这部分，我们将使用者三种操作并介绍一种特殊用途的
+`include`方法，类似于`template`操作。
 
-An important detail to keep in mind when naming templates: **template names are
-global**. If you declare two templates with the same name, whichever one is
-loaded last will be the one used. Because templates in subcharts are compiled
-together with top-level templates, you should be careful to name your templates
-with _chart-specific names_.
+命名模板时要记住一个重要细节：**模板名称是全局的**。如果您想声明两个相同名称的模板，哪个最后加载就使用哪个。
+因为在子chart中的模板和顶层模板一起编译，命名时要注意 _chart特定名称_。
 
-One popular naming convention is to prefix each defined template with the name
-of the chart: `{{ define "mychart.labels" }}`. By using the specific chart name
-as a prefix we can avoid any conflicts that may arise due to two different
-charts that implement templates of the same name.
+一个常见的命名惯例是用chart名称作为模板前缀：`{{ define "mychart.labels" }}`。使用特定chart名称作为前缀可以避免可能因为
+两个不同chart使用了相同名称的模板而引起的冲突。
 
-## Partials and `_` files
+## 局部的和`_`文件
 
-So far, we've used one file, and that one file has contained a single template.
-But Helm's template language allows you to create named embedded templates, that
-can be accessed by name elsewhere.
+目前为止，我们已经使用了单个文件，且单个文件中包含了单个模板。但Helm的模板语言允许你创建命名的嵌入式模板，
+这样就可以在其他位置按名称访问。
 
-Before we get to the nuts-and-bolts of writing those templates, there is file
-naming convention that deserves mention:
+在编写模板细节之前，文件的命名惯例需要注意：
 
-* Most files in `templates/` are treated as if they contain Kubernetes manifests
-* The `NOTES.txt` is one exception
-* But files whose name begins with an underscore (`_`) are assumed to _not_ have
-  a manifest inside. These files are not rendered to Kubernetes object
-  definitions, but are available everywhere within other chart templates for
-  use.
+* `templates/`中的大多数文件被视为包含Kubernetes清单
+* `NOTES.txt`是个例外
+* 命名以下划线(`_`)开始的文件则假定 _没有_ 包含清单内容。这些文件不会渲染为Kubernetes对象定义，但在其他chart模板中都可用。
 
-These files are used to store partials and helpers. In fact, when we first
-created `mychart`, we saw a file called `_helpers.tpl`. That file is the default
-location for template partials.
+这些文件用来存储局部和辅助对象，实际上当我们第一次创建`mychart`时，会看到一个名为`_helpers.tpl`的文件，这个文件时模板局部的默认位置。
 
-## Declaring and using templates with `define` and `template`
+## 用`define`和`template`声明和使用模板
 
-The `define` action allows us to create a named template inside of a template
-file. Its syntax goes like this:
+`define`操作允许我们在模板文件中创建一个命名模板，语法如下：
 
 ```yaml
 {{ define "MY.NAME" }}
@@ -57,8 +41,7 @@ file. Its syntax goes like this:
 {{ end }}
 ```
 
-For example, we can define a template to encapsulate a Kubernetes block of
-labels:
+比如我们可以定义一个模板封装Kubernetes的标签：
 
 ```yaml
 {{- define "mychart.labels" }}
@@ -68,8 +51,7 @@ labels:
 {{- end }}
 ```
 
-Now we can embed this template inside of our existing ConfigMap, and then
-include it with the `template` action:
+现在我们将模板嵌入到了已有的配置映射中，然后使用`template`包含进来：
 
 ```yaml
 {{- define "mychart.labels" }}
@@ -89,9 +71,8 @@ data:
   {{- end }}
 ```
 
-When the template engine reads this file, it will store away the reference to
-`mychart.labels` until `template "mychart.labels"` is called. Then it will
-render that template inline. So the result will look like this:
+当模板引擎读取该文件时，它会存储`mychart.labels`的引用直到`template "mychart.labels"`被调用。
+然后会按行渲染模板，因此结果类似这样：
 
 ```yaml
 # Source: mychart/templates/configmap.yaml
@@ -108,11 +89,9 @@ data:
   food: "pizza"
 ```
 
-Note: a `define` does not produce output unless it is called with a template,
-as in this example.
+注意：`define`不会有输出，除非像本示例一样用模板调用它。
 
-Conventionally, Helm charts put these templates inside of a partials file,
-usually `_helpers.tpl`. Let's move this function there:
+按照惯例，Helm chart将这些模板放置在局部文件中，一般是`_helpers.tpl`。把这个方法移到那里：
 
 ```yaml
 {{/* Generate basic labels */}}
@@ -123,11 +102,9 @@ usually `_helpers.tpl`. Let's move this function there:
 {{- end }}
 ```
 
-By convention, `define` functions should have a simple documentation block
-(`{{/* ... */}}`) describing what they do.
+按照惯例`define`方法会有个简单的文档块(`{{/* ... */}}`)来描述要做的事。
 
-Even though this definition is in `_helpers.tpl`, it can still be accessed in
-`configmap.yaml`:
+尽管这个定义是在`_helpers.tpl`中，但它仍能访问`configmap.yaml`：
 
 ```yaml
 apiVersion: v1
@@ -142,14 +119,14 @@ data:
   {{- end }}
 ```
 
-As mentioned above, **template names are global**. As a result of this, if two
+如上所述，**模板名称是全局的**。 As a result of this, if two
 templates are declared with the same name the last occurrence will be the one
 that is used. Since templates in subcharts are compiled together with top-level
 templates, it is best to name your templates with _chart specific names_. A
 popular naming convention is to prefix each defined template with the name of
 the chart: `{{ define "mychart.labels" }}`.
 
-## Setting the scope of a template
+## 设置模板范围
 
 In the template we defined above, we did not use any objects. We just used
 functions. Let's modify our defined template to include the chart name and chart
