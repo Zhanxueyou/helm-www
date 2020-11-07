@@ -3,50 +3,35 @@ title: "发布计划策略"
 description: "描述Helm的版本发布的策略"
 ---
 
-For the benefit of its users, Helm defines and announces release dates in
-advance.  This document describes the policy governing Helm's release schedule.
+为了用户的利益，Helm提前定义和宣布发布日期。本文档描述了控制Helm发布计划的策略。
 
-## Semantic versioning
+## 语义化版本
 
-Helm versions are expressed as `x.y.z`, where `x` is the major version, `y` is
-the minor version, and `z` is the patch version, following [Semantic
-Versioning](https://semver.org/spec/v2.0.0.html) terminology.
+Helm的版本描述为`x.y.z`，其中`x`是主版本，`y`是次版本，`z`是补丁版本，遵循[语义化版本](https://semver.org/spec/v2.0.0.html)术语。
 
-## Patch releases
+## 补丁发布
 
-Patch releases provide users with bug fixes and security fixes.  They do not
-contain new features.
+补丁版本为用户提供bug修复和安全修复。不会包含新的特性。
 
-A new patch release relating to the latest minor/major release will normally be
-done once a month on the second Wednesday of each month.
+与最新的次要/主要版本相关的新补丁通常每月的第二个星期三进行发布一次。
 
-A patch release to fix a high priority regression or security issue can be done
-whenever needed.
+补丁版本会修复需要处理的高优先级回归或安全问题。
 
-If there is no new content since the previous release, no new release will be
+如果自上个版本之后没有新内容，则当月将不会再发布新内容。
 done that month.
 
-## Minor releases
+## 次版本发布
 
-Minor releases contain security and bug fixes as well as new features.  They
-are backwards compatible with respect to the API and the CLI usage.
+次版本包含安全和bug修复以及新特性。它们对API和CLI用法向后兼容。
 
-To align with Kubernetes releases, a minor helm release will be done every
-4 months (3 releases a year).
+为了与Kubernetes版本保持一致，次要版本会每四个月发布一次（一年三版）。
 
-Extra minor releases can be done if needed but will not affect the timeline of
-an announced future release, unless the announced release is less than 7 days
-away.
+如果需要的话，可以发布额外的次版本，但不会影响已经宣布的未来版本的时间线，除非宣布的发布时间不到7天。
 
-At the same time as a release is published, the date of the next minor release
-will be announced and posted to Helm's main web page.
+版本发布的同时，下一个次版本的发布时间也宣布并发布在Helm的主页上。
 
-## Major releases
+## 主版本发布
 
-Major releases contain breaking changes.  Such releases are rare but are
-sometimes necessary to allow helm to continue to evolve in important new
-directions.
+主版本包含了突破性的更改。这种版本很少，但是有时需要允许helm在重要的新方向上持续改善。
 
-Major releases can be difficult to plan.  With that in mind, a final release
-date will only be chosen and announced once the first beta version of such a
-release is available.
+主版本很难计划。考虑到这一点，最终发布时间只能在第一个beta版本可用时选择和宣布。
