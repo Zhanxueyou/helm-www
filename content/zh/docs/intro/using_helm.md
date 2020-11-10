@@ -1,6 +1,6 @@
 ---
-title: "Using Helm"
-description: "Explains the basics of Helm."
+title: "使用Helm"
+description: "阐述Helm的基础用法。"
 weight: 3
 ---
 
