@@ -261,9 +261,7 @@ data:
 注意现在我们可以引用`.drink`和`.food`了，而不必限定他们。因为`with`语句设置了`.`指向`.Values.favorite`。
 `.`被重置为`{{ end }}`之后的上一个作用域。
 
-But here's a note of caution! Inside of the restricted scope, you will not be
-able to access the other objects from the parent scope using `.`. This, for
-example, will fail:
+但是这里有个注意事项，在限定的作用域内，无法使用`.`访问父作用域的对象。错误示例如下：
 
 ```yaml
   {{- with .Values.favorite }}
@@ -273,9 +271,8 @@ example, will fail:
   {{- end }}
 ```
 
-It will produce an error because `Release.Name` is not inside of the restricted
-scope for `.`. However, if we swap the last two lines, all will work as expected
-because the scope is reset after `{{ end }}`.
+这样会报错因为`Release.Name`不在`.`限定的作用域内。但是如果对调最后两行就是正常的，
+因为在`{{ end }}`之后作用域被重置了。
 
 ```yaml
   {{- with .Values.favorite }}
@@ -285,9 +282,8 @@ because the scope is reset after `{{ end }}`.
   release: {{ .Release.Name }}
 ```
 
-Or, we can use `$` for accessing the object `Release.Name` from the parent
-scope. `$` is mapped to the root scope when template execution begins and it
-does not change during template execution. The following would work as well:
+或者，我们可以使用`$`从父作用域中访问`Release.Name`对象。当模板开始执行后`$`会被映射到根作用域，且执行过程中不会更改。
+下面这种方式也可以正常工作：
 
 ```yaml
   {{- with .Values.favorite }}
@@ -297,16 +293,14 @@ does not change during template execution. The following would work as well:
   {{- end }}
 ```
 
-After looking at `range`, we will take a look at template variables, which offer
-one solution to the scoping issue above.
+在介绍了`range`之后，我们会看看模板变量，提供了上述作用域问题的另一种解决方案。
 
-## Looping with the `range` action
+## 使用`range`操作循环
 
-Many programming languages have support for looping using `for` loops, `foreach`
-loops, or similar functional mechanisms. In Helm's template language, the way to
-iterate through a collection is to use the `range` operator.
+很多编程语言支持使用`for`循环，`foreach`循环，或者类似的方法机制。
+在Helm的模板语言中，在一个集合中迭代的方式是使用`range`操作符。
 
-To start, let's add a list of pizza toppings to our `values.yaml` file:
+开始之前，我们先在`values.yaml`文件添加一个披萨的配料列表：
 
 ```yaml
 favorite:
@@ -319,8 +313,7 @@ pizzaToppings:
   - onions
 ```
 
-Now we have a list (called a `slice` in templates) of `pizzaToppings`. We can
-modify our template to print this list into our ConfigMap:
+现在我们有了一个`pizzaToppings`列表（模板中称为切片）。修改模板把这个列表打印到配置映射中：
 
 ```yaml
 apiVersion: v1
