@@ -27,7 +27,7 @@ weight: 1
 
 您可以通过 `homebrew` 下载二进制Helm client安装包，也可以通过github下载 [github 官方发布页面](https://github.com/helm/helm/releases)
 
-除此之外的更多安装方式详见 [安装指南](http://helm.sh/zh/docs/intro/install)。
+除此之外的更多安装方式详见 [安装指南](https://helm.sh/zh/docs/intro/install)。
 
 ## 初始化
 
@@ -68,7 +68,7 @@ Released smiling-penguin
 每当您执行 `helm install` 的时候，都会创建一个新的发布版本。
 所以一个chart在同一个集群里面可以被安装多次，每一个都可以被独立的管理和升级。
 
-`helm install` 是一个拥有很多能力的强大的命令，更多信息详见 [使用 Helm](http://helm.sh/zh/docs/intro/using_helm)
+`helm install` 是一个拥有很多能力的强大的命令，更多信息详见 [使用 Helm](https://helm.sh/zh/docs/intro/using_helm)
 
 ## 关于版本发布
 
