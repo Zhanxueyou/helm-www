@@ -333,9 +333,8 @@ data:
 
 ```
 
-We can use `$` for accessing the list `Values.pizzaToppings` from the parent
-scope. `$` is mapped to the root scope when template execution begins and it
-does not change during template execution. The following would work as well:
+我可以使用`$`从父作用域访问`Values.pizzaToppings`列表。当模板开始执行后`$`会被映射到根作用域，
+且执行过程中不会更改。下面这种方式也可以正常工作：
 
 ```yaml
 apiVersion: v1
@@ -354,16 +353,12 @@ data:
   {{- end }}
 ```
 
-Let's take a closer look at the `toppings:` list. The `range` function will
-"range over" (iterate through) the `pizzaToppings` list. But now something
-interesting happens. Just like `with` sets the scope of `.`, so does a `range`
-operator. Each time through the loop, `.` is set to the current pizza topping.
-That is, the first time, `.` is set to `mushrooms`. The second iteration it is
-set to `cheese`, and so on.
+让我们仔细看看`toppings:`列表。`range`方法“涵盖”（迭代）`pizzaToppings`列表。但现在发生了有意思的事情。
+就像`with`设置了`.`的作用域，`range`操作符也做了同样的事。每一次循环，`.`都会设置为当前的披萨配料。
+也就是说，第一次`.`设置成了`mushrooms`，第二次迭代设置成了`cheese`，等等。
 
-We can send the value of `.` directly down a pipeline, so when we do `{{ . |
-title | quote }}`, it sends `.` to `title` (title case function) and then to
-`quote`. If we run this template, the output will be:
+我们可以直接发送`.`的值给管道，因此当我们执行`{{ . | title | quote }}`时，它会发送`.`到`title`然后发送到`quote`。
+如果执行这个模板，输出是这样的：
 
 ```yaml
 # Source: mychart/templates/configmap.yaml
@@ -382,23 +377,15 @@ data:
     - "Onions"
 ```
 
-Now, in this example we've done something tricky. The `toppings: |-` line is
-declaring a multi-line string. So our list of toppings is actually not a YAML
-list. It's a big string. Why would we do this? Because the data in ConfigMaps
-`data` is composed of key/value pairs, where both the key and the value are
-simple strings. To understand why this is the case, take a look at the
-[Kubernetes ConfigMap docs](https://kubernetes.io/docs/user-guide/configmap/).
-For us, though, this detail doesn't matter much.
+现在，我们已经处理了一些棘手的事情。`toppings: |-`行是声明的多行字符串。所以这个配料列表实际上不是YAML列表，
+是个大字符串。为什么要这样做？因为在配置映射`data`中的数据是由键值对组成，key和value都是简单的字符串。
+要理解这个示例，请查看[Kubernetes ConfigMap 文档](https://kubernetes.io/docs/user-guide/configmap/)。
+但对于我们来说，这个细节并不重要。
 
-> The `|-` marker in YAML takes a multi-line string. This can be a useful
-> technique for embedding big blocks of data inside of your manifests, as
-> exemplified here.
+> 正如例子中所示，`|-`标识在YAML中是指多行字符串。这在清单列表中嵌入大块数据是很有用的技术。
 
-Sometimes it's useful to be able to quickly make a list inside of your template,
-and then iterate over that list. Helm templates have a function to make this
-easy: `tuple`. In computer science, a tuple is a list-like collection of fixed
-size, but with arbitrary data types. This roughly conveys the way a `tuple` is
-used.
+有时能在模板中快速创建列表然后迭代很有用，Helm模板的`tuple`可以很容易实现该功能。在计算机科学中，
+元组表示一个有固定大小的类似列表的集合，但可以是任意数据类型。这大致表达了`tuple`的用法。
 
 ```yaml
   sizes: |-
@@ -407,7 +394,7 @@ used.
     {{- end }}
 ```
 
-The above will produce this:
+上述模板会生成以下内容：
 
 ```yaml
   sizes: |-
@@ -416,6 +403,4 @@ The above will produce this:
     - large
 ```
 
-In addition to lists and tuples, `range` can be used to iterate over collections
-that have a key and a value (like a `map` or `dict`). We'll see how to do that
-in the next section when we introduce template variables.
+除了列表和元组，`range`可被用于迭代有键值对的集合（像`map`或`dict`）。我们会在下一部分介绍模板变量是看到它是如何应用的。
