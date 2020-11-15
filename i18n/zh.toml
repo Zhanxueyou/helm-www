@@ -114,6 +114,9 @@ other = "加入社区"
 [community_desc]
 other = "关于 Helm 项目的更多信息，以及如何参与。"
 
+[community_release_calendar]
+other = "[发布日志](https://helm.sh/calendar/release)"
+
 [community_events_title]
 other = "大事记"
 
