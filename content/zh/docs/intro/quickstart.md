@@ -72,7 +72,7 @@ Released smiling-penguin
 
 ## 关于Releases
 
-通过Helm您可以很容易看到哪些chart被release了：
+通过Helm您可以很容易看到哪些chart被发布了：
 
 ```console
 $ helm ls
