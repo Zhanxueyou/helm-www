@@ -4,61 +4,59 @@ title: "Helm"
 
 ## helm
 
-The Helm package manager for Kubernetes.
+针对Kubernetes的Helm包管理器。
 
-### Synopsis
+### 简介
 
-The Kubernetes package manager
+Kubernetes包管理器
 
-Common actions for Helm:
+Helm的一般操作：
 
-- helm search:    search for charts
-- helm pull:      download a chart to your local directory to view
-- helm install:   upload the chart to Kubernetes
-- helm list:      list releases of charts
+- helm search:    &emsp;&emsp;搜索chart
+- helm pull:      &emsp;&emsp;&emsp;下载cahrt到本地目录查看
+- helm install:   &emsp;&emsp;上传chart到Kubernetes
+- helm list:      &emsp;&emsp;&emsp;&ensp;列出已发布的chart
 
-Environment variables:
+环境变量：
+| 名称                               | 描述                                                                             |
+|------------------------------------|---------------------------------------------------------------------------------|
+| $HELM_CACHE_HOME                   | 设置一个存储缓存文件的可选位置                                                     |
+| $HELM_CONFIG_HOME                  | 设置一个存储Helm配置的可选位置                                                     |
+| $HELM_DATA_HOME                    | 设置一个存储Helm数据的可选位置                                                     |
+| $HELM_DEBUG                        | 表示Helm是否在Debug模式系运行                                                     |
+| $HELM_DRIVER                       | 设置后台存储驱动，值包括：configmap, secret, memory, postgres                      |
+| $HELM_DRIVER_SQL_CONNECTION_STRING | 设置SQL存储驱动使用连接字符串                                                      |
+| $HELM_MAX_HISTORY                  | 设置发布历史记录的最大值                                                           |
+| $HELM_NAMESPACE                    | 设置用于helm操作的命名空间                                                         |
+| $HELM_NO_PLUGINS                   | 禁用插件，HELM_NO_PLUGINS=1 表示禁用插件                                           |
+| $HELM_PLUGINS                      | 设置插件目录路径                                                                  |
+| $HELM_REGISTRY_CONFIG              | 设置注册配置文件的路径                                                             |
+| $HELM_REPOSITORY_CACHE             | 设置仓库缓存目录路径                                                               |
+| $HELM_REPOSITORY_CONFIG            | 设置仓库文件的路径                                                                 |
+| $KUBECONFIG                        | 设置Kubernetes的可选配置文件(默认是"~/.kube/config")                               |
+| $HELM_KUBEAPISERVER                | 设置用于身份认证的Kubernetes API服务端                                             |
+| $HELM_KUBEASGROUPS                 | 设置模拟操作的用户名                                                               |
+| $HELM_KUBEASUSER                   | 设置使用逗号分隔的列表，用于模拟使用组                                               |
+| $HELM_KUBECONTEXT                  | 设置kubeconfig上下文的名称                                                         |
+| $HELM_KUBETOKEN                    | 设置用于身份验证的不记名KubeToken                                                   |
 
-| Name                               | Description                                                                       |
-|------------------------------------|-----------------------------------------------------------------------------------|
-| $HELM_CACHE_HOME                   | set an alternative location for storing cached files.                             |
-| $HELM_CONFIG_HOME                  | set an alternative location for storing Helm configuration.                       |
-| $HELM_DATA_HOME                    | set an alternative location for storing Helm data.                                |
-| $HELM_DEBUG                        | indicate whether or not Helm is running in Debug mode                             |
-| $HELM_DRIVER                       | set the backend storage driver. Values are: configmap, secret, memory, postgres   |
-| $HELM_DRIVER_SQL_CONNECTION_STRING | set the connection string the SQL storage driver should use.                      |
-| $HELM_MAX_HISTORY                  | set the maximum number of helm release history.                                   |
-| $HELM_NAMESPACE                    | set the namespace used for the helm operations.                                   |
-| $HELM_NO_PLUGINS                   | disable plugins. Set HELM_NO_PLUGINS=1 to disable plugins.                        |
-| $HELM_PLUGINS                      | set the path to the plugins directory                                             |
-| $HELM_REGISTRY_CONFIG              | set the path to the registry config file.                                         |
-| $HELM_REPOSITORY_CACHE             | set the path to the repository cache directory                                    |
-| $HELM_REPOSITORY_CONFIG            | set the path to the repositories file.                                            |
-| $KUBECONFIG                        | set an alternative Kubernetes configuration file (default "~/.kube/config")       |
-| $HELM_KUBEAPISERVER                | set the Kubernetes API Server Endpoint for authentication                         |
-| $HELM_KUBEASGROUPS                 | set the Username to impersonate for the operation.                                |
-| $HELM_KUBEASUSER                   | set the Groups to use for impoersonation using a comma-separated list.            |
-| $HELM_KUBECONTEXT                  | set the name of the kubeconfig context.                                           |
-| $HELM_KUBETOKEN                    | set the Bearer KubeToken used for authentication.                                 |
+Helm 基于以下配置顺序存储缓存，配置和添加数据：
 
-Helm stores cache, configuration, and data based on the following configuration order:
+- 如果设置了 HELM_*_HOME 环境变量，则使用该变量
+- 否则，在支持XDG基本目录规范的系统上，会使用XDG变量
+- 当没有设置其他位置时，将根据操作系统使用默认位置
 
-- If a HELM_*_HOME environment variable is set, it will be used
-- Otherwise, on systems supporting the XDG base directory specification, the XDG variables will be used
-- When no other location is set a default location will be used based on the operating system
+默认情况下，默认目录取决于操作系统，默认值如下：
 
-By default, the default directories depend on the Operating System. The defaults are listed below:
-
-| Operating System | Cache Path                | Configuration Path             | Data Path               |
+| 操作系统          | 缓存路径                  | 配置路径                        | 数据路径               |
 |------------------|---------------------------|--------------------------------|-------------------------|
 | Linux            | $HOME/.cache/helm         | $HOME/.config/helm             | $HOME/.local/share/helm |
 | macOS            | $HOME/Library/Caches/helm | $HOME/Library/Preferences/helm | $HOME/Library/helm      |
 | Windows          | %TEMP%\helm               | %APPDATA%\helm                 | %APPDATA%\helm          |
 
+### 可选项
 
-### Options
-
-```
+```shell
       --debug                       enable verbose output
   -h, --help                        help for helm
       --kube-apiserver string       the address and the port for the Kubernetes API server
@@ -73,30 +71,30 @@ By default, the default directories depend on the Operating System. The defaults
       --repository-config string    path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
 ```
 
-### SEE ALSO
+### 另请参阅
 
-* [helm completion](helm_completion.md)	 - generate autocompletions script for the specified shell
-* [helm create](helm_create.md)	 - create a new chart with the given name
-* [helm dependency](helm_dependency.md)	 - manage a chart's dependencies
-* [helm env](helm_env.md)	 - helm client environment information
-* [helm get](helm_get.md)	 - download extended information of a named release
-* [helm history](helm_history.md)	 - fetch release history
-* [helm install](helm_install.md)	 - install a chart
-* [helm lint](helm_lint.md)	 - examine a chart for possible issues
-* [helm list](helm_list.md)	 - list releases
-* [helm package](helm_package.md)	 - package a chart directory into a chart archive
-* [helm plugin](helm_plugin.md)	 - install, list, or uninstall Helm plugins
-* [helm pull](helm_pull.md)	 - download a chart from a repository and (optionally) unpack it in local directory
-* [helm repo](helm_repo.md)	 - add, list, remove, update, and index chart repositories
-* [helm rollback](helm_rollback.md)	 - roll back a release to a previous revision
-* [helm search](helm_search.md)	 - search for a keyword in charts
-* [helm show](helm_show.md)	 - show information of a chart
-* [helm status](helm_status.md)	 - display the status of the named release
-* [helm template](helm_template.md)	 - locally render templates
-* [helm test](helm_test.md)	 - run tests for a release
-* [helm uninstall](helm_uninstall.md)	 - uninstall a release
-* [helm upgrade](helm_upgrade.md)	 - upgrade a release
-* [helm verify](helm_verify.md)	 - verify that a chart at the given path has been signed and is valid
-* [helm version](helm_version.md)	 - print the client version information
+- [helm completion](helm_completion.md) - 为指定的shell生成自动补全脚本
+- [helm create](helm_create.md) - 使用给定的名称创建chart
+- [helm dependency](helm_dependency.md) - 管理chart依赖
+- [helm env](helm_env.md) - helm客户端环境信息
+- [helm get](helm_get.md) - 下载命名版本的扩展信息
+- [helm history](helm_history.md) - 检索发布历史
+- [helm install](helm_install.md) - 安装chart
+- [helm lint](helm_lint.md) - 验证chart是否存在问题
+- [helm list](helm_list.md) - 列举发布版本
+- [helm package](helm_package.md) - 将chart目录打包
+- [helm plugin](helm_plugin.md) - 安装、列举或卸载Helm插件
+- [helm pull](helm_pull.md) - 从仓库下载chart并（可选）在本地目录中打开
+- [helm repo](helm_repo.md) - 添加、列出、删除、更新和索引chart仓库
+- [helm rollback](helm_rollback.md) - 回滚发布到上一个版本
+- [helm search](helm_search.md) - helm中搜索关键字
+- [helm show](helm_show.md) - 显示chart信息
+- [helm status](helm_status.md) - 显示命名版本的状态
+- [helm template](helm_template.md) - 本地渲染模板
+- [helm test](helm_test.md) - 执行发布的测试
+- [helm uninstall](helm_uninstall.md) - 卸载版本
+- [helm upgrade](helm_upgrade.md) - 升级版本
+- [helm verify](helm_verify.md) - 验证给定路径的chart已经被签名且是合法的
+- [helm version](helm_version.md) - 打印客户端版本信息
 
 ###### Auto generated by spf13/cobra on 29-Oct-2020
