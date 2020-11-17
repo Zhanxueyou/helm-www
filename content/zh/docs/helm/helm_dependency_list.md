@@ -14,20 +14,19 @@ title: "Helm 依赖列表"
 
 如果chart不能加载会产生错误。
 
-
-```
+```shell
 helm dependency list CHART [flags]
 ```
 
 ### 可选项
 
-```
+```shell
   -h, --help   help for list
 ```
 
 ### 从父命令继承的命令
 
-```
+```shell
       --debug                       enable verbose output
       --kube-apiserver string       the address and the port for the Kubernetes API server
       --kube-as-group stringArray   Group to impersonate for the operation, this flag can be repeated to specify multiple groups.

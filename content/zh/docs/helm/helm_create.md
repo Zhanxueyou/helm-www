@@ -12,13 +12,15 @@ title: "Helm创建"
 
 比如'helm create foo'会创建一个目录结构看起来像这样：
 
-    foo/
-    ├── .helmignore   # Contains patterns to ignore when packaging Helm charts.
-    ├── Chart.yaml    # Information about your chart
-    ├── values.yaml   # The default values for your templates
-    ├── charts/       # Charts that this chart depends on
-    └── templates/    # The template files
-        └── tests/    # The test files
+```shell
+foo/
+├── .helmignore   # Contains patterns to ignore when packaging Helm charts.
+├── Chart.yaml    # Information about your chart
+├── values.yaml   # The default values for your templates
+├── charts/       # Charts that this chart depends on
+└── templates/    # The template files
+    └── tests/    # The test files
+```
 
 'helm create'使用一个目录作为参数。如果给定目录路径不存在，Helm会自动创建。如果给定目录存在且非空，冲突文件会被覆盖，其他文件会被保留。
 

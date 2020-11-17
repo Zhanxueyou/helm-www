@@ -8,24 +8,22 @@ install one or more Helm plugins
 
 ### 简介
 
-
 This command allows you to install a plugin from a url to a VCS repo or a local path.
 
-
-```
+```shell
 helm plugin install [options] <path|url>... [flags]
 ```
 
 ### 可选项
 
-```
+```shell
   -h, --help             help for install
       --version string   specify a version constraint. If this is not specified, the latest version is installed
 ```
 
 ### 从父命令继承的命令
 
-```
+```shell
       --debug                       enable verbose output
       --kube-apiserver string       the address and the port for the Kubernetes API server
       --kube-as-group stringArray   Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
@@ -41,6 +39,4 @@ helm plugin install [options] <path|url>... [flags]
 
 ### 请参阅
 
-* [helm plugin](helm_plugin.md)	 - install, list, or uninstall Helm plugins
-
-
+* [helm plugin](helm_plugin.md) - install, list, or uninstall Helm plugins

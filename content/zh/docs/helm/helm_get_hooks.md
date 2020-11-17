@@ -41,4 +41,4 @@ helm get hooks RELEASE_NAME [flags]
 
 ### 请参阅
 
-* [helm get](helm_get.md) - download extended information of a named release
+* [helm get](helm_get.md) - 下载命名版本的扩展信息

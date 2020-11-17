@@ -8,29 +8,28 @@ title: "Helm 历史"
 
 ### 简介
 
+打印给定版本的历史修订。
 
-History prints historical revisions for a given release.
+默认会返回最大的256个历史版本。设置'--max'配置返回历史列表的最大长度。
 
-A default maximum of 256 revisions will be returned. Setting '--max'
-configures the maximum length of the revision list returned.
+历史发布集合会被打印成格式化的表格，例如：
 
-The historical release set is printed as a formatted table, e.g:
-
-    $ helm history angry-bird
-    REVISION    UPDATED                     STATUS          CHART             APP VERSION     DESCRIPTION
-    1           Mon Oct 3 10:15:13 2016     superseded      alpine-0.1.0      1.0             Initial install
-    2           Mon Oct 3 10:15:13 2016     superseded      alpine-0.1.0      1.0             Upgraded successfully
-    3           Mon Oct 3 10:15:13 2016     superseded      alpine-0.1.0      1.0             Rolled back to 2
-    4           Mon Oct 3 10:15:13 2016     deployed        alpine-0.1.0      1.0             Upgraded successfully
-
-
+```shell
+$ helm history angry-bird
+REVISION    UPDATED                     STATUS          CHART             APP VERSION     DESCRIPTION
+1           Mon Oct 3 10:15:13 2016     superseded      alpine-0.1.0      1.0             Initial install
+2           Mon Oct 3 10:15:13 2016     superseded      alpine-0.1.0      1.0             Upgraded successfully
+3           Mon Oct 3 10:15:13 2016     superseded      alpine-0.1.0      1.0             Rolled back to 2
+4           Mon Oct 3 10:15:13 2016     deployed        alpine-0.1.0      1.0             Upgraded successfully
 ```
+
+```shell
 helm history RELEASE_NAME [flags]
 ```
 
 ### 可选项
 
-```
+```shell
   -h, --help            help for history
       --max int         maximum number of revision to include in history (default 256)
   -o, --output format   prints the output in the specified format. Allowed values: table, json, yaml (default table)
@@ -38,7 +37,7 @@ helm history RELEASE_NAME [flags]
 
 ### 从父命令继承的命令
 
-```
+```shell
       --debug                       enable verbose output
       --kube-apiserver string       the address and the port for the Kubernetes API server
       --kube-as-group stringArray   Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
@@ -54,6 +53,4 @@ helm history RELEASE_NAME [flags]
 
 ### 请参阅
 
-* [helm](helm.md)	 - The Helm package manager for Kubernetes.
-
-
+* [helm](helm.md) - 针对Kubernetes的Helm包管理器

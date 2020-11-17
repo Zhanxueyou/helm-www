@@ -4,10 +4,9 @@ title: "Helm Install"
 
 ## helm install
 
-install a chart
+安装chart
 
 ### 简介
-
 
 This command installs a chart archive.
 
@@ -20,32 +19,43 @@ a string value use '--set-string'. In case a value is large and therefore
 you want not to use neither '--values' nor '--set', use '--set-file' to read the
 single large value from file.
 
-    $ helm install -f myvalues.yaml myredis ./redis
+```shell
+$ helm install -f myvalues.yaml myredis ./redis
+```
 
 or
 
-    $ helm install --set name=prod myredis ./redis
+```shell
+$ helm install --set name=prod myredis ./redis
+```
 
 or
 
-    $ helm install --set-string long_int=1234567890 myredis ./redis
+```shell
+$ helm install --set-string long_int=1234567890 myredis ./redis
+```
 
 or
 
-    $ helm install --set-file my_script=dothings.sh myredis ./redis
+```shell
+$ helm install --set-file my_script=dothings.sh myredis ./redis
+```
 
 You can specify the '--values'/'-f' flag multiple times. The priority will be given to the
 last (right-most) file specified. For example, if both myvalues.yaml and override.yaml
 contained a key called 'Test', the value set in override.yaml would take precedence:
 
-    $ helm install -f myvalues.yaml -f override.yaml  myredis ./redis
+```shell
+$ helm install -f myvalues.yaml -f override.yaml  myredis ./redis
+```
 
 You can specify the '--set' flag multiple times. The priority will be given to the
 last (right-most) set specified. For example, if both 'bar' and 'newbar' values are
 set for a key called 'foo', the 'newbar' value would take precedence:
 
+```shell
     $ helm install --set foo=bar --set foo=newbar  myredis ./redis
-
+```
 
 To check the generated manifests of a release without installing the chart,
 the '--debug' and '--dry-run' flags can be combined.
@@ -74,14 +84,13 @@ supply a version number with the '--version' flag.
 To see the list of chart repositories, use 'helm repo list'. To search for
 charts in a repository, use 'helm search'.
 
-
-```
+```shell
 helm install [NAME] [CHART] [flags]
 ```
 
 ### 可选项
 
-```
+```shell
       --atomic                       if set, the installation process deletes the installation on failure. The --wait flag will be set automatically if --atomic is used
       --ca-file string               verify certificates of HTTPS-enabled servers using this CA bundle
       --cert-file string             identify HTTPS client using this SSL certificate file
@@ -118,7 +127,7 @@ helm install [NAME] [CHART] [flags]
 
 ### 从父命令继承的命令
 
-```
+```shell
       --debug                       enable verbose output
       --kube-apiserver string       the address and the port for the Kubernetes API server
       --kube-as-group stringArray   Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
@@ -134,6 +143,4 @@ helm install [NAME] [CHART] [flags]
 
 ### 请参阅
 
-* [helm](helm.md)	 - The Helm package manager for Kubernetes.
-
-
+* [helm](helm.md) - 针对Kubernetes的Helm包管理器

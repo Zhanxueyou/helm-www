@@ -8,7 +8,6 @@ list releases
 
 ### 简介
 
-
 This command lists all of the releases for a specified namespace (uses current namespace context if namespace not specified).
 
 By default, it lists only releases that are deployed or failed. Flags like
@@ -22,9 +21,11 @@ If the --filter flag is provided, it will be treated as a filter. Filters are
 regular expressions (Perl compatible) that are applied to the list of releases.
 Only items that match the filter will be returned.
 
-    $ helm list --filter 'ara[a-z]+'
-    NAME                UPDATED                                  CHART
-    maudlin-arachnid    2020-06-18 14:17:46.125134977 +0000 UTC  alpine-0.1.0
+```shell
+$ helm list --filter 'ara[a-z]+'
+NAME                UPDATED                                  CHART
+maudlin-arachnid    2020-06-18 14:17:46.125134977 +0000 UTC  alpine-0.1.0
+```
 
 If no results are found, 'helm list' will exit 0, but with no output (or in
 the case of no '-q' flag, only headers).
@@ -34,14 +35,13 @@ Setting '--max' to 0 will not return all results. Rather, it will return the
 server's default, which may be much higher than 256. Pairing the '--max'
 flag with the '--offset' flag allows you to page through results.
 
-
-```
+```shell
 helm list [flags]
 ```
 
 ### 可选项
 
-```
+```shell
   -a, --all                  show all releases without any filter applied
   -A, --all-namespaces       list releases across all namespaces
   -d, --date                 sort by release date
@@ -64,7 +64,7 @@ helm list [flags]
 
 ### 从父命令继承的命令
 
-```
+```shell
       --debug                       enable verbose output
       --kube-apiserver string       the address and the port for the Kubernetes API server
       --kube-as-group stringArray   Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
@@ -80,6 +80,4 @@ helm list [flags]
 
 ### 请参阅
 
-* [helm](helm.md)	 - The Helm package manager for Kubernetes.
-
-
+* [helm](helm.md) - The Helm package manager for Kubernetes.

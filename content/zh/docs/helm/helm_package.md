@@ -8,7 +8,6 @@ package a chart directory into a chart archive
 
 ### 简介
 
-
 This command packages a chart into a versioned chart archive file. If a path
 is given, this will look at that path for a chart (which must contain a
 Chart.yaml file) and then package that directory.
@@ -23,14 +22,13 @@ provide '--keyring path/to/secret/keys' and '--key keyname'.
 If '--keyring' is not specified, Helm usually defaults to the public keyring
 unless your environment is otherwise configured.
 
-
-```
+```shell
 helm package [CHART_PATH] [...] [flags]
 ```
 
 ### 可选项
 
-```
+```shell
       --app-version string       set the appVersion on the chart to this version
   -u, --dependency-update        update dependencies from "Chart.yaml" to dir "charts/" before packaging
   -d, --destination string       location to write the chart. (default ".")
@@ -44,7 +42,7 @@ helm package [CHART_PATH] [...] [flags]
 
 ### 从父命令继承的命令
 
-```
+```shell
       --debug                       enable verbose output
       --kube-apiserver string       the address and the port for the Kubernetes API server
       --kube-as-group stringArray   Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
@@ -60,6 +58,4 @@ helm package [CHART_PATH] [...] [flags]
 
 ### 请参阅
 
-* [helm](helm.md)	 - The Helm package manager for Kubernetes.
-
-
+* [helm](helm.md) - The Helm package manager for Kubernetes.

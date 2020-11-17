@@ -17,13 +17,13 @@ title: "Helm依赖升级"
 
 不需要在'Chart.yaml'中表示依赖。 因此，更新命令不会删除chart，除非是在Chart.yaml文件中的错误版本。
 
-```
+```shell
 helm dependency update CHART [flags]
 ```
 
 ### 可选项
 
-```
+```shell
   -h, --help             help for update
       --keyring string   keyring containing public keys (default "~/.gnupg/pubring.gpg")
       --skip-refresh     do not refresh the local repository cache
@@ -32,7 +32,7 @@ helm dependency update CHART [flags]
 
 ### 从父命令继承的命令
 
-```
+```shell
       --debug                       enable verbose output
       --kube-apiserver string       the address and the port for the Kubernetes API server
       --kube-as-group stringArray   Group to impersonate for the operation, this flag can be repeated to specify multiple groups.

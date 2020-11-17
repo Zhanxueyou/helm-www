@@ -1,7 +1,7 @@
 ---
-section: deprecated
+section: 弃用
 ---
 
 ## helm inspect
 
-This command has been renamed. Please refer instead to [helm show](../helm_show/).
+该命令已被重命名，请参考[helm show](helm_show.md)。

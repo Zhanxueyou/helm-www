@@ -1,5 +1,5 @@
 ---
-title: "Helm Env"
+title: "Helm 变量"
 ---
 
 ## helm env
@@ -8,23 +8,21 @@ helm 客户端环境信息
 
 ### 简介
 
-
 Env 打印所有Helm使用的环境信息
 
-
-```
+```shell
 helm env [flags]
 ```
 
 ### 可选项
 
-```
+```shell
   -h, --help   help for env
 ```
 
 ### 从父命令继承的命令
 
-```
+```shell
       --debug                       enable verbose output
       --kube-apiserver string       the address and the port for the Kubernetes API server
       --kube-as-group stringArray   Group to impersonate for the operation, this flag can be repeated to specify multiple groups.

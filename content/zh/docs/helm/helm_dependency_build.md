@@ -14,14 +14,13 @@ title: "Helm依赖构建"
 
 如果没找到锁定文件，'helm dependency build'映射到'helm dependency update'
 
-
-```
+```shell
 helm dependency build CHART [flags]
 ```
 
 ### 可选项
 
-```
+```shell
   -h, --help             help for build
       --keyring string   keyring containing public keys (default "~/.gnupg/pubring.gpg")
       --verify           verify the packages against signatures
@@ -29,7 +28,7 @@ helm dependency build CHART [flags]
 
 ### 从父命令继承的命令
 
-```
+```shell
       --debug                       enable verbose output
       --kube-apiserver string       the address and the port for the Kubernetes API server
       --kube-as-group stringArray   Group to impersonate for the operation, this flag can be repeated to specify multiple groups.

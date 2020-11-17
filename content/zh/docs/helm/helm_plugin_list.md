@@ -10,19 +10,19 @@ list installed Helm plugins
 
 list installed Helm plugins
 
-```
+```shell
 helm plugin list [flags]
 ```
 
 ### 可选项
 
-```
+```shell
   -h, --help   help for list
 ```
 
 ### 从父命令继承的命令
 
-```
+```shell
       --debug                       enable verbose output
       --kube-apiserver string       the address and the port for the Kubernetes API server
       --kube-as-group stringArray   Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
@@ -38,6 +38,4 @@ helm plugin list [flags]
 
 ### 请参阅
 
-* [helm plugin](helm_plugin.md)	 - install, list, or uninstall Helm plugins
-
-
+* [helm plugin](helm_plugin.md) - install, list, or uninstall Helm plugins
