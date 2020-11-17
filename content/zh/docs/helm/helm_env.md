@@ -6,7 +6,7 @@ title: "Helm Env"
 
 helm client environment information
 
-### Synopsis
+### 简介
 
 
 Env prints out all the environment information in use by Helm.
@@ -16,13 +16,13 @@ Env prints out all the environment information in use by Helm.
 helm env [flags]
 ```
 
-### Options
+### 可选项
 
 ```
   -h, --help   help for env
 ```
 
-### Options inherited from parent commands
+### 从父命令继承的命令
 
 ```
       --debug                       enable verbose output
@@ -38,7 +38,7 @@ helm env [flags]
       --repository-config string    path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
 ```
 
-### SEE ALSO
+### 请参阅
 
 * [helm](helm.md)	 - The Helm package manager for Kubernetes.
 

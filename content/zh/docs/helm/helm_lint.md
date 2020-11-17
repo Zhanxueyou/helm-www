@@ -6,7 +6,7 @@ title: "Helm Lint"
 
 examine a chart for possible issues
 
-### Synopsis
+### 简介
 
 
 This command takes a path to a chart and runs a series of tests to verify that
@@ -21,7 +21,7 @@ or recommendation, it will emit [WARNING] messages.
 helm lint PATH [flags]
 ```
 
-### Options
+### 可选项
 
 ```
   -h, --help                     help for lint
@@ -33,7 +33,7 @@ helm lint PATH [flags]
       --with-subcharts           lint dependent charts
 ```
 
-### Options inherited from parent commands
+### 从父命令继承的命令
 
 ```
       --debug                       enable verbose output
@@ -49,7 +49,7 @@ helm lint PATH [flags]
       --repository-config string    path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
 ```
 
-### SEE ALSO
+### 请参阅
 
 * [helm](helm.md)	 - The Helm package manager for Kubernetes.
 

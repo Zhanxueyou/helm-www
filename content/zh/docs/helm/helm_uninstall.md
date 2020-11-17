@@ -6,7 +6,7 @@ title: "Helm Uninstall"
 
 uninstall a release
 
-### Synopsis
+### 简介
 
 
 This command takes a release name and uninstalls the release.
@@ -22,7 +22,7 @@ uninstalling them.
 helm uninstall RELEASE_NAME [...] [flags]
 ```
 
-### Options
+### 可选项
 
 ```
       --description string   add a custom description
@@ -33,7 +33,7 @@ helm uninstall RELEASE_NAME [...] [flags]
       --timeout duration     time to wait for any individual Kubernetes operation (like Jobs for hooks) (default 5m0s)
 ```
 
-### Options inherited from parent commands
+### 从父命令继承的命令
 
 ```
       --debug                       enable verbose output
@@ -49,7 +49,7 @@ helm uninstall RELEASE_NAME [...] [flags]
       --repository-config string    path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
 ```
 
-### SEE ALSO
+### 请参阅
 
 * [helm](helm.md)	 - The Helm package manager for Kubernetes.
 

@@ -6,7 +6,7 @@ title: "Helm Repo Update"
 
 update information of available charts locally from chart repositories
 
-### Synopsis
+### 简介
 
 
 Update gets the latest information about charts from the respective chart repositories.
@@ -17,13 +17,13 @@ Information is cached locally, where it is used by commands like 'helm search'.
 helm repo update [flags]
 ```
 
-### Options
+### 可选项
 
 ```
   -h, --help   help for update
 ```
 
-### Options inherited from parent commands
+### 从父命令继承的命令
 
 ```
       --debug                       enable verbose output
@@ -39,7 +39,7 @@ helm repo update [flags]
       --repository-config string    path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
 ```
 
-### SEE ALSO
+### 请参阅
 
 * [helm repo](helm_repo.md)	 - add, list, remove, update, and index chart repositories
 

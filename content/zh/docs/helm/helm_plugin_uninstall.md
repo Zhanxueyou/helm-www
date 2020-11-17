@@ -6,7 +6,7 @@ title: "Helm Plugin Uninstall"
 
 uninstall one or more Helm plugins
 
-### Synopsis
+### 简介
 
 uninstall one or more Helm plugins
 
@@ -14,13 +14,13 @@ uninstall one or more Helm plugins
 helm plugin uninstall <plugin>... [flags]
 ```
 
-### Options
+### 可选项
 
 ```
   -h, --help   help for uninstall
 ```
 
-### Options inherited from parent commands
+### 从父命令继承的命令
 
 ```
       --debug                       enable verbose output
@@ -36,7 +36,7 @@ helm plugin uninstall <plugin>... [flags]
       --repository-config string    path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
 ```
 
-### SEE ALSO
+### 请参阅
 
 * [helm plugin](helm_plugin.md)	 - install, list, or uninstall Helm plugins
 

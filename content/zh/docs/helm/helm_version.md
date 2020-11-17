@@ -6,7 +6,7 @@ title: "Helm Version"
 
 print the client version information
 
-### Synopsis
+### 简介
 
 
 Show the version for Helm.
@@ -35,7 +35,7 @@ the template:
 helm version [flags]
 ```
 
-### Options
+### 可选项
 
 ```
   -h, --help              help for version
@@ -43,7 +43,7 @@ helm version [flags]
       --template string   template for version string format
 ```
 
-### Options inherited from parent commands
+### 从父命令继承的命令
 
 ```
       --debug                       enable verbose output
@@ -59,7 +59,7 @@ helm version [flags]
       --repository-config string    path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
 ```
 
-### SEE ALSO
+### 请参阅
 
 * [helm](helm.md)	 - The Helm package manager for Kubernetes.
 

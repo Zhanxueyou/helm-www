@@ -6,7 +6,7 @@ title: "Helm Show Readme"
 
 show the chart's README
 
-### Synopsis
+### 简介
 
 
 This command inspects a chart (directory, file, or URL) and displays the contents
@@ -17,7 +17,7 @@ of the README file
 helm show readme [CHART] [flags]
 ```
 
-### Options
+### 可选项
 
 ```
       --ca-file string             verify certificates of HTTPS-enabled servers using this CA bundle
@@ -34,7 +34,7 @@ helm show readme [CHART] [flags]
       --version string             specify the exact chart version to use. If this is not specified, the latest version is used
 ```
 
-### Options inherited from parent commands
+### 从父命令继承的命令
 
 ```
       --debug                       enable verbose output
@@ -50,7 +50,7 @@ helm show readme [CHART] [flags]
       --repository-config string    path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
 ```
 
-### SEE ALSO
+### 请参阅
 
 * [helm show](helm_show.md)	 - show information of a chart
 

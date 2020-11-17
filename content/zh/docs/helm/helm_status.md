@@ -6,7 +6,7 @@ title: "Helm Status"
 
 display the status of the named release
 
-### Synopsis
+### 简介
 
 
 This command shows the status of a named release.
@@ -25,7 +25,7 @@ The status consists of:
 helm status RELEASE_NAME [flags]
 ```
 
-### Options
+### 可选项
 
 ```
   -h, --help            help for status
@@ -34,7 +34,7 @@ helm status RELEASE_NAME [flags]
       --show-desc       if set, display the description message of the named release
 ```
 
-### Options inherited from parent commands
+### 从父命令继承的命令
 
 ```
       --debug                       enable verbose output
@@ -50,7 +50,7 @@ helm status RELEASE_NAME [flags]
       --repository-config string    path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
 ```
 
-### SEE ALSO
+### 请参阅
 
 * [helm](helm.md)	 - The Helm package manager for Kubernetes.
 

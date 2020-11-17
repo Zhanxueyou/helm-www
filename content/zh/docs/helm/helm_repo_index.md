@@ -6,7 +6,7 @@ title: "Helm Repo Index"
 
 generate an index file given a directory containing packaged charts
 
-### Synopsis
+### 简介
 
 
 Read the current directory and generate an index file based on the charts found.
@@ -23,7 +23,7 @@ into the existing index, with local charts taking priority over existing charts.
 helm repo index [DIR] [flags]
 ```
 
-### Options
+### 可选项
 
 ```
   -h, --help           help for index
@@ -31,7 +31,7 @@ helm repo index [DIR] [flags]
       --url string     url of chart repository
 ```
 
-### Options inherited from parent commands
+### 从父命令继承的命令
 
 ```
       --debug                       enable verbose output
@@ -47,7 +47,7 @@ helm repo index [DIR] [flags]
       --repository-config string    path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
 ```
 
-### SEE ALSO
+### 请参阅
 
 * [helm repo](helm_repo.md)	 - add, list, remove, update, and index chart repositories
 

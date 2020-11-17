@@ -6,7 +6,7 @@ title: "Helm Plugin List"
 
 list installed Helm plugins
 
-### Synopsis
+### 简介
 
 list installed Helm plugins
 
@@ -14,13 +14,13 @@ list installed Helm plugins
 helm plugin list [flags]
 ```
 
-### Options
+### 可选项
 
 ```
   -h, --help   help for list
 ```
 
-### Options inherited from parent commands
+### 从父命令继承的命令
 
 ```
       --debug                       enable verbose output
@@ -36,7 +36,7 @@ helm plugin list [flags]
       --repository-config string    path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
 ```
 
-### SEE ALSO
+### 请参阅
 
 * [helm plugin](helm_plugin.md)	 - install, list, or uninstall Helm plugins
 

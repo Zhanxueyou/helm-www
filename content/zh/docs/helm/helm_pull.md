@@ -6,7 +6,7 @@ title: "Helm Pull"
 
 download a chart from a repository and (optionally) unpack it in local directory
 
-### Synopsis
+### 简介
 
 
 Retrieve a package from a package repository, and download it locally.
@@ -27,7 +27,7 @@ result in an error, and the chart will not be saved locally.
 helm pull [chart URL | repo/chartname] [...] [flags]
 ```
 
-### Options
+### 可选项
 
 ```
       --ca-file string             verify certificates of HTTPS-enabled servers using this CA bundle
@@ -48,7 +48,7 @@ helm pull [chart URL | repo/chartname] [...] [flags]
       --version string             specify the exact chart version to use. If this is not specified, the latest version is used
 ```
 
-### Options inherited from parent commands
+### 从父命令继承的命令
 
 ```
       --debug                       enable verbose output
@@ -64,7 +64,7 @@ helm pull [chart URL | repo/chartname] [...] [flags]
       --repository-config string    path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
 ```
 
-### SEE ALSO
+### 请参阅
 
 * [helm](helm.md)	 - The Helm package manager for Kubernetes.
 

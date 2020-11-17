@@ -6,7 +6,7 @@ title: "Helm Show Values"
 
 show the chart's values
 
-### Synopsis
+### 简介
 
 
 This command inspects a chart (directory, file, or URL) and displays the contents
@@ -17,7 +17,7 @@ of the values.yaml file
 helm show values [CHART] [flags]
 ```
 
-### Options
+### 可选项
 
 ```
       --ca-file string             verify certificates of HTTPS-enabled servers using this CA bundle
@@ -35,7 +35,7 @@ helm show values [CHART] [flags]
       --version string             specify the exact chart version to use. If this is not specified, the latest version is used
 ```
 
-### Options inherited from parent commands
+### 从父命令继承的命令
 
 ```
       --debug                       enable verbose output
@@ -51,7 +51,7 @@ helm show values [CHART] [flags]
       --repository-config string    path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
 ```
 
-### SEE ALSO
+### 请参阅
 
 * [helm show](helm_show.md)	 - show information of a chart
 

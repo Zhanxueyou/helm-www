@@ -6,7 +6,7 @@ title: "Helm Search Hub"
 
 search for charts in the Helm Hub or an instance of Monocular
 
-### Synopsis
+### 简介
 
 
 Search the Helm Hub or an instance of Monocular for Helm charts.
@@ -24,7 +24,7 @@ Helm Hub. You can find it at https://github.com/helm/monocular
 helm search hub [keyword] [flags]
 ```
 
-### Options
+### 可选项
 
 ```
       --endpoint string      monocular instance to query for charts (default "https://hub.helm.sh")
@@ -33,7 +33,7 @@ helm search hub [keyword] [flags]
   -o, --output format        prints the output in the specified format. Allowed values: table, json, yaml (default table)
 ```
 
-### Options inherited from parent commands
+### 从父命令继承的命令
 
 ```
       --debug                       enable verbose output
@@ -49,7 +49,7 @@ helm search hub [keyword] [flags]
       --repository-config string    path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
 ```
 
-### SEE ALSO
+### 请参阅
 
 * [helm search](helm_search.md)	 - search for a keyword in charts
 

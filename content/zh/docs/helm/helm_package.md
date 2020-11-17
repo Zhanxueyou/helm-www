@@ -6,7 +6,7 @@ title: "Helm Package"
 
 package a chart directory into a chart archive
 
-### Synopsis
+### 简介
 
 
 This command packages a chart into a versioned chart archive file. If a path
@@ -28,7 +28,7 @@ unless your environment is otherwise configured.
 helm package [CHART_PATH] [...] [flags]
 ```
 
-### Options
+### 可选项
 
 ```
       --app-version string       set the appVersion on the chart to this version
@@ -42,7 +42,7 @@ helm package [CHART_PATH] [...] [flags]
       --version string           set the version on the chart to this semver version
 ```
 
-### Options inherited from parent commands
+### 从父命令继承的命令
 
 ```
       --debug                       enable verbose output
@@ -58,7 +58,7 @@ helm package [CHART_PATH] [...] [flags]
       --repository-config string    path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
 ```
 
-### SEE ALSO
+### 请参阅
 
 * [helm](helm.md)	 - The Helm package manager for Kubernetes.
 

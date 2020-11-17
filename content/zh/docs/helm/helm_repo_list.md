@@ -6,7 +6,7 @@ title: "Helm Repo List"
 
 list chart repositories
 
-### Synopsis
+### 简介
 
 list chart repositories
 
@@ -14,14 +14,14 @@ list chart repositories
 helm repo list [flags]
 ```
 
-### Options
+### 可选项
 
 ```
   -h, --help            help for list
   -o, --output format   prints the output in the specified format. Allowed values: table, json, yaml (default table)
 ```
 
-### Options inherited from parent commands
+### 从父命令继承的命令
 
 ```
       --debug                       enable verbose output
@@ -37,7 +37,7 @@ helm repo list [flags]
       --repository-config string    path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
 ```
 
-### SEE ALSO
+### 请参阅
 
 * [helm repo](helm_repo.md)	 - add, list, remove, update, and index chart repositories
 

@@ -6,7 +6,7 @@ title: "Helm List"
 
 list releases
 
-### Synopsis
+### 简介
 
 
 This command lists all of the releases for a specified namespace (uses current namespace context if namespace not specified).
@@ -39,7 +39,7 @@ flag with the '--offset' flag allows you to page through results.
 helm list [flags]
 ```
 
-### Options
+### 可选项
 
 ```
   -a, --all                  show all releases without any filter applied
@@ -62,7 +62,7 @@ helm list [flags]
       --uninstalling         show releases that are currently being uninstalled
 ```
 
-### Options inherited from parent commands
+### 从父命令继承的命令
 
 ```
       --debug                       enable verbose output
@@ -78,7 +78,7 @@ helm list [flags]
       --repository-config string    path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
 ```
 
-### SEE ALSO
+### 请参阅
 
 * [helm](helm.md)	 - The Helm package manager for Kubernetes.
 

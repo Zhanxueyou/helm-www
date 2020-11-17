@@ -6,7 +6,7 @@ title: "Helm Get All"
 
 download all information for a named release
 
-### Synopsis
+### 简介
 
 
 This command prints a human readable collection of information about the
@@ -17,7 +17,7 @@ notes, hooks, supplied values, and generated manifest file of the given release.
 helm get all RELEASE_NAME [flags]
 ```
 
-### Options
+### 可选项
 
 ```
   -h, --help              help for all
@@ -25,7 +25,7 @@ helm get all RELEASE_NAME [flags]
       --template string   go template for formatting the output, eg: {{.Release.Name}}
 ```
 
-### Options inherited from parent commands
+### 从父命令继承的命令
 
 ```
       --debug                       enable verbose output
@@ -41,7 +41,7 @@ helm get all RELEASE_NAME [flags]
       --repository-config string    path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
 ```
 
-### SEE ALSO
+### 请参阅
 
 * [helm get](helm_get.md)	 - download extended information of a named release
 

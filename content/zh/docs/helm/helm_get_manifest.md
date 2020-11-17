@@ -6,7 +6,7 @@ title: "Helm Get Manifest"
 
 download the manifest for a named release
 
-### Synopsis
+### 简介
 
 
 This command fetches the generated manifest for a given release.
@@ -20,14 +20,14 @@ charts, those resources will also be included in the manifest.
 helm get manifest RELEASE_NAME [flags]
 ```
 
-### Options
+### 可选项
 
 ```
   -h, --help           help for manifest
       --revision int   get the named release with revision
 ```
 
-### Options inherited from parent commands
+### 从父命令继承的命令
 
 ```
       --debug                       enable verbose output
@@ -43,7 +43,7 @@ helm get manifest RELEASE_NAME [flags]
       --repository-config string    path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
 ```
 
-### SEE ALSO
+### 请参阅
 
 * [helm get](helm_get.md)	 - download extended information of a named release
 

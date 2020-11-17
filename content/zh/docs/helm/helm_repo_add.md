@@ -6,7 +6,7 @@ title: "Helm Repo Add"
 
 add a chart repository
 
-### Synopsis
+### 简介
 
 add a chart repository
 
@@ -14,7 +14,7 @@ add a chart repository
 helm repo add [NAME] [URL] [flags]
 ```
 
-### Options
+### 可选项
 
 ```
       --allow-deprecated-repos     by default, this command will not allow adding official repos that have been permanently deleted. This disables that behavior
@@ -29,7 +29,7 @@ helm repo add [NAME] [URL] [flags]
       --username string            chart repository username
 ```
 
-### Options inherited from parent commands
+### 从父命令继承的命令
 
 ```
       --debug                       enable verbose output
@@ -45,7 +45,7 @@ helm repo add [NAME] [URL] [flags]
       --repository-config string    path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
 ```
 
-### SEE ALSO
+### 请参阅
 
 * [helm repo](helm_repo.md)	 - add, list, remove, update, and index chart repositories
 

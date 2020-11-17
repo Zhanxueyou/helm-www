@@ -6,7 +6,7 @@ title: "Helm Plugin Install"
 
 install one or more Helm plugins
 
-### Synopsis
+### 简介
 
 
 This command allows you to install a plugin from a url to a VCS repo or a local path.
@@ -16,14 +16,14 @@ This command allows you to install a plugin from a url to a VCS repo or a local 
 helm plugin install [options] <path|url>... [flags]
 ```
 
-### Options
+### 可选项
 
 ```
   -h, --help             help for install
       --version string   specify a version constraint. If this is not specified, the latest version is installed
 ```
 
-### Options inherited from parent commands
+### 从父命令继承的命令
 
 ```
       --debug                       enable verbose output
@@ -39,7 +39,7 @@ helm plugin install [options] <path|url>... [flags]
       --repository-config string    path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
 ```
 
-### SEE ALSO
+### 请参阅
 
 * [helm plugin](helm_plugin.md)	 - install, list, or uninstall Helm plugins
 

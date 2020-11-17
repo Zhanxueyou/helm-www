@@ -6,19 +6,19 @@ title: "Helm Plugin"
 
 install, list, or uninstall Helm plugins
 
-### Synopsis
+### 简介
 
 
 Manage client-side Helm plugins.
 
 
-### Options
+### 可选项
 
 ```
   -h, --help   help for plugin
 ```
 
-### Options inherited from parent commands
+### 从父命令继承的命令
 
 ```
       --debug                       enable verbose output
@@ -34,7 +34,7 @@ Manage client-side Helm plugins.
       --repository-config string    path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
 ```
 
-### SEE ALSO
+### 请参阅
 
 * [helm](helm.md)	 - The Helm package manager for Kubernetes.
 * [helm plugin install](helm_plugin_install.md)	 - install one or more Helm plugins

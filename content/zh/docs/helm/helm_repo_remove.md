@@ -6,7 +6,7 @@ title: "Helm Repo Remove"
 
 remove one or more chart repositories
 
-### Synopsis
+### 简介
 
 remove one or more chart repositories
 
@@ -14,13 +14,13 @@ remove one or more chart repositories
 helm repo remove [REPO1 [REPO2 ...]] [flags]
 ```
 
-### Options
+### 可选项
 
 ```
   -h, --help   help for remove
 ```
 
-### Options inherited from parent commands
+### 从父命令继承的命令
 
 ```
       --debug                       enable verbose output
@@ -36,7 +36,7 @@ helm repo remove [REPO1 [REPO2 ...]] [flags]
       --repository-config string    path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
 ```
 
-### SEE ALSO
+### 请参阅
 
 * [helm repo](helm_repo.md)	 - add, list, remove, update, and index chart repositories
 

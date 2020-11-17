@@ -6,7 +6,7 @@ title: "Helm Template"
 
 locally render templates
 
-### Synopsis
+### 简介
 
 
 Render chart templates locally and display the output.
@@ -20,7 +20,7 @@ faked locally. Additionally, none of the server-side testing of chart validity
 helm template [NAME] [CHART] [flags]
 ```
 
-### Options
+### 可选项
 
 ```
   -a, --api-versions stringArray     Kubernetes api versions used for Capabilities.APIVersions
@@ -63,7 +63,7 @@ helm template [NAME] [CHART] [flags]
       --wait                         if set, will wait until all Pods, PVCs, Services, and minimum number of Pods of a Deployment, StatefulSet, or ReplicaSet are in a ready state before marking the release as successful. It will wait for as long as --timeout
 ```
 
-### Options inherited from parent commands
+### 从父命令继承的命令
 
 ```
       --debug                       enable verbose output
@@ -79,7 +79,7 @@ helm template [NAME] [CHART] [flags]
       --repository-config string    path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
 ```
 
-### SEE ALSO
+### 请参阅
 
 * [helm](helm.md)	 - The Helm package manager for Kubernetes.
 

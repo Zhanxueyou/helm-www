@@ -6,7 +6,7 @@ title: "Helm Get Values"
 
 download the values file for a named release
 
-### Synopsis
+### 简介
 
 
 This command downloads a values file for a given release.
@@ -16,7 +16,7 @@ This command downloads a values file for a given release.
 helm get values RELEASE_NAME [flags]
 ```
 
-### Options
+### 可选项
 
 ```
   -a, --all             dump all (computed) values
@@ -25,7 +25,7 @@ helm get values RELEASE_NAME [flags]
       --revision int    get the named release with revision
 ```
 
-### Options inherited from parent commands
+### 从父命令继承的命令
 
 ```
       --debug                       enable verbose output
@@ -41,7 +41,7 @@ helm get values RELEASE_NAME [flags]
       --repository-config string    path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
 ```
 
-### SEE ALSO
+### 请参阅
 
 * [helm get](helm_get.md)	 - download extended information of a named release
 

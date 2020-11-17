@@ -6,7 +6,7 @@ title: "Helm Repo"
 
 add, list, remove, update, and index chart repositories
 
-### Synopsis
+### 简介
 
 
 This command consists of multiple subcommands to interact with chart repositories.
@@ -14,13 +14,13 @@ This command consists of multiple subcommands to interact with chart repositorie
 It can be used to add, remove, list, and index chart repositories.
 
 
-### Options
+### 可选项
 
 ```
   -h, --help   help for repo
 ```
 
-### Options inherited from parent commands
+### 从父命令继承的命令
 
 ```
       --debug                       enable verbose output
@@ -36,7 +36,7 @@ It can be used to add, remove, list, and index chart repositories.
       --repository-config string    path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
 ```
 
-### SEE ALSO
+### 请参阅
 
 * [helm](helm.md)	 - The Helm package manager for Kubernetes.
 * [helm repo add](helm_repo_add.md)	 - add a chart repository

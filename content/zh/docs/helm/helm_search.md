@@ -6,7 +6,7 @@ title: "Helm Search"
 
 search for a keyword in charts
 
-### Synopsis
+### 简介
 
 
 Search provides the ability to search for Helm charts in the various places
@@ -14,13 +14,13 @@ they can be stored including the Helm Hub and repositories you have added. Use
 search subcommands to search different locations for charts.
 
 
-### Options
+### 可选项
 
 ```
   -h, --help   help for search
 ```
 
-### Options inherited from parent commands
+### 从父命令继承的命令
 
 ```
       --debug                       enable verbose output
@@ -36,7 +36,7 @@ search subcommands to search different locations for charts.
       --repository-config string    path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
 ```
 
-### SEE ALSO
+### 请参阅
 
 * [helm](helm.md)	 - The Helm package manager for Kubernetes.
 * [helm search hub](helm_search_hub.md)	 - search for charts in the Helm Hub or an instance of Monocular

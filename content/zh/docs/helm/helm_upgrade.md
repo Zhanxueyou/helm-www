@@ -6,7 +6,7 @@ title: "Helm Upgrade"
 
 upgrade a release
 
-### Synopsis
+### 简介
 
 
 This command upgrades a release to a new version of a chart.
@@ -39,7 +39,7 @@ set for a key called 'foo', the 'newbar' value would take precedence:
 helm upgrade [RELEASE] [CHART] [flags]
 ```
 
-### Options
+### 可选项
 
 ```
       --atomic                       if set, upgrade process rolls back changes made in case of failed upgrade. The --wait flag will be set automatically if --atomic is used
@@ -78,7 +78,7 @@ helm upgrade [RELEASE] [CHART] [flags]
       --wait                         if set, will wait until all Pods, PVCs, Services, and minimum number of Pods of a Deployment, StatefulSet, or ReplicaSet are in a ready state before marking the release as successful. It will wait for as long as --timeout
 ```
 
-### Options inherited from parent commands
+### 从父命令继承的命令
 
 ```
       --debug                       enable verbose output
@@ -94,7 +94,7 @@ helm upgrade [RELEASE] [CHART] [flags]
       --repository-config string    path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
 ```
 
-### SEE ALSO
+### 请参阅
 
 * [helm](helm.md)	 - The Helm package manager for Kubernetes.
 

@@ -6,7 +6,7 @@ title: "Helm依赖升级"
 
 基于Chart.yaml内容升级charts/
 
-### Synopsis
+### 简介
 
 更新磁盘上的依赖为Chart.yaml指定内容。
 

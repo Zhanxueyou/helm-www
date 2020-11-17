@@ -6,7 +6,7 @@ title: "Helm Verify"
 
 verify that a chart at the given path has been signed and is valid
 
-### Synopsis
+### 简介
 
 
 Verify that the given chart has a valid provenance file.
@@ -23,14 +23,14 @@ the 'helm package --sign' command.
 helm verify PATH [flags]
 ```
 
-### Options
+### 可选项
 
 ```
   -h, --help             help for verify
       --keyring string   keyring containing public keys (default "~/.gnupg/pubring.gpg")
 ```
 
-### Options inherited from parent commands
+### 从父命令继承的命令
 
 ```
       --debug                       enable verbose output
@@ -46,7 +46,7 @@ helm verify PATH [flags]
       --repository-config string    path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
 ```
 
-### SEE ALSO
+### 请参阅
 
 * [helm](helm.md)	 - The Helm package manager for Kubernetes.
 

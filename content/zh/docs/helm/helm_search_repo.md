@@ -6,7 +6,7 @@ title: "Helm Search Repo"
 
 search repositories for a keyword in charts
 
-### Synopsis
+### 简介
 
 
 Search reads through all of the repositories configured on the system, and
@@ -35,7 +35,7 @@ Repositories are managed with 'helm repo' commands.
 helm search repo [keyword] [flags]
 ```
 
-### Options
+### 可选项
 
 ```
       --devel                use development versions (alpha, beta, and release candidate releases), too. Equivalent to version '>0.0.0-0'. If --version is set, this is ignored
@@ -47,7 +47,7 @@ helm search repo [keyword] [flags]
   -l, --versions             show the long listing, with each version of each chart on its own line, for repositories you have added
 ```
 
-### Options inherited from parent commands
+### 从父命令继承的命令
 
 ```
       --debug                       enable verbose output
@@ -63,7 +63,7 @@ helm search repo [keyword] [flags]
       --repository-config string    path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
 ```
 
-### SEE ALSO
+### 请参阅
 
 * [helm search](helm_search.md)	 - search for a keyword in charts
 

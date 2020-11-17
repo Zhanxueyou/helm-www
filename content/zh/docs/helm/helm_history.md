@@ -6,7 +6,7 @@ title: "Helm History"
 
 fetch release history
 
-### Synopsis
+### 简介
 
 
 History prints historical revisions for a given release.
@@ -28,7 +28,7 @@ The historical release set is printed as a formatted table, e.g:
 helm history RELEASE_NAME [flags]
 ```
 
-### Options
+### 可选项
 
 ```
   -h, --help            help for history
@@ -36,7 +36,7 @@ helm history RELEASE_NAME [flags]
   -o, --output format   prints the output in the specified format. Allowed values: table, json, yaml (default table)
 ```
 
-### Options inherited from parent commands
+### 从父命令继承的命令
 
 ```
       --debug                       enable verbose output
@@ -52,7 +52,7 @@ helm history RELEASE_NAME [flags]
       --repository-config string    path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
 ```
 
-### SEE ALSO
+### 请参阅
 
 * [helm](helm.md)	 - The Helm package manager for Kubernetes.
 

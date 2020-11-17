@@ -6,7 +6,7 @@ title: "Helm Get"
 
 download extended information of a named release
 
-### Synopsis
+### 简介
 
 
 This command consists of multiple subcommands which can be used to
@@ -18,13 +18,13 @@ get extended information about the release, including:
 - The hooks associated with the release
 
 
-### Options
+### 可选项
 
 ```
   -h, --help   help for get
 ```
 
-### Options inherited from parent commands
+### 从父命令继承的命令
 
 ```
       --debug                       enable verbose output
@@ -40,7 +40,7 @@ get extended information about the release, including:
       --repository-config string    path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
 ```
 
-### SEE ALSO
+### 请参阅
 
 * [helm](helm.md)	 - The Helm package manager for Kubernetes.
 * [helm get all](helm_get_all.md)	 - download all information for a named release

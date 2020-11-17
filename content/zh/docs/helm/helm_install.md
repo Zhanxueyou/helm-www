@@ -6,7 +6,7 @@ title: "Helm Install"
 
 install a chart
 
-### Synopsis
+### 简介
 
 
 This command installs a chart archive.
@@ -79,7 +79,7 @@ charts in a repository, use 'helm search'.
 helm install [NAME] [CHART] [flags]
 ```
 
-### Options
+### 可选项
 
 ```
       --atomic                       if set, the installation process deletes the installation on failure. The --wait flag will be set automatically if --atomic is used
@@ -116,7 +116,7 @@ helm install [NAME] [CHART] [flags]
       --wait                         if set, will wait until all Pods, PVCs, Services, and minimum number of Pods of a Deployment, StatefulSet, or ReplicaSet are in a ready state before marking the release as successful. It will wait for as long as --timeout
 ```
 
-### Options inherited from parent commands
+### 从父命令继承的命令
 
 ```
       --debug                       enable verbose output
@@ -132,7 +132,7 @@ helm install [NAME] [CHART] [flags]
       --repository-config string    path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
 ```
 
-### SEE ALSO
+### 请参阅
 
 * [helm](helm.md)	 - The Helm package manager for Kubernetes.
 

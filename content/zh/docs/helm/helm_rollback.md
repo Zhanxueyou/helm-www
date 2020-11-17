@@ -6,7 +6,7 @@ title: "Helm Rollback"
 
 roll back a release to a previous revision
 
-### Synopsis
+### 简介
 
 
 This command rolls back a release to a previous revision.
@@ -22,7 +22,7 @@ To see revision numbers, run 'helm history RELEASE'.
 helm rollback <RELEASE> [REVISION] [flags]
 ```
 
-### Options
+### 可选项
 
 ```
       --cleanup-on-fail    allow deletion of new resources created in this rollback when rollback fails
@@ -36,7 +36,7 @@ helm rollback <RELEASE> [REVISION] [flags]
       --wait               if set, will wait until all Pods, PVCs, Services, and minimum number of Pods of a Deployment, StatefulSet, or ReplicaSet are in a ready state before marking the release as successful. It will wait for as long as --timeout
 ```
 
-### Options inherited from parent commands
+### 从父命令继承的命令
 
 ```
       --debug                       enable verbose output
@@ -52,7 +52,7 @@ helm rollback <RELEASE> [REVISION] [flags]
       --repository-config string    path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
 ```
 
-### SEE ALSO
+### 请参阅
 
 * [helm](helm.md)	 - The Helm package manager for Kubernetes.
 
