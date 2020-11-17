@@ -1,10 +1,10 @@
 ---
-title: "Helm History"
+title: "Helm 历史"
 ---
 
 ## helm history
 
-fetch release history
+检索发布历史
 
 ### 简介
 
