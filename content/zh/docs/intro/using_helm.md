@@ -4,48 +4,35 @@ description: "阐述Helm的基础用法。"
 weight: 3
 ---
 
-This guide explains the basics of using Helm to manage packages on your
-Kubernetes cluster. It assumes that you have already [installed]({{< ref
-"install.md" >}}) the Helm client.
+该指南描述了使用Helm在Kubernetes集群中管理包的基本方法。
+此刻假定您已经[安装](https://helm.sh/zh/docs/intro/install)了Helm客户端。
 
-If you are simply interested in running a few quick commands, you may wish to
-begin with the [Quickstart Guide]({{< ref "quickstart.md" >}}). This chapter
-covers the particulars of Helm commands, and explains how to use Helm.
+如果只是对一些快捷命令感兴趣，您可能希望从[快速开始指南](https://helm.sh/zh/docs/intro/quickstart)开始。
+本章节将介绍Helm命令细节，以及如何使用他们。
 
-## Three Big Concepts
+## 三大概念
 
-A *Chart* is a Helm package. It contains all of the resource definitions
-necessary to run an application, tool, or service inside of a Kubernetes
-cluster. Think of it like the Kubernetes equivalent of a Homebrew formula, an
-Apt dpkg, or a Yum RPM file.
+*Chart* 是一个Helm包，涵盖了需要在Kubernetes集群中运行应用，工具或者服务的资源定义。
+把它想象成Kubernetes对应的Homebrew公式，Apt dpkg，或者是Yum RPM文件。
 
-A *Repository* is the place where charts can be collected and shared. It's like
-Perl's [CPAN archive](https://www.cpan.org) or the [Fedora Package
-Database](https://fedorahosted.org/pkgdb2/), but for Kubernetes packages.
+*仓库* 是归集和分享chart的地方。类似于Perl的 [CPAN 归档](https://www.cpan.org)或者[Fedora
+包数据库](https://fedorahosted.org/pkgdb2/)，只针对于Kubernetes包。
 
-A *Release* is an instance of a chart running in a Kubernetes cluster. One chart
-can often be installed many times into the same cluster. And each time it is
-installed, a new _release_ is created. Consider a MySQL chart. If you want two
-databases running in your cluster, you can install that chart twice. Each one
-will have its own _release_, which will in turn have its own _release name_.
+*发布* 是在Kubernetes集群中运行的chart实例。一个chart经常在同一个集群中被重复安装。每次安装都会生成新的
+_发布_。比如MySQL，如果想让两个数据库运行在集群中，可以将chart安装两次。每一个都会有自己的 _发布版本_，并有自己的 _发布名称_。
 
-With these concepts in mind, we can now explain Helm like this:
+有了这些概念之后，就可以将Helm解释为：
 
-Helm installs _charts_ into Kubernetes, creating a new _release_ for each
-installation. And to find new charts, you can search Helm chart _repositories_.
+Helm在Kubernetes中安装的每一个 _charts_，都会创建一个新的 _发布_，想查找新chart，可以在Helm chart _仓库_ 搜索。
 
-## 'helm search': Finding Charts
+## 'helm search'：查找chart
 
-Helm comes with a powerful search command. It can be used to search two
-different types of source:
+Helm有强大的搜索命令。可以搜索两类不同资源：
 
-- `helm search hub` searches [the Artifact Hub](https://artifacthub.io), which
-  lists helm charts from dozens of different repositories.
-- `helm search repo` searches the repositories that you have added to your local
-  helm client (with `helm repo add`). This search is done over local data, and
-  no public network connection is needed.
+- `helm search hub` 搜索[Artifact Hub](https://artifacthub.io)，改仓库列出了来自不同仓库的大量chart。
+- `helm search repo` 搜索已经(用`helm repo add`)加入到本地helm客户端的仓库。该命名只搜索本地数据，不需要连接网络。
 
-You can find publicly available charts by running `helm search hub`:
+可以运行`helm search hub`搜索公共可用的chart：
 
 ```console
 $ helm search hub wordpress
@@ -55,12 +42,11 @@ https://hub.helm.sh/charts/presslabs/wordpress-...  v0.6.3        v0.6.3      Pr
 https://hub.helm.sh/charts/presslabs/wordpress-...  v0.7.1        v0.7.1      A Helm chart for deploying a WordPress site on ...
 ```
 
-The above searches for all `wordpress` charts on Artifact Hub.
+上述搜索从Artifact Hub中搜到了所有的`wordpress`的charts。
 
-With no filter, `helm search hub` shows you all of the available charts.
+不过滤的话，`helm search hub`会展示所有可用chart。
 
-Using `helm search repo`, you can find the names of the charts in repositories
-you have already added:
+使用`helm search repo`可以找到所有已经添加到仓库的chart名称：
 
 ```console
 $ helm repo add brigade https://brigadecore.github.io/charts
@@ -75,8 +61,7 @@ brigade/brigade-project       1.0.0         v1.0.0      Create a Brigade project
 brigade/kashti                0.4.0         v0.4.0      A Helm chart for Kubernetes
 ```
 
-Helm search uses a fuzzy string matching algorithm, so you can type parts of
-words or phrases:
+Helm搜索使用字符串模糊匹配，因此输入部分名称也可以：
 
 ```console
 $ helm search repo kash
@@ -84,14 +69,11 @@ NAME            CHART VERSION APP VERSION DESCRIPTION
 brigade/kashti  0.4.0         v0.4.0      A Helm chart for Kubernetes
 ```
 
-Search is a good way to find available packages. Once you have found a package
-you want to install, you can use `helm install` to install it.
+搜索是查找可用包的有效方式。一旦您找到了想要安装的包，使用`helm install`安装即可。
 
-## 'helm install': Installing a Package
+## 'helm install'：安装一个包
 
-To install a new package, use the `helm install` command. At its simplest, it
-takes two arguments: A release name that you pick, and the name of the chart you
-want to install.
+安装一个新包，使用`helm install`命令。最简单的方式有两个参数：查找到发布名称和chart名称。
 
 ```console
 $ helm install happy-panda stable/mariadb
@@ -139,23 +121,17 @@ To upgrade this helm chart:
 
 ```
 
-Now the `mariadb` chart is installed. Note that installing a chart creates a new
-_release_ object. The release above is named `happy-panda`. (If you want Helm to
-generate a name for you, leave off the release name and use `--generate-name`.)
+现在`mariadb` chart已经安装。注意安装chart会创建一个新的发布对象。上述发布的名称是：`happy-panda`。
+（如果想让Helm为你生成一个名称，去掉发布名称并加上`--generate-name`）
 
-During installation, the `helm` client will print useful information about which
-resources were created, what the state of the release is, and also whether there
-are additional configuration steps you can or should take.
+安装过程中，`helm`客户端会打印资源创建，发布状态以及额外需要额外处理的配置步骤等有效信息。
 
-Helm does not wait until all of the resources are running before it exits. Many
-charts require Docker images that are over 600M in size, and may take a long
-time to install into the cluster.
+Helm不会等所有资源都运行了才推出。许多chart需要的Docker镜像大小超过了600M，并且在集群安装可能会花很长时间。
 
-To keep track of a release's state, or to re-read configuration information, you
-can use `helm status`:
+为了跟踪发布状态，或者再看看配置信息，可以使用`helm status`：
 
 ```console
-$ helm status happy-panda                
+$ helm status happy-panda
 NAME: happy-panda
 LAST DEPLOYED: Fri May  8 17:46:49 2020
 NAMESPACE: default
@@ -198,15 +174,13 @@ To upgrade this helm chart:
       helm upgrade happy-panda stable/mariadb --set rootUser.password=$ROOT_PASSWORD
 ```
 
-The above shows the current state of your release.
+上述显示了发布的当前状态。
 
-### Customizing the Chart Before Installing
+### 安装之前自定义chart
 
-Installing the way we have here will only use the default configuration options
-for this chart. Many times, you will want to customize the chart to use your
-preferred configuration.
+此处安装只会使用chartd默认配置。很多时候，您想使用自己的配置自定义chart。
 
-To see what options are configurable on a chart, use `helm show values`:
+使用`helm show values`查看chart的可配置项：
 
 ```console
 $ helm show values stable/mariadb
@@ -241,55 +215,46 @@ imageTag: 10.1.14-r3
 # ...
 ```
 
-You can then override any of these settings in a YAML formatted file, and then
-pass that file during installation.
+可以在YAML格式文件中覆盖这些配置，然后在安装时调用这个文件。
 
 ```console
 $ echo '{mariadbUser: user0, mariadbDatabase: user0db}' > config.yaml
 $ helm install -f config.yaml stable/mariadb --generate-name
 ```
 
-The above will create a default MariaDB user with the name `user0`, and grant
-this user access to a newly created `user0db` database, but will accept all the
-rest of the defaults for that chart.
+上述命令会创建一个名为`user0`的MariaDB默认用户，并授予该用户最新创建的`user0db`库的访问权限，但其他配置会使用chart的默认配置。
 
-There are two ways to pass configuration data during install:
+安装时有两种方式传递配置数据：
 
-- `--values` (or `-f`): Specify a YAML file with overrides. This can be
-  specified multiple times and the rightmost file will take precedence
-- `--set`: Specify overrides on the command line.
+- `--values` (或`-f`)：指定一个重写的YAML文件。可以指定多个，最右边的文件优先
+- `--set`: 使用命令行指定覆盖内容
 
-If both are used, `--set` values are merged into `--values` with higher
-precedence. Overrides specified with `--set` are persisted in a ConfigMap.
-Values that have been `--set` can be viewed for a given release with `helm get
-values <release-name>`. Values that have been `--set` can be cleared by running
-`helm upgrade` with `--reset-values` specified.
+如果两个都使用，`--set`的值会以高优先级合并到`--values`中。用`--set`指定的覆盖内容会在配置映射中保存。
+`--set`配置的值可以只用`helm get values <release-name>`在给定的发布中看到。`--set`指定的值会被`helm upgrade`运行时`--reset-values`指定的值清空。
 
-#### The Format and Limitations of `--set`
+#### `--set`的格式和限制
 
-The `--set` option takes zero or more name/value pairs. At its simplest, it is
-used like this: `--set name=value`. The YAML equivalent of that is:
+`--set`选项附带0个或多个名字/值 对。最简单的使用方式是：`--set name=value`。 相对应的YAML是：
 
 ```yaml
 name: value
 ```
 
-Multiple values are separated by `,` characters. So `--set a=b,c=d` becomes:
+多行可以使用`,`分隔，`--set a=b,c=d`则变为：
 
 ```yaml
 a: b
 c: d
 ```
 
-More complex expressions are supported. For example, `--set outer.inner=value`
-is translated into this:
+还支持更负载的表达式，如：`--set outer.inner=value`会翻译成这样：
+
 ```yaml
 outer:
   inner: value
 ```
 
-Lists can be expressed by enclosing values in `{` and `}`. For example, `--set
-name={a, b, c}` translates to:
+列表可以用中括号括起来表示，比如：`--set name={a, b, c}`翻译为：
 
 ```yaml
 name:
@@ -298,16 +263,14 @@ name:
   - c
 ```
 
-As of Helm 2.5.0, it is possible to access list items using an array index
-syntax. For example, `--set servers[0].port=80` becomes:
+从Helm 2.5.0开始，可以使用数组索引语法访问列表项。比如`--set servers[0].port=80`变成了：
 
 ```yaml
 servers:
   - port: 80
 ```
 
-Multiple values can be set this way. The line `--set
-servers[0].port=80,servers[0].host=example` becomes:
+这种方式可以设置多个值，`--set servers[0].port=80,servers[0].host=example`变成了：
 
 ```yaml
 servers:
@@ -315,45 +278,38 @@ servers:
     host: example
 ```
 
-Sometimes you need to use special characters in your `--set` lines. You can use
-a backslash to escape the characters; `--set name=value1\,value2` will become:
+有时需要在`--set`行使用特殊符号。可以使用反斜杠转义字符，`--set name=value1\,value2`会变成：
 
 ```yaml
 name: "value1,value2"
 ```
 
-Similarly, you can escape dot sequences as well, which may come in handy when
-charts use the `toYaml` function to parse annotations, labels and node
-selectors. The syntax for `--set nodeSelector."kubernetes\.io/role"=master`
-becomes:
+类似的，可以转义点序列，当chart使用`toYaml`方法解析注释、标签和节点选择器时会很有用。
+`--set nodeSelector."kubernetes\.io/role"=master`则会变成：
 
 ```yaml
 nodeSelector:
   kubernetes.io/role: master
 ```
 
-Deeply nested data structures can be difficult to express using `--set`. Chart
-designers are encouraged to consider the `--set` usage when designing the format
-of a `values.yaml` file  (read more about [Values Files](../chart_template_guide/values_files/)).
+深度嵌套是数据结构很难使用`--set`表达。建议chart设计者设计`values.yaml`文件格式时考虑`--set`用法(查看[Values
+文件](https://helm.sh/docs/chart_template_guide/values_files/)了解更多)。
 
-### More Installation Methods
+### 更多安装方法
 
-The `helm install` command can install from several sources:
+`helm install`命令可以从以下这些源安装：
 
-- A chart repository (as we've seen above)
-- A local chart archive (`helm install foo foo-0.1.1.tgz`)
-- An unpacked chart directory (`helm install foo path/to/foo`)
-- A full URL (`helm install foo https://example.com/charts/foo-1.2.3.tgz`)
+- chart仓库(如上所述)
+- 本地chart包 (`helm install foo foo-0.1.1.tgz`)
+- 解压的chart目录 (`helm install foo path/to/foo`)
+- 完整URL(`helm install foo https://example.com/charts/foo-1.2.3.tgz`)
 
-## 'helm upgrade' and 'helm rollback': Upgrading a Release, and Recovering on Failure
+## 'helm upgrade' 和 'helm rollback'：升级版本和恢复失败
 
-When a new version of a chart is released, or when you want to change the
-configuration of your release, you can use the `helm upgrade` command.
+当chart新版本发布时，或者您想改变发布的配置，可以使用`helm upgrade`命令。
 
-An upgrade takes an existing release and upgrades it according to the
-information you provide. Because Kubernetes charts can be large and complex,
-Helm tries to perform the least invasive upgrade. It will only update things
-that have changed since the last release.
+升级采用已有版本并根据您提供的信息进行升级。由于Kubernetes的chart会很大且很复杂，Helm会尝试执行最小增量升级。
+这样只会升级自最新版发生改变的部分。
 
 ```console
 $ helm upgrade -f panda.yaml happy-panda stable/mariadb
@@ -365,38 +321,31 @@ Status: DEPLOYED
 ...
 ```
 
-In the above case, the `happy-panda` release is upgraded with the same chart,
-but with a new YAML file:
+上面这个例子中，`happy-panda`发布使用了同样的chart升级，但用了一个新的YAML文件：
 
 ```yaml
 mariadbUser: user1
 ```
 
-We can use `helm get values` to see whether that new setting took effect.
+我们可以使用`helm get values`查看新内容是否生效。
 
 ```console
 $ helm get values happy-panda
 mariadbUser: user1
 ```
 
-The `helm get` command is a useful tool for looking at a release in the cluster.
-And as we can see above, it shows that our new values from `panda.yaml` were
-deployed to the cluster.
+`helm get`在查看集群内的发布时很有用。正如我们上面看到的，显示了`panda.yaml`的新值已经部署到了集群。
 
-Now, if something does not go as planned during a release, it is easy to roll
-back to a previous release using `helm rollback [RELEASE] [REVISION]`.
+现在，如果有内容在发布中未按计划执行，使用`helm rollback [RELEASE] [REVISION]`能很容易回滚到上个版本。
 
 ```console
 $ helm rollback happy-panda 1
 ```
 
-The above rolls back our happy-panda to its very first release version. A
-release version is an incremental revision. Every time an install, upgrade, or
-rollback happens, the revision number is incremented by 1. The first revision
-number is always 1. And we can use `helm history [RELEASE]` to see revision
-numbers for a certain release.
+上述回滚了happy-panda到第一个发布版本。 发布版本是增量修订。每次安装、升级或者回滚，修订号都会自增加1。
+第一个版本号始终是1。我们可以使用`helm history [RELEASE]`查看某个版本的修订号。
 
-## Helpful Options for Install/Upgrade/Rollback
+## 安装/升级/回滚的有用项
 
 There are several other helpful options you can specify for customizing the
 behavior of Helm during an install/upgrade/rollback. Please note that this is
