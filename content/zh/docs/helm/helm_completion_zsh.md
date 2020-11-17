@@ -45,4 +45,4 @@ helm completion zsh
 
 ### 请参阅
 
-* [helm completion](helm_completion.md) - 为指定的shell生成自动补全脚本
+- [helm completion](helm_completion.md) - 为指定的shell生成自动补全脚本

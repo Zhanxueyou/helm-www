@@ -1,12 +1,12 @@
 ---
-title: "Helm Dependency Build"
+title: "Helm依赖构建"
 ---
 
-## helm dependency build
+## helm依赖构建
 
-rebuild the charts/ directory based on the Chart.lock file
+基于Chart.lock文件重新构建charts/目录
 
-### Synopsis
+### 简介
 
 
 Build out the charts/ directory from the Chart.lock file.
