@@ -1,5 +1,5 @@
 ---
-title: "Charts"
+title: "Chart"
 description: "阐述chart格式，并提供使用Helm构建chart的基本指导。"
 weight: 1
 ---
