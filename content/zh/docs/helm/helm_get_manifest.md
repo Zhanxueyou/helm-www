@@ -1,35 +1,31 @@
 ---
-title: "Helm Get Manifest"
+title: "Helm 获取清单"
 ---
 
 ## helm get manifest
 
-download the manifest for a named release
+下载命名版本的清单
 
 ### 简介
 
+该命令用来获取指定版本的清单文件
 
-This command fetches the generated manifest for a given release.
+清单是由该版本的chart生成的Kubernetes资源的YAML编码表示。
 
-A manifest is a YAML-encoded representation of the Kubernetes resources that
-were generated from this release's chart(s). If a chart is dependent on other
-charts, those resources will also be included in the manifest.
-
-
-```
+```shell
 helm get manifest RELEASE_NAME [flags]
 ```
 
 ### 可选项
 
-```
+```shell
   -h, --help           help for manifest
       --revision int   get the named release with revision
 ```
 
 ### 从父命令继承的命令
 
-```
+```shell
       --debug                       enable verbose output
       --kube-apiserver string       the address and the port for the Kubernetes API server
       --kube-as-group stringArray   Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
@@ -45,6 +41,4 @@ helm get manifest RELEASE_NAME [flags]
 
 ### 请参阅
 
-* [helm get](helm_get.md)	 - download extended information of a named release
-
-
+* [helm get](helm_get.md) - download extended information of a named release

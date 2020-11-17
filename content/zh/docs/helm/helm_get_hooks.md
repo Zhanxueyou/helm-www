@@ -1,33 +1,31 @@
 ---
-title: "Helm Get Hooks"
+title: "Helm 获取钩子"
 ---
 
 ## helm get hooks
 
-download all hooks for a named release
+下载命名版本的所有钩子
 
 ### 简介
 
+该命令下载指定版本的钩子
 
-This command downloads hooks for a given release.
+钩子被格式化为YAML格式并以YAML的'---\n'分隔符分隔
 
-Hooks are formatted in YAML and separated by the YAML '---\n' separator.
-
-
-```
+```shell
 helm get hooks RELEASE_NAME [flags]
 ```
 
 ### 可选项
 
-```
+```shell
   -h, --help           help for hooks
       --revision int   get the named release with revision
 ```
 
 ### 从父命令继承的命令
 
-```
+```shell
       --debug                       enable verbose output
       --kube-apiserver string       the address and the port for the Kubernetes API server
       --kube-as-group stringArray   Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
@@ -43,6 +41,4 @@ helm get hooks RELEASE_NAME [flags]
 
 ### 请参阅
 
-* [helm get](helm_get.md)	 - download extended information of a named release
-
-
+* [helm get](helm_get.md) - download extended information of a named release
