@@ -4,11 +4,11 @@ title: "Helm Repo Add"
 
 ## helm repo add
 
-add a chart repository
+添加chart仓库
 
 ### 简介
 
-add a chart repository
+添加chart仓库
 
 ```shell
 helm repo add [NAME] [URL] [flags]
@@ -47,4 +47,4 @@ helm repo add [NAME] [URL] [flags]
 
 ### 请参阅
 
-* [helm repo](helm_repo.md) - add, list, remove, update, and index chart repositories
+* [helm repo](helm_repo.md) - 添加、列出、删除、更新和索引chart仓库

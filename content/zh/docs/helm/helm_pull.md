@@ -4,22 +4,17 @@ title: "Helm Pull"
 
 ## helm pull
 
-download a chart from a repository and (optionally) unpack it in local directory
+从仓库下载并（可选）在本地目录解压
 
 ### 简介
 
-Retrieve a package from a package repository, and download it locally.
+从包仓库中检索包并下载到本地。
 
-This is useful for fetching packages to inspect, modify, or repackage. It can
-also be used to perform cryptographic verification of a chart without installing
-the chart.
+对于要获取检查，修改或重新打包的包很有用，还可以用于在不安装chart的情况下对chart进行加密验证。
 
-There are options for unpacking the chart after download. This will create a
-directory for the chart and uncompress into that directory.
+下载chart之后有解压的选项，会为chart创建一个目录并解压到这个目录中。
 
-If the --verify flag is specified, the requested chart MUST have a provenance
-file, and MUST pass the verification process. Failure in any part of this will
-result in an error, and the chart will not be saved locally.
+如果指定了--verify参数，请求的chart必须有出处文件，且必须通过验证。任意部分的失败都会导致错误，且chart不会在本地保存。
 
 ```shell
 helm pull [chart URL | repo/chartname] [...] [flags]

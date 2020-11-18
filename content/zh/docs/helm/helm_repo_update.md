@@ -4,12 +4,11 @@ title: "Helm Repo Update"
 
 ## helm repo update
 
-update information of available charts locally from chart repositories
+从chart仓库中更新本地本地可用chart的信息
 
 ### 简介
 
-Update gets the latest information about charts from the respective chart repositories.
-Information is cached locally, where it is used by commands like 'helm search'.
+更新从各自chart仓库中获取的有关chart的最新信息。信息会缓存在本地，被诸如'helm search'等命令使用。
 
 ```shell
 helm repo update [flags]
@@ -39,4 +38,4 @@ helm repo update [flags]
 
 ### 请参阅
 
-* [helm repo](helm_repo.md) - add, list, remove, update, and index chart repositories
+* [helm repo](helm_repo.md) - 添加、列出、删除、更新和索引chart仓库

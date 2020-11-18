@@ -4,11 +4,11 @@ title: "Helm Repo Remove"
 
 ## helm repo remove
 
-remove one or more chart repositories
+删除一个或多个仓库
 
 ### 简介
 
-remove one or more chart repositories
+删除一个或多个仓库
 
 ```shell
 helm repo remove [REPO1 [REPO2 ...]] [flags]
@@ -38,4 +38,4 @@ helm repo remove [REPO1 [REPO2 ...]] [flags]
 
 ### 请参阅
 
-* [helm repo](helm_repo.md) - add, list, remove, update, and index chart repositories
+* [helm repo](helm_repo.md) - 添加、列出、删除、更新和索引chart仓库

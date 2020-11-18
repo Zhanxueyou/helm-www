@@ -37,8 +37,8 @@ It can be used to add, remove, list, and index chart repositories.
 ### 请参阅
 
 * [helm](helm.md) - 针对Kubernetes的Helm包管理器
-* [helm repo add](helm_repo_add.md) - add a chart repository
-* [helm repo index](helm_repo_index.md) - generate an index file given a directory containing packaged charts
-* [helm repo list](helm_repo_list.md) - list chart repositories
-* [helm repo remove](helm_repo_remove.md) - remove one or more chart repositories
-* [helm repo update](helm_repo_update.md) - update information of available charts locally from chart repositories
+* [helm repo add](helm_repo_add.md) - 添加chart仓库
+* [helm repo index](helm_repo_index.md) - 生成包含已打包chart目录的索引文件
+* [helm repo list](helm_repo_list.md) - 列举chart仓库
+* [helm repo remove](helm_repo_remove.md) - 删除一个或多个仓库
+* [helm repo update](helm_repo_update.md) - 从chart仓库中更新本地本地可用chart的信息

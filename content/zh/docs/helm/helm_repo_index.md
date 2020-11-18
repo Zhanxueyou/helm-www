@@ -4,18 +4,16 @@ title: "Helm Repo Index"
 
 ## helm repo index
 
-generate an index file given a directory containing packaged charts
+生成包含已打包chart目录的索引文件
 
 ### 简介
 
-Read the current directory and generate an index file based on the charts found.
+读取当前目录生成基于发现的chart的索引文件
 
-This tool is used for creating an 'index.yaml' file for a chart repository. To
-set an absolute URL to the charts, use '--url' flag.
+这个工具用来为chart仓库创建一个'index.yaml'文件，使用'--url'参数创建一个chart的绝对URL。
 
-To merge the generated index with an existing index file, use the '--merge'
-flag. In this case, the charts found in the current directory will be merged
-into the existing index, with local charts taking priority over existing charts.
+要合并生成的索引和已经存在的索引文件时，使用'--merge'参数。在这个场景中，在当前目录中找到的chart会合并到已有索引中，
+本地chart的优先级高于已有chart。
 
 ```shell
 helm repo index [DIR] [flags]
@@ -47,4 +45,4 @@ helm repo index [DIR] [flags]
 
 ### 请参阅
 
-* [helm repo](helm_repo.md) - add, list, remove, update, and index chart repositories
+* [helm repo](helm_repo.md) - 添加、列出、删除、更新和索引chart仓库
