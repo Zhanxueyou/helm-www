@@ -148,6 +148,7 @@ overridden values merge.
 
 For example, the stable Drupal chart allows configuring the liveness probe, in
 case you configure a custom image. Here are the default values:
+
 ```yaml
 livenessProbe:
   httpGet:
@@ -160,6 +161,7 @@ If you try to override the livenessProbe handler to `exec` instead of `httpGet`
 using `--set livenessProbe.exec.command=[cat,docroot/CHANGELOG.txt]`, Helm will
 coalesce the default and overridden keys together, resulting in the following
 YAML:
+
 ```yaml
 livenessProbe:
   httpGet:
@@ -175,6 +177,7 @@ livenessProbe:
 However, Kubernetes would then fail because you can not declare more than one
 livenessProbe handler. To overcome this, you may instruct Helm to delete the
 `livenessProbe.httpGet` by setting it to null:
+
 ```sh
 helm install stable/drupal --set image=my-registry/drupal:0.1.0 --set livenessProbe.exec.command=[cat,docroot/CHANGELOG.txt] --set livenessProbe.httpGet=null
 ```
