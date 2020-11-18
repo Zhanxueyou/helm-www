@@ -36,6 +36,6 @@ search subcommands to search different locations for charts.
 
 ### 请参阅
 
-* [helm](helm.md) - The Helm package manager for Kubernetes.
+* [helm](helm.md) - 针对Kubernetes的Helm包管理器
 * [helm search hub](helm_search_hub.md) - search for charts in the Helm Hub or an instance of Monocular
 * [helm search repo](helm_search_repo.md) - search repositories for a keyword in charts

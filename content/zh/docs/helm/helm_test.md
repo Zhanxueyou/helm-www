@@ -43,4 +43,4 @@ helm test [RELEASE] [flags]
 
 ### 请参阅
 
-* [helm](helm.md) - The Helm package manager for Kubernetes.
+* [helm](helm.md) - 针对Kubernetes的Helm包管理器

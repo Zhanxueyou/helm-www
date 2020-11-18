@@ -34,7 +34,7 @@ This command consists of multiple subcommands to display information about a cha
 
 ### 请参阅
 
-* [helm](helm.md) - The Helm package manager for Kubernetes.
+* [helm](helm.md) - 针对Kubernetes的Helm包管理器
 * [helm show all](helm_show_all.md) - show all information of the chart
 * [helm show chart](helm_show_chart.md) - show the chart's definition
 * [helm show readme](helm_show_readme.md) - show the chart's README

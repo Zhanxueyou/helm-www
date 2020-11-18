@@ -1,25 +1,21 @@
 ---
-title: "Helm List"
+title: "Helm 列表"
 ---
 
 ## helm list
 
-list releases
+列举发布版本
 
 ### 简介
 
-This command lists all of the releases for a specified namespace (uses current namespace context if namespace not specified).
+该命令会列举出指定命名空间的所有发布版本，(如果没有指定命名空间，会使用当前命名空间)。
 
-By default, it lists only releases that are deployed or failed. Flags like
-'--uninstalled' and '--all' will alter this behavior. Such flags can be combined:
-'--uninstalled --failed'.
+默认情况下，只会列举出部署的或者失败的发布，像'--uninstalled'或者'--all'会修改默认行为。这些参数可以组合使用：'--uninstalled
+--failed'。
 
-By default, items are sorted alphabetically. Use the '-d' flag to sort by
-release date.
+默认情况下，列表按字母排序。使用'-d'参数按照日期排序。
 
-If the --filter flag is provided, it will be treated as a filter. Filters are
-regular expressions (Perl compatible) that are applied to the list of releases.
-Only items that match the filter will be returned.
+如果使用--filter参数，会作为一个过滤器。过滤器是应用于发布列表的正则表达式(兼容Perl)。只有过滤器匹配的才会返回。
 
 ```shell
 $ helm list --filter 'ara[a-z]+'
@@ -27,13 +23,10 @@ NAME                UPDATED                                  CHART
 maudlin-arachnid    2020-06-18 14:17:46.125134977 +0000 UTC  alpine-0.1.0
 ```
 
-If no results are found, 'helm list' will exit 0, but with no output (or in
-the case of no '-q' flag, only headers).
+如果未找到结果，'helm list'会退出，但是没有输出(或者使用'-q'，只返回头部）。
 
-By default, up to 256 items may be returned. To limit this, use the '--max' flag.
-Setting '--max' to 0 will not return all results. Rather, it will return the
-server's default, which may be much higher than 256. Pairing the '--max'
-flag with the '--offset' flag allows you to page through results.
+默认情况下，最多返回256项，使用'--max'限制数量，'--max'设置为0不会返回所有结果，而是返回服务器默认值，可能要比256更多。
+同时使用'--max'和'--offset'参数可以翻页显示。
 
 ```shell
 helm list [flags]
@@ -80,4 +73,4 @@ helm list [flags]
 
 ### 请参阅
 
-* [helm](helm.md) - The Helm package manager for Kubernetes.
+* [helm](helm.md) - 针对Kubernetes的Helm包管理器

@@ -8,81 +8,69 @@ title: "Helm Install"
 
 ### 简介
 
-This command installs a chart archive.
+该命令用于安装chart包。
 
-The install argument must be a chart reference, a path to a packaged chart,
-a path to an unpacked chart directory or a URL.
+安装参数必须是chart的引用，一个打包后的chart路径，未打包的chart目录或者是一个URL。
 
-To override values in a chart, use either the '--values' flag and pass in a file
-or use the '--set' flag and pass configuration from the command line, to force
-a string value use '--set-string'. In case a value is large and therefore
-you want not to use neither '--values' nor '--set', use '--set-file' to read the
-single large value from file.
+要重写chart中的值，使用'--values'参数传递一个文件或者使用'--set'参数在命令行传递配置，强制使用字符串要用'--set-string'。
+示例中要是值太大，则您既不想用'--values'也不想用'--set'，使用'--set-file'从文件中读取单个较大的值。
 
 ```shell
 $ helm install -f myvalues.yaml myredis ./redis
 ```
 
-or
+或者
 
 ```shell
 $ helm install --set name=prod myredis ./redis
 ```
 
-or
+或者
 
 ```shell
 $ helm install --set-string long_int=1234567890 myredis ./redis
 ```
 
-or
+或者
 
 ```shell
 $ helm install --set-file my_script=dothings.sh myredis ./redis
 ```
 
-You can specify the '--values'/'-f' flag multiple times. The priority will be given to the
-last (right-most) file specified. For example, if both myvalues.yaml and override.yaml
-contained a key called 'Test', the value set in override.yaml would take precedence:
+你可以多次指定'--values'/'-f'参数。最右侧指定的文件优先级最高。比如，如果两个文件myvalues.yaml和override.yaml
+都包含名为'Test'的可以，override.yaml中的值优先：
 
 ```shell
 $ helm install -f myvalues.yaml -f override.yaml  myredis ./redis
 ```
 
-You can specify the '--set' flag multiple times. The priority will be given to the
-last (right-most) set specified. For example, if both 'bar' and 'newbar' values are
-set for a key called 'foo', the 'newbar' value would take precedence:
+可以指定'--set'参数多次，最右边的参数优先级最高，比如，'bar'和'newbar'都设置了一个名为'foo'的可以，'newbar'的值优先：
 
 ```shell
     $ helm install --set foo=bar --set foo=newbar  myredis ./redis
 ```
 
-To check the generated manifests of a release without installing the chart,
-the '--debug' and '--dry-run' flags can be combined.
+为了检测生成的清单，但并不安装到chart，可以将'--debug'和'--dry-run'组合使用。
 
-If --verify is set, the chart MUST have a provenance file, and the provenance
-file MUST pass all verification steps.
+如果设置了--verify，chart**必须**有出处文件，且出处文件**必须**传递所有的验证步骤。
 
-There are five different ways you can express the chart you want to install:
+有五种不同的方式来标识需要安装的chart：
 
-1. By chart reference: helm install mymaria example/mariadb
-2. By path to a packaged chart: helm install mynginx ./nginx-1.2.3.tgz
-3. By path to an unpacked chart directory: helm install mynginx ./nginx
-4. By absolute URL: helm install mynginx https://example.com/charts/nginx-1.2.3.tgz
-5. By chart reference and repo url: helm install --repo https://example.com/charts/ mynginx nginx
+1. 通过chart引用： helm install mymaria example/mariadb
+2. 通过chart包： helm install mynginx ./nginx-1.2.3.tgz
+3. 通过未打包chart目录的路径： helm install mynginx ./nginx
+4. 通过URL绝对路径： helm install mynginx https://example.com/charts/nginx-1.2.3.tgz
+5. 通过chart引用和仓库url： helm install --repo https://example.com/charts/ mynginx nginx
 
-CHART REFERENCES
+CHART引用
 
-A chart reference is a convenient way of referencing a chart in a chart repository.
+chart引用是在chart仓库中引用chart的一种方便方式。
 
-When you use a chart reference with a repo prefix ('example/mariadb'), Helm will look in the local
-configuration for a chart repository named 'example', and will then look for a
-chart in that repository whose name is 'mariadb'. It will install the latest stable version of that chart
-until you specify '--devel' flag to also include development version (alpha, beta, and release candidate releases), or
-supply a version number with the '--version' flag.
+当你用仓库前缀('example/mariadb')引用chart时，Helm会在本地配置查找名为 'example' 的chart仓库，
+然后会在仓库中查找名为'mariadb'的仓库，然后会安装这个chart最新的稳定版本，除非指定了'--devel'参数且包含了开发版本(alpha，
+beta，和候选版本)，或者使用'--version'参数提供一个版本号。
 
-To see the list of chart repositories, use 'helm repo list'. To search for
-charts in a repository, use 'helm search'.
+要查看仓库列表，使用'helm repo list'。要在仓库中搜索chart，使用'helm search'。
 
 ```shell
 helm install [NAME] [CHART] [flags]

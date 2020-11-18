@@ -4,16 +4,13 @@ title: "Helm Lint"
 
 ## helm lint
 
-examine a chart for possible issues
+验证chart是否存在问题
 
 ### 简介
 
-This command takes a path to a chart and runs a series of tests to verify that
-the chart is well-formed.
+该命令使用一个chart路径并运行一系列的测试来验证chart的格式是否正确。
 
-If the linter encounters things that will cause the chart to fail installation,
-it will emit [ERROR] messages. If it encounters issues that break with convention
-or recommendation, it will emit [WARNING] messages.
+如果遇到引起chart安装失败的情况，会触发[ERROR]信息，如果遇到违反惯例或建议的问题，会触发[WARNING]。
 
 ```shell
 helm lint PATH [flags]
@@ -49,4 +46,4 @@ helm lint PATH [flags]
 
 ### 请参阅
 
-* [helm](helm.md) - The Helm package manager for Kubernetes.
+* [helm](helm.md) - 针对Kubernetes的Helm包管理器
