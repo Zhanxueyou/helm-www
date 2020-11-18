@@ -4,13 +4,11 @@ title: "Helm Search"
 
 ## helm search
 
-search for a keyword in charts
+helm中搜索关键字
 
 ### 简介
 
-Search provides the ability to search for Helm charts in the various places
-they can be stored including the Helm Hub and repositories you have added. Use
-search subcommands to search different locations for charts.
+搜索提供了可以在已经添加的Helm Hub和仓库等多个位置搜索Helm chart 的能力。
 
 ### 可选项
 
@@ -37,5 +35,5 @@ search subcommands to search different locations for charts.
 ### 请参阅
 
 * [helm](helm.md) - 针对Kubernetes的Helm包管理器
-* [helm search hub](helm_search_hub.md) - search for charts in the Helm Hub or an instance of Monocular
-* [helm search repo](helm_search_repo.md) - search repositories for a keyword in charts
+* [helm search hub](helm_search_hub.md) - 在Helm Hub或Monocular实例中搜索chart
+* [helm search repo](helm_search_repo.md) - 用chart中关键字搜索仓库

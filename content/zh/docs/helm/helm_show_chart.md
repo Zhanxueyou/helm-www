@@ -4,12 +4,11 @@ title: "Helm Show Chart"
 
 ## helm show chart
 
-show the chart's definition
+显示chart定义
 
 ### 简介
 
-This command inspects a chart (directory, file, or URL) and displays the contents
-of the Charts.yaml file
+该命令检查chart(目录、文件或URL)并显示Charts.yaml文件的内容
 
 ```shell
 helm show chart [CHART] [flags]
@@ -50,4 +49,4 @@ helm show chart [CHART] [flags]
 
 ### 请参阅
 
-* [helm show](helm_show.md) - show information of a chart
+* [helm show](helm_show.md) - 显示chart信息

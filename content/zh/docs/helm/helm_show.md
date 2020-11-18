@@ -4,11 +4,11 @@ title: "Helm Show"
 
 ## helm show
 
-show information of a chart
+显示chart信息
 
 ### 简介
 
-This command consists of multiple subcommands to display information about a chart
+该命令由多条子命令组成来显示chart的信息
 
 ### 可选项
 
@@ -35,7 +35,7 @@ This command consists of multiple subcommands to display information about a cha
 ### 请参阅
 
 * [helm](helm.md) - 针对Kubernetes的Helm包管理器
-* [helm show all](helm_show_all.md) - show all information of the chart
-* [helm show chart](helm_show_chart.md) - show the chart's definition
-* [helm show readme](helm_show_readme.md) - show the chart's README
-* [helm show values](helm_show_values.md) - show the chart's values
+* [helm show all](helm_show_all.md) - 显示chart的所有信息
+* [helm show chart](helm_show_chart.md) - 显示chart定义
+* [helm show readme](helm_show_readme.md) - 显示chart的README
+* [helm show values](helm_show_values.md) - 显示chart的values

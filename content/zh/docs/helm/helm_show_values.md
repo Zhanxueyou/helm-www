@@ -4,12 +4,11 @@ title: "Helm Show Values"
 
 ## helm show values
 
-show the chart's values
+显示chart的values
 
 ### 简介
 
-This command inspects a chart (directory, file, or URL) and displays the contents
-of the values.yaml file
+该命令检查chart(目录、文件或URL)并显示values.yaml文件的内容
 
 ```shell
 helm show values [CHART] [flags]
@@ -51,4 +50,4 @@ helm show values [CHART] [flags]
 
 ### 请参阅
 
-* [helm show](helm_show.md) - show information of a chart
+* [helm show](helm_show.md) - 显示chart信息

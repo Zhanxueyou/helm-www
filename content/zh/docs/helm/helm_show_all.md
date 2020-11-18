@@ -4,12 +4,11 @@ title: "Helm Show All"
 
 ## helm show all
 
-show all information of the chart
+显示chart的所有信息
 
 ### 简介
 
-This command inspects a chart (directory, file, or URL) and displays all its content
-(values.yaml, Charts.yaml, README)
+该命令检查chart(目录、文件或URL)并显示所有的内容（values.yaml, Charts.yaml, README）
 
 ```shell
 helm show all [CHART] [flags]
@@ -50,4 +49,4 @@ helm show all [CHART] [flags]
 
 ### 请参阅
 
-* [helm show](helm_show.md) - show information of a chart
+* [helm show](helm_show.md) - 显示chart信息

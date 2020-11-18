@@ -4,18 +4,15 @@ title: "Helm Rollback"
 
 ## helm rollback
 
-roll back a release to a previous revision
+回滚发布到上一个版本
 
 ### 简介
 
+该命令回滚发布到上一个版本
 
-This command rolls back a release to a previous revision.
+回滚命令的第一个参数是发布的名称，第二是修订（版本）号，如果省略次参数，会回滚到上一个版本。
 
-The first argument of the rollback command is the name of a release, and the
-second is a revision (version) number. If this argument is omitted, it will
-roll back to the previous release.
-
-To see revision numbers, run 'helm history RELEASE'.
+要查看修订号，执行'helm history RELEASE'。
 
 ```shell
 helm rollback <RELEASE> [REVISION] [flags]

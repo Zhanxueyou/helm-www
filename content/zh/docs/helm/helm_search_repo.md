@@ -1,22 +1,18 @@
 ---
-title: "Helm Search Repo"
+title: "Helm 搜索仓库"
 ---
 
 ## helm search repo
 
-search repositories for a keyword in charts
+用chart中关键字搜索仓库
 
 ### 简介
 
-Search reads through all of the repositories configured on the system, and
-looks for matches. Search of these repositories uses the metadata stored on
-the system.
+搜索会读取系统上配置的所有仓库，并查找匹配。搜索这些仓库会使用存储在系统中的元数据。
 
-It will display the latest stable versions of the charts found. If you
-specify the --devel flag, the output will include pre-release versions.
-If you want to search using a version constraint, use --version.
+它会展示找到最新稳定版本的chart。如果指定了--devel参数，输出会包括预发布版本。
 
-Examples:
+示例：
 
 ```shell
 # Search for stable release versions matching the keyword "nginx"
@@ -29,7 +25,7 @@ $ helm search repo nginx --devel
 $ helm search repo nginx-ingress --version ^1.0.0
 ```
 
-Repositories are managed with 'helm repo' commands.
+仓库使用'helm repo'命令管理。
 
 ```shell
 helm search repo [keyword] [flags]
@@ -65,4 +61,4 @@ helm search repo [keyword] [flags]
 
 ### 请参阅
 
-* [helm search](helm_search.md) - search for a keyword in charts
+* [helm search](helm_search.md) - helm中搜索关键字

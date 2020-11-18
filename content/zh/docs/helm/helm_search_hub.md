@@ -1,22 +1,19 @@
 ---
-title: "Helm Search Hub"
+title: "Helm Hub"
 ---
 
 ## helm search hub
 
-search for charts in the Helm Hub or an instance of Monocular
+在Helm Hub或Monocular实例中搜索chart
 
 ### 简介
 
-Search the Helm Hub or an instance of Monocular for Helm charts.
+在Helm Hub或Monocular实例中搜索Helm charts。
 
-The Helm Hub provides a centralized search for publicly available distributed
-charts. It is maintained by the Helm project. It can be visited at
-https://hub.helm.sh
+Helm Hub为公共可用的可分发的chart提供一种中心化搜索。由Helm项目组维护，可以访问：https://hub.helm.sh
 
-Monocular is a web-based application that enables the search and discovery of
-charts from multiple Helm Chart repositories. It is the codebase that powers the
-Helm Hub. You can find it at https://github.com/helm/monocular
+Monocular是基于web的应用，支持从多个Helm Chart仓库中搜索和发现chart。是驱动Helm
+Hub的代码库。可以访问：https://github.com/helm/monocular
 
 ```shell
 helm search hub [keyword] [flags]
@@ -49,4 +46,4 @@ helm search hub [keyword] [flags]
 
 ### 请参阅
 
-* [helm search](helm_search.md) - search for a keyword in charts
+* [helm search](helm_search.md) - helm中搜索关键字
