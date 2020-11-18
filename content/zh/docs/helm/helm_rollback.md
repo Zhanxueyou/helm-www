@@ -17,14 +17,13 @@ roll back to the previous release.
 
 To see revision numbers, run 'helm history RELEASE'.
 
-
-```
+```shell
 helm rollback <RELEASE> [REVISION] [flags]
 ```
 
 ### 可选项
 
-```
+```shell
       --cleanup-on-fail    allow deletion of new resources created in this rollback when rollback fails
       --dry-run            simulate a rollback
       --force              force resource update through delete/recreate if needed
@@ -38,7 +37,7 @@ helm rollback <RELEASE> [REVISION] [flags]
 
 ### 从父命令继承的命令
 
-```
+```shell
       --debug                       enable verbose output
       --kube-apiserver string       the address and the port for the Kubernetes API server
       --kube-as-group stringArray   Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
@@ -54,6 +53,4 @@ helm rollback <RELEASE> [REVISION] [flags]
 
 ### 请参阅
 
-* [helm](helm.md)	 - The Helm package manager for Kubernetes.
-
-
+* [helm](helm.md) - The Helm package manager for Kubernetes.

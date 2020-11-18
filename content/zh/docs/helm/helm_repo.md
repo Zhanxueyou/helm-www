@@ -8,21 +8,19 @@ add, list, remove, update, and index chart repositories
 
 ### 简介
 
-
 This command consists of multiple subcommands to interact with chart repositories.
 
 It can be used to add, remove, list, and index chart repositories.
 
-
 ### 可选项
 
-```
+```shell
   -h, --help   help for repo
 ```
 
 ### 从父命令继承的命令
 
-```
+```shell
       --debug                       enable verbose output
       --kube-apiserver string       the address and the port for the Kubernetes API server
       --kube-as-group stringArray   Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
@@ -38,11 +36,9 @@ It can be used to add, remove, list, and index chart repositories.
 
 ### 请参阅
 
-* [helm](helm.md)	 - The Helm package manager for Kubernetes.
-* [helm repo add](helm_repo_add.md)	 - add a chart repository
-* [helm repo index](helm_repo_index.md)	 - generate an index file given a directory containing packaged charts
-* [helm repo list](helm_repo_list.md)	 - list chart repositories
-* [helm repo remove](helm_repo_remove.md)	 - remove one or more chart repositories
-* [helm repo update](helm_repo_update.md)	 - update information of available charts locally from chart repositories
-
-
+* [helm](helm.md) - The Helm package manager for Kubernetes.
+* [helm repo add](helm_repo_add.md) - add a chart repository
+* [helm repo index](helm_repo_index.md) - generate an index file given a directory containing packaged charts
+* [helm repo list](helm_repo_list.md) - list chart repositories
+* [helm repo remove](helm_repo_remove.md) - remove one or more chart repositories
+* [helm repo update](helm_repo_update.md) - update information of available charts locally from chart repositories

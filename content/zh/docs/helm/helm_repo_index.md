@@ -8,7 +8,6 @@ generate an index file given a directory containing packaged charts
 
 ### 简介
 
-
 Read the current directory and generate an index file based on the charts found.
 
 This tool is used for creating an 'index.yaml' file for a chart repository. To
@@ -18,14 +17,13 @@ To merge the generated index with an existing index file, use the '--merge'
 flag. In this case, the charts found in the current directory will be merged
 into the existing index, with local charts taking priority over existing charts.
 
-
-```
+```shell
 helm repo index [DIR] [flags]
 ```
 
 ### 可选项
 
-```
+```shell
   -h, --help           help for index
       --merge string   merge the generated index into the given index
       --url string     url of chart repository
@@ -33,7 +31,7 @@ helm repo index [DIR] [flags]
 
 ### 从父命令继承的命令
 
-```
+```shell
       --debug                       enable verbose output
       --kube-apiserver string       the address and the port for the Kubernetes API server
       --kube-as-group stringArray   Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
@@ -49,6 +47,4 @@ helm repo index [DIR] [flags]
 
 ### 请参阅
 
-* [helm repo](helm_repo.md)	 - add, list, remove, update, and index chart repositories
-
-
+* [helm repo](helm_repo.md) - add, list, remove, update, and index chart repositories

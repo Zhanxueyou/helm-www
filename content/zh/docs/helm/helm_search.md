@@ -8,21 +8,19 @@ search for a keyword in charts
 
 ### 简介
 
-
 Search provides the ability to search for Helm charts in the various places
 they can be stored including the Helm Hub and repositories you have added. Use
 search subcommands to search different locations for charts.
 
-
 ### 可选项
 
-```
+```shell
   -h, --help   help for search
 ```
 
 ### 从父命令继承的命令
 
-```
+```shell
       --debug                       enable verbose output
       --kube-apiserver string       the address and the port for the Kubernetes API server
       --kube-as-group stringArray   Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
@@ -38,8 +36,6 @@ search subcommands to search different locations for charts.
 
 ### 请参阅
 
-* [helm](helm.md)	 - The Helm package manager for Kubernetes.
-* [helm search hub](helm_search_hub.md)	 - search for charts in the Helm Hub or an instance of Monocular
-* [helm search repo](helm_search_repo.md)	 - search repositories for a keyword in charts
-
-
+* [helm](helm.md) - The Helm package manager for Kubernetes.
+* [helm search hub](helm_search_hub.md) - search for charts in the Helm Hub or an instance of Monocular
+* [helm search repo](helm_search_repo.md) - search repositories for a keyword in charts

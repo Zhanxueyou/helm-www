@@ -36,7 +36,7 @@ helm show all [CHART] [flags]
 
 ### 从父命令继承的命令
 
-```
+```shell
       --debug                       enable verbose output
       --kube-apiserver string       the address and the port for the Kubernetes API server
       --kube-as-group stringArray   Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
@@ -52,6 +52,4 @@ helm show all [CHART] [flags]
 
 ### 请参阅
 
-* [helm show](helm_show.md)	 - show information of a chart
-
-
+* [helm show](helm_show.md) - show information of a chart

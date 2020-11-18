@@ -10,13 +10,13 @@ add a chart repository
 
 add a chart repository
 
-```
+```shell
 helm repo add [NAME] [URL] [flags]
 ```
 
 ### 可选项
 
-```
+```shell
       --allow-deprecated-repos     by default, this command will not allow adding official repos that have been permanently deleted. This disables that behavior
       --ca-file string             verify certificates of HTTPS-enabled servers using this CA bundle
       --cert-file string           identify HTTPS client using this SSL certificate file
@@ -31,7 +31,7 @@ helm repo add [NAME] [URL] [flags]
 
 ### 从父命令继承的命令
 
-```
+```shell
       --debug                       enable verbose output
       --kube-apiserver string       the address and the port for the Kubernetes API server
       --kube-as-group stringArray   Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
@@ -47,6 +47,4 @@ helm repo add [NAME] [URL] [flags]
 
 ### 请参阅
 
-* [helm repo](helm_repo.md)	 - add, list, remove, update, and index chart repositories
-
-
+* [helm repo](helm_repo.md) - add, list, remove, update, and index chart repositories

@@ -4,7 +4,7 @@ title: "Helm Plugin List"
 
 ## helm plugin list
 
-list installed Helm plugins
+列举已安装的Helm插件
 
 ### 简介
 

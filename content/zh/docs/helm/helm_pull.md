@@ -8,7 +8,6 @@ download a chart from a repository and (optionally) unpack it in local directory
 
 ### 简介
 
-
 Retrieve a package from a package repository, and download it locally.
 
 This is useful for fetching packages to inspect, modify, or repackage. It can
@@ -22,14 +21,13 @@ If the --verify flag is specified, the requested chart MUST have a provenance
 file, and MUST pass the verification process. Failure in any part of this will
 result in an error, and the chart will not be saved locally.
 
-
-```
+```shell
 helm pull [chart URL | repo/chartname] [...] [flags]
 ```
 
 ### 可选项
 
-```
+```shell
       --ca-file string             verify certificates of HTTPS-enabled servers using this CA bundle
       --cert-file string           identify HTTPS client using this SSL certificate file
   -d, --destination string         location to write the chart. If this and tardir are specified, tardir is appended to this (default ".")
@@ -50,7 +48,7 @@ helm pull [chart URL | repo/chartname] [...] [flags]
 
 ### 从父命令继承的命令
 
-```
+```shell
       --debug                       enable verbose output
       --kube-apiserver string       the address and the port for the Kubernetes API server
       --kube-as-group stringArray   Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
@@ -66,6 +64,4 @@ helm pull [chart URL | repo/chartname] [...] [flags]
 
 ### 请参阅
 
-* [helm](helm.md)	 - The Helm package manager for Kubernetes.
-
-
+* [helm](helm.md) - The Helm package manager for Kubernetes.

@@ -8,24 +8,22 @@ update information of available charts locally from chart repositories
 
 ### 简介
 
-
 Update gets the latest information about charts from the respective chart repositories.
 Information is cached locally, where it is used by commands like 'helm search'.
 
-
-```
+```shell
 helm repo update [flags]
 ```
 
 ### 可选项
 
-```
+```shell
   -h, --help   help for update
 ```
 
 ### 从父命令继承的命令
 
-```
+```shell
       --debug                       enable verbose output
       --kube-apiserver string       the address and the port for the Kubernetes API server
       --kube-as-group stringArray   Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
@@ -41,6 +39,4 @@ helm repo update [flags]
 
 ### 请参阅
 
-* [helm repo](helm_repo.md)	 - add, list, remove, update, and index chart repositories
-
-
+* [helm repo](helm_repo.md) - add, list, remove, update, and index chart repositories

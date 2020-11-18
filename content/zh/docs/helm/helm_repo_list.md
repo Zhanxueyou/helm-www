@@ -10,20 +10,20 @@ list chart repositories
 
 list chart repositories
 
-```
+```shell
 helm repo list [flags]
 ```
 
 ### 可选项
 
-```
+```shell
   -h, --help            help for list
   -o, --output format   prints the output in the specified format. Allowed values: table, json, yaml (default table)
 ```
 
 ### 从父命令继承的命令
 
-```
+```shell
       --debug                       enable verbose output
       --kube-apiserver string       the address and the port for the Kubernetes API server
       --kube-as-group stringArray   Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
@@ -39,6 +39,4 @@ helm repo list [flags]
 
 ### 请参阅
 
-* [helm repo](helm_repo.md)	 - add, list, remove, update, and index chart repositories
-
-
+* [helm repo](helm_repo.md) - add, list, remove, update, and index chart repositories

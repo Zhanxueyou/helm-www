@@ -8,19 +8,17 @@ install, list, or uninstall Helm plugins
 
 ### 简介
 
-
 Manage client-side Helm plugins.
-
 
 ### 可选项
 
-```
+```shell
   -h, --help   help for plugin
 ```
 
 ### 从父命令继承的命令
 
-```
+```shell
       --debug                       enable verbose output
       --kube-apiserver string       the address and the port for the Kubernetes API server
       --kube-as-group stringArray   Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
@@ -36,10 +34,8 @@ Manage client-side Helm plugins.
 
 ### 请参阅
 
-* [helm](helm.md)	 - The Helm package manager for Kubernetes.
-* [helm plugin install](helm_plugin_install.md)	 - install one or more Helm plugins
-* [helm plugin list](helm_plugin_list.md)	 - list installed Helm plugins
-* [helm plugin uninstall](helm_plugin_uninstall.md)	 - uninstall one or more Helm plugins
-* [helm plugin update](helm_plugin_update.md)	 - update one or more Helm plugins
-
-
+* [helm](helm.md) - The Helm package manager for Kubernetes.
+* [helm plugin install](helm_plugin_install.md) - install one or more Helm plugins
+* [helm plugin list](helm_plugin_list.md) - list installed Helm plugins
+* [helm plugin uninstall](helm_plugin_uninstall.md) - uninstall one or more Helm plugins
+* [helm plugin update](helm_plugin_update.md) - update one or more Helm plugins

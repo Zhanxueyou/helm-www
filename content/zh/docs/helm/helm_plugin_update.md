@@ -10,19 +10,19 @@ update one or more Helm plugins
 
 update one or more Helm plugins
 
-```
+```shell
 helm plugin update <plugin>... [flags]
 ```
 
 ### 可选项
 
-```
+```shell
   -h, --help   help for update
 ```
 
 ### 从父命令继承的命令
 
-```
+```shell
       --debug                       enable verbose output
       --kube-apiserver string       the address and the port for the Kubernetes API server
       --kube-as-group stringArray   Group to impersonate for the operation, this flag can be repeated to specify multiple groups.

@@ -8,7 +8,6 @@ search repositories for a keyword in charts
 
 ### 简介
 
-
 Search reads through all of the repositories configured on the system, and
 looks for matches. Search of these repositories uses the metadata stored on
 the system.
@@ -19,25 +18,26 @@ If you want to search using a version constraint, use --version.
 
 Examples:
 
-    # Search for stable release versions matching the keyword "nginx"
-    $ helm search repo nginx
+```shell
+# Search for stable release versions matching the keyword "nginx"
+$ helm search repo nginx
 
-    # Search for release versions matching the keyword "nginx", including pre-release versions
-    $ helm search repo nginx --devel
+# Search for release versions matching the keyword "nginx", including pre-release versions
+$ helm search repo nginx --devel
 
-    # Search for the latest stable release for nginx-ingress with a major version of 1
-    $ helm search repo nginx-ingress --version ^1.0.0
+# Search for the latest stable release for nginx-ingress with a major version of 1
+$ helm search repo nginx-ingress --version ^1.0.0
+```
 
 Repositories are managed with 'helm repo' commands.
 
-
-```
+```shell
 helm search repo [keyword] [flags]
 ```
 
 ### 可选项
 
-```
+```shell
       --devel                use development versions (alpha, beta, and release candidate releases), too. Equivalent to version '>0.0.0-0'. If --version is set, this is ignored
   -h, --help                 help for repo
       --max-col-width uint   maximum column width for output table (default 50)
@@ -49,7 +49,7 @@ helm search repo [keyword] [flags]
 
 ### 从父命令继承的命令
 
-```
+```shell
       --debug                       enable verbose output
       --kube-apiserver string       the address and the port for the Kubernetes API server
       --kube-as-group stringArray   Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
@@ -65,6 +65,4 @@ helm search repo [keyword] [flags]
 
 ### 请参阅
 
-* [helm search](helm_search.md)	 - search for a keyword in charts
-
-
+* [helm search](helm_search.md) - search for a keyword in charts

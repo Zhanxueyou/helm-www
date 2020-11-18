@@ -10,19 +10,19 @@ uninstall one or more Helm plugins
 
 uninstall one or more Helm plugins
 
-```
+```shell
 helm plugin uninstall <plugin>... [flags]
 ```
 
 ### 可选项
 
-```
+```shell
   -h, --help   help for uninstall
 ```
 
 ### 从父命令继承的命令
 
-```
+```shell
       --debug                       enable verbose output
       --kube-apiserver string       the address and the port for the Kubernetes API server
       --kube-as-group stringArray   Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
@@ -39,5 +39,3 @@ helm plugin uninstall <plugin>... [flags]
 ### 请参阅
 
 * [helm plugin](helm_plugin.md)	 - install, list, or uninstall Helm plugins
-
-

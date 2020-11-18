@@ -8,7 +8,6 @@ search for charts in the Helm Hub or an instance of Monocular
 
 ### 简介
 
-
 Search the Helm Hub or an instance of Monocular for Helm charts.
 
 The Helm Hub provides a centralized search for publicly available distributed
@@ -19,14 +18,13 @@ Monocular is a web-based application that enables the search and discovery of
 charts from multiple Helm Chart repositories. It is the codebase that powers the
 Helm Hub. You can find it at https://github.com/helm/monocular
 
-
-```
+```shell
 helm search hub [keyword] [flags]
 ```
 
 ### 可选项
 
-```
+```shell
       --endpoint string      monocular instance to query for charts (default "https://hub.helm.sh")
   -h, --help                 help for hub
       --max-col-width uint   maximum column width for output table (default 50)
@@ -35,7 +33,7 @@ helm search hub [keyword] [flags]
 
 ### 从父命令继承的命令
 
-```
+```shell
       --debug                       enable verbose output
       --kube-apiserver string       the address and the port for the Kubernetes API server
       --kube-as-group stringArray   Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
@@ -51,6 +49,4 @@ helm search hub [keyword] [flags]
 
 ### 请参阅
 
-* [helm search](helm_search.md)	 - search for a keyword in charts
-
-
+* [helm search](helm_search.md) - search for a keyword in charts
