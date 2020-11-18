@@ -4,11 +4,11 @@ title: "Helm Plugin"
 
 ## helm plugin
 
-install, list, or uninstall Helm plugins
+安装、列举或卸载Helm插件
 
 ### 简介
 
-Manage client-side Helm plugins.
+管理客户端插件。
 
 ### 可选项
 
@@ -34,8 +34,8 @@ Manage client-side Helm plugins.
 
 ### 请参阅
 
-* [helm](helm.md) - 针对Kubernetes的Helm包管理器
-* [helm plugin install](helm_plugin_install.md) - install one or more Helm plugins
-* [helm plugin list](helm_plugin_list.md) - list installed Helm plugins
-* [helm plugin uninstall](helm_plugin_uninstall.md) - uninstall one or more Helm plugins
-* [helm plugin update](helm_plugin_update.md) - update one or more Helm plugins
+- [helm](helm.md) - 针对Kubernetes的Helm包管理器
+- [helm plugin install](helm_plugin_install.md) - 安装一个或多个Helm插件
+- [helm plugin list](helm_plugin_list.md) - 列举已安装的Helm插件
+- [helm plugin uninstall](helm_plugin_uninstall.md) - 卸载一个或多个Helm插件
+- [helm plugin update](helm_plugin_update.md) - 升级一个或多个Helm插件

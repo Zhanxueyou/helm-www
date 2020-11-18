@@ -1,5 +1,5 @@
 ---
-title: "Helm Plugin List"
+title: "Helm插件列表"
 ---
 
 ## helm plugin list
@@ -8,7 +8,7 @@ title: "Helm Plugin List"
 
 ### 简介
 
-list installed Helm plugins
+列举所有的Helm插件
 
 ```shell
 helm plugin list [flags]
@@ -38,4 +38,4 @@ helm plugin list [flags]
 
 ### 请参阅
 
-* [helm plugin](helm_plugin.md) - install, list, or uninstall Helm plugins
+* [helm plugin](helm_plugin.md) - 安装、列举或卸载Helm插件

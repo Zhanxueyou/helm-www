@@ -4,11 +4,11 @@ title: "Helm Plugin Install"
 
 ## helm plugin install
 
-install one or more Helm plugins
+安装一个或多个Helm插件
 
 ### 简介
 
-This command allows you to install a plugin from a url to a VCS repo or a local path.
+该命令允许您通过VCS仓库url或者本地路径安装插件。
 
 ```shell
 helm plugin install [options] <path|url>... [flags]
@@ -39,4 +39,4 @@ helm plugin install [options] <path|url>... [flags]
 
 ### 请参阅
 
-* [helm plugin](helm_plugin.md) - install, list, or uninstall Helm plugins
+* [helm plugin](helm_plugin.md) - 安装、列举或卸载Helm插件

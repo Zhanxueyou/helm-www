@@ -4,11 +4,11 @@ title: "Helm Plugin Update"
 
 ## helm plugin update
 
-update one or more Helm plugins
+升级一个或多个Helm插件
 
 ### 简介
 
-update one or more Helm plugins
+升级一个或多个Helm插件
 
 ```shell
 helm plugin update <plugin>... [flags]
@@ -38,6 +38,4 @@ helm plugin update <plugin>... [flags]
 
 ### 请参阅
 
-* [helm plugin](helm_plugin.md)	 - install, list, or uninstall Helm plugins
-
-
+* [helm plugin](helm_plugin.md) - 安装、列举或卸载Helm插件

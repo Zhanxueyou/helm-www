@@ -4,11 +4,11 @@ title: "Helm Plugin Uninstall"
 
 ## helm plugin uninstall
 
-uninstall one or more Helm plugins
+卸载一个或多个Helm插件
 
 ### 简介
 
-uninstall one or more Helm plugins
+卸载一个或多个Helm插件
 
 ```shell
 helm plugin uninstall <plugin>... [flags]
@@ -38,4 +38,4 @@ helm plugin uninstall <plugin>... [flags]
 
 ### 请参阅
 
-* [helm plugin](helm_plugin.md)	 - install, list, or uninstall Helm plugins
+* [helm plugin](helm_plugin.md) - 安装、列举或卸载Helm插件

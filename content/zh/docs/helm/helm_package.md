@@ -4,23 +4,19 @@ title: "Helm Package"
 
 ## helm package
 
-package a chart directory into a chart archive
+将chart目录打包到chart归档中
 
 ### 简介
 
-This command packages a chart into a versioned chart archive file. If a path
-is given, this will look at that path for a chart (which must contain a
-Chart.yaml file) and then package that directory.
+该命令将chart打包成一个chart版本包文件。如果给定路径，就会在该路径中查找chart（必须包含Chart.yaml文件）然后将目录打包。
 
-Versioned chart archives are used by Helm package repositories.
+chart版本包会用于Helm包仓库。
 
-To sign a chart, use the '--sign' flag. In most cases, you should also
-provide '--keyring path/to/secret/keys' and '--key keyname'.
+要签名一个chart，使用'--sign'参数，在大多数场景中，也要提供'--keyring path/to/secret/keys'和'--key keyname'。
 
   $ helm package --sign ./mychart --key mykey --keyring ~/.gnupg/secring.gpg
 
-If '--keyring' is not specified, Helm usually defaults to the public keyring
-unless your environment is otherwise configured.
+如果'--keyring'未指定，除非配置了其他方式，不然Helm通常会指定公共秘钥环。
 
 ```shell
 helm package [CHART_PATH] [...] [flags]
