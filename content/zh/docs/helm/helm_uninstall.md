@@ -8,7 +8,6 @@ uninstall a release
 
 ### 简介
 
-
 This command takes a release name and uninstalls the release.
 
 It removes all of the resources associated with the last release of the chart
@@ -17,14 +16,13 @@ as well as the release history, freeing it up for future use.
 Use the '--dry-run' flag to see which releases will be uninstalled without actually
 uninstalling them.
 
-
-```
+```shell
 helm uninstall RELEASE_NAME [...] [flags]
 ```
 
 ### 可选项
 
-```
+```shell
       --description string   add a custom description
       --dry-run              simulate a uninstall
   -h, --help                 help for uninstall
@@ -35,7 +33,7 @@ helm uninstall RELEASE_NAME [...] [flags]
 
 ### 从父命令继承的命令
 
-```
+```shell
       --debug                       enable verbose output
       --kube-apiserver string       the address and the port for the Kubernetes API server
       --kube-as-group stringArray   Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
@@ -51,6 +49,4 @@ helm uninstall RELEASE_NAME [...] [flags]
 
 ### 请参阅
 
-* [helm](helm.md)	 - The Helm package manager for Kubernetes.
-
-
+* [helm](helm.md) - The Helm package manager for Kubernetes.

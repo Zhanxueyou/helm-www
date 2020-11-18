@@ -8,20 +8,18 @@ run tests for a release
 
 ### 简介
 
-
 The test command runs the tests for a release.
 
 The argument this command takes is the name of a deployed release.
 The tests to be run are defined in the chart that was installed.
 
-
-```
+```shell
 helm test [RELEASE] [flags]
 ```
 
 ### 可选项
 
-```
+```shell
   -h, --help               help for test
       --logs               dump the logs from test pods (this runs after all tests are complete, but before any cleanup)
       --timeout duration   time to wait for any individual Kubernetes operation (like Jobs for hooks) (default 5m0s)
@@ -29,7 +27,7 @@ helm test [RELEASE] [flags]
 
 ### 从父命令继承的命令
 
-```
+```shell
       --debug                       enable verbose output
       --kube-apiserver string       the address and the port for the Kubernetes API server
       --kube-as-group stringArray   Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
@@ -45,6 +43,4 @@ helm test [RELEASE] [flags]
 
 ### 请参阅
 
-* [helm](helm.md)	 - The Helm package manager for Kubernetes.
-
-
+* [helm](helm.md) - The Helm package manager for Kubernetes.

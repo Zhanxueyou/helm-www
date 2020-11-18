@@ -8,7 +8,6 @@ upgrade a release
 
 ### 简介
 
-
 This command upgrades a release to a new version of a chart.
 
 The upgrade arguments must be a release and chart. The chart
@@ -26,22 +25,25 @@ You can specify the '--values'/'-f' flag multiple times. The priority will be gi
 last (right-most) file specified. For example, if both myvalues.yaml and override.yaml
 contained a key called 'Test', the value set in override.yaml would take precedence:
 
+```shell
     $ helm upgrade -f myvalues.yaml -f override.yaml redis ./redis
+```
 
 You can specify the '--set' flag multiple times. The priority will be given to the
 last (right-most) set specified. For example, if both 'bar' and 'newbar' values are
 set for a key called 'foo', the 'newbar' value would take precedence:
 
+```shell
     $ helm upgrade --set foo=bar --set foo=newbar redis ./redis
-
-
 ```
+
+```shell
 helm upgrade [RELEASE] [CHART] [flags]
 ```
 
 ### 可选项
 
-```
+```shell
       --atomic                       if set, upgrade process rolls back changes made in case of failed upgrade. The --wait flag will be set automatically if --atomic is used
       --ca-file string               verify certificates of HTTPS-enabled servers using this CA bundle
       --cert-file string             identify HTTPS client using this SSL certificate file
@@ -80,7 +82,7 @@ helm upgrade [RELEASE] [CHART] [flags]
 
 ### 从父命令继承的命令
 
-```
+```shell
       --debug                       enable verbose output
       --kube-apiserver string       the address and the port for the Kubernetes API server
       --kube-as-group stringArray   Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
@@ -96,6 +98,4 @@ helm upgrade [RELEASE] [CHART] [flags]
 
 ### 请参阅
 
-* [helm](helm.md)	 - The Helm package manager for Kubernetes.
-
-
+* [helm](helm.md) - The Helm package manager for Kubernetes.

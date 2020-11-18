@@ -8,21 +8,19 @@ locally render templates
 
 ### 简介
 
-
 Render chart templates locally and display the output.
 
 Any values that would normally be looked up or retrieved in-cluster will be
 faked locally. Additionally, none of the server-side testing of chart validity
 (e.g. whether an API is supported) is done.
 
-
-```
+```shell
 helm template [NAME] [CHART] [flags]
 ```
 
 ### 可选项
 
-```
+```shell
   -a, --api-versions stringArray     Kubernetes api versions used for Capabilities.APIVersions
       --atomic                       if set, the installation process deletes the installation on failure. The --wait flag will be set automatically if --atomic is used
       --ca-file string               verify certificates of HTTPS-enabled servers using this CA bundle
@@ -65,7 +63,7 @@ helm template [NAME] [CHART] [flags]
 
 ### 从父命令继承的命令
 
-```
+```shell
       --debug                       enable verbose output
       --kube-apiserver string       the address and the port for the Kubernetes API server
       --kube-as-group stringArray   Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
@@ -81,6 +79,4 @@ helm template [NAME] [CHART] [flags]
 
 ### 请参阅
 
-* [helm](helm.md)	 - The Helm package manager for Kubernetes.
-
-
+* [helm](helm.md) - The Helm package manager for Kubernetes

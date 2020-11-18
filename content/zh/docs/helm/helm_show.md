@@ -8,19 +8,17 @@ show information of a chart
 
 ### 简介
 
-
 This command consists of multiple subcommands to display information about a chart
-
 
 ### 可选项
 
-```
+```shell
   -h, --help   help for show
 ```
 
 ### 从父命令继承的命令
 
-```
+```shell
       --debug                       enable verbose output
       --kube-apiserver string       the address and the port for the Kubernetes API server
       --kube-as-group stringArray   Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
@@ -36,10 +34,8 @@ This command consists of multiple subcommands to display information about a cha
 
 ### 请参阅
 
-* [helm](helm.md)	 - The Helm package manager for Kubernetes.
-* [helm show all](helm_show_all.md)	 - show all information of the chart
-* [helm show chart](helm_show_chart.md)	 - show the chart's definition
-* [helm show readme](helm_show_readme.md)	 - show the chart's README
-* [helm show values](helm_show_values.md)	 - show the chart's values
-
-
+* [helm](helm.md) - The Helm package manager for Kubernetes.
+* [helm show all](helm_show_all.md) - show all information of the chart
+* [helm show chart](helm_show_chart.md) - show the chart's definition
+* [helm show readme](helm_show_readme.md) - show the chart's README
+* [helm show values](helm_show_values.md) - show the chart's values

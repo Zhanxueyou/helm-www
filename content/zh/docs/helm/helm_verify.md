@@ -8,7 +8,6 @@ verify that a chart at the given path has been signed and is valid
 
 ### 简介
 
-
 Verify that the given chart has a valid provenance file.
 
 Provenance files provide cryptographic verification that a chart has not been
@@ -18,21 +17,20 @@ This command can be used to verify a local chart. Several other commands provide
 '--verify' flags that run the same validation. To generate a signed package, use
 the 'helm package --sign' command.
 
-
-```
+```shell
 helm verify PATH [flags]
 ```
 
 ### 可选项
 
-```
+```shell
   -h, --help             help for verify
       --keyring string   keyring containing public keys (default "~/.gnupg/pubring.gpg")
 ```
 
 ### 从父命令继承的命令
 
-```
+```shell
       --debug                       enable verbose output
       --kube-apiserver string       the address and the port for the Kubernetes API server
       --kube-as-group stringArray   Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
@@ -48,6 +46,4 @@ helm verify PATH [flags]
 
 ### 请参阅
 
-* [helm](helm.md)	 - The Helm package manager for Kubernetes.
-
-
+* [helm](helm.md) - The Helm package manager for Kubernetes.

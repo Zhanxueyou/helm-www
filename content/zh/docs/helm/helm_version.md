@@ -8,7 +8,6 @@ print the client version information
 
 ### 简介
 
-
 Show the version for Helm.
 
 This will print a representation the version of Helm.
@@ -30,14 +29,13 @@ the template:
 - .GitTreeState is the state of the git tree when Helm was built
 - .GoVersion contains the version of Go that Helm was compiled with
 
-
-```
+```shell
 helm version [flags]
 ```
 
 ### 可选项
 
-```
+```shell
   -h, --help              help for version
       --short             print the version number
       --template string   template for version string format
@@ -45,7 +43,7 @@ helm version [flags]
 
 ### 从父命令继承的命令
 
-```
+```shell
       --debug                       enable verbose output
       --kube-apiserver string       the address and the port for the Kubernetes API server
       --kube-as-group stringArray   Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
@@ -61,6 +59,4 @@ helm version [flags]
 
 ### 请参阅
 
-* [helm](helm.md)	 - The Helm package manager for Kubernetes.
-
-
+- [helm](helm.md) - The Helm package manager for Kubernetes.

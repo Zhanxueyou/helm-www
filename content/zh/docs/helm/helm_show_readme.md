@@ -8,18 +8,16 @@ show the chart's README
 
 ### 简介
 
-
 This command inspects a chart (directory, file, or URL) and displays the contents
 of the README file
 
-
-```
+```shell
 helm show readme [CHART] [flags]
 ```
 
 ### 可选项
 
-```
+```shell
       --ca-file string             verify certificates of HTTPS-enabled servers using this CA bundle
       --cert-file string           identify HTTPS client using this SSL certificate file
       --devel                      use development versions, too. Equivalent to version '>0.0.0-0'. If --version is set, this is ignored
@@ -36,7 +34,7 @@ helm show readme [CHART] [flags]
 
 ### 从父命令继承的命令
 
-```
+```shell
       --debug                       enable verbose output
       --kube-apiserver string       the address and the port for the Kubernetes API server
       --kube-as-group stringArray   Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
@@ -52,6 +50,4 @@ helm show readme [CHART] [flags]
 
 ### 请参阅
 
-* [helm show](helm_show.md)	 - show information of a chart
-
-
+* [helm show](helm_show.md) - show information of a chart

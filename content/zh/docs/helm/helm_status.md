@@ -8,9 +8,9 @@ display the status of the named release
 
 ### 简介
 
-
 This command shows the status of a named release.
 The status consists of:
+
 - last deployment time
 - k8s namespace in which the release lives
 - state of the release (can be: unknown, deployed, uninstalled, superseded, failed, uninstalling, pending-install, pending-upgrade or pending-rollback)
@@ -20,14 +20,13 @@ The status consists of:
 - details on last test suite run, if applicable
 - additional notes provided by the chart
 
-
-```
+```shell
 helm status RELEASE_NAME [flags]
 ```
 
 ### 可选项
 
-```
+```shell
   -h, --help            help for status
   -o, --output format   prints the output in the specified format. Allowed values: table, json, yaml (default table)
       --revision int    if set, display the status of the named release with revision
@@ -36,7 +35,7 @@ helm status RELEASE_NAME [flags]
 
 ### 从父命令继承的命令
 
-```
+```shell
       --debug                       enable verbose output
       --kube-apiserver string       the address and the port for the Kubernetes API server
       --kube-as-group stringArray   Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
@@ -52,6 +51,4 @@ helm status RELEASE_NAME [flags]
 
 ### 请参阅
 
-* [helm](helm.md)	 - The Helm package manager for Kubernetes.
-
-
+- [helm](helm.md) - The Helm package manager for Kubernetes.

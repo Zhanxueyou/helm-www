@@ -8,18 +8,16 @@ show all information of the chart
 
 ### 简介
 
-
 This command inspects a chart (directory, file, or URL) and displays all its content
 (values.yaml, Charts.yaml, README)
 
-
-```
+```shell
 helm show all [CHART] [flags]
 ```
 
 ### 可选项
 
-```
+```shell
       --ca-file string             verify certificates of HTTPS-enabled servers using this CA bundle
       --cert-file string           identify HTTPS client using this SSL certificate file
       --devel                      use development versions, too. Equivalent to version '>0.0.0-0'. If --version is set, this is ignored
