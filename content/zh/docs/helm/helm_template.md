@@ -1,18 +1,16 @@
 ---
-title: "Helm Template"
+title: "Helm模板"
 ---
 
 ## helm template
 
-locally render templates
+本地渲染模板
 
 ### 简介
 
-Render chart templates locally and display the output.
+本地渲染模板并显示输出
 
-Any values that would normally be looked up or retrieved in-cluster will be
-faked locally. Additionally, none of the server-side testing of chart validity
-(e.g. whether an API is supported) is done.
+通常在集群中查找或检索到的任何值都可以在本地伪造。另外，没有对chart有效性进行服务端测试。
 
 ```shell
 helm template [NAME] [CHART] [flags]

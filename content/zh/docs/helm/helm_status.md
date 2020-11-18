@@ -1,24 +1,24 @@
 ---
-title: "Helm Status"
+title: "Helm 状态"
 ---
 
 ## helm status
 
-display the status of the named release
+显示已命名发布的状态
 
 ### 简介
 
-This command shows the status of a named release.
-The status consists of:
+该命令显示已命名发布的状态，状态包括：
 
-- last deployment time
-- k8s namespace in which the release lives
-- state of the release (can be: unknown, deployed, uninstalled, superseded, failed, uninstalling, pending-install, pending-upgrade or pending-rollback)
-- revision of the release
-- description of the release (can be completion message or error message, need to enable --show-desc)
-- list of resources that this release consists of, sorted by kind
-- details on last test suite run, if applicable
-- additional notes provided by the chart
+- 最后部署时间
+- 发布版本所在的k8s命名空间
+- 发布状态(可以是： unknown, deployed, uninstalled, superseded, failed, uninstalling,
+pending-install, pending-upgrade 或 pending-rollback)
+- 发布版本修订
+- 发布版本描述(可以是完成信息或错误信息，需要用--show-desc启用)
+- 列举版本包含的资源，按类型排序
+- 最后一次测试套件运行的详细信息（如果使用）
+- chart提供的额外的注释
 
 ```shell
 helm status RELEASE_NAME [flags]

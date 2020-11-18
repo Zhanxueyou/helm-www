@@ -1,10 +1,10 @@
 ---
-title: "Helm Uninstall"
+title: "Helm 卸载"
 ---
 
 ## helm uninstall
 
-uninstall a release
+卸载版本
 
 ### 简介
 

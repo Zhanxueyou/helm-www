@@ -4,14 +4,13 @@ title: "Helm Test"
 
 ## helm test
 
-run tests for a release
+执行发布版本的测试
 
 ### 简介
 
-The test command runs the tests for a release.
+测试命令执行发布版本的测试
 
-The argument this command takes is the name of a deployed release.
-The tests to be run are defined in the chart that was installed.
+该命令使用的参数是部署版本的名称，要运行的测试在已安装的chart中定义。
 
 ```shell
 helm test [RELEASE] [flags]
