@@ -1,21 +1,18 @@
 ---
-title: "Helm Verify"
+title: "Helm 验证"
 ---
 
 ## helm verify
 
-verify that a chart at the given path has been signed and is valid
+验证给定路径的chart已经被签名且有效
 
 ### 简介
 
-Verify that the given chart has a valid provenance file.
+验证指定的chart有合法的源文件。
 
-Provenance files provide cryptographic verification that a chart has not been
-tampered with, and was packaged by a trusted provider.
+源文件提供了加密验证保证chart未被篡改，且由可信提供商打包。
 
-This command can be used to verify a local chart. Several other commands provide
-'--verify' flags that run the same validation. To generate a signed package, use
-the 'helm package --sign' command.
+该命令用于验证本地chart，其他一些命令提供'--verify'参数执行同样的验证。要生成一个签名包，使用'helm package --sign'命令。
 
 ```shell
 helm verify PATH [flags]

@@ -1,33 +1,31 @@
 ---
-title: "Helm Version"
+title: "Helm 版本"
 ---
 
 ## helm version
 
-print the client version information
+打印客户端版本信息
 
 ### 简介
 
-Show the version for Helm.
+显示Helm的版本。
 
-This will print a representation the version of Helm.
-The output will look something like this:
+该命令会打印Helm的版本描述，输出如下：
 
-version.BuildInfo{Version:"v3.2.1", GitCommit:"fe51cd1e31e6a202cba7dead9552a6d418ded79a", GitTreeState:"clean", GoVersion:"go1.13.10"}
+version.BuildInfo{Version:"v3.2.1", GitCommit:"fe51cd1e31e6a202cba7dead9552a6d418ded79a",
+GitTreeState:"clean", GoVersion:"go1.13.10"}
 
-- Version is the semantic version of the release.
-- GitCommit is the SHA for the commit that this version was built from.
-- GitTreeState is "clean" if there are no local code changes when this binary was
-  built, and "dirty" if the binary was built from locally modified code.
-- GoVersion is the version of Go that was used to compile Helm.
+- 版本是发布的语义化版本。
+- GitCommit是用于生成此版本提交的SHA
+- 如果构建二级制包是没有本地代码修改，GitTreeState就是"干净的"
+- GoVersion是用于编译Helm的Go版本
 
-When using the --template flag the following properties are available to use in
-the template:
+当使用--template参数时，下列属性在模板中是可用的：
 
-- .Version contains the semantic version of Helm
-- .GitCommit is the git commit
-- .GitTreeState is the state of the git tree when Helm was built
-- .GoVersion contains the version of Go that Helm was compiled with
+- .Version 包含了Helm的语义化版本
+- .GitCommit 是git的提交
+- .GitTreeState 是Helm构建时的git树结构
+- .GoVersion 包含Helm编译时使用的Go版本
 
 ```shell
 helm version [flags]
