@@ -1,37 +1,30 @@
 ---
-title: "Helm Upgrade"
+title: "Helm 升级"
 ---
 
 ## helm upgrade
 
-upgrade a release
+升级版本
 
 ### 简介
 
-This command upgrades a release to a new version of a chart.
+该命令将发布升级到新版的chart。
 
-The upgrade arguments must be a release and chart. The chart
-argument can be either: a chart reference('example/mariadb'), a path to a chart directory,
-a packaged chart, or a fully qualified URL. For chart references, the latest
-version will be specified unless the '--version' flag is set.
+升级参数必须是发布和chart。chart参数可以是：chart引用('example/mariadb')，chart目录路径，打包的chart或者完整URL。
+对于chart引用，除非使用'--version'参数指定，否则会使用最新版本。
 
-To override values in a chart, use either the '--values' flag and pass in a file
-or use the '--set' flag and pass configuration from the command line, to force string
-values, use '--set-string'. In case a value is large and therefore
-you want not to use neither '--values' nor '--set', use '--set-file' to read the
-single large value from file.
+要在chart中重写value，需要使用'--values'参数并传一个文件或者从命令行使用'--set'参数传个配置，
+要强制字符串值，使用'--set-string'。在值很大而不想使用'--values'和'--set'的场景中，使用'--set-file'从文件中读取单个的大值。
 
-You can specify the '--values'/'-f' flag multiple times. The priority will be given to the
-last (right-most) file specified. For example, if both myvalues.yaml and override.yaml
-contained a key called 'Test', the value set in override.yaml would take precedence:
+可以多次指定'--values'/'-f'参数，最后（最右边）指定的文件优先级最高。比如如果myvalues.yaml和override.yaml同时包含了名为
+'Test'的key，override.yaml中的设置会优先使用：
 
 ```shell
     $ helm upgrade -f myvalues.yaml -f override.yaml redis ./redis
 ```
 
-You can specify the '--set' flag multiple times. The priority will be given to the
-last (right-most) set specified. For example, if both 'bar' and 'newbar' values are
-set for a key called 'foo', the 'newbar' value would take precedence:
+可以多次指定'--set'参数，最后（最右边）指定的优先级最高。比如'bar' 和 'newbar'都设置了一个名为'foo'的可以，
+'newbar'的值会优先使用：
 
 ```shell
     $ helm upgrade --set foo=bar --set foo=newbar redis ./redis

@@ -8,13 +8,11 @@ title: "Helm 卸载"
 
 ### 简介
 
-This command takes a release name and uninstalls the release.
+该命令使用版本名称卸载版本
 
-It removes all of the resources associated with the last release of the chart
-as well as the release history, freeing it up for future use.
+会删除与最新版本chart相关的所有资源以及发布历史，释放以供将来使用
 
-Use the '--dry-run' flag to see which releases will be uninstalled without actually
-uninstalling them.
+使用'--dry-run'参数查看哪些版本将在不实际卸载的情况下能够被卸载
 
 ```shell
 helm uninstall RELEASE_NAME [...] [flags]
