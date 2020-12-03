@@ -13,7 +13,7 @@ Kubernetes包管理器
 Helm的一般操作：
 
 - helm search:    &emsp;&emsp;搜索chart
-- helm pull:      &emsp;&emsp;&emsp;下载cahrt到本地目录查看
+- helm pull:      &emsp;&emsp;&emsp;下载chart到本地目录查看
 - helm install:   &emsp;&emsp;上传chart到Kubernetes
 - helm list:      &emsp;&emsp;&emsp;&ensp;列出已发布的chart
 
