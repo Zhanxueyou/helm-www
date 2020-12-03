@@ -17,6 +17,9 @@ target="_blank">OCI</a> 用于包分发。 Chart包可以通过基于OCI的注�
 export HELM_EXPERIMENTAL_OCI=1
 ```
 
+For more information about this feature and plans for general availability,
+please see the [OCI Support Helm Improvement Proposal](https://github.com/helm/community/blob/master/hips/hip-0006.md).
+
 ## 运行一个注册中心
 
 为测试目的启动注册中心是比较简单的。只要你安装了Docker，运行以下命令即可：
