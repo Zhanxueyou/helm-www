@@ -53,10 +53,9 @@ serverPort: 80
 In most cases, flat should be favored over nested. The reason for this is that
 it is simpler for template developers and users.
 
-
 For optimal safety, a nested value must be checked at every level:
 
-```
+```yaml
 {{ if .Values.server }}
   {{ default "none" .Values.server.name }}
 {{ end }}
@@ -66,7 +65,7 @@ For every layer of nesting, an existence check must be done. But for flat
 configuration, such checks can be skipped, making the template easier to read
 and use.
 
-```
+```yaml
 {{ default "none" .Values.serverName }}
 ```
 

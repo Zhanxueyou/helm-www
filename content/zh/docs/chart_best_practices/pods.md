@@ -21,7 +21,6 @@ A container image should use a fixed tag or the SHA of the image. It should not
 use the tags `latest`, `head`, `canary`, or other tags that are designed to be
 "floating".
 
-
 Images _may_ be defined in the `values.yaml` file to make it easy to swap out
 images.
 
@@ -54,7 +53,6 @@ image:
 Similarly, Kubernetes defaults the `imagePullPolicy` to `IfNotPresent` if it is
 not defined at all. If you want a value other than `IfNotPresent`, simply update
 the value in `values.yaml` to your desired value.
-
 
 ## PodTemplates Should Declare Selectors
 

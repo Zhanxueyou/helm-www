@@ -21,7 +21,7 @@ The `templates/` directory should be structured as follows:
 
 ## Names of Defined Templates
 
-Defined templates (templates created inside a `{{ define }} ` directive) are
+Defined templates (templates created inside a `{{ define }}` directive) are
 globally accessible. That means that a chart and all of its subcharts will have
 access to all of the templates created with `{{ define }}`.
 
@@ -42,6 +42,7 @@ Incorrect:
 {{/* ... */}}
 {{ end -}}
 ```
+
 It is highly recommended that new charts are created via `helm create` command
 as the template names are automatically defined as per this best practice.
 
@@ -53,14 +54,16 @@ Template directives should have whitespace after the opening  braces and before
 the closing braces:
 
 Correct:
-```
+
+```yaml
 {{ .foo }}
 {{ print "foo" }}
 {{- print "bar" -}}
 ```
 
 Incorrect:
-```
+
+```yaml
 {{.foo}}
 {{print "foo"}}
 {{-print "bar"-}}
@@ -78,7 +81,7 @@ foo:
 Blocks (such as control structures) may be indented to indicate flow of the
 template code.
 
-```
+```yaml
 {{ if $foo -}}
   {{- with .Bar }}Hello{{ end -}}
 {{- end -}}
@@ -146,12 +149,14 @@ metadata:
 Both YAML and Helm Templates have comment markers.
 
 YAML comments:
+
 ```yaml
 # This is a comment
 type: sprocket
 ```
 
 Template Comments:
+
 ```yaml
 {{- /*
 This is a comment.

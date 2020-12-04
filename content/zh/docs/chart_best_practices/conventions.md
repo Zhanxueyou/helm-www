@@ -13,7 +13,7 @@ with dashes (-):
 
 Examples:
 
-```
+```yaml
 drupal
 nginx-lego
 aws-cluster-autoscaler
