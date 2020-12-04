@@ -103,12 +103,9 @@ data:
   drink: slurm
 ```
 
-Since `--set` has a higher precedence than the default `values.yaml` file, our
-template generates `drink: slurm`.
+由于`--set`比默认的`values.yaml`文件优先级更高，模板就生成了`drink: slurm`。
 
-Values files can contain more structured content, too. For example, we could
-create a `favorite` section in our `values.yaml` file, and then add several keys
-there:
+values文件也可以包含更多结构化的内容。比如我们可以在`values.yaml`文件中创建一个`favorite`项，然后添加一些key：
 
 ```yaml
 favorite:
@@ -116,7 +113,7 @@ favorite:
   food: pizza
 ```
 
-Now we would have to modify the template slightly:
+现在需要稍微修改一些模板：
 
 ```yaml
 apiVersion: v1
@@ -129,18 +126,13 @@ data:
   food: {{ .Values.favorite.food }}
 ```
 
-While structuring data this way is possible, the recommendation is that you keep
-your values trees shallow, favoring flatness. When we look at assigning values
-to subcharts, we'll see how values are named using a tree structure.
+虽然可以这样构造数据，但还是建议构建更加平坦的浅层树。当我们想要给子chart赋值时，会看到如何使用树结构给value命名。
 
-## Deleting a default key
+## 删除默认的key
 
-If you need to delete a key from the default values, you may override the value
-of the key to be `null`, in which case Helm will remove the key from the
-overridden values merge.
+如果需要从默认的value中删除key，可以将key设置为`null`，Helm将在覆盖的value合并时删除这个key。
 
-For example, the stable Drupal chart allows configuring the liveness probe, in
-case you configure a custom image. Here are the default values:
+比如，稳定的Drupal chart 允许在配置自定义镜像时配置活动探针。以下是默认值：
 
 ```yaml
 livenessProbe:
@@ -150,10 +142,8 @@ livenessProbe:
   initialDelaySeconds: 120
 ```
 
-If you try to override the livenessProbe handler to `exec` instead of `httpGet`
-using `--set livenessProbe.exec.command=[cat,docroot/CHANGELOG.txt]`, Helm will
-coalesce the default and overridden keys together, resulting in the following
-YAML:
+如果你想用`exec`重写活动探针句柄而不是`httpGet`，使用`--set livenessProbe.exec.command=[cat,docroot/CHANGELOG.txt]`，
+Helm会把默认的key和重写的key合并在一起，从而生成以下YAML：
 
 ```yaml
 livenessProbe:
@@ -167,14 +157,10 @@ livenessProbe:
   initialDelaySeconds: 120
 ```
 
-However, Kubernetes would then fail because you can not declare more than one
-livenessProbe handler. To overcome this, you may instruct Helm to delete the
-`livenessProbe.httpGet` by setting it to null:
+然而Kubernetes会失败，因为不能声明多个活动探针句柄。为了解决这个问题，可以指定Helm通过设定null来删除`livenessProbe.httpGet`：
 
 ```sh
 helm install stable/drupal --set image=my-registry/drupal:0.1.0 --set livenessProbe.exec.command=[cat,docroot/CHANGELOG.txt] --set livenessProbe.httpGet=null
 ```
 
-At this point, we've seen several built-in objects, and used them to inject
-information into a template. Now we will take a look at another aspect of the
-template engine: functions and pipelines.
+这里我们已经看到了几个内置对象，并用它们将信息植入到模板中。现在来模板引擎的另一部分：方法和管道。
