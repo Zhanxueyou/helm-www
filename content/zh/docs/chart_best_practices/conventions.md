@@ -4,14 +4,13 @@ description: "chart的一般惯例"
 weight: 1
 ---
 
-This part of the Best Practices Guide explains general conventions.
+最佳实践的这部分阐述了一般惯例。
 
-## Chart Names
+## Chart名称
 
-Chart names must be lower case letters and numbers. Words _may_ be separated
-with dashes (-):
+chart名称必须是小写字母和数字。单词之间 _可以_ 使用横杠分隔(-)：
 
-Examples:
+示例：
 
 ```yaml
 drupal
@@ -19,35 +18,29 @@ nginx-lego
 aws-cluster-autoscaler
 ```
 
-Neither uppercase letters nor underscores can be used in chart names. Dots
-should not be used in chart names.
+chart名称中不能用大写字母也不能用下划线。点 . 符号也不行。
 
-The directory that contains a chart MUST have the same name as the chart. Thus,
-the chart `nginx-lego` MUST be created in a directory called `nginx-lego/`. This
-is not merely a stylistic detail, but a requirement of the Helm Chart format.
+包chart的目录命**必须**和chart一致。因此，名为`nginx-lego`的chart**必须**在`nginx-lego/`目录中创建。
+这不仅仅是文字上的细节，而且是Helm Chart要求的格式。
 
-## Version Numbers
+## 版本号
 
-Wherever possible, Helm uses [SemVer 2](https://semver.org) to represent version
-numbers. (Note that Docker image tags do not necessarily follow SemVer, and are
-thus considered an unfortunate exception to the rule.)
+Helm尽可能使用[SemVer 2](https://semver.org)来表示版本号。（注意Docker镜像的tag不需要遵循SemVer，
+因此被认为是一个不幸的例外规则。
 
-When SemVer versions are stored in Kubernetes labels, we conventionally alter
-the `+` character to an `_` character, as labels do not allow the `+` sign as a
-value.
+当SemVer版本存储在Kubernetes标签中是，我们通常把`+`字符改成`_`，因为标签不允许使用`+`作为值进行签名。
 
-## Formatting YAML
+## 格式化YAML
 
-YAML files should be indented using _two spaces_ (and never tabs).
+YAML 文件应该按照 _双空格_ 缩进(绝不要使用tab键)。
 
-## Usage of the Words Helm and Chart
+## Helm 和 Chart的用法
 
-There are a few conventions for using the words _Helm_ and _helm_.
+以下是几个 _Helm_ 和 _helm_ 的惯用方法。
 
-- _Helm_ refers to the project as a whole
-- `helm` refers to the client-side command
-- The term `chart` does not need to be capitalized, as it is not a proper noun
-- However, `Chart.yaml` does need to be capitalized because the file name is
-  case sensitive
+- _Helm_ 是指整个项目
+- `helm` 是指客户端命令
+- `chart` 不是专有名词，不需要首字母大写
+- 但`Chart.yaml`需要首字母大写，因为文件名大小写敏感
 
-When in doubt, use _Helm_ (with an uppercase 'H').
+若有疑问，使用 _Helm_ ('H'大写).
