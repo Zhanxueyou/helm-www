@@ -1,23 +1,20 @@
 ---
 title: "依赖"
-description: "Covers best practices for Chart dependencies."
+description: "涵盖chart依赖的最佳实践"
 weight: 4
 ---
 
-This section of the guide covers best practices for `dependencies` declared in
-`Chart.yaml`.
+最佳实践的这部分阐述`Chart.yaml`中声明的`dependencies`。
 
-## Versions
+## 版本
 
-Where possible, use version ranges instead of pinning to an exact version. The
-suggested default is to use a patch-level version match:
+如果有可能的话，使用版本范围而不是某个固定的版本。建议的默认设置时使用补丁级别版本的匹配：
 
 ```yaml
 version: ~1.2.3
 ```
 
-This will match version `1.2.3` and any patches to that release.  In other
-words, `~1.2.3` is equivalent to `>= 1.2.3, < 1.3.0`
+这样会匹配 `1.2.3`以及该版本的任何补丁，也就是说，`~1.2.3`相当于`>= 1.2.3, < 1.3.0`
 
 For the complete version matching syntax, please see the [semver
 documentation](https://github.com/Masterminds/semver#checking-version-constraints).
