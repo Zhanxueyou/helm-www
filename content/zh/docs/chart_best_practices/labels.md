@@ -1,8 +1,7 @@
 ---
-title: "Labels and Annotations"
+title: "标签和注释"
 description: "Covers best practices for using labels and annotations in your Chart."
 weight: 5
-aliases: ["/docs/topics/chart_best_practices/labels/"]
 ---
 
 This part of the Best Practices Guide discusses the best practices for using

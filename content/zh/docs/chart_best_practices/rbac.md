@@ -1,8 +1,7 @@
 ---
-title: "Role-Based Access Control"
+title: "基于角色的访问控制"
 description: "Discusses the creation and formatting of RBAC resources in Chart manifests."
 weight: 8
-aliases: ["/docs/topics/chart_best_practices/rbac/"]
 ---
 
 This part of the Best Practices Guide discusses the creation and formatting of

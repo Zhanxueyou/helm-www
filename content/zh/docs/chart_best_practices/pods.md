@@ -1,8 +1,7 @@
 ---
-title: "Pods and PodTemplates"
+title: "pod和pod模板"
 description: "Discusses formatting the Pod and PodTemplate portions in Chart manifests."
 weight: 6
-aliases: ["/docs/topics/chart_best_practices/pods/"]
 ---
 
 This part of the Best Practices Guide discusses formatting the Pod and
