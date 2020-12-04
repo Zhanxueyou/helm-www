@@ -1,22 +1,18 @@
 ---
-title: "Custom Resource Definitions"
-description: "How to handle creating and using CRDs."
+title: "自定义资源定义"
+description: "如何创建和使用CRD"
 weight: 7
 ---
 
-This section of the Best Practices Guide deals with creating and using Custom
-Resource Definition objects.
+最佳实践的这部分处理创建和使用自定义资源定义。
 
-When working with Custom Resource Definitions (CRDs), it is important to
-distinguish two different pieces:
+当使用自定义资源定义时(CRD)，区分两个不同的部分很重要：
 
-- There is a declaration of a CRD. This is the YAML file that has the kind
-  `CustomResourceDefinition`
-- Then there are resources that _use_ the CRD. Say a CRD defines
-  `foo.example.com/v1`. Any resource that has `apiVersion: example.com/v1` and
-  kind `Foo` is a resource that uses the CRD.
+- CRD的声明。是一个具有`CustomResourceDefinition`类型的yaml文件。
+- 有些资源 _使用_ CRD. 假设CRD定义了`foo.example.com/v1`。任何有`apiVersion: example.com/v1`和
+  `Foo`类的资源都可以使用CRD。
 
-## Install a CRD Declaration Before Using the Resource
+## 使用资源之前安装CRD声明
 
 Helm is optimized to load as many resources into Kubernetes as fast as possible.
 By design, Kubernetes can take an entire set of manifests and bring them all
