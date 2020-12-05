@@ -1,6 +1,6 @@
 ---
 title: "模板"
-description: "A closer look at best practices surrounding templates."
+description: "进一步了解围绕模板的最佳实践。"
 weight: 3
 ---
 
