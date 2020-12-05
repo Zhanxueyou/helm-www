@@ -1,41 +1,36 @@
 ---
 title: "values"
-description: "Focuses on how you should structure and use your values."
+description: "聚焦于如何构建和使用你的values。"
 weight: 2
 ---
 
-This part of the best practices guide covers using values. In this part of the
-guide, we provide recommendations on how you should structure and use your
-values, with focus on designing a chart's `values.yaml` file.
+最佳实践的该部分包括了values的使用。这部分指南中，我们提供了关于你如何构建和使用values的建议，以及专注于设计chart的 `values.yaml`文件。
 
-## Naming Conventions
+## 命名规范
 
-Variable names should begin with a lowercase letter, and words should be
-separated with camelcase:
+变量名称以小写字母开头，单词按驼峰区分：
 
-Correct:
+正确的：
 
 ```yaml
 chicken: true
 chickenNoodleSoup: true
 ```
 
-Incorrect:
+错误的：
 
 ```yaml
 Chicken: true  # initial caps may conflict with built-ins
 chicken-noodle-soup: true # do not use hyphens in the name
 ```
 
-Note that all of Helm's built-in variables begin with an uppercase letter to
-easily distinguish them from user-defined values: `.Release.Name`,
-`.Capabilities.KubeVersion`.
+注意所有的Helm内置变量以大写字母开头，以便与用户定义的value进行区分：`.Release.Name`，`.Capabilities.KubeVersion`。
 
-## Flat or Nested Values
+## 扁平或嵌套的Value
 
-YAML is a flexible format, and values may be nested deeply or flattened.
+YAML是一种灵活格式，值可以嵌套得很深，也可以是扁平的。
 
-Nested:
+嵌套的：
 
 ```yaml
 server:
@@ -43,17 +38,16 @@ server:
   port: 80
 ```
 
-Flat:
+扁平的
 
 ```yaml
 serverName: nginx
 serverPort: 80
 ```
 
-In most cases, flat should be favored over nested. The reason for this is that
-it is simpler for template developers and users.
+大多数场景中，扁平的优于嵌套的。因为对模板开发者和用户来说更加简单。
 
-For optimal safety, a nested value must be checked at every level:
+为了最佳的安全性，嵌套值的每一层都必须检查：
 
 ```yaml
 {{ if .Values.server }}
@@ -61,53 +55,41 @@ For optimal safety, a nested value must be checked at every level:
 {{ end }}
 ```
 
-For every layer of nesting, an existence check must be done. But for flat
-configuration, such checks can be skipped, making the template easier to read
-and use.
+对于每个嵌套层，都必须进行存在性检查。但对于扁平的配置，使得模板更易于阅读和使用，这个检查可以跳过。
 
 ```yaml
 {{ default "none" .Values.serverName }}
 ```
 
-When there are a large number of related variables, and at least one of them is
-non-optional, nested values may be used to improve readability.
+当有大量的相关变量时，其中至少有一个是非选择性的，嵌套的值可以改善可读性。
 
-## Make Types Clear
+## 搞清楚类型
 
-YAML's type coercion rules are sometimes counterintuitive. For example, `foo:
-false` is not the same as `foo: "false"`. Large integers like `foo: 12345678`
-will get converted to scientific notation in some cases.
+YAML的类型强制规则有时候是很反常的。比如，`foo: false` 和 `foo: "false"` 是不一样的。大整形数如：`foo: 12345678`
+有时会被转换成科学计数法。
 
-The easiest way to avoid type conversion errors is to be explicit about strings,
-and implicit about everything else. Or, in short, _quote all strings_.
+避免类型强制规则错误最简单的方式是字符串明确定义，其他都是不明确的。或者，简单来讲， _给所有字符串打引号_。
 
-Often, to avoid the integer casting issues, it is advantageous to store your
-integers as strings as well, and use `{{ int $value }}` in the template to
-convert from a string back to an integer.
+通常，为了避免整数转换问题，将整形存储为字符串更好，并用 `{{ int $value }}` 在模板中将字符串转回整形。
 
-In most cases, explicit type tags are respected, so `foo: !!string 1234` should
-treat `1234` as a string. _However_, the YAML parser consumes tags, so the type
-data is lost after one parse.
+在大多数场景中，显示的类型标记更好，所以 `foo: !!string 1234` 会将`1234`作为字符串对待。
+_但是_，YAML解析器会消耗标记，因此类型数据在一次解析后会丢失。
 
-## Consider How Users Will Use Your Values
+## 考虑用户如何使用你的value
 
-There are three potential sources of values:
+有三种潜在的value来源:
 
-- A chart's `values.yaml` file
-- A values file supplied by `helm install -f` or `helm upgrade -f`
-- The values passed to a `--set` or `--set-string` flag on `helm install` or
-  `helm upgrade`
+- chart的`values.yaml`文件
+- 由`helm install -f` 或 `helm upgrade -f`提供的values文件
+- 在执行`helm install` 或 `helm upgrade` 时传递给`--set` 或 `--set-string` 参数的values
 
-When designing the structure of your values, keep in mind that users of your
-chart may want to override them via either the `-f` flag or with the `--set`
-option.
+当设计values的结构时，记得你的chart用户可能会通过`-f` 参数或`--set`选项覆盖他们。
 
-Since `--set` is more limited in expressiveness, the first guidelines for
-writing your `values.yaml` file is _make it easy to override from `--set`_.
+由于`--set`在表现上更有限，编写你`values.yaml`文件的第一指导原则是 _确保它容易被`--set`覆盖_。
 
-For this reason, it's often better to structure your values file using maps.
+因此使用map构建values文件更好。
 
-Difficult to use with `--set`:
+很难与`--set`一起使用：
 
 ```yaml
 servers:
@@ -117,12 +99,10 @@ servers:
     port: 81
 ```
 
-The above cannot be expressed with `--set` in Helm `<=2.4`. In Helm 2.5, the
-accessing the port on foo is `--set servers[0].port=80`. Not only is it harder
-for the user to figure out, but it is prone to errors if at some later time the
-order of the `servers` is changed.
+上述在Helm `<=2.4`的版本中无法和`--set`一起表达。在Helm 2.5中，访问foo上的端口是
+`--set servers[0].port=80`。用户不仅更难理解，而且以后更改`servers`顺序之后更易出错。
 
-Easy to use:
+易于使用：
 
 ```yaml
 servers:
@@ -132,15 +112,13 @@ servers:
     port: 81
 ```
 
-Accessing foo's port is much more obvious: `--set servers.foo.port=80`.
+这样访问foo的port更加明显： `--set servers.foo.port=80`。
 
-## Document `values.yaml`
+## 给`values.yaml`写文档
 
-Every defined property in `values.yaml` should be documented. The documentation
-string should begin with the name of the property that it describes, and then
-give at least a one-sentence description.
+`values.yaml`中每个定义的属性都应该文档化。文档字符串应该以它要描述的属性开头，并至少给出一句描述。
 
-Incorrect:
+不正确的：
 
 ```yaml
 # the host name for the webserver
@@ -148,7 +126,7 @@ serverHost: example
 serverPort: 9191
 ```
 
-Correct:
+正确的：
 
 ```yaml
 # serverHost is the host name for the webserver
@@ -157,6 +135,4 @@ serverHost: example
 serverPort: 9191
 ```
 
-Beginning each comment with the name of the parameter it documents makes it easy
-to grep out documentation, and will enable documentation tools to reliably
-correlate doc strings with the parameters they describe.
+以它描述的参数名称开始每个注释可以很容易整理文档，并使文档工具能可靠地将文档字符串与其描述的参数关联起来。
