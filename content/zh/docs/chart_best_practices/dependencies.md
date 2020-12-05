@@ -16,44 +16,35 @@ version: ~1.2.3
 
 这样会匹配 `1.2.3`以及该版本的任何补丁，也就是说，`~1.2.3`相当于`>= 1.2.3, < 1.3.0`
 
-For the complete version matching syntax, please see the [semver
-documentation](https://github.com/Masterminds/semver#checking-version-constraints).
+关于完整的版本匹配语法，请参照[语义版本文档](https://github.com/Masterminds/semver#checking-version-constraints)。
 
-### Repository URLs
+### 仓库URL
 
-Where possible, use `https://` repository URLs, followed by `http://` URLs.
+如果可能的话，使用 `https://` 仓库URL，而不是`http://` URL。
 
-If the repository has been added to the repository index file, the repository
-name can be used as an alias of URL. Use `alias:` or `@` followed by repository
-names.
+如果这个仓库已经被添加到仓库索引文件中，仓库名称可以作为URL的别名。使用`alias:` 或 `@` 后跟仓库名称。
 
-File URLs (`file://...`) are considered a "special case" for charts that are
-assembled by a fixed deployment pipeline. Charts that use `file://` are not
-allowed in the official Helm repository.
+文件URL(`file://...`) 被认为是一种有固定部署管道组装的chart的“特例”。官方Helm仓库不允许chart使用`file://`。
 
-## Conditions and Tags
+## 条件和标签
 
-Conditions or tags should be added to any dependencies that _are optional_.
+条件和标签可以被添加到任意 _可选的_ 依赖中。
 
-The preferred form of a condition is:
+条件的首先格式是：
 
 ```yaml
 condition: somechart.enabled
 ```
 
-Where `somechart` is the chart name of the dependency.
+`somechart`是依赖的chart名称。
 
-When multiple subcharts (dependencies) together provide an optional or swappable
-feature, those charts should share the same tags.
+当多个子chart（依赖）一起提供可选或可交换的特性时，这些chart应该共享相同的标签。
 
-For example, if both `nginx` and `memcached` together provide performance
-optimizations for the main app in the chart, and are required to both be present
-when that feature is enabled, then they should both have a tags section like
-this:
+比如，如果`nginx` 和 `memcached`在chart中一起提供性能优化，且需要在使用该功能时同时存在，则都应该有如下的标签部分：
 
 ```yaml
 tags:
   - webaccelerator
 ```
 
-This allows a user to turn that feature on and off with one tag.
+这允许用户使用一个标签打开和关闭该功能。
