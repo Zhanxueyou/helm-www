@@ -57,7 +57,6 @@ dependencies: # chart 必要条件列表 （可选）
     condition: （可选） 解析为布尔值的yaml路径，用于启用/禁用chart (e.g. subchart1.enabled )
     tags: # （可选）
       - 用于一次启用/禁用 一组chart的tag
-    enabled: （可选） 决定是否加载chart的布尔值
     import-values: # （可选）
       - ImportValue 保存源值到导入父键的映射。每项可以是字符串或者一对子/父列表项
     alias: （可选） chart中使用的别名。当你要多次添加相同的chart时会很有用
