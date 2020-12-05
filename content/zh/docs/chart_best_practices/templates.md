@@ -4,30 +4,25 @@ description: "进一步了解围绕模板的最佳实践。"
 weight: 3
 ---
 
-This part of the Best Practices Guide focuses on templates.
+最佳实践指南的这部分聚焦于模板。
 
-## Structure of `templates/`
+## `templates/`结构
 
-The `templates/` directory should be structured as follows:
+`templates/`目录结构应该如下：
 
-- Template files should have the extension `.yaml` if they produce YAML output.
-  The extension `.tpl` may be used for template files that produce no formatted
-  content.
-- Template file names should use dashed notation (`my-example-configmap.yaml`),
-  not camelcase.
-- Each resource definition should be in its own template file.
-- Template file names should reflect the resource kind in the name. e.g.
-  `foo-pod.yaml`, `bar-svc.yaml`
+- 如果生成YAML输出，模板文件应该有扩展名`.yaml`。
+  扩展名是`.tpl`可用于生成非格式化内容的模板文件。
+- 模板文件名称应该使用横杠符号(`my-example-configmap.yaml`)，不用驼峰记法。
+- 每个资源的定义应该在它自己的模板文件中。
+- 模板文件的名称应该反映名称中的资源类型。比如：`foo-pod.yaml`， `bar-svc.yaml`
 
-## Names of Defined Templates
+## 定义模板的名称
 
-Defined templates (templates created inside a `{{ define }}` directive) are
-globally accessible. That means that a chart and all of its subcharts will have
-access to all of the templates created with `{{ define }}`.
+定义的模板(在`{{ define }}`命令中定义的模板)是可全局访问的。这就意味着chart和所有的子chart都可以访问用`{{ define }}`创建的所有模板。
 
-For that reason, _all defined template names should be namespaced._
+因此， _所有定义的模板名称应该被命名空间化。_
 
-Correct:
+正确的：
 
 ```yaml
 {{- define "nginx.fullname" }}
@@ -35,7 +30,7 @@ Correct:
 {{ end -}}
 ```
 
-Incorrect:
+不正确的：
 
 ```yaml
 {{- define "fullname" -}}
@@ -43,17 +38,15 @@ Incorrect:
 {{ end -}}
 ```
 
-It is highly recommended that new charts are created via `helm create` command
-as the template names are automatically defined as per this best practice.
+强烈建议通过`helm create`命令创建新chart，因为模板名称是根据此最佳实践自动定义的。
 
-## Formatting Templates
+## 格式化模板
 
-Templates should be indented using _two spaces_ (never tabs).
+模板应该使用两个 _空格_ 缩进（永远不要用tab）。
 
-Template directives should have whitespace after the opening  braces and before
-the closing braces:
+模板命令的大括号前后应该使用空格：
 
-Correct:
+正确的：
 
 ```yaml
 {{ .foo }}
@@ -61,7 +54,7 @@ Correct:
 {{- print "bar" -}}
 ```
 
-Incorrect:
+不正确的：
 
 ```yaml
 {{.foo}}
@@ -69,7 +62,7 @@ Incorrect:
 {{-print "bar"-}}
 ```
 
-Templates should chomp whitespace where possible:
+模板应该尽可能多地使用空格：
 
 ```yaml
 foo:
@@ -78,8 +71,7 @@ foo:
   {{ end -}}
 ```
 
-Blocks (such as control structures) may be indented to indicate flow of the
-template code.
+块(例如控制结构) 可以缩进表示模板代码流。
 
 ```yaml
 {{ if $foo -}}
@@ -87,17 +79,13 @@ template code.
 {{- end -}}
 ```
 
-However, since YAML is a whitespace-oriented language, it is often not possible
-for code indentation to follow that convention.
+然而，因为YAML是面向空格的语言，代码缩进通常不可能遵守规范。
 
-## Whitespace in Generated Templates
+## 生成模板中的空格
 
-It is preferable to keep the amount of whitespace in generated templates to a
-minimum. In particular, numerous blank lines should not appear adjacent to each
-other. But occasional empty lines (particularly between logical sections) is
-fine.
+最好在生成的模板中将空格量保持在最小值。尤其是大量的空行不应该相邻出现。但偶尔有空行（尤其在逻辑块之间）是没问题的。
 
-This is best:
+这样是最好的：
 
 ```yaml
 apiVersion: batch/v1
@@ -109,7 +97,7 @@ metadata:
     second: second
 ```
 
-This is okay:
+这样也OK：
 
 ```yaml
 apiVersion: batch/v1
@@ -124,7 +112,7 @@ metadata:
 
 ```
 
-But this should be avoided:
+但避免这样：
 
 ```yaml
 apiVersion: batch/v1
@@ -144,18 +132,18 @@ metadata:
 
 ```
 
-## Comments (YAML Comments vs. Template Comments)
+## 注释 (YAML注释 vs. 模板注释)
 
-Both YAML and Helm Templates have comment markers.
+YAML和Helm模板都有注释标记符。
 
-YAML comments:
+YAML注释：
 
 ```yaml
 # This is a comment
 type: sprocket
 ```
 
-Template Comments:
+模板注释：
 
 ```yaml
 {{- /*
@@ -164,8 +152,7 @@ This is a comment.
 type: frobnitz
 ```
 
-Template comments should be used when documenting features of a template, such
-as explaining a defined template:
+描述模板的特性时应当使用模板注释，比如解释一个定义的模板：
 
 ```yaml
 {{- /*
@@ -177,23 +164,20 @@ mychart.shortname provides a 6 char truncated version of the release name.
 
 ```
 
-Inside of templates, YAML comments may be used when it is useful for Helm users
-to (possibly) see the comments during debugging.
+在模板中，当有益于Helm用户（可能）在调试时查看注释，可以使用YAML注释。
 
 ```yaml
 # This may cause problems if the value is more than 100Gi
 memory: {{ .Values.maxMem | quote }}
 ```
 
-The comment above is visible when the user runs `helm install --debug`, while
-comments specified in `{{- /* */}}` sections are not.
+以上注释在用户执行`helm install --debug`时是可见的，而在`{{- /* */}}`部分指定注释不会显示。
 
-## Use of JSON in Templates and Template Output
+## 在模板和模板输出中使用JSON
 
-YAML is a superset of JSON. In some cases, using a JSON syntax can be more
-readable than other YAML representations.
+YAML是JSON的超集。在某些情况下，使用JSON语法比其他YAML表示更具可读性。
 
-For example, this YAML is closer to the normal YAML method of expressing lists:
+比如，这个YAML更接近表示列表的普通YAML方法：
 
 ```yaml
 arguments:
@@ -201,14 +185,12 @@ arguments:
   - "/foo"
 ```
 
-But it is easier to read when collapsed into a JSON list style:
+但是折叠成JSON列表样式时会更易阅读:
 
 ```yaml
 arguments: ["--dirname", "/foo"]
 ```
 
-Using JSON for increased legibility is good. However, JSON syntax should not be
-used for representing more complex constructs.
+使用JSON可以很好地提高易读性。然而，JSON语法不应用于表示更复杂的结构。
 
-When dealing with pure JSON embedded inside of YAML (such as init container
-configuration), it is of course appropriate to use the JSON format.
+在处理嵌入到YAML中的纯JSON时（比如初始化容器配置），使用JSON格式当然是最合适的。
