@@ -14,54 +14,34 @@ weight: 7
 
 ## 使用资源之前安装CRD声明
 
-Helm is optimized to load as many resources into Kubernetes as fast as possible.
-By design, Kubernetes can take an entire set of manifests and bring them all
-online (this is called the reconciliation loop).
+Helm被优化为尽可能快地将尽可能多的资源加载到Kubernetes中。按照设计，Kubernetes可以获取一整套清单并将其全部上线
+（称之为协调循环）。
 
-But there's a difference with CRDs.
+但CRD与此不同。
 
-For a CRD, the declaration must be registered before any resources of that CRDs
-kind(s) can be used. And the registration process sometimes takes a few seconds.
+对于CRD来说，声明必须在所有的CRD类型资源使用之前被注册。注册过程可能需要几秒钟。
 
-### Method 1: Let `helm` Do It For You
+### 方法1: 使用 `helm`
 
-With the arrival of Helm 3, we removed the old `crd-install` hooks for a more
-simple methodology. There is now a special directory called `crds` that you can
-create in your chart to hold your CRDs. These CRDs are not templated, but will
-be installed by default when running a `helm install` for the chart. If the CRD
-already exists, it will be skipped with a warning. If you wish to skip the CRD
-installation step, you can pass the `--skip-crds` flag.
+随着Helm 3的到来，我们去掉了旧的`crd-install`钩子以便获取更简单的方法。现在可以在chart中创建一个名为`crds`的特殊目录来保存CRD。
+这些CRD没有模板化，但是运行`helm install`时可以为chart默认安装。如果CRD已经存在，会显示警告并跳过。如果希望跳过CRD安装步骤，
+可以使用`--skip-crds`参数。
 
-#### Some caveats (and explanations)
+#### 注意事项（和说明）
 
-There is no support at this time for upgrading or deleting CRDs using Helm. This
-was an explicit decision after much community discussion due to the danger for
-unintentional data loss. Furthermore, there is currently no community consensus
-around how to handle CRDs and their lifecycle. As this evolves, Helm will add
-support for those use cases.
+目前不支持使用Helm升级或删除CRD。由于数据意外丢失的风险，这是经过多次社区讨论后作出的明确决定。对于如何处理CRD及其生命周期，
+目前社区还未达成共识。随着过程的发展，Helm会逐渐支持这些场景。
 
-The `--dry-run` flag of `helm install` and `helm upgrade` is not currently
-supported for CRDs. The purpose of "Dry Run" is to validate that the output of
-the chart will actually work if sent to the server. But CRDs are a modification
-of the server's behavior. Helm cannot install the CRD on a dry run, so the
-discovery client will not know about that Custom Resource (CR), and validation
-will fail. You can alternatively move the CRDs to their own chart or use `helm
-template` instead.
+执行`helm install` 和 `helm upgrade`时的`--dry-run`参数目前不支持CRD。“模拟运行”的目的是检测chart的输出是否在发送到服务器时实际有效。
+但是CRD是对服务器行为的修改。Helm无法在模拟运行时安装CRD，因此客户端无法知道自定义资源(CR)，验证就会失败。
+你可以将CRD移动到自己的chart中或者使用`helm template`代替。
 
-Another important point to consider in the discussion around CRD support is how
-the rendering of templates is handled. One of the distinct disadvantages of the
-`crd-install` method used in Helm 2 was the inability to properly validate
-charts due to changing API availability (a CRD is actually adding another
-available API to your Kubernetes cluster). If a chart installed a CRD, `helm` no
-longer had a valid set of API versions to work against. This is also the reason
-behind removing templating support from CRDs. With the new `crds` method of CRD
-installation, we now ensure that `helm` has completely valid information about
-the current state of the cluster.
+在讨论CRD支持时需要考虑的另一个重要点是如何处理模板的渲染。Helm 2中使用`crd-install`的一个明显缺点是，
+由于API可用性的变化导致无法有效验证chart（CRD实际上是向Kubernetes集群添加了另一个可用API）。 如果chart安装了CRD，
+`helm`不再有一组有效的API版本可供使用。这也是从CRD删除模板支持的原因。有了CRD安装的新方法`crds`，我们现在可以确保`helm`拥有当前集群状态的完全有效的信息。
 
-### Method 2: Separate Charts
+### 方法2： 分隔chart
 
-Another way to do this is to put the CRD definition in one chart, and then put
-any resources that use that CRD in _another_ chart.
+另一个方法是将CRD定义放入chart中，然后将所有使用该CRD的资源放到 _另一个_ chart中。
 
-In this method, each chart must be installed separately. However, this workflow
-may be more useful for cluster operators who have admin access to a cluster
+这个方法要将每个chart分开安装，但对于具有集群管理员访问权限的操作员，这种工作流可能更有用。
