@@ -1,6 +1,6 @@
 ---
-title: "Appendix: Go Data Types and Templates"
-description: "A quick overview on variables in templates."
+title: "附录：Go 数据类型和模板"
+description: "模板中变量的简单概述。"
 weight: 16
 ---
 

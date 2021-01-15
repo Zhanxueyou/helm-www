@@ -1,6 +1,6 @@
 ---
-title: "Template Function List"
-description: "A list of template functions available in Helm"
+title: "模板功能列表"
+description: "Helm中模板功能变量的列表"
 weight: 6
 ---
 

@@ -1,6 +1,6 @@
 ---
-title: "Debugging Templates"
-description: "Troubleshooting charts that are failing to deploy."
+title: "调试模板"
+description: "对部署失败的chart进行故障排除"
 weight: 13
 ---
 
