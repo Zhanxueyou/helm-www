@@ -4,23 +4,16 @@ description: "模板中变量的简单概述。"
 weight: 16
 ---
 
-The Helm template language is implemented in the strongly typed Go programming
-language. For that reason, variables in templates are _typed_. For the most
-part, variables will be exposed as one of the following types:
+Helm 模板语言是用强类型Go编程语言实现的。 因此，模板中的变量是 _有类型的_。大多数情况下，变量将作为以下类型之一显示：
 
-- string: A string of text
-- bool: a `true` or `false`
-- int: An integer value (there are also 8, 16, 32, and 64 bit signed and
-  unsigned variants of this)
-- float64: a 64-bit floating point value (there are also 8, 16, and 32 bit
-  varieties of this)
-- a byte slice (`[]byte`), often used to hold (potentially) binary data
-- struct: an object with properties and methods
-- a slice (indexed list) of one of the previous types
-- a string-keyed map (`map[string]interface{}`) where the value is one of the
-  previous types
+- string: 文本字符串
+- bool: `true` 或 `false`
+- int: 整型值（包含8位，16位，32位，和64有符号和无符号整数）
+- float64: 64位浮点数(也有8位，16位，32位类型)
+- 字节切片(`[]byte`)，一般用于保存（可能的）二进制数据
+- struct: 有属性和方法的对象
+- 上述某种类型的切片(索引列表)
+- 字符串键map (`map[string]interface{}`) 值是上述某种类型
 
-There are many other types in Go, and sometimes you will have to convert between
-them in your templates. The easiest way to debug an object's type is to pass it
-through `printf "%t"` in a template, which will print the type. Also see the
-`typeOf` and `kindOf` functions.
+Go里面有很多其他类型，有时你需要在模板里转换。调试对象类型最简便的方式是在模板中传递给`printf "%t"`，这样会打印类型。
+也可以使用 `typeOf` 和 `kindOf` 函数。

@@ -32,7 +32,7 @@ Helm 包括了需要逻辑和流控制函数，包括[and](#and),[coalesce](#coa
 
 ### and
 
-Returns a boolean and of the two arguments.
+返回两个参数的and布尔值。
 
 ```
 and .Arg1 .Arg2
