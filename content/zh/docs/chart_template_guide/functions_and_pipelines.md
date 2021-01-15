@@ -1,6 +1,6 @@
 ---
-title: "Template Functions and Pipelines"
-description: "Using functions in templates."
+title: "模板函数和流水线"
+description: "使用函数和流水线"
 weight: 5
 ---
 
