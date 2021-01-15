@@ -1,11 +1,10 @@
 ---
-title: "模板功能列表"
-description: "Helm中模板功能变量的列表"
+title: "模板函数列表"
+description: "Helm中模板函数变量的列表"
 weight: 6
 ---
 
-Helm includes many template functions you can take advantage of in templates.
-They are listed here and broken down by the following categories:
+Helm 包含了很多可以在模板中利用的模板函数。以下列出了具体分类：
 
 * [Cryptographic and Security](#cryptographic-and-security-functions)
 * [Date](#date-functions)
@@ -25,12 +24,11 @@ They are listed here and broken down by the following categories:
 * [URL](#url-functions)
 * [UUID](#uuid-functions)
 
-## Logic and Flow Control Functions
+## 逻辑和流控制函数
 
-Helm includes numerous logic and control flow functions including [and](#and),
-[coalesce](#coalesce), [default](#default), [empty](#empty), [eq](#eq),
-[fail](#fail), [ge](#ge), [gt](#gt), [le](#le), [lt](#lt), [ne](#ne),
-[not](#not), and [or](#or).
+Helm 包括了需要逻辑和流控制函数，包括[and](#and),[coalesce](#coalesce), [default](#default),
+[empty](#empty), [eq](#eq),[fail](#fail), [ge](#ge), [gt](#gt), [le](#le), [lt](#lt),
+[ne](#ne), [not](#not), and [or](#or)。
 
 ### and
 
