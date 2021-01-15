@@ -1,26 +1,20 @@
 ---
-title: "The .helmignore file"
-description: "The `.helmignore` file is used to specify files you don't want to include in your helm chart."
+title: ".helmignore 文件"
+description: "`.helmignore` 文件用来指定你不想包含在你的helm chart中的文件。"
 weight: 12
 ---
 
-The `.helmignore` file is used to specify files you don't want to include in
-your helm chart.
+`.helmignore` 文件用来指定你不想包含在你的helm chart中的文件。
 
-If this file exists, the `helm package` command will ignore all the files that
-match the pattern specified in the `.helmignore` file while packaging your
-application.
+如果该文件存在，`helm package` 命令会在打包应用时忽略所有在`.helmignore`文件中匹配的文件。
 
-This can help in avoiding unnecessary or sensitive files or directories from
-being added in your helm chart.
+这有助于避免不需要的或敏感文件及目录添加到你的helm chart中。
 
-The `.helmignore` file supports Unix shell glob matching, relative path
-matching, and negation (prefixed with !). Only one pattern per line is
-considered.
+`.helmignore` 文件支持Unix shell的全局匹配，相对路径匹配，以及反向匹配（以！作为前缀）。每行只考虑一种模式。
 
-Here is an example `.helmignore` file:
+这里是一个`.helmignore`文件示例：
 
-```
+```shell
 # comment
 
 # Match any file or path named .git
@@ -48,13 +42,11 @@ a[b-d].txt
 temp?
 ```
 
-Some notable differences from .gitignore:
-- The '**' syntax is not supported.
-- The globbing library is Go's 'filepath.Match', not fnmatch(3)
-- Trailing spaces are always ignored (there is no supported escape sequence)
-- There is no support for '\!' as a special leading sequence.
+一些值得注意的和.gitignore不同之处：
 
+- 不支持'**'语法。
+- globbing库是Go的 'filepath.Match'，不是fnmatch(3)
+- 末尾空格总会被忽略(不支持转义序列)
+- 不支持'\!'作为特殊的引导序列
 
-**We'd love your help** making this document better. To add, correct, or remove
-information, [file an issue](https://github.com/helm/helm/issues) or send us a
-pull request.
+**我们需要你的帮助** 使该文档更好。添加、修正或移除信息， [提交问题](https://github.com/helm/helm/issues) 或者发起PR。
