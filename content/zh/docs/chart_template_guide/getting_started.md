@@ -58,13 +58,11 @@ $ rm -rf mychart/templates/*
 
 ## 第一个模板
 
-The first template we are going to create will be a `ConfigMap`. In Kubernetes,
-a ConfigMap is simply a container for storing configuration data. Other things,
-like pods, can access the data in a ConfigMap.
+第一个创建的模板是`ConfigMap`。Kubernetes中，配置映射只是用于存储配置数据的容器。其他组件，比如pod，可以访问配置映射中的数据。
 
-Because ConfigMaps are basic resources, they make a great starting point for us.
+因为配置映射是基础资源，对我们来说是很好的起点。
 
-Let's begin by creating a file called `mychart/templates/configmap.yaml`:
+让我们以创建一个名为 `mychart/templates/configmap.yaml`的文件开始：
 
 ```yaml
 apiVersion: v1
