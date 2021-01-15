@@ -120,12 +120,12 @@ it is empty, `foo` will be returned instead.
 
 The definition of "empty" depends on type:
 
-- Numeric: 0
-- String: ""
-- Lists: `[]`
-- Dicts: `{}`
-- Boolean: `false`
-- And always `nil` (aka null)
+* Numeric: 0
+* String: ""
+* Lists: `[]`
+* Dicts: `{}`
+* Boolean: `false`
+* And always `nil` (aka null)
 
 For structs, there is no definition of empty, so a struct will never return the
 default.
@@ -165,7 +165,7 @@ The above returns `1`.
 
 This function is useful for scanning through multiple variables or values:
 
-```
+```yaml
 coalesce .name .parent.name "Matt"
 ```
 
@@ -182,13 +182,13 @@ value will be returned. This is similar to the c ternary operator.
 
 #### true test value
 
-```
+```yaml
 ternary "foo" "bar" true
 ```
 
 or
 
-```
+```yaml
 true | ternary "foo" "bar"
 ```
 
@@ -196,13 +196,13 @@ The above returns `"foo"`.
 
 #### false test value
 
-```
+```yaml
 ternary "foo" "bar" false
 ```
 
 or
 
-```
+```yaml
 false | ternary "foo" "bar"
 ```
 
@@ -231,7 +231,7 @@ Helm includes the following string functions: [abbrev](#abbrev),
 
 Returns a string from the combination of its parts.
 
-```
+```yaml
 print "Matt has " .Dogs " dogs"
 ```
 
@@ -391,9 +391,9 @@ The above returns `hellohellohello`
 
 Get a substring from a string. It takes three parameters:
 
-- start (int)
-- end (int)
-- string (string)
+* start (int)
+* end (int)
+* string (string)
 
 ```
 substr 0 5 "hello world"
@@ -433,8 +433,8 @@ Truncate a string with ellipses (`...`)
 
 Parameters:
 
-- max length
-- the string
+* max length
+* the string
 
 ```
 abbrev 5 "hello world"
@@ -455,9 +455,9 @@ the above produces `...5678...`
 
 It takes:
 
-- left offset
-- max length
-- the string
+* left offset
+* max length
+* the string
 
 ### initials
 
@@ -474,10 +474,10 @@ The above returns `FT`
 These four functions generate cryptographically secure (uses ```crypto/rand```)
 random strings, but with different base character sets:
 
-- `randAlphaNum` uses `0-9a-zA-Z`
-- `randAlpha` uses `a-zA-Z`
-- `randNumeric` uses `0-9`
-- `randAscii` uses all printable ASCII characters
+* `randAlphaNum` uses `0-9a-zA-Z`
+* `randAlpha` uses `a-zA-Z`
+* `randNumeric` uses `0-9`
+* `randAscii` uses all printable ASCII characters
 
 Each of them takes one parameter: the integer length of the string.
 
@@ -575,9 +575,9 @@ Perform simple string replacement.
 
 It takes three arguments:
 
-- string to replace
-- string to replace with
-- source string
+* string to replace
+* string to replace with
+* source string
 
 ```
 "I Am Henry VIII" | replace " " "-"
@@ -599,9 +599,9 @@ anchovies`).
 
 The arguments are:
 
-- singular string
-- plural string
-- length integer
+* singular string
+* plural string
+* length integer
 
 NOTE: Helm does not currently support languages with more complex pluralization
 rules. And `0` is considered a plural because the English language treats it as
@@ -643,11 +643,11 @@ Swap the case of a string using a word based algorithm.
 
 Conversion algorithm:
 
-- Upper case character converts to Lower case
-- Title case character converts to Lower case
-- Lower case character after Whitespace or at start converts to Title case
-- Other Lower case character converts to Upper case
-- Whitespace is defined by unicode.IsSpace(char)
+* Upper case character converts to Lower case
+* Title case character converts to Lower case
+* Lower case character after Whitespace or at start converts to Title case
+* Other Lower case character converts to Upper case
+* Whitespace is defined by unicode.IsSpace(char)
 
 ```
 swapcase "This Is A.Test"
@@ -669,17 +669,17 @@ The above will randomize the letters in `hello`, perhaps producing `oelhl`.
 
 The following type conversion functions are provided by Helm:
 
-- `atoi`: Convert a string to an integer.
-- `float64`: Convert to a `float64`.
-- `int`: Convert to an `int` at the system's width.
-- `int64`: Convert to an `int64`.
-- `toDecimal`: Convert a unix octal to a `int64`.
-- `toString`: Convert to a string.
-- `toStrings`: Convert a list, slice, or array to a list of strings.
-- `toJson` (`mustToJson`): Convert list, slice, array, dict, or object to JSON.
-- `toPrettyJson` (`mustToPrettyJson`): Convert list, slice, array, dict, or
+* `atoi`: Convert a string to an integer.
+* `float64`: Convert to a `float64`.
+* `int`: Convert to an `int` at the system's width.
+* `int64`: Convert to an `int64`.
+* `toDecimal`: Convert a unix octal to a `int64`.
+* `toString`: Convert to a string.
+* `toStrings`: Convert a list, slice, or array to a list of strings.
+* `toJson` (`mustToJson`): Convert list, slice, array, dict, or object to JSON.
+* `toPrettyJson` (`mustToPrettyJson`): Convert list, slice, array, dict, or
   object to indented JSON.
-- `toRawJson` (`mustToRawJson`): Convert list, slice, array, dict, or object to
+* `toRawJson` (`mustToRawJson`): Convert list, slice, array, dict, or object to
   JSON with HTML characters unescaped.
 
 Only `atoi` requires that the input be a specific type. The others will attempt
@@ -909,9 +909,9 @@ block.
 
 It takes one of the values for its first param:
 
-- `ecdsa`: Generate an elliptic curve DSA key (P256)
-- `dsa`: Generate a DSA key (L2048N256)
-- `rsa`: Generate an RSA 4096 key
+* `ecdsa`: Generate an elliptic curve DSA key (P256)
+* `dsa`: Generate a DSA key (L2048N256)
+* `rsa`: Generate an RSA 4096 key
 
 ### buildCustomCert
 
@@ -919,13 +919,13 @@ The `buildCustomCert` function allows customizing the certificate.
 
 It takes the following string parameters:
 
-- A base64 encoded PEM format certificate
-- A base64 encoded PEM format private key
+* A base64 encoded PEM format certificate
+* A base64 encoded PEM format private key
 
 It returns a certificate object with the following attributes:
 
-- `Cert`: A PEM-encoded certificate
-- `Key`: A PEM-encoded private key
+* `Cert`: A PEM-encoded certificate
+* `Key`: A PEM-encoded private key
 
 Example:
 
@@ -942,13 +942,13 @@ The `genCA` function generates a new, self-signed x509 certificate authority.
 
 It takes the following parameters:
 
-- Subject's common name (cn)
-- Cert validity duration in days
+* Subject's common name (cn)
+* Cert validity duration in days
 
 It returns an object with the following attributes:
 
-- `Cert`: A PEM-encoded certificate
-- `Key`: A PEM-encoded private key
+* `Cert`: A PEM-encoded certificate
+* `Key`: A PEM-encoded private key
 
 Example:
 
@@ -965,15 +965,15 @@ The `genSelfSignedCert` function generates a new, self-signed x509 certificate.
 
 It takes the following parameters:
 
-- Subject's common name (cn)
-- Optional list of IPs; may be nil
-- Optional list of alternate DNS names; may be nil
-- Cert validity duration in days
+* Subject's common name (cn)
+* Optional list of IPs; may be nil
+* Optional list of alternate DNS names; may be nil
+* Cert validity duration in days
 
 It returns an object with the following attributes:
 
-- `Cert`: A PEM-encoded certificate
-- `Key`: A PEM-encoded private key
+* `Cert`: A PEM-encoded certificate
+* `Key`: A PEM-encoded private key
 
 Example:
 
@@ -988,11 +988,11 @@ specified CA.
 
 It takes the following parameters:
 
-- Subject's common name (cn)
-- Optional list of IPs; may be nil
-- Optional list of alternate DNS names; may be nil
-- Cert validity duration in days
-- CA (see `genCA`)
+* Subject's common name (cn)
+* Optional list of IPs; may be nil
+* Optional list of alternate DNS names; may be nil
+* Cert validity duration in days
+* CA (see `genCA`)
 
 Example:
 
@@ -1389,8 +1389,8 @@ templates as `dict`s.
 
 Helm has the following encoding and decoding functions:
 
-- `b64enc`/`b64dec`: Encode or decode with Base64
-- `b32enc`/`b32dec`: Encode or decode with Base32
+* `b64enc`/`b64dec`: Encode or decode with Base64
+* `b32enc`/`b32dec`: Encode or decode with Base32
 
 ## Lists and List Functions
 
@@ -1565,10 +1565,10 @@ template engine if there is a problem.
 To get partial elements of a list, use `slice list [n] [m]`. It is equivalent of
 `list[n:m]`.
 
-- `slice $myList` returns `[1 2 3 4 5]`. It is same as `myList[:]`.
-- `slice $myList 3` returns `[4 5]`. It is same as `myList[3:]`.
-- `slice $myList 1 3` returns `[2 3]`. It is same as `myList[1:3]`.
-- `slice $myList 0 3` returns `[1 2 3]`. It is same as `myList[:3]`.
+* `slice $myList` returns `[1 2 3 4 5]`. It is same as `myList[:]`.
+* `slice $myList 3` returns `[4 5]`. It is same as `myList[3:]`.
+* `slice $myList 1 3` returns `[2 3]`. It is same as `myList[1:3]`.
+* `slice $myList 0 3` returns `[1 2 3]`. It is same as `myList[:3]`.
 
 `slice` panics if there is a problem while `mustSlice` returns an error to the
 template engine if there is a problem.
@@ -1792,9 +1792,9 @@ The above will return `true`
 
 Types are slightly harder to work with, so there are three different functions:
 
-- `typeOf` returns the underlying type of a value: `typeOf $foo`
-- `typeIs` is like `kindIs`, but for types: `typeIs "*io.Buffer" $myVal`
-- `typeIsLike` works as `typeIs`, except that it also dereferences pointers.
+* `typeOf` returns the underlying type of a value: `typeOf $foo`
+* `typeIs` is like `kindIs`, but for types: `typeIs "*io.Buffer" $myVal`
+* `typeIsLike` works as `typeIs`, except that it also dereferences pointers.
 
 **Note:** None of these can test whether or not something implements a given
 interface, since doing so would require compiling the interface in ahead of
@@ -1833,12 +1833,12 @@ _If the parser fails, it will cause template execution to halt with an error._
 At this point, `$version` is a pointer to a `Version` object with the following
 properties:
 
-- `$version.Major`: The major number (`1` above)
-- `$version.Minor`: The minor number (`2` above)
-- `$version.Patch`: The patch number (`3` above)
-- `$version.Prerelease`: The prerelease (`alpha.1` above)
-- `$version.Metadata`: The build metadata (`123` above)
-- `$version.Original`: The original version as a string
+* `$version.Major`: The major number (`1` above)
+* `$version.Minor`: The minor number (`2` above)
+* `$version.Patch`: The patch number (`3` above)
+* `$version.Prerelease`: The prerelease (`alpha.1` above)
+* `$version.Metadata`: The build metadata (`123` above)
+* `$version.Original`: The original version as a string
 
 Additionally, you can compare a `Version` to another `version` using the
 `Compare` function:
@@ -1851,10 +1851,10 @@ The above will return `-1`.
 
 The return values are:
 
-- `-1` if the given semver is greater than the semver whose `Compare` method was
-  called
-- `1` if the version who's `Compare` function was called is greater.
-- `0` if they are the same version
+* `-1` if the given semver is greater than the semver whose `Compare` method was
+ called
+* `1` if the version who's `Compare` function was called is greater.
+* `0` if they are the same version
 
 (Note that in SemVer, the `Metadata` field is not compared during version
 comparison operations.)
@@ -1864,8 +1864,8 @@ comparison operations.)
 A more robust comparison function is provided as `semverCompare`. This version
 supports version ranges:
 
-- `semverCompare "1.2.3" "1.2.3"` checks for an exact match
-- `semverCompare "~1.2.0" "1.2.3"` checks that the major and minor versions
+* `semverCompare "1.2.3" "1.2.3"` checks for an exact match
+* `semverCompare "~1.2.0" "1.2.3"` checks that the major and minor versions
   match, and that the patch number of the second version is _greater than or
   equal to_ the first parameter.
 
@@ -1882,12 +1882,12 @@ than or equal to 4.2.3.
 
 The basic comparisons are:
 
-- `=`: equal (aliased to no operator)
-- `!=`: not equal
-- `>`: greater than
-- `<`: less than
-- `>=`: greater than or equal to
-- `<=`: less than or equal to
+* `=`: equal (aliased to no operator)
+* `!=`: not equal
+* `>`: greater than
+* `<`: less than
+* `>=`: greater than or equal to
+* `<=`: less than or equal to
 
 _Note, according to the Semantic Version specification pre-releases may not be
 API compliant with their release counterpart. It says,_
@@ -1928,8 +1928,8 @@ what the spec specifies.
 There are multiple methods to handle ranges and the first is hyphens ranges.
 These look like:
 
-- `1.2 - 1.4.5` which is equivalent to `>= 1.2 <= 1.4.5`
-- `2.3.4 - 4.5` which is equivalent to `>= 2.3.4 <= 4.5`
+* `1.2 - 1.4.5` which is equivalent to `>= 1.2 <= 1.4.5`
+* `2.3.4 - 4.5` which is equivalent to `>= 2.3.4 <= 4.5`
 
 ### Wildcards In Comparisons
 
@@ -1937,10 +1937,10 @@ The `x`, `X`, and `*` characters can be used as a wildcard character. This works
 for all comparison operators. When used on the `=` operator it falls back to the
 patch level comparison (see tilde below). For example,
 
-- `1.2.x` is equivalent to `>= 1.2.0, < 1.3.0`
-- `>= 1.2.x` is equivalent to `>= 1.2.0`
-- `<= 2.x` is equivalent to `< 3`
-- `*` is equivalent to `>= 0.0.0`
+* `1.2.x` is equivalent to `>= 1.2.0, < 1.3.0`
+* `>= 1.2.x` is equivalent to `>= 1.2.0`
+* `<= 2.x` is equivalent to `< 3`
+* `*` is equivalent to `>= 0.0.0`
 
 ### Tilde Range Comparisons (Patch)
 
@@ -1948,11 +1948,11 @@ The tilde (`~`) comparison operator is for patch level ranges when a minor
 version is specified and major level changes when the minor number is missing.
 For example,
 
-- `~1.2.3` is equivalent to `>= 1.2.3, < 1.3.0`
-- `~1` is equivalent to `>= 1, < 2`
-- `~2.3` is equivalent to `>= 2.3, < 2.4`
-- `~1.2.x` is equivalent to `>= 1.2.0, < 1.3.0`
-- `~1.x` is equivalent to `>= 1, < 2`
+* `~1.2.3` is equivalent to `>= 1.2.3, < 1.3.0`
+* `~1` is equivalent to `>= 1, < 2`
+* `~2.3` is equivalent to `>= 2.3, < 2.4`
+* `~1.2.x` is equivalent to `>= 1.2.0, < 1.3.0`
+* `~1.x` is equivalent to `>= 1, < 2`
 
 ### Caret Range Comparisons (Major)
 
@@ -1961,15 +1961,15 @@ The caret (`^`) comparison operator is for major level changes once a stable
 as the API stability level. This is useful when comparisons of API versions as a
 major change is API breaking. For example,
 
-- `^1.2.3` is equivalent to `>= 1.2.3, < 2.0.0`
-- `^1.2.x` is equivalent to `>= 1.2.0, < 2.0.0`
-- `^2.3` is equivalent to `>= 2.3, < 3`
-- `^2.x` is equivalent to `>= 2.0.0, < 3`
-- `^0.2.3` is equivalent to `>=0.2.3 <0.3.0`
-- `^0.2` is equivalent to `>=0.2.0 <0.3.0`
-- `^0.0.3` is equivalent to `>=0.0.3 <0.0.4`
-- `^0.0` is equivalent to `>=0.0.0 <0.1.0`
-- `^0` is equivalent to `>=0.0.0 <1.0.0`
+* `^1.2.3` is equivalent to `>= 1.2.3, < 2.0.0`
+* `^1.2.x` is equivalent to `>= 1.2.0, < 2.0.0`
+* `^2.3` is equivalent to `>= 2.3, < 3`
+* `^2.x` is equivalent to `>= 2.0.0, < 3`
+* `^0.2.3` is equivalent to `>=0.2.3 <0.3.0`
+* `^0.2` is equivalent to `>=0.2.0 <0.3.0`
+* `^0.0.3` is equivalent to `>=0.0.3 <0.0.4`
+* `^0.0` is equivalent to `>=0.0.0 <0.1.0`
+* `^0` is equivalent to `>=0.0.0 <1.0.0`
 
 ## URL Functions
 
