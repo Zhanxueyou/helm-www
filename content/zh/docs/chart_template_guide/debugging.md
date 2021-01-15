@@ -4,23 +4,17 @@ description: "对部署失败的chart进行故障排除"
 weight: 13
 ---
 
-Debugging templates can be tricky because the rendered templates are sent to the
-Kubernetes API server, which may reject the YAML files for reasons other than
-formatting.
+调试模板可能很棘手，因为渲染后的模板发送给了Kubernetes API server，可能会以格式化以外的原因拒绝YAML文件。
 
-There are a few commands that can help you debug.
+以下命令有助于调试：
 
-- `helm lint` is your go-to tool for verifying that your chart follows best
-  practices
-- `helm install --dry-run --debug` or `helm template --debug`: We've seen this
-  trick already. It's a great way to have the server render your templates, then
-  return the resulting manifest file.
-- `helm get manifest`: This is a good way to see what templates are installed on
-  the server.
+- `helm lint` 是验证图表是否遵循最佳实践的首选工具
+- `helm install --dry-run --debug` 或 `helm template --debug`：我们已经看过这个技巧了，
+  这是让服务器渲染模板的好方法，然后返回生成的清单文件。
+- `helm get manifest`: 这是查看安装在服务器上的模板的好方法。
 
-When your YAML is failing to parse, but you want to see what is generated, one
-easy way to retrieve the YAML is to comment out the problem section in the
-template, and then re-run `helm install --dry-run --debug`:
+当你的YAML文件解析失败，但你想知道生成了什么，检索YAML一个简单的方式是注释掉模板中有问题的部分，
+然后重新运行 `helm install --dry-run --debug`：
 
 ```yaml
 apiVersion: v2
@@ -28,7 +22,7 @@ apiVersion: v2
 # {{ .Values.foo | quote }}
 ```
 
-The above will be rendered and returned with the comments intact:
+以上内容会被渲染同时返回完整的注释：
 
 ```yaml
 apiVersion: v2
@@ -36,5 +30,4 @@ apiVersion: v2
 #  "bar"
 ```
 
-This provides a quick way of viewing the generated content without YAML parse
-errors blocking.
+这样就提供了一种快速查看没有被YAML错误解析阻塞的生成内容的方式。
