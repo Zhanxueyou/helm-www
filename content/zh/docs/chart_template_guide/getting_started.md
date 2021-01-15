@@ -1,22 +1,18 @@
 ---
-title: "Getting Started"
+title: "从这里开始吧"
 weight: 2
-description: "A quick guide on Chart templates."
-aliases: ["/intro/getting_started/"]
+description: "Chart模板的快速指南。"
 ---
 
-In this section of the guide, we'll create a chart and then add a first
-template. The chart we created here will be used throughout the rest of the
-guide.
+指南的该部分，我们会创建一个chart并添加第一个模板。创建的chart会在后续指南中用到。
 
-To get going, let's take a brief look at a Helm chart.
+接下来，让我们简单看一下Helm chart。
 
 ## Charts
 
-As described in the [Charts Guide](../../topics/charts), Helm charts are
-structured like this:
+如[Charts 指南](https://helm.sh/zh/docs/topics/charts)所述， Helm chart的结构如下：
 
-```
+```shell
 mychart/
   Chart.yaml
   values.yaml
@@ -25,57 +21,42 @@ mychart/
   ...
 ```
 
-The `templates/` directory is for template files. When Helm evaluates a chart,
-it will send all of the files in the `templates/` directory through the template
-rendering engine. It then collects the results of those templates and sends them
-on to Kubernetes.
+`templates/` 目录包括了模板文件。当Helm评估chart时，会通过模板渲染引擎将所有文件发送到`templates/`目录中。
+然后收集模板的结果并发送给Kubernetes。
 
-The `values.yaml` file is also important to templates. This file contains the
-_default values_ for a chart. These values may be overridden by users during
-`helm install` or `helm upgrade`.
+`values.yaml` 文件也导入到了模板。这个文件包含了chart的 _默认值_ 。这些值会在用户执行`helm install` 或 `helm upgrade`时被覆盖。
 
-The `Chart.yaml` file contains a description of the chart. You can access it
-from within a template. The `charts/` directory _may_ contain other charts
-(which we call _subcharts_). Later in this guide we will see how those work when
-it comes to template rendering.
+`Chart.yaml` 文件包含了该chart的描述。你可以从模板中访问它。`charts/`目录 _可以_ 包含其他的chart(称之为 _子chart_)。
+指南稍后我们会看到当涉及模板渲染时这些是如何工作的。
 
-## A Starter Chart
+## 入门 Chart
 
-For this guide, we'll create a simple chart called `mychart`, and then we'll
-create some templates inside of the chart.
+在本指南中我们会创建一个名为`mychart`的chart，然后会在chart中创建一些模板。
 
 ```console
 $ helm create mychart
 Creating mychart
 ```
 
-### A Quick Glimpse of `mychart/templates/`
+### 快速查看 `mychart/templates/`
 
-If you take a look at the `mychart/templates/` directory, you'll notice a few
-files already there.
+如果你看看 `mychart/templates/` 目录，会注意到一些文件已经存在了：
 
-- `NOTES.txt`: The "help text" for your chart. This will be displayed to your
-  users when they run `helm install`.
-- `deployment.yaml`: A basic manifest for creating a Kubernetes
-  [deployment](https://kubernetes.io/docs/user-guide/deployments/)
-- `service.yaml`: A basic manifest for creating a [service
-  endpoint](https://kubernetes.io/docs/user-guide/services/) for your deployment
-- `_helpers.tpl`: A place to put template helpers that you can re-use throughout
-  the chart
+- `NOTES.txt`: chart的"帮助文本"。这会在你的用户执行`helm install`时展示给他们。
+- `deployment.yaml`: 创建Kubernetes
+  [工作负载](https://kubernetes.io/docs/user-guide/deployments/)的基本清单
+- `service.yaml`: 为你的工作负载创建一个[service终端](https://kubernetes.io/docs/user-guide/services/)基本清单。
+- `_helpers.tpl`: 放置可以通过chart复用的模板辅助对象
 
-And what we're going to do is... _remove them all!_ That way we can work through
-our tutorial from scratch. We'll actually create our own `NOTES.txt` and
-`_helpers.tpl` as we go.
+然后我们要做的是... _把它们全部删掉！_ 这样我们就可以从头开始学习我们的教程。我们在开始时会创造自己的`NOTES.txt`和`_helpers.tpl`。
 
 ```console
 $ rm -rf mychart/templates/*
 ```
 
-When you're writing production grade charts, having basic versions of these
-charts can be really useful. So in your day-to-day chart authoring, you probably
-won't want to remove them.
+编制生产环境级别的chart时，有这些chart的基础版本会很有用。因此在日常编写中，你可能不想删除它们。
 
-## A First Template
+## 第一个模板
 
 The first template we are going to create will be a `ConfigMap`. In Kubernetes,
 a ConfigMap is simply a container for storing configuration data. Other things,
