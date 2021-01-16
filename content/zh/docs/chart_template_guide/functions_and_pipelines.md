@@ -4,13 +4,11 @@ description: "使用函数和流水线"
 weight: 5
 ---
 
-So far, we've seen how to place information into a template. But that
-information is placed into the template unmodified. Sometimes we want to
-transform the supplied data in a way that makes it more useable to us.
+到目前为止，我们已经知道了如何将信息放入模板中。 但是这些信息未被修改就放入了模板中。
+有时我们希望以一种更有用的方式来转换所提供的数据。
 
-Let's start with a best practice: When injecting strings from the `.Values`
-object into the template, we ought to quote these strings. We can do that by
-calling the `quote` function in the template directive:
+让我们从一个最佳实践开始：将`.Values`对象中的字符串注入模板时，应该引用这些字符串。可以通过
+调用模板指令中的`quote`函数来实现：
 
 ```yaml
 apiVersion: v1
@@ -23,14 +21,11 @@ data:
   food: {{ quote .Values.favorite.food }}
 ```
 
-Template functions follow the syntax `functionName arg1 arg2...`. In the snippet
-above, `quote .Values.favorite.drink` calls the `quote` function and passes it a
-single argument.
+模板函数遵循的语法是 `functionName arg1 arg2...`。在上面的代码片段中，`quote .Values.favorite.drink`
+调用了`quote`函数并只传递了一个参数。
 
-Helm has over 60 available functions. Some of them are defined by the [Go
-template language](https://godoc.org/text/template) itself. Most of the others
-are part of the [Sprig template library](https://masterminds.github.io/sprig/).
-We'll see many of them as we progress through the examples.
+Helm 有超过60个可用函数。其中有些通过[Go模板语言](https://godoc.org/text/template)本身定义。
+其他大部分都是[Sprig 模板库](https://masterminds.github.io/sprig/)。我们通过示例看到其中很多内容。
 
 > While we talk about the "Helm template language" as if it is Helm-specific, it
 > is actually a combination of the Go template language, some extra functions,
