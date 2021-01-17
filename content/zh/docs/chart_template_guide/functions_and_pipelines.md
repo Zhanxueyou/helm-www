@@ -1,6 +1,6 @@
 ---
 title: "模板函数和流水线"
-description: "使用函数和流水线"
+description: "使用函数和管道"
 weight: 5
 ---
 
@@ -27,19 +27,14 @@ data:
 Helm 有超过60个可用函数。其中有些通过[Go模板语言](https://godoc.org/text/template)本身定义。
 其他大部分都是[Sprig 模板库](https://masterminds.github.io/sprig/)。我们通过示例看到其中很多内容。
 
-> While we talk about the "Helm template language" as if it is Helm-specific, it
-> is actually a combination of the Go template language, some extra functions,
-> and a variety of wrappers to expose certain objects to the templates. Many
-> resources on Go templates may be helpful as you learn about templating.
+> 当我们讨论"Helm模板语言"时，好像它是特定于Helm的，实际上是由Go模板语言，一些额外的函数以及用于
+向模板公开某些对象的包装器组合而成。很多Go模板的资源有助于你学习模板。
 
-## Pipelines
+## 管道符
 
-One of the powerful features of the template language is its concept of
-_pipelines_. Drawing on a concept from UNIX, pipelines are a tool for chaining
-together a series of template commands to compactly express a series of
-transformations. In other words, pipelines are an efficient way of getting
-several things done in sequence. Let's rewrite the above example using a
-pipeline.
+模板语言其中一个强大功能是 _管道_ 概念。借鉴UNIX的概念，管道符是将一系列的
+模板语言紧凑地表示为一系列转换的工具。换句话说，管道符是按顺序完成一系列任务的有效方式。
+现在用管道符重写上述示例：
 
 ```yaml
 apiVersion: v1
