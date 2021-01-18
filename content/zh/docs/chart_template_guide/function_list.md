@@ -34,7 +34,7 @@ Helm 包括了需要逻辑和流控制函数，包括[and](#and),[coalesce](#coa
 
 返回两个参数的and布尔值。
 
-```
+```yaml
 and .Arg1 .Arg2
 ```
 
@@ -43,7 +43,7 @@ and .Arg1 .Arg2
 Returns the boolean or of the two arguments. It returns the first non-empty
 argument or the last argument.
 
-```
+```yaml
 or .Arg1 .Arg2
 ```
 
@@ -51,7 +51,7 @@ or .Arg1 .Arg2
 
 Returns the boolean negation of its argument.
 
-```
+```yaml
 not .Arg
 ```
 
@@ -59,7 +59,7 @@ not .Arg
 
 Returns the boolean equality of the arguments (e.g., Arg1 == Arg2).
 
-```
+```yaml
 eq .Arg1 .Arg2
 ```
 
@@ -67,7 +67,7 @@ eq .Arg1 .Arg2
 
 Returns the boolean inequality of the arguments (e.g., Arg1 != Arg2)
 
-```
+```yaml
 ne .Arg1 .Arg2
 ```
 
@@ -76,7 +76,7 @@ ne .Arg1 .Arg2
 Returns a boolean true if the first argument is less than the second. False is
 returned otherwise (e.g., Arg1 < Arg2).
 
-```
+```yaml
 lt .Arg1 .Arg2
 ```
 
@@ -85,7 +85,7 @@ lt .Arg1 .Arg2
 Returns a boolean true if the first argument is less than or equal to the
 second. False is returned otherwise (e.g., Arg1 <= Arg2).
 
-```
+```yaml
 le .Arg1 .Arg2
 ```
 
@@ -94,7 +94,7 @@ le .Arg1 .Arg2
 Returns a boolean true if the first argument is greater than the second. False
 is returned otherwise (e.g., Arg1 > Arg2).
 
-```
+```yaml
 gt .Arg1 .Arg2
 ```
 
@@ -103,7 +103,7 @@ gt .Arg1 .Arg2
 Returns a boolean true if the first argument is greater than or equal to the
 second. False is returned otherwise (e.g., Arg1 >= Arg2).
 
-```
+```yaml
 ge .Arg1 .Arg2
 ```
 
@@ -111,7 +111,7 @@ ge .Arg1 .Arg2
 
 To set a simple default value, use `default`:
 
-```
+```yaml
 default "foo" .Bar
 ```
 
@@ -135,7 +135,7 @@ default.
 The `empty` function returns `true` if the given value is considered empty, and
 `false` otherwise. The empty values are listed in the `default` section.
 
-```
+```yaml
 empty .Foo
 ```
 
@@ -148,7 +148,7 @@ Unconditionally returns an empty `string` and an `error` with the specified
 text. This is useful in scenarios where other conditionals have determined that
 template rendering should fail.
 
-```
+```yaml
 fail "Please accept the end user license agreement"
 ```
 
@@ -157,7 +157,7 @@ fail "Please accept the end user license agreement"
 The `coalesce` function takes a list of values and returns the first non-empty
 one.
 
-```
+```yaml
 coalesce 0 1 2
 ```
 
@@ -249,7 +249,7 @@ Works the same way as [print](#print) but adds a new line at the end.
 Returns a string based on a formatting string and the arguments to pass to it in
 order.
 
-```
+```yaml
 printf "%s has %d dogs." .Name .NumberDogs
 ```
 
@@ -307,7 +307,7 @@ Slice:
 
 The `trim` function removes white space from both sides of a string:
 
-```
+```yaml
 trim "   hello    "
 ```
 
@@ -317,7 +317,7 @@ The above produces `hello`
 
 Removes the given characters from the front and back of a string:
 
-```
+```yaml
 trimAll "$" "$5.00"
 ```
 
@@ -327,7 +327,7 @@ The above returns `5.00` (as a string).
 
 Trim just the prefix from a string:
 
-```
+```yaml
 trimPrefix "-" "-hello"
 ```
 
@@ -337,7 +337,7 @@ The above returns `hello`
 
 Trim just the suffix from a string:
 
-```
+```yaml
 trimSuffix "-" "hello-"
 ```
 
@@ -347,7 +347,7 @@ The above returns `hello`
 
 Convert the entire string to lowercase:
 
-```
+```yaml
 lower "HELLO"
 ```
 
@@ -357,7 +357,7 @@ The above returns `hello`
 
 Convert the entire string to uppercase:
 
-```
+```yaml
 upper "hello"
 ```
 
@@ -367,7 +367,7 @@ The above returns `HELLO`
 
 Convert to title case:
 
-```
+```yaml
 title "hello world"
 ```
 
@@ -381,7 +381,7 @@ Remove title casing. `untitle "Hello World"` produces `hello world`.
 
 Repeat a string multiple times:
 
-```
+```yaml
 repeat 3 "hello"
 ```
 
@@ -395,7 +395,7 @@ Get a substring from a string. It takes three parameters:
 * end (int)
 * string (string)
 
-```
+```yaml
 substr 0 5 "hello world"
 ```
 
@@ -405,7 +405,7 @@ The above returns `hello`
 
 Remove all whitespace from a string.
 
-```
+```yaml
 nospace "hello w o r l d"
 ```
 
@@ -415,13 +415,13 @@ The above returns `helloworld`
 
 Truncate a string
 
-```
+```yaml
 trunc 5 "hello world"
 ```
 
 The above produces `hello`.
 
-```
+```yaml
 trunc -5 "hello world"
 ```
 
@@ -436,7 +436,7 @@ Parameters:
 * max length
 * the string
 
-```
+```yaml
 abbrev 5 "hello world"
 ```
 
@@ -447,7 +447,7 @@ maximum length.
 
 Abbreviate both sides:
 
-```
+```yaml
 abbrevboth 5 10 "1234 5678 9123"
 ```
 
@@ -463,7 +463,7 @@ It takes:
 
 Given multiple words, take the first letter of each word and combine.
 
-```
+```yaml
 initials "First Try"
 ```
 
@@ -481,7 +481,7 @@ random strings, but with different base character sets:
 
 Each of them takes one parameter: the integer length of the string.
 
-```
+```yaml
 randNumeric 3
 ```
 
@@ -491,7 +491,7 @@ The above will produce a random string with three digits.
 
 Wrap text at a given column count:
 
-```
+```yaml
 wrap 80 $someText
 ```
 
@@ -502,7 +502,7 @@ The above will wrap the string in `$someText` at 80 columns.
 `wrapWith` works as `wrap`, but lets you specify the string to wrap with.
 (`wrap` uses `\n`)
 
-```
+```yaml
 wrapWith 5 "\t" "Hello World"
 ```
 
@@ -513,7 +513,7 @@ character)
 
 Test to see if one string is contained inside of another:
 
-```
+```yaml
 contains "cat" "catch"
 ```
 
@@ -524,7 +524,7 @@ The above returns `true` because `catch` contains `cat`.
 The `hasPrefix` and `hasSuffix` functions test whether a string has a given
 prefix or suffix:
 
-```
+```yaml
 hasPrefix "cat" "catch"
 ```
 
@@ -540,7 +540,7 @@ These functions wrap a string in double quotes (`quote`) or single quotes
 The `cat` function concatenates multiple strings together into one, separating
 them with spaces:
 
-```
+```yaml
 cat "hello" "beautiful" "world"
 ```
 
@@ -551,7 +551,7 @@ The above produces `hello beautiful world`
 The `indent` function indents every line in a given string to the specified
 indent width. This is useful when aligning multi-line strings:
 
-```
+```yaml
 indent 4 $lots_of_text
 ```
 
@@ -562,7 +562,7 @@ The above will indent every line of text by 4 space characters.
 The `nindent` function is the same as the indent function, but prepends a new
 line to the beginning of the string.
 
-```
+```yaml
 nindent 4 $lots_of_text
 ```
 
@@ -579,7 +579,7 @@ It takes three arguments:
 * string to replace with
 * source string
 
-```
+```yaml
 "I Am Henry VIII" | replace " " "-"
 ```
 
@@ -589,7 +589,7 @@ The above will produce `I-Am-Henry-VIII`
 
 Pluralize a string.
 
-```
+```yaml
 len $fish | plural "one anchovy" "many anchovies"
 ```
 
@@ -611,7 +611,7 @@ such (`zero anchovies`).
 
 Convert string from camelCase to snake_case.
 
-```
+```yaml
 snakecase "FirstName"
 ```
 
@@ -621,7 +621,7 @@ This above will produce `first_name`.
 
 Convert string from snake_case to CamelCase
 
-```
+```yaml
 camelcase "http_server"
 ```
 
@@ -631,7 +631,7 @@ This above will produce `HttpServer`.
 
 Convert string from camelCase to kebab-case.
 
-```
+```yaml
 kebabcase "FirstName"
 ```
 
@@ -649,7 +649,7 @@ Conversion algorithm:
 * Other Lower case character converts to Upper case
 * Whitespace is defined by unicode.IsSpace(char)
 
-```
+```yaml
 swapcase "This Is A.Test"
 ```
 
@@ -659,7 +659,7 @@ This above will produce `tHIS iS a.tEST`.
 
 Shuffle a string.
 
-```
+```yaml
 shuffle "hello"
 ```
 
@@ -690,7 +690,7 @@ convert floats to ints, and it can also convert strings to ints.
 
 Given a list-like collection, produce a slice of strings.
 
-```
+```yaml
 list 1 2 3 | toStrings
 ```
 
@@ -701,7 +701,7 @@ as a list.
 
 Given a unix octal permission, produce a decimal.
 
-```
+```yaml
 "0777" | toDecimal
 ```
 
@@ -713,7 +713,7 @@ The `toJson` function encodes an item into a JSON string. If the item cannot be
 converted to JSON the function will return an empty string. `mustToJson` will
 return an error in case the item cannot be encoded in JSON.
 
-```
+```yaml
 toJson .Item
 ```
 
@@ -724,7 +724,7 @@ The above returns JSON string representation of `.Item`.
 The `toPrettyJson` function encodes an item into a pretty (indented) JSON
 string.
 
-```
+```yaml
 toPrettyJson .Item
 ```
 
@@ -735,7 +735,7 @@ The above returns indented JSON string representation of `.Item`.
 The `toRawJson` function encodes an item into JSON string with HTML characters
 unescaped.
 
-```
+```yaml
 toRawJson .Item
 ```
 
@@ -756,7 +756,7 @@ Helm includes the following regular expression functions: [regexFind
 
 Returns true if the input string contains any match of the regular expression.
 
-```
+```yaml
 regexMatch "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$" "test@acme.com"
 ```
 
@@ -771,7 +771,7 @@ Returns a slice of all matches of the regular expression in the input string.
 The last parameter n determines the number of substrings to return, where -1
 means return all matches
 
-```
+```yaml
 regexFindAll "[2,4,6,8]" "123456789" -1
 ```
 
@@ -784,7 +784,7 @@ error to the template engine if there is a problem.
 
 Return the first (left most) match of the regular expression in the input string
 
-```
+```yaml
 regexFind "[a-zA-Z][1-9]" "abcd1234"
 ```
 
@@ -800,7 +800,7 @@ replacement string replacement. Inside string replacement, $ signs are
 interpreted as in Expand, so for instance $1 represents the text of the first
 submatch
 
-```
+```yaml
 regexReplaceAll "a(x*)b" "-ab-axxb-" "${1}W"
 ```
 
@@ -815,7 +815,7 @@ Returns a copy of the input string, replacing matches of the Regexp with the
 replacement string replacement The replacement string is substituted directly,
 without using Expand
 
-```
+```yaml
 regexReplaceAllLiteral "a(x*)b" "-ab-axxb-" "${1}"
 ```
 
@@ -832,7 +832,7 @@ a slice of the substrings between those expression matches. The last parameter
 `n` determines the number of substrings to return, where `-1` means return all
 matches
 
-```
+```yaml
 regexSplit "z+" "pizza" -1
 ```
 
@@ -854,7 +854,7 @@ Helm provides some advanced cryptographic functions. They include
 
 The `sha1sum` function receives a string, and computes it's SHA1 digest.
 
-```
+```yaml
 sha1sum "Hello world!"
 ```
 
@@ -862,7 +862,7 @@ sha1sum "Hello world!"
 
 The `sha256sum` function receives a string, and computes it's SHA256 digest.
 
-```
+```yaml
 sha256sum "Hello world!"
 ```
 
@@ -873,7 +873,7 @@ to print.
 
 The `adler32sum` function receives a string, and computes its Adler-32 checksum.
 
-```
+```yaml
 adler32sum "Hello world!"
 ```
 
@@ -884,7 +884,7 @@ The `htpasswd` function takes a `username` and `password` and generates a
 on an [Apache HTTP
 Server](https://httpd.apache.org/docs/2.4/misc/password_encryptions.html#basic).
 
-```
+```yaml
 htpasswd "myUser" "myPassword"
 ```
 
@@ -896,7 +896,7 @@ The `derivePassword` function can be used to derive a specific password based on
 some shared "master password" constraints. The algorithm for this is [well
 specified](https://masterpassword.app/masterpassword-algorithm.pdf).
 
-```
+```yaml
 derivePassword 1 "long" "password" "user" "example.com"
 ```
 
@@ -929,7 +929,7 @@ It returns a certificate object with the following attributes:
 
 Example:
 
-```
+```yaml
 $ca := buildCustomCert "base64-encoded-ca-crt" "base64-encoded-ca-key"
 ```
 
@@ -952,7 +952,7 @@ It returns an object with the following attributes:
 
 Example:
 
-```
+```yaml
 $ca := genCA "foo-ca" 365
 ```
 
@@ -977,7 +977,7 @@ It returns an object with the following attributes:
 
 Example:
 
-```
+```yaml
 $cert := genSelfSignedCert "foo.com" (list "10.0.0.1" "10.0.0.2") (list "bar.com" "bat.com") 365
 ```
 
@@ -996,7 +996,7 @@ It takes the following parameters:
 
 Example:
 
-```
+```yaml
 $ca := genCA "foo-ca" 365
 $cert := genSignedCert "foo.com" (list "10.0.0.1" "10.0.0.2") (list "bar.com" "bat.com") 365 $ca
 ```
@@ -1006,7 +1006,7 @@ $cert := genSignedCert "foo.com" (list "10.0.0.1" "10.0.0.2") (list "bar.com" "b
 The `encryptAES` function encrypts text with AES-256 CBC and returns a base64
 encoded string.
 
-```
+```yaml
 encryptAES "secretkey" "plaintext"
 ```
 
@@ -1015,7 +1015,7 @@ encryptAES "secretkey" "plaintext"
 The `decryptAES` function receives a base64 string encoded by the AES-256 CBC
 algorithm and returns the decoded text.
 
-```
+```yaml
 "30tEfhuJSVRhpG97XCuWgz2okj7L8vQ1s6V9zVUPeDQ=" | decryptAES "secretkey"
 ```
 
@@ -1036,13 +1036,13 @@ The current date/time. Use this in conjunction with other date functions.
 
 The `ago` function returns duration from time.Now in seconds resolution.
 
-```
+```yaml
 ago .CreatedAt"
 ```
 
 returns in `time.Duration` String() format
 
-```
+```yaml
 2h34m7s
 ```
 
@@ -1052,7 +1052,7 @@ The `date` function formats a date.
 
 Format the date to YEAR-MONTH-DAY:
 
-```
+```yaml
 now | date "2006-01-02"
 ```
 
@@ -1061,7 +1061,7 @@ different](https://pauladamsmith.com/blog/2011/05/go_time.html).
 
 In short, take this as the base date:
 
-```
+```yaml
 Mon Jan 2 15:04:05 MST 2006
 ```
 
@@ -1072,7 +1072,7 @@ the format we want.
 
 Same as `date`, but with a timezone.
 
-```
+```yaml
 dateInZone "2006-01-02" (now) "UTC"
 ```
 
@@ -1082,7 +1082,7 @@ Formats a given amount of seconds as a `time.Duration`.
 
 This returns 1m35s
 
-```
+```yaml
 duration 95
 ```
 
@@ -1094,13 +1094,13 @@ the duration since.
 
 This return 2h
 
-```
+```yaml
 durationRound "2h10m5s"
 ```
 
 This returns 3mo
 
-```
+```yaml
 durationRound "2400h10m5s"
 ```
 
@@ -1108,7 +1108,7 @@ durationRound "2400h10m5s"
 
 Returns the seconds since the unix epoch for a `time.Time`.
 
-```
+```yaml
 now | unixEpoch
 ```
 
@@ -1118,7 +1118,7 @@ The `dateModify` takes a modification and a date and returns the timestamp.
 
 Subtract an hour and thirty minutes from the current time:
 
-```
+```yaml
 now | date_modify "-1.5h"
 ```
 
@@ -1130,7 +1130,7 @@ unmodified. `mustDateModify` will return an error otherwise.
 The `htmlDate` function formats a date for inserting into an HTML date picker
 input field.
 
-```
+```yaml
 now | htmlDate
 ```
 
@@ -1138,7 +1138,7 @@ now | htmlDate
 
 Same as htmlDate, but with a timezone.
 
-```
+```yaml
 htmlDateInZone (now) "UTC"
 ```
 
@@ -1151,7 +1151,7 @@ value. `mustToDate` will return an error in case the string cannot be converted.
 This is useful when you want to convert a string date to another format (using
 pipe). The example below converts "2017-12-31" to "31/12/2017".
 
-```
+```yaml
 toDate "2006-01-02" "2017-12-31" | date "02/01/2006"
 ```
 
@@ -1180,7 +1180,7 @@ list of pairs.
 
 The following creates a dictionary with three items:
 
-```
+```yaml
 $myDict := dict "name1" "value1" "name2" "value2" "name3" "value 3"
 ```
 
@@ -1188,7 +1188,7 @@ $myDict := dict "name1" "value1" "name2" "value2" "name3" "value 3"
 
 Given a map and a key, get the value from the map.
 
-```
+```yaml
 get $myDict "key1"
 ```
 
@@ -1201,7 +1201,7 @@ error will be generated.
 
 Use `set` to add a new key/value pair to a dictionary.
 
-```
+```yaml
 $_ := set $myDict "name4" "value4"
 ```
 
@@ -1213,7 +1213,7 @@ assignment.
 
 Given a map and a key, delete the key from the map.
 
-```
+```yaml
 $_ := unset $myDict "name4"
 ```
 
@@ -1226,7 +1226,7 @@ will be generated.
 
 The `hasKey` function returns `true` if the given dict contains the given key.
 
-```
+```yaml
 hasKey $myDict "name1"
 ```
 
@@ -1237,7 +1237,7 @@ If the key is not found, this returns `false`.
 The `pluck` function makes it possible to give one key and multiple maps, and
 get a list of all of the matches:
 
-```
+```yaml
 pluck "name1" $myDict $myOtherDict
 ```
 
@@ -1259,7 +1259,7 @@ matching key out of a collection of dictionaries.
 Merge two or more dictionaries into one, giving precedence to the dest
 dictionary:
 
-```
+```yaml
 $newdict := merge $dest $source1 $source2
 ```
 
@@ -1268,7 +1268,7 @@ that are merged are the same instance on both dicts. If you want a deep copy
 along with the merge than use the `deepCopy` function along with merging. For
 example,
 
-```
+```yaml
 deepCopy $source | merge $dest
 ```
 
@@ -1281,7 +1281,7 @@ left**, effectively overwriting values in the dest dictionary:
 
 Given:
 
-```
+```yaml
 dst:
   default: default
   overwrite: me
@@ -1294,14 +1294,14 @@ src:
 
 will result in:
 
-```
+```yaml
 newdict:
   default: default
   overwrite: overwritten
   key: false
 ```
 
-```
+```yaml
 $newdict := mergeOverwrite $dest $source1 $source2
 ```
 
@@ -1310,7 +1310,7 @@ that are merged are the same instance on both dicts. If you want a deep copy
 along with the merge than use the `deepCopy` function along with merging. For
 example,
 
-```
+```yaml
 deepCopy $source | mergeOverwrite $dest
 ```
 
@@ -1322,14 +1322,14 @@ The `keys` function will return a `list` of all of the keys in one or more
 `dict` types. Since a dictionary is _unordered_, the keys will not be in a
 predictable order. They can be sorted with `sortAlpha`.
 
-```
+```yaml
 keys $myDict | sortAlpha
 ```
 
 When supplying multiple dictionaries, the keys will be concatenated. Use the
 `uniq` function along with `sortAlpha` to get a unqiue, sorted list of keys.
 
-```
+```yaml
 keys $myDict $myOtherDict | uniq | sortAlpha
 ```
 
@@ -1338,7 +1338,7 @@ keys $myDict $myOtherDict | uniq | sortAlpha
 The `pick` function selects just the given keys out of a dictionary, creating a
 new `dict`.
 
-```
+```yaml
 $new := pick $myDict "name1" "name2"
 ```
 
@@ -1349,7 +1349,7 @@ The above returns `{name1: value1, name2: value2}`
 The `omit` function is similar to `pick`, except it returns a new `dict` with
 all the keys that _do not_ match the given keys.
 
-```
+```yaml
 $new := omit $myDict "name1" "name3"
 ```
 
@@ -1360,7 +1360,7 @@ The above returns `{name2: value2}`
 The `values` function is similar to `keys`, except it returns a new `list` with
 all the values of the source `dict` (only one dictionary is supported).
 
-```
+```yaml
 $vals := values $myDict
 ```
 
@@ -1375,7 +1375,7 @@ of the value. This includes dicts and other structures. `deepCopy` panics when
 there is a problem while `mustDeepCopy` returns an error to the template system
 when there is an error.
 
-```
+```yaml
 dict "a" 1 "b" 2 | deepCopy
 ```
 
@@ -1400,7 +1400,7 @@ as immutable data types.
 
 Create a list of integers:
 
-```
+```yaml
 $myList := list 1 2 3 4 5
 ```
 
@@ -1454,7 +1454,7 @@ the template engine if there is a problem.
 
 Append a new item to an existing list, creating a new list.
 
-```
+```yaml
 $new = append $myList 6
 ```
 
@@ -1467,7 +1467,7 @@ template engine if there is a problem.
 
 Push an element onto the front of a list, creating a new list.
 
-```
+```yaml
 prepend $myList 0
 ```
 
@@ -1480,7 +1480,7 @@ the template engine if there is a problem.
 
 Concatenate arbitrary number of lists into one.
 
-```
+```yaml
 concat $myList ( list 6 7 ) ( list 8 )
 ```
 
@@ -1490,7 +1490,7 @@ The above would produce `[1 2 3 4 5 6 7 8]`. `$myList` would remain unaltered.
 
 Produce a new list with the reversed elements of the given list.
 
-```
+```yaml
 reverse $myList
 ```
 
@@ -1503,7 +1503,7 @@ the template engine if there is a problem.
 
 Generate a list with all of the duplicates removed.
 
-```
+```yaml
 list 1 1 1 2 | uniq
 ```
 
@@ -1516,7 +1516,7 @@ template engine if there is a problem.
 
 The `without` function filters items out of a list.
 
-```
+```yaml
 without $myList 3
 ```
 
@@ -1524,7 +1524,7 @@ The above would produce `[1 2 4 5]`
 
 Without can take more than one filter:
 
-```
+```yaml
 without $myList 1 3 5
 ```
 
@@ -1537,7 +1537,7 @@ the template engine if there is a problem.
 
 Test to see if a list has a particular element.
 
-```
+```yaml
 has 4 $myList
 ```
 
@@ -1550,7 +1550,7 @@ template engine if there is a problem.
 
 Accepts a list and removes entries with empty values.
 
-```
+```yaml
 $list := list 1 "a" "foo" ""
 $copy := compact $list
 ```
@@ -1577,7 +1577,7 @@ template engine if there is a problem.
 
 The `until` function builds a range of integers.
 
-```
+```yaml
 until 5
 ```
 
@@ -1590,7 +1590,7 @@ This is useful for looping with `range $i, $e := until 5`.
 Like `until`, `untilStep` generates a list of counting integers. But it allows
 you to define a start, stop, and step:
 
-```
+```yaml
 untilStep 3 6 2
 ```
 
@@ -1608,7 +1608,7 @@ Works like the bash `seq` command.
 * 3 parameters (start, step, end) - will generate all counting integers between
   `start` and `end` inclusive incrementing or decrementing by `step`.
 
-```
+```yaml
 seq 5       => 1 2 3 4 5
 seq -3      => 1 0 -1 -2 -3
 seq 0 2     => 0 1 2
@@ -1629,7 +1629,7 @@ The following math functions are available: [add](#add), [add1](#add1),
 
 Sum numbers with `add`. Accepts two or more inputs.
 
-```
+```yaml
 add 1 2 3
 ```
 
@@ -1653,7 +1653,7 @@ Modulo with `mod`
 
 Multiply with `mul`. Accepts two or more inputs.
 
-```
+```yaml
 mul 1 2 3
 ```
 
@@ -1663,7 +1663,7 @@ Return the largest of a series of integers:
 
 This will return `3`:
 
-```
+```yaml
 max 1 2 3
 ```
 
@@ -1696,7 +1696,7 @@ after the decimal point.
 
 Returns the length of the argument as an integer.
 
-```
+```yaml
 len .Arg
 ```
 
@@ -1706,7 +1706,7 @@ Helm has a single network function, `getHostByName`.
 
 The `getHostByName` receives a domain name and returns the ip address.
 
-```
+```yaml
 getHostByName "www.google.com" would return the corresponding ip address of www.google.com
 ```
 
@@ -1721,7 +1721,7 @@ Those include [base](#base), [clean](#clean), [dir](#dir), [ext](#ext), and
 
 Return the last element of a path.
 
-```
+```yaml
 base "foo/bar/baz"
 ```
 
@@ -1736,7 +1736,7 @@ Return the directory, stripping the last part of the path. So `dir
 
 Clean up a path.
 
-```
+```yaml
 clean "foo/bar/../baz"
 ```
 
@@ -1746,7 +1746,7 @@ The above resolves the `..` and returns `foo/baz`
 
 Return the file extension.
 
-```
+```yaml
 ext "foo.bar"
 ```
 
@@ -1775,14 +1775,14 @@ also provided to compare to values.
 
 There are two Kind functions: `kindOf` returns the kind of an object.
 
-```
+```yaml
 kindOf "hello"
 ```
 
 The above would return `string`. For simple tests (like in `if` blocks), the
 `isKind` function will let you verify that a value is a particular kind:
 
-```
+```yaml
 kindIs "int" 123
 ```
 
@@ -1807,7 +1807,7 @@ equal"](https://golang.org/pkg/reflect/#DeepEqual)
 
 Works for non-primitive types as well (compared to the built-in `eq`).
 
-```
+```yaml
 deepEqual (list 1 2 3) (list 1 2 3)
 ```
 
@@ -1824,7 +1824,7 @@ details on using ranges for comparisons.
 
 The `semver` function parses a string into a Semantic Version:
 
-```
+```yaml
 $version := semver "1.2.3-alpha.1+123"
 ```
 
@@ -1843,7 +1843,7 @@ properties:
 Additionally, you can compare a `Version` to another `version` using the
 `Compare` function:
 
-```
+```yaml
 semver "1.4.3" | (semver "1.2.3").Compare
 ```
 
@@ -1980,7 +1980,7 @@ Helm includes the [urlParse](#urlparse), [urlJoin](#urljoin), and
 
 Parses string for URL and produces dict with URL parts
 
-```
+```yaml
 urlParse "http://admin:secret@server.com:8080/api?list=false#anchor"
 ```
 
@@ -2003,12 +2003,13 @@ info, check https://golang.org/pkg/net/url/#URL
 
 Joins map (produced by `urlParse`) to produce URL string
 
-```
+```yaml
 urlJoin (dict "fragment" "fragment" "host" "host:80" "path" "/path" "query" "query" "scheme" "http")
 ```
 
 The above returns the following string:
-```
+
+```yaml
 proto://host:80/path?query#fragment
 ```
 
@@ -2017,7 +2018,7 @@ proto://host:80/path?query#fragment
 Returns the escaped version of the value passed in as an argument so that it is
 suitable for embedding in the query portion of a URL.
 
-```
+```yaml
 $var := urlquery "string for query"
 ```
 
@@ -2025,7 +2026,7 @@ $var := urlquery "string for query"
 
 Helm can generate UUID v4 universally unique IDs.
 
-```
+```yaml
 uuidv4
 ```
 
@@ -2049,7 +2050,7 @@ function](functions_and_pipelines.md/#using-the-lookup-function).
 
 Returns if an API version or resource is available in a cluster.
 
-```
+```yaml
 .Capabilities.APIVersions.Has "apps/v1"
 .Capabilities.APIVersions.Has "apps/v1/Deployment"
 ```
