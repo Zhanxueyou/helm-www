@@ -77,12 +77,10 @@ data:
   food: "PIZZA"
 ```
 
-Note that our original `pizza` has now been transformed to `"PIZZA"`.
+注意原有的`pizza`现在已经被转换成了`"PIZZA"`。
 
-When pipelining arguments like this, the result of the first evaluation
-(`.Values.favorite.drink`) is sent as the _last argument to the function_. We
-can modify the drink example above to illustrate with a function that takes two
-arguments: `repeat COUNT STRING`:
+当管道符参数类似这样，结果的第一部分(`.Values.favorite.drink`) 是作为 _最后一个参数传递给了函数_。
+可以修改上述饮料示例，用一个函数带两个参数说明： `repeat COUNT STRING`:
 
 ```yaml
 apiVersion: v1
@@ -95,8 +93,7 @@ data:
   food: {{ .Values.favorite.food | upper | quote }}
 ```
 
-The `repeat` function will echo the given string the given number of times, so
-we will get this for output:
+`repeat`函数会返回给定参数特定的次数，则可以得到以下结果：
 
 ```yaml
 # Source: mychart/templates/configmap.yaml
@@ -110,18 +107,16 @@ data:
   food: "PIZZA"
 ```
 
-## Using the `default` function
+## 使用`default`函数
 
-One function frequently used in templates is the `default` function: `default
-DEFAULT_VALUE GIVEN_VALUE`. This function allows you to specify a default value
-inside of the template, in case the value is omitted. Let's use it to modify the
-drink example above:
+模板中频繁是有的一个函数是`default`： `default DEFAULT_VALUE GIVEN_VALUE`。
+这个函数允许你在模板中指定一个默认值，以防这个值被忽略。现在使用它修改上述示例：
 
 ```yaml
 drink: {{ .Values.favorite.drink | default "tea" | quote }}
 ```
 
-If we run this as normal, we'll get our `coffee`:
+如果正常运行，会得到 `coffee`:
 
 ```yaml
 # Source: mychart/templates/configmap.yaml
@@ -135,7 +130,7 @@ data:
   food: "PIZZA"
 ```
 
-Now, we will remove the favorite drink setting from `values.yaml`:
+现在，从`values.yaml`中移除最爱的饮料设置：
 
 ```yaml
 favorite:
@@ -143,8 +138,7 @@ favorite:
   food: pizza
 ```
 
-Now re-running `helm install --dry-run --debug fair-worm ./mychart` will produce
-this YAML:
+现在重新运行 `helm install --dry-run --debug fair-worm ./mychart` 会生成如下内容：
 
 ```yaml
 # Source: mychart/templates/configmap.yaml
@@ -158,29 +152,22 @@ data:
   food: "PIZZA"
 ```
 
-In an actual chart, all static default values should live in the `values.yaml`,
-and should not be repeated using the `default` command (otherwise they would be
-redundant). However, the `default` command is perfect for computed values, which
-can not be declared inside `values.yaml`. For example:
+在实际的chart中，所有的静态默认值应该设置在 `values.yaml` 文件中，且不应该重复使用 `default` 命令
+(否则会出现冗余)。然而这个`default` 命令很适合计算值，其不能声明在`values.yaml`文件中，比如：
 
 ```yaml
 drink: {{ .Values.favorite.drink | default (printf "%s-tea" (include "fullname" .)) }}
 ```
 
-In some places, an `if` conditional guard may be better suited than `default`.
-We'll see those in the next section.
+有些场景，`if`条件保护比`default`更加适合。在下一部分就会看到。
 
-Template functions and pipelines are a powerful way to transform information and
-then insert it into your YAML. But sometimes it's necessary to add some template
-logic that is a little more sophisticated than just inserting a string. In the
-next section we will look at the control structures provided by the template
-language.
+模板函数和管道符是转换信息强有力的方式，然后将其插入到YAML中。但有时需要插入一些模板逻辑，比仅插入一个字符串要复杂一些。
+下一部分，我们会看到模板语言提供的控制结构。
 
-## Using the `lookup` function
+## 使用`lookup`函数
 
-The `lookup` function can be used to _look up_ resources in a running cluster.
-The synopsis of the lookup function is `lookup apiVersion, kind, namespace, name
--> resource or resource list`.
+`lookup` 函数可以用于在运行的集群中 _查找_ 资源。lookup函数简述为`查找 apiVersion, kind, namespace,
+name -> 资源或者资源列表`。
 
 | parameter  | type   |
 |------------|--------|
@@ -189,12 +176,11 @@ The synopsis of the lookup function is `lookup apiVersion, kind, namespace, name
 | namespace  | string |
 | name       | string |
 
-Both `name` and `namespace` are optional and can be passed as an empty string
-(`""`).
+`name` 和 `namespace` 都是可选的，且可以作为空字符串(`""`)传递。
 
-The following combination of parameters are possible:
+以下是可能的参数组合：
 
-| Behavior                               | Lookup function                            |
+| 命令                                   | Lookup 函数                            |
 |----------------------------------------|--------------------------------------------|
 | `kubectl get pod mypod -n mynamespace` | `lookup "v1" "Pod" "mynamespace" "mypod"`  |
 | `kubectl get pods -n mynamespace`      | `lookup "v1" "Pod" "mynamespace" ""`       |
@@ -202,18 +188,15 @@ The following combination of parameters are possible:
 | `kubectl get namespace mynamespace`    | `lookup "v1" "Namespace" "" "mynamespace"` |
 | `kubectl get namespaces`               | `lookup "v1" "Namespace" "" ""`            |
 
-When `lookup` returns an object, it will return a dictionary. This dictionary
-can be further navigated to extract specific values.
+当`lookup`返回一个对象，它会返回一个字典。这个字典可以进一步被引导以获取特定值。
 
-The following example will return the annotations present for the `mynamespace`
-object:
+下面的例子将返回`mynamespace`对象的注释：
 
 ```go
 (lookup "v1" "Namespace" "" "mynamespace").metadata.annotations
 ```
 
-When `lookup` returns a list of objects, it is possible to access the object
-list via the `items` field:
+当`lookup`返回一个对象列表时，可以通过`items`字段访问对象列表：
 
 ```go
 {{ range $index, $service := (lookup "v1" "Service" "mynamespace" "").items }}
@@ -221,23 +204,17 @@ list via the `items` field:
 {{ end }}
 ```
 
-When no object is found, an empty value is returned. This can be used to check
-for the existence of an object.
+当对象未找到时，会返回空值。这可以用来检测对象是否存在。
 
-The `lookup` function uses Helm's existing Kubernetes connection configuration
-to query Kubernetes. If any error is returned when interacting with calling the
-API server (for example due to lack of permission to access a resource), helm's
-template processing will fail.
+`lookup`函数使用Helm已有的Kubernetes连接配置查询Kubernetes。当与调用API服务交互时返回了错误
+（比如缺少资源访问的权限），helm 的模板操作会失败。
 
-Keep in mind that Helm is not supposed to contact the Kubernetes API Server
-during a `helm template` or a `helm install|update|delete|rollback --dry-run`,
-so the `lookup` function will return an empty list (i.e. dict) in such a case.
+请记住，Helm在`helm template`或者`helm install|update|delete|rollback --dry-run`时，
+不应该请求请求Kubernetes API服务。由此，`lookup`函数在该案例中会返回空列表（即字典）。
 
-## Operators are functions
+## 运算符都是函数
 
-For templates, the operators (`eq`, `ne`, `lt`, `gt`, `and`, `or` and so on) are
-all implemented as functions. In pipelines, operations can be grouped with
-parentheses (`(`, and `)`).
+对于模板来说，运算符(`eq`, `ne`, `lt`, `gt`, `and`, `or`等等) 都是作为函数来实现的。
+在管道符中，操作可以按照圆括号分组。
 
-Now we can turn from functions and pipelines to flow control with conditions,
-loops, and scope modifiers.
+现在我们可以从函数和管道符返回到条件控制流，循环和范围修饰符。
