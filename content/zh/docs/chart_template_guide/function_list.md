@@ -40,8 +40,7 @@ and .Arg1 .Arg2
 
 ### or
 
-Returns the boolean or of the two arguments. It returns the first non-empty
-argument or the last argument.
+返回两个参数的or布尔值。会返回第一个非空参数或最后一个参数。
 
 ```yaml
 or .Arg1 .Arg2
@@ -49,7 +48,7 @@ or .Arg1 .Arg2
 
 ### not
 
-Returns the boolean negation of its argument.
+返回参数的布尔求反。
 
 ```yaml
 not .Arg
@@ -57,7 +56,7 @@ not .Arg
 
 ### eq
 
-Returns the boolean equality of the arguments (e.g., Arg1 == Arg2).
+返回参数的布尔等式（比如， Arg1 == Arg2）。
 
 ```yaml
 eq .Arg1 .Arg2
@@ -65,7 +64,7 @@ eq .Arg1 .Arg2
 
 ### ne
 
-Returns the boolean inequality of the arguments (e.g., Arg1 != Arg2)
+返回参数的布尔非等式（比如 Arg1 != Arg2）。
 
 ```yaml
 ne .Arg1 .Arg2
@@ -73,8 +72,7 @@ ne .Arg1 .Arg2
 
 ### lt
 
-Returns a boolean true if the first argument is less than the second. False is
-returned otherwise (e.g., Arg1 < Arg2).
+如果第一参数小于第二参数，返回布尔真。否则返回假（比如， Arg1 < Arg2）。
 
 ```yaml
 lt .Arg1 .Arg2
@@ -82,8 +80,7 @@ lt .Arg1 .Arg2
 
 ### le
 
-Returns a boolean true if the first argument is less than or equal to the
-second. False is returned otherwise (e.g., Arg1 <= Arg2).
+如果第一参数小于等于第二参数，返回布尔真，否则返回假（比如， Arg1 <= Arg2）。
 
 ```yaml
 le .Arg1 .Arg2
@@ -91,8 +88,7 @@ le .Arg1 .Arg2
 
 ### gt
 
-Returns a boolean true if the first argument is greater than the second. False
-is returned otherwise (e.g., Arg1 > Arg2).
+如果第一参数大于第二参数，返回布尔真，否则返回假（比如， Arg1 > Arg2）。
 
 ```yaml
 gt .Arg1 .Arg2
@@ -100,8 +96,7 @@ gt .Arg1 .Arg2
 
 ### ge
 
-Returns a boolean true if the first argument is greater than or equal to the
-second. False is returned otherwise (e.g., Arg1 >= Arg2).
+如果第一参数大于等于第二参数，返回布尔真，否则返回假。（比如， Arg1 >= Arg2）。
 
 ```yaml
 ge .Arg1 .Arg2
@@ -109,44 +104,38 @@ ge .Arg1 .Arg2
 
 ### default
 
-To set a simple default value, use `default`:
+使用`default`设置一个简单的默认值。
 
 ```yaml
 default "foo" .Bar
 ```
 
-In the above, if `.Bar` evaluates to a non-empty value, it will be used. But if
-it is empty, `foo` will be returned instead.
+上述示例中，如果`.Bar`是非空值，则使用它，否则会返回`foo`。
 
-The definition of "empty" depends on type:
+"空"定义取决于以下类型：
 
-* Numeric: 0
-* String: ""
-* Lists: `[]`
-* Dicts: `{}`
-* Boolean: `false`
-* And always `nil` (aka null)
+* 整形: 0
+* 字符串: ""
+* 列表: `[]`
+* 字典: `{}`
+* 布尔: `false`
+* 以及所有的`nil` (或 null)
 
-For structs, there is no definition of empty, so a struct will never return the
-default.
+对于结构体，没有空的定义，所以结构体从来不会返回默认值。
 
 ### empty
 
-The `empty` function returns `true` if the given value is considered empty, and
-`false` otherwise. The empty values are listed in the `default` section.
+如果给定的值被认为是空的，则`empty`函数返回`true`，否则返回`false`。空值列举在`default`部分。
 
 ```yaml
 empty .Foo
 ```
 
-Note that in Go template conditionals, emptiness is calculated for you. Thus,
-you rarely need `if empty .Foo`. Instead, just use `if .Foo`.
+注意在Go模板条件中，空值是为你计算出来的。这样你很少需要 `if empty .Foo` ，仅使用 `if .Foo` 即可。
 
 ### fail
 
-Unconditionally returns an empty `string` and an `error` with the specified
-text. This is useful in scenarios where other conditionals have determined that
-template rendering should fail.
+无条件地返回带有指定文本的空 `string` 或者 `error`。这在其他条件已经确定而模板渲染应该失败的情况下很有用。
 
 ```yaml
 fail "Please accept the end user license agreement"
@@ -154,31 +143,27 @@ fail "Please accept the end user license agreement"
 
 ### coalesce
 
-The `coalesce` function takes a list of values and returns the first non-empty
-one.
+`coalesce`函数获取一个列表并返回第一个非空值。
 
 ```yaml
 coalesce 0 1 2
 ```
 
-The above returns `1`.
+上述会返回`1`。
 
-This function is useful for scanning through multiple variables or values:
+此函数用于扫描多个变量或值：
 
 ```yaml
 coalesce .name .parent.name "Matt"
 ```
 
-The above will first check to see if `.name` is empty. If it is not, it will
-return that value. If it _is_ empty, `coalesce` will evaluate `.parent.name` for
-emptiness. Finally, if both `.name` and `.parent.name` are empty, it will return
-`Matt`.
+上述示例会优先检查 `.name` 是否为空。如果不是，就返回值。如果 _是_ 空, 继续检查`.parent.name`。
+最终，如果 `.name` 和 `.parent.name` 都是空，就会返回 `Matt`。
 
 ### ternary
 
-The `ternary` function takes two values, and a test value. If the test value is
-true, the first value will be returned. If the test value is empty, the second
-value will be returned. This is similar to the c ternary operator.
+`ternary`函数获取两个值和一个test值。如果test值是true，则返回第一个值。如果test值是空，则返回第二个值。
+这和c的ternary运算符类似。
 
 #### true test value
 
@@ -186,13 +171,13 @@ value will be returned. This is similar to the c ternary operator.
 ternary "foo" "bar" true
 ```
 
-or
+或者
 
 ```yaml
 true | ternary "foo" "bar"
 ```
 
-The above returns `"foo"`.
+上述返回 `"foo"`。
 
 #### false test value
 
@@ -200,17 +185,17 @@ The above returns `"foo"`.
 ternary "foo" "bar" false
 ```
 
-or
+或者
 
 ```yaml
 false | ternary "foo" "bar"
 ```
 
-The above returns `"bar"`.
+上述返回 `"bar"`.
 
-## String Functions
+## 字符串函数
 
-Helm includes the following string functions: [abbrev](#abbrev),
+Helm 包含了一下字符串函数： [abbrev](#abbrev),
 [abbrevboth](#abbrevboth), [camelcase](#camelcase), [cat](#cat),
 [contains](#contains), [hasPrefix](#hasprefix-and-hassuffix),
 [hasSuffix](#hasprefix-and-hassuffix), [indent](#indent), [initials](#initials),
@@ -225,41 +210,38 @@ Helm includes the following string functions: [abbrev](#abbrev),
 [snakecase](#snakecase), [squote](#quote-and-squote), [substr](#substr),
 [swapcase](#swapcase), [title](#title), [trim](#trim), [trimAll](#trimall),
 [trimPrefix](#trimprefix), [trimSuffix](#trimsuffix), [trunc](#trunc),
-[untitle](#untitle), [upper](#upper), [wrap](#wrap), and [wrapWith](#wrapwith).
+[untitle](#untitle), [upper](#upper), [wrap](#wrap), 和 [wrapWith](#wrapwith)
 
 ### print
 
-Returns a string from the combination of its parts.
+返回各部分组合的字符串。
 
 ```yaml
 print "Matt has " .Dogs " dogs"
 ```
 
-Types that are not strings are converted to strings where possible.
+如果可能，非字符串类型会被转换成字符串。
 
-Note, when two arguments next to each other are not strings a space is added
-between them.
+注意，当相邻两个参数不是字符串时会在它们之间添加一个空格。
 
 ### println
 
-Works the same way as [print](#print) but adds a new line at the end.
+和[print](#print)效果一样，但会在末尾新添加一行。
 
 ### printf
 
-Returns a string based on a formatting string and the arguments to pass to it in
-order.
+返回参数按顺序传递的格式化字符串。
 
 ```yaml
 printf "%s has %d dogs." .Name .NumberDogs
 ```
 
-The placeholder to use depends on the type for the argument being passed in.
-This includes:
+占位符取决于传入的参数类型。这包括：
 
-General purpose:
+一般用途：
 
-* `%v` the value in a default format
-  * when printing dicts, the plus flag (%+v) adds field names
+* `%v` 默认格式的值
+  * 当打印字典时，加号参数可以添加字段名称
 * `%%` a literal percent sign; consumes no value
 
 Boolean:
@@ -321,7 +303,7 @@ Removes the given characters from the front and back of a string:
 trimAll "$" "$5.00"
 ```
 
-The above returns `5.00` (as a string).
+The above returns `5.00` (as a string)。
 
 ### trimPrefix
 
@@ -533,7 +515,7 @@ The above returns `true` because `catch` has the prefix `cat`.
 ### quote and squote
 
 These functions wrap a string in double quotes (`quote`) or single quotes
-(`squote`).
+(`squote`）。
 
 ### cat
 
@@ -594,8 +576,8 @@ len $fish | plural "one anchovy" "many anchovies"
 ```
 
 In the above, if the length of the string is 1, the first argument will be
-printed (`one anchovy`). Otherwise, the second argument will be printed (`many
-anchovies`).
+printed (`one anchovy`）。 Otherwise, the second argument will be printed (`many
+anchovies`）。
 
 The arguments are:
 
@@ -605,7 +587,7 @@ The arguments are:
 
 NOTE: Helm does not currently support languages with more complex pluralization
 rules. And `0` is considered a plural because the English language treats it as
-such (`zero anchovies`).
+such (`zero anchovies`）。
 
 ### snakecase
 
@@ -750,7 +732,7 @@ Helm includes the following regular expression functions: [regexFind
 (mustRegexReplaceAll)](#regexreplaceall-mustregexreplaceall),
 [regexReplaceAllLiteral
 (mustRegexReplaceAllLiteral)](#regexreplaceallliteral-mustregexreplaceallliteral),
-[regexSplit (mustRegexSplit)](#regexsplit-mustregexsplit).
+[regexSplit (mustRegexSplit)](#regexsplit-mustregexsplit）。
 
 ### regexMatch, mustRegexMatch
 
@@ -848,7 +830,7 @@ Helm provides some advanced cryptographic functions. They include
 [decryptAES](#decryptaes), [derivePassword](#derivepassword),
 [encryptAES](#encryptaes), [genCA](#genca), [genPrivateKey](#genprivatekey),
 [genSelfSignedCert](#genselfsignedcert), [genSignedCert](#gensignedcert),
-[htpasswd](#htpasswd), [sha1sum](#sha1sum), and [sha256sum](#sha256sum).
+[htpasswd](#htpasswd), [sha1sum](#sha1sum), and [sha256sum](#sha256sum）。
 
 ### sha1sum
 
@@ -882,7 +864,7 @@ adler32sum "Hello world!"
 The `htpasswd` function takes a `username` and `password` and generates a
 `bcrypt` hash of the password. The result can be used for basic authentication
 on an [Apache HTTP
-Server](https://httpd.apache.org/docs/2.4/misc/password_encryptions.html#basic).
+Server](https://httpd.apache.org/docs/2.4/misc/password_encryptions.html#basic）。
 
 ```yaml
 htpasswd "myUser" "myPassword"
@@ -894,7 +876,7 @@ Note that it is insecure to store the password directly in the template.
 
 The `derivePassword` function can be used to derive a specific password based on
 some shared "master password" constraints. The algorithm for this is [well
-specified](https://masterpassword.app/masterpassword-algorithm.pdf).
+specified](https://masterpassword.app/masterpassword-algorithm.pdf）。
 
 ```yaml
 derivePassword 1 "long" "password" "user" "example.com"
@@ -1026,7 +1008,7 @@ Helm includes the following date functions you can use in templates:
 (mustDateModify)](#datemodify-mustdatemodify), [duration](#duration),
 [durationRound](#durationround), [htmlDate](#htmldate),
 [htmlDateInZone](#htmldateinzone), [now](#now), [toDate
-(mustToDate)](#todate-musttodate), and [unixEpoch](#unixepoch).
+(mustToDate)](#todate-musttodate), and [unixEpoch](#unixepoch）。
 
 ### now
 
@@ -1057,7 +1039,7 @@ now | date "2006-01-02"
 ```
 
 Date formatting in Go is a [little bit
-different](https://pauladamsmith.com/blog/2011/05/go_time.html).
+different](https://pauladamsmith.com/blog/2011/05/go_time.html）。
 
 In short, take this as the base date:
 
@@ -1149,7 +1131,7 @@ the second the date string. If the string can't be convert it returns the zero
 value. `mustToDate` will return an error in case the string cannot be converted.
 
 This is useful when you want to convert a string date to another format (using
-pipe). The example below converts "2017-12-31" to "31/12/2017".
+pipe）。 The example below converts "2017-12-31" to "31/12/2017".
 
 ```yaml
 toDate "2006-01-02" "2017-12-31" | date "02/01/2006"
@@ -1158,7 +1140,7 @@ toDate "2006-01-02" "2017-12-31" | date "02/01/2006"
 ## Dictionaries and Dict Functions
 
 Helm provides a key/value storage type called a `dict` (short for "dictionary",
-as in Python). A `dict` is an _unorder_ type.
+as in Python）。 A `dict` is an _unorder_ type.
 
 The key to a dictionary **must be a string**. However, the value can be any
 type, even another `dict` or `list`.
@@ -1171,7 +1153,7 @@ Helm provides the following functions to support working with dicts: [deepCopy
 [hasKey](#haskey), [keys](#keys), [merge (mustMerge)](#merge-mustmerge),
 [mergeOverwrite (mustMergeOverwrite)](#mergeoverwrite-mustmergeoverwrite),
 [omit](#omit), [pick](#pick), [pluck](#pluck), [set](#set), [unset](#unset), and
-[values](#values).
+[values](#values）。
 
 ### dict
 
@@ -1242,7 +1224,7 @@ pluck "name1" $myDict $myOtherDict
 ```
 
 The above will return a `list` containing every found value (`[value1
-otherValue1]`).
+otherValue1]`）。
 
 If the give key is _not found_ in a map, that map will not have an item in the
 list (and the length of the returned list will be less than the number of dicts
@@ -1358,7 +1340,7 @@ The above returns `{name2: value2}`
 ### values
 
 The `values` function is similar to `keys`, except it returns a new `list` with
-all the values of the source `dict` (only one dictionary is supported).
+all the values of the source `dict` (only one dictionary is supported）。
 
 ```yaml
 $vals := values $myDict
@@ -1415,7 +1397,7 @@ Helm provides the following list functions: [append
 (mustRest)](#rest-mustrest), [reverse (mustReverse)](#reverse-mustreverse),
 [seq](#seq), [slice (mustSlice)](#slice-mustslice), [uniq
 (mustUniq)](#uniq-mustuniq), [until](#until), [untilStep](#untilstep), and
-[without (mustWithout)](#without-mustwithout).
+[without (mustWithout)](#without-mustwithout）。
 
 ### first, mustFirst
 
@@ -1623,7 +1605,7 @@ All math functions operate on `int64` values unless specified otherwise.
 
 The following math functions are available: [add](#add), [add1](#add1),
 [ceil](#ceil), [div](#div), [floor](#floor), [len](#len), [max](#max),
-[min](#min), [mod](#mod), [mul](#mul), [round](#round), and [sub](#sub).
+[min](#min), [mod](#mod), [mul](#mul), [round](#round), and [sub](#sub）。
 
 ### add
 
@@ -1715,7 +1697,7 @@ getHostByName "www.google.com" would return the corresponding ip address of www.
 While Helm template functions do not grant access to the filesystem, they do
 provide functions for working with strings that follow file path conventions.
 Those include [base](#base), [clean](#clean), [dir](#dir), [ext](#ext), and
-[isAbs](#isabs).
+[isAbs](#isabs）。
 
 ### base
 
@@ -1768,7 +1750,7 @@ Go has several primitive _kinds_, like `string`, `slice`, `int64`, and `bool`.
 Go has an open _type_ system that allows developers to create their own types.
 
 Helm provides a set of functions for each via [kind functions](#kind-functions)
-and [type functions](#type-functions). A [deepEqual](#deepequal) function is
+and [type functions](#type-functions）。 A [deepEqual](#deepequal) function is
 also provided to compare to values.
 
 ### Kind Functions
@@ -1805,7 +1787,7 @@ time.
 `deepEqual` returns true if two values are ["deeply
 equal"](https://golang.org/pkg/reflect/#DeepEqual)
 
-Works for non-primitive types as well (compared to the built-in `eq`).
+Works for non-primitive types as well (compared to the built-in `eq`）。
 
 ```yaml
 deepEqual (list 1 2 3) (list 1 2 3)
@@ -1817,7 +1799,7 @@ The above will return `true`
 
 Some version schemes are easily parseable and comparable. Helm provides
 functions for working with [SemVer 2](http://semver.org) versions. These include
-[semver](#semver) and [semverCompare](#semvercompare). Below you will also find
+[semver](#semver) and [semverCompare](#semvercompare）。 Below you will also find
 details on using ranges for comparisons.
 
 ### semver
@@ -1844,7 +1826,7 @@ Additionally, you can compare a `Version` to another `version` using the
 `Compare` function:
 
 ```yaml
-semver "1.4.3" | (semver "1.2.3").Compare
+semver "1.4.3" | (semver "1.2.3"）。Compare
 ```
 
 The above will return `-1`.
@@ -1935,7 +1917,7 @@ These look like:
 
 The `x`, `X`, and `*` characters can be used as a wildcard character. This works
 for all comparison operators. When used on the `=` operator it falls back to the
-patch level comparison (see tilde below). For example,
+patch level comparison (see tilde below）。 For example,
 
 * `1.2.x` is equivalent to `>= 1.2.0, < 1.3.0`
 * `>= 1.2.x` is equivalent to `>= 1.2.0`
@@ -2036,7 +2018,7 @@ The above returns a new UUID of the v4 (randomly generated) type.
 
 Helm includes functions for working with Kubernetes including
 [.Capabilities.APIVersions.Has](#capabilitiesapiversionshas),
-[Files](#file-functions), and [lookup](#lookup).
+[Files](#file-functions), and [lookup](#lookup）。
 
 ### lookup
 
@@ -2044,7 +2026,7 @@ Helm includes functions for working with Kubernetes including
 `helm template` command it always returns an empty response.
 
 You can find more detail in the [documentation on the lookup
-function](functions_and_pipelines.md/#using-the-lookup-function).
+function](functions_and_pipelines.md/#using-the-lookup-function）。
 
 ### .Capabilities.APIVersions.Has
 
@@ -2056,14 +2038,14 @@ Returns if an API version or resource is available in a cluster.
 ```
 
 More information is available on the [built-in object
-documentation](builtin_objects.md).
+documentation](builtin_objects.md）。
 
 ### File Functions
 
 There are several functions that enable you to get to non-special files within a
 chart. For example, to access application configuration files. These are
-documented in [Accessing Files Inside Templates](accessing_files.md).
+documented in [Accessing Files Inside Templates](accessing_files.md）。
 
 _Note, the documentation for many of these functions come from
-[Sprig](https://github.com/Masterminds/sprig). Sprig is a template function
+[Sprig](https://github.com/Masterminds/sprig）。 Sprig is a template function
 library available to Go applications._
