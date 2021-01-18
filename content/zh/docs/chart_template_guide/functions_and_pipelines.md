@@ -47,10 +47,8 @@ data:
   food: {{ .Values.favorite.food | quote }}
 ```
 
-In this example, instead of calling `quote ARGUMENT`, we inverted the order. We
-"sent" the argument to the function using a pipeline (`|`):
-`.Values.favorite.drink | quote`. Using pipelines, we can chain several
-functions together:
+在这个示例中，并不是调用`quote ARGUMENT`，而是倒置了命令。使用管道符(`|`)将参数“发送”给函数：
+`.Values.favorite.drink | quote`。使用管道符可以将很多函数链接在一起：
 
 ```yaml
 apiVersion: v1
@@ -63,10 +61,9 @@ data:
   food: {{ .Values.favorite.food | upper | quote }}
 ```
 
-> Inverting the order is a common practice in templates. You will see `.val |
-> quote` more often than `quote .val`. Either practice is fine.
+> 倒置命令是模板中的常见做法。可以经常看到 `.val | quote` 而不是 `quote .val`。两种操作都是可以的。
 
-When evaluated, that template will produce this:
+模板会生成以下内容：
 
 ```yaml
 # Source: mychart/templates/configmap.yaml
