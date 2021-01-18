@@ -241,137 +241,135 @@ printf "%s has %d dogs." .Name .NumberDogs
 一般用途：
 
 * `%v` 默认格式的值
-  * 当打印字典时，加号参数可以添加字段名称
-* `%%` a literal percent sign; consumes no value
+  * 当打印字典时，加号参数(`%+v`)可以添加字段名称
+* `%%` 字符百分号，不使用值
 
-Boolean:
+布尔值：
 
-* `%t` the word true or false
+* `%t` true或false
 
-Integer:
+整形：
 
-* `%b` base 2
+* `%b` 二进制
 * `%c` the character represented by the corresponding Unicode code point
-* `%d` base 10
-* `%o` base 8
-* `%O` base 8 with 0o prefix
-* `%q` a single-quoted character literal safely escaped
-* `%x` base 16, with lower-case letters for a-f
-* `%X` base 16, with upper-case letters for A-F
-* `%U` Unicode format: U+1234; same as "U+%04X"
+* `%d` 十进制
+* `%o` 8进制
+* `%O` 带0o前缀的8进制
+* `%q` 安全转义的单引号字符
+* `%x` 16进制，使用小写字符a-f
+* `%X` 16进制，使用小写字符A-F
+* `%U` Unicode格式： U+1234; 和"U+%04X"相同
 
- Floating-point and complex constituents:
+浮点数和复杂成分
 
-* `%b` decimalless scientific notation with exponent a power of two, e.g.
-  -123456p-78
-* `%e` scientific notation, e.g. -1.234456e+78
-* `%E` scientific notation, e.g. -1.234456E+78
-* `%f` decimal point but no exponent, e.g. 123.456
-* `%F` synonym for %f
-* `%g` %e for large exponents, %f otherwise.
-* `%G` %E for large exponents, %F otherwise
-* `%x` hexadecimal notation (with decimal power of two exponent), e.g.
-  -0x1.23abcp+20
-* `%X` upper-case hexadecimal notation, e.g. -0X1.23ABCP+20
+* `%b` 指数二次幂的无小数科学计数法，比如 -123456p-78
+* `%e` 科学计数法，比如： -1.234456e+78
+* `%E` 科学计数法，比如： -1.234456E+78
+* `%f` 无指数的小数，比如： 123.456
+* `%F` 与%f同义
+* `%g` %e的大指数，否则是%f
+* `%G` %E的大指数，否则是%F
+* `%x` 十六进制计数法(和两个指数的十进制幂)，比如： -0x1.23abcp+20
+* `%X` 大写的十六进制计数法，比如： -0X1.23ABCP+20
 
-String and slice of bytes (treated equivalently with these verbs):
+字符串和字节切片：
 
-* `%s` the uninterpreted bytes of the string or slice
-* `%q` a double-quoted string safely escaped
-* `%x` base 16, lower-case, two characters per byte
-* `%X` base 16, upper-case, two characters per byte
+* `%s` 未解析的二进制字符串或切片
+* `%q` 安全转义的双引号字符串
+* `%x` 十六进制，小写，每个字节两个字符
+* `%X` 十六进制，大写，每个字节两个字符
 
-Slice:
+切片：
 
-* `%p` address of 0th element in base 16 notation, with leading 0x
+* `%p` 16进制的第0个元素的地址，以0x开头
 
 ### trim
 
-The `trim` function removes white space from both sides of a string:
+`trim`行数移除字符串两边的空格：
 
 ```yaml
 trim "   hello    "
 ```
 
-The above produces `hello`
+上述结果为： `hello`
 
 ### trimAll
 
-Removes the given characters from the front and back of a string:
+从字符串中移除给定的字符：
 
 ```yaml
 trimAll "$" "$5.00"
 ```
 
-The above returns `5.00` (as a string)。
+上述结果为：`5.00` (作为一个字符串)。
 
 ### trimPrefix
 
-Trim just the prefix from a string:
+从字符串中移除前缀：
 
 ```yaml
 trimPrefix "-" "-hello"
 ```
 
-The above returns `hello`
+上述结果为：`hello`
 
 ### trimSuffix
 
-Trim just the suffix from a string:
+从字符串中移除后缀：
 
 ```yaml
 trimSuffix "-" "hello-"
 ```
 
-The above returns `hello`
+上述结果为： `hello`
 
 ### lower
 
-Convert the entire string to lowercase:
+将整个字符串转换成小写：
 
 ```yaml
 lower "HELLO"
 ```
 
-The above returns `hello`
+上述结果为： `hello`
 
 ### upper
 
-Convert the entire string to uppercase:
+将整个字符串转换成大写：
 
 ```yaml
 upper "hello"
 ```
 
-The above returns `HELLO`
+上述结果为： `HELLO`
 
 ### title
 
-Convert to title case:
+首字母转换成大写：
 
 ```yaml
 title "hello world"
 ```
 
-The above returns `Hello World`
+上述结果为： `Hello World`
 
 ### untitle
 
-Remove title casing. `untitle "Hello World"` produces `hello world`.
+移除首字母大写：`untitle "Hello World"` 会得到 `hello world`.
 
 ### repeat
 
-Repeat a string multiple times:
+重复字符串多次：
 
 ```yaml
 repeat 3 "hello"
 ```
 
-The above returns `hellohellohello`
+上述结果为： `hellohellohello`
 
 ### substr
 
-Get a substring from a string. It takes three parameters:
+获取字符串的子串，有三个参数：
 
 * start (int)
 * end (int)
@@ -381,17 +379,17 @@ Get a substring from a string. It takes three parameters:
 substr 0 5 "hello world"
 ```
 
-The above returns `hello`
+上述结果为： `hello`
 
 ### nospace
 
-Remove all whitespace from a string.
+去掉字符串中的所有空格：
 
 ```yaml
 nospace "hello w o r l d"
 ```
 
-The above returns `helloworld`
+上述结果为： `helloworld`
 
 ### trunc
 
@@ -422,7 +420,7 @@ Parameters:
 abbrev 5 "hello world"
 ```
 
-The above returns `he...`, since it counts the width of the ellipses against the
+上述结果为： `he...`, since it counts the width of the ellipses against the
 maximum length.
 
 ### abbrevboth
@@ -449,7 +447,7 @@ Given multiple words, take the first letter of each word and combine.
 initials "First Try"
 ```
 
-The above returns `FT`
+上述结果为： `FT`
 
 ### randAlphaNum, randAlpha, randNumeric, and randAscii
 
@@ -499,7 +497,7 @@ Test to see if one string is contained inside of another:
 contains "cat" "catch"
 ```
 
-The above returns `true` because `catch` contains `cat`.
+上述结果为： `true` because `catch` contains `cat`.
 
 ### hasPrefix and hasSuffix
 
@@ -510,7 +508,7 @@ prefix or suffix:
 hasPrefix "cat" "catch"
 ```
 
-The above returns `true` because `catch` has the prefix `cat`.
+上述结果为： `true` because `catch` has the prefix `cat`.
 
 ### quote and squote
 
@@ -699,7 +697,7 @@ return an error in case the item cannot be encoded in JSON.
 toJson .Item
 ```
 
-The above returns JSON string representation of `.Item`.
+上述结果为： JSON string representation of `.Item`.
 
 ### toPrettyJson, mustToPrettyJson
 
@@ -710,7 +708,7 @@ string.
 toPrettyJson .Item
 ```
 
-The above returns indented JSON string representation of `.Item`.
+上述结果为： indented JSON string representation of `.Item`.
 
 ### toRawJson, mustToRawJson
 
@@ -721,7 +719,7 @@ unescaped.
 toRawJson .Item
 ```
 
-The above returns unescaped JSON string representation of `.Item`.
+上述结果为： unescaped JSON string representation of `.Item`.
 
 ## Regular Expressions
 
@@ -1174,7 +1172,7 @@ Given a map and a key, get the value from the map.
 get $myDict "key1"
 ```
 
-The above returns `"value1"`
+上述结果为： `"value1"`
 
 Note that if the key is not found, this operation will simply return `""`. No
 error will be generated.
@@ -1324,7 +1322,7 @@ new `dict`.
 $new := pick $myDict "name1" "name2"
 ```
 
-The above returns `{name1: value1, name2: value2}`
+上述结果为： `{name1: value1, name2: value2}`
 
 ### omit
 
@@ -1335,7 +1333,7 @@ all the keys that _do not_ match the given keys.
 $new := omit $myDict "name1" "name3"
 ```
 
-The above returns `{name2: value2}`
+上述结果为： `{name2: value2}`
 
 ### values
 
@@ -1346,7 +1344,7 @@ all the values of the source `dict` (only one dictionary is supported）。
 $vals := values $myDict
 ```
 
-The above returns `list["value1", "value2", "value 3"]`. Note that the `values`
+上述结果为： `list["value1", "value2", "value 3"]`. Note that the `values`
 function gives no guarantees about the result ordering- if you care about this,
 then use `sortAlpha`.
 
@@ -1732,7 +1730,7 @@ Return the file extension.
 ext "foo.bar"
 ```
 
-The above returns `.bar`.
+上述结果为： `.bar`.
 
 ### isAbs
 
@@ -1966,7 +1964,7 @@ Parses string for URL and produces dict with URL parts
 urlParse "http://admin:secret@server.com:8080/api?list=false#anchor"
 ```
 
-The above returns a dict, containing URL object:
+上述结果为： a dict, containing URL object:
 
 ```yaml
 scheme:   'http'
@@ -1989,7 +1987,7 @@ Joins map (produced by `urlParse`) to produce URL string
 urlJoin (dict "fragment" "fragment" "host" "host:80" "path" "/path" "query" "query" "scheme" "http")
 ```
 
-The above returns the following string:
+上述结果为： the following string:
 
 ```yaml
 proto://host:80/path?query#fragment
@@ -2012,7 +2010,7 @@ Helm can generate UUID v4 universally unique IDs.
 uuidv4
 ```
 
-The above returns a new UUID of the v4 (randomly generated) type.
+上述结果为： a new UUID of the v4 (randomly generated) type.
 
 ## Kubernetes and Chart Functions
 
