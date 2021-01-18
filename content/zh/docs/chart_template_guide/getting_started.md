@@ -73,19 +73,13 @@ data:
   myvalue: "Hello World"
 ```
 
-**TIP:** Template names do not follow a rigid naming pattern. However, we
-recommend using the suffix `.yaml` for YAML files and `.tpl` for helpers.
+**提示:** 模板名称不遵循严格的命名模式。但是建议以`.yaml`作为YAML文件的后缀，以`.tpl`作为helper文件的后缀。
 
-The YAML file above is a bare-bones ConfigMap, having the minimal necessary
-fields. In virtue of the fact that this file is in the `mychart/templates/`
-directory, it will be sent through the template engine.
+上述YAML文件是一个简单的配置映射，构成了最小的必需字段。因为文件在 `mychart/templates/`目录中，它会通过模板引擎传递。
 
-It is just fine to put a plain YAML file like this in the `mychart/templates/`
-directory. When Helm reads this template, it will simply send it to Kubernetes
-as-is.
+像这样将一个普通YAML文件放在`mychart/templates/`目录中是没问题的。当Helm读取这个模板时会按照原样传递给Kubernetes。
 
-With this simple template, we now have an installable chart. And we can install
-it like this:
+有了这个简单的模板，现在有一个可安装的chart了。现在安装如下：
 
 ```console
 $ helm install full-coral ./mychart
@@ -97,8 +91,7 @@ REVISION: 1
 TEST SUITE: None
 ```
 
-Using Helm, we can retrieve the release and see the actual template that was
-loaded.
+我们可以使用Helm检索版本并查看实际加载的模板。
 
 ```console
 $ helm get manifest full-coral
@@ -113,29 +106,21 @@ data:
   myvalue: "Hello World"
 ```
 
-The `helm get manifest` command takes a release name (`full-coral`) and prints
-out all of the Kubernetes resources that were uploaded to the server. Each file
-begins with `---` to indicate the start of a YAML document, and then is followed
-by an automatically generated comment line that tells us what template file
-generated this YAML document.
+`helm get manifest` 命令后跟一个发布名称(`full-coral`)然后打印出了所有已经上传到server的Kubernetes资源。
+每个文件以`---`开头表示YAML文件的开头，然后是自动生成的注释行，表示哪个模板文件生成了这个YAML文档。
 
-From there on, we can see that the YAML data is exactly what we put in our
-`configmap.yaml` file.
+从这个地方开始，我们看到的YAML数据确实是`configmap.yaml`文件中的内容。
 
-Now we can uninstall our release: `helm uninstall full-coral`.
+现在卸载发布： `helm uninstall full-coral`。
 
-### Adding a Simple Template Call
+### 添加一个简单的模板调用
 
-Hard-coding the `name:` into a resource is usually considered to be bad
-practice. Names should be unique to a release. So we might want to generate a
-name field by inserting the release name.
+将`name:`硬编码到一个资源中不是很好的方式。名称应该是唯一的。因此我们可能希望通过插入发布名称来生成名称字段。
 
-**TIP:** The `name:` field is limited to 63 characters because of limitations to
-the DNS system. For that reason, release names are limited to 53 characters.
-Kubernetes 1.3 and earlier limited to only 24 characters (thus 14 character
-names).
+**提示:** 由于DNS系统的限制，`name:`字段长度限制为63个字符。因此发布名称限制为53个字符。
+Kubernetes 1.3及更早版本限制为24个字符 (名称长度是14个字符)。
 
-Let's alter `configmap.yaml` accordingly.
+对应改变一下`configmap.yaml`：
 
 ```yaml
 apiVersion: v1
@@ -146,26 +131,18 @@ data:
   myvalue: "Hello World"
 ```
 
-The big change comes in the value of the `name:` field, which is now
-`{{ .Release.Name }}-configmap`.
+大的变化是`name:`字段的值，现在是`{{ .Release.Name }}-configmap`。
 
-> A template directive is enclosed in `{{` and `}}` blocks.
+> 模板命令要括在 `{{` 和 `}}` 之间。
 
-The template directive `{{ .Release.Name }}` injects the release name into the
-template. The values that are passed into a template can be thought of as
-_namespaced objects_, where a dot (`.`) separates each namespaced element.
+模板命令 `{{ .Release.Name }}` 将发布名称注入了模板。值作为一个 _命名空间对象_ 传给了模板，用点(`.`)分隔每个命名空间的元素。
 
-The leading dot before `Release` indicates that we start with the top-most
-namespace for this scope (we'll talk about scope in a bit). So we could read
-`.Release.Name` as "start at the top namespace, find the `Release` object, then
-look inside of it for an object called `Name`".
+`Release`前面的点表示从作用域最顶层的命名空间开始（稍后会谈作用域）。这样`.Release.Name`就可解读为“通顶层命名空间开始查找
+Release对象，然后在其中找Name对象”。
 
-The `Release` object is one of the built-in objects for Helm, and we'll cover it
-in more depth later. But for now, it is sufficient to say that this will display
-the release name that the library assigns to our release.
+`Release`是一个Helm的内置对象。稍后会更深入地讨论。但现在足够说明它可以显示从库中赋值的发布名称。
 
-Now when we install our resource, we'll immediately see the result of using this
-template directive:
+现在安装资源，可以立即看到模板命令的结果：
 
 ```console
 $ helm install clunky-serval ./mychart
@@ -177,19 +154,14 @@ REVISION: 1
 TEST SUITE: None
 ```
 
-You can run `helm get manifest clunky-serval` to see the entire generated YAML.
+可以运行`helm get manifest clunky-serval`查看生成的完整的YAML。
 
-Note that the config map inside kubernetes name is `clunky-serval-configmap`
-instead of `mychart-configmap` previously.
+注意在kubernetes内的配置映射名称是 `clunky-serval-configmap`，而不是之前的 `mychart-configmap`。
 
-At this point, we've seen templates at their most basic: YAML files that have
-template directives embedded in `{{` and `}}`. In the next part, we'll take a
-deeper look into templates. But before moving on, there's one quick trick that
-can make building templates faster: When you want to test the template
-rendering, but not actually install anything, you can use `helm install --debug
---dry-run goodly-guppy ./mychart`. This will render the templates. But instead
-of installing the chart, it will return the rendered template to you so you can
-see the output:
+由此我们已经看到了最基本的模板：YAML文件有嵌入在`{{` 和 `}}`之间的模板命令。下一部分，会深入了解模板，
+但在这之前，有个快捷的技巧可以加快模板的构建速度：当你想测试模板渲染但又不想安装任何内容时，可以使用`helm
+install --debug --dry-run goodly-guppy ./mychart`。这样会渲染模板，但是安装到chart，
+会返回一个渲染后的模板如下：
 
 ```console
 $ helm install --debug --dry-run goodly-guppy ./mychart
@@ -246,10 +218,8 @@ data:
 
 ```
 
-Using `--dry-run` will make it easier to test your code, but it won't ensure
-that Kubernetes itself will accept the templates you generate. It's best not to
-assume that your chart will install just because `--dry-run` works.
+使用`--dry-run`会使测试代码变得很简单，但不能保证Kubernetes本身会接受生成模板。
+最好不要仅仅因为`--dry-run`可以工作就觉得chart可以安装。
 
-In the [Chart Template Guide](_index.md), we take the basic chart we defined
-here and explore the Helm template language in detail. And we'll get started
-with built-in objects.
+在[Chart模板指南](_index.md)中，我们以这里定义的chart基本模板为例详细讨论Helm模板语言。
+然后开始讨论内置对象。
