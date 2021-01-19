@@ -575,109 +575,102 @@ len $fish | plural "one anchovy" "many anchovies"
 
 ### snakecase
 
-Convert string from camelCase to snake_case.
+将驼峰写法转换成蛇形写法。
 
 ```yaml
 snakecase "FirstName"
 ```
 
-This above will produce `first_name`.
+上述结果为： `first_name`.
 
 ### camelcase
 
-Convert string from snake_case to CamelCase
+将字符串从蛇形写法转换成驼峰写法。
 
 ```yaml
 camelcase "http_server"
 ```
 
-This above will produce `HttpServer`.
+上述结果为： `HttpServer`。
 
 ### kebabcase
 
-Convert string from camelCase to kebab-case.
+将驼峰写法转换成烤串写法。
 
 ```yaml
 kebabcase "FirstName"
 ```
 
-This above will produce `first-name`.
+上述结果为： `first-name`.
 
 ### swapcase
 
-Swap the case of a string using a word based algorithm.
+基于单词的算法切换字符串的大小写。
 
-Conversion algorithm:
+转换算法：
 
-* Upper case character converts to Lower case
-* Title case character converts to Lower case
-* Lower case character after Whitespace or at start converts to Title case
-* Other Lower case character converts to Upper case
-* Whitespace is defined by unicode.IsSpace(char)
+* 大写字符变成小写字母
+* 首字母变成小写字母
+* 空格后或开头的小写字母转换成大写字母
+* 其他小写字母转换成大写字母
+* 通过unicode.IsSpace(char)定义空格
 
 ```yaml
 swapcase "This Is A.Test"
 ```
 
-This above will produce `tHIS iS a.tEST`.
+上述结果为： `tHIS iS a.tEST`.
 
 ### shuffle
 
-Shuffle a string.
+对字符串进行洗牌。
 
 ```yaml
 shuffle "hello"
 ```
 
-The above will randomize the letters in `hello`, perhaps producing `oelhl`.
+上述`hello`的随机字符串可能会是`oelhl`。
 
 ## Type Conversion Functions
 
-The following type conversion functions are provided by Helm:
+Helm提供了以下类型转换函数：
 
-* `atoi`: Convert a string to an integer.
-* `float64`: Convert to a `float64`.
-* `int`: Convert to an `int` at the system's width.
-* `int64`: Convert to an `int64`.
-* `toDecimal`: Convert a unix octal to a `int64`.
-* `toString`: Convert to a string.
-* `toStrings`: Convert a list, slice, or array to a list of strings.
-* `toJson` (`mustToJson`): Convert list, slice, array, dict, or object to JSON.
-* `toPrettyJson` (`mustToPrettyJson`): Convert list, slice, array, dict, or
-  object to indented JSON.
-* `toRawJson` (`mustToRawJson`): Convert list, slice, array, dict, or object to
-  JSON with HTML characters unescaped.
+* `atoi`: 字符串转换成整形。
+* `float64`: 转换成 `float64`。
+* `int`: 按系统整形宽度转换成`int`。
+* `int64`: 转换成 `int64`。
+* `toDecimal`: 将unix八进制转换成`int64`。
+* `toString`: 转换成字符串。
+* `toStrings`: 将列表、切片或数组转换成字符串列表。
+* `toJson` (`mustToJson`): 将列表、切片、数组、字典或对象转换成JSON。
+* `toPrettyJson` (`mustToPrettyJson`): 将列表、切片、数组、字典或对象转换成格式化JSON。
+* `toRawJson` (`mustToRawJson`): 将列表、切片、数组、字典或对象转换成HTML字符未转义的JSON。
 
-Only `atoi` requires that the input be a specific type. The others will attempt
-to convert from any type to the destination type. For example, `int64` can
-convert floats to ints, and it can also convert strings to ints.
+只有`atoi`需要输入一个特定的类型。其他的会尝试将任何类型转换成目标类型。比如，`int64`可以把浮点数转换成整形，也可以把字符串转换成整形。
 
 ### toStrings
 
-Given a list-like collection, produce a slice of strings.
+给定一个类列表集合，输出字符串切片。
 
 ```yaml
 list 1 2 3 | toStrings
 ```
 
-The above converts `1` to `"1"`, `2` to `"2"`, and so on, and then returns them
-as a list.
+上述会将`1`转成`"1"`，`2`转成`"2"`，等等，然后将其作为列表返回。
 
 ### toDecimal
 
-Given a unix octal permission, produce a decimal.
+给定一个unix八进制权限，转换成十进制。
 
 ```yaml
 "0777" | toDecimal
 ```
 
-The above converts `0777` to `511` and returns the value as an int64.
+上述回将 `0777` 转换成 `511` 并返回int64的值。
 
 ### toJson, mustToJson
 
-The `toJson` function encodes an item into a JSON string. If the item cannot be
-converted to JSON the function will return an empty string. `mustToJson` will
-return an error in case the item cannot be encoded in JSON.
+`toJson`函数将内容编码为JSON字符串。如果内容无法被转换成JSON会返回空字符串。`mustToJson`会返回错误以防无法编码成JSON。
 
 ```yaml
 toJson .Item
