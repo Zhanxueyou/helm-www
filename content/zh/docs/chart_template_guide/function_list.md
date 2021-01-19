@@ -393,55 +393,54 @@ nospace "hello w o r l d"
 
 ### trunc
 
-Truncate a string
+截断字符串。
 
 ```yaml
 trunc 5 "hello world"
 ```
 
-The above produces `hello`.
+上述结果为： `hello`.
 
 ```yaml
 trunc -5 "hello world"
 ```
 
-The above produces `world`.
+上述结果为： `world`.
 
 ### abbrev
 
-Truncate a string with ellipses (`...`)
+用省略号截断字符串 (`...`)
 
-Parameters:
+参数：
 
-* max length
-* the string
+* 最大长度
+* 字符串
 
 ```yaml
 abbrev 5 "hello world"
 ```
 
-上述结果为： `he...`, since it counts the width of the ellipses against the
-maximum length.
+上述结果为： `he...`， 因为将省略号算进了长度中。
 
 ### abbrevboth
 
-Abbreviate both sides:
+两边都省略
 
 ```yaml
 abbrevboth 5 10 "1234 5678 9123"
 ```
 
-the above produces `...5678...`
+上述结果为： `...5678...`
 
 It takes:
 
-* left offset
-* max length
-* the string
+* 左侧偏移值
+* 最大长度
+* 字符串
 
 ### initials
 
-Given multiple words, take the first letter of each word and combine.
+截取给定字符串每个单词的首字母，并组合在一起。
 
 ```yaml
 initials "First Try"
@@ -451,69 +450,64 @@ initials "First Try"
 
 ### randAlphaNum, randAlpha, randNumeric, and randAscii
 
-These four functions generate cryptographically secure (uses ```crypto/rand```)
-random strings, but with different base character sets:
+这四个字符串生成加密安全的(使用 ```crypto/rand```)的随机字符串，但是字符集合不同：
 
-* `randAlphaNum` uses `0-9a-zA-Z`
-* `randAlpha` uses `a-zA-Z`
-* `randNumeric` uses `0-9`
-* `randAscii` uses all printable ASCII characters
+* `randAlphaNum` 使用 `0-9a-zA-Z`
+* `randAlpha` 使用 `a-zA-Z`
+* `randNumeric` 使用 `0-9`
+* `randAscii` 使用所有的可打印ASCII字符
 
-Each of them takes one parameter: the integer length of the string.
+每个函数都需要一个参数：字符串的整形长度
 
 ```yaml
 randNumeric 3
 ```
 
-The above will produce a random string with three digits.
+上述会生成三个数字的字符串。
 
 ### wrap
 
-Wrap text at a given column count:
+以给定列数给文字换行。
 
 ```yaml
 wrap 80 $someText
 ```
 
-The above will wrap the string in `$someText` at 80 columns.
+上述结果会以`$someText`在80列处换行。
 
 ### wrapWith
 
-`wrapWith` works as `wrap`, but lets you specify the string to wrap with.
-(`wrap` uses `\n`)
+`wrapWith` 和 `wrap` 类似，但可以以指定字符串换行。(`wrap` 使用的是 `\n`)
 
 ```yaml
 wrapWith 5 "\t" "Hello World"
 ```
 
-The above produces `hello world` (where the whitespace is an ASCII tab
-character)
+上述结果为： `hello world` (其中空格是ASCII tab字符)
 
 ### contains
 
-Test to see if one string is contained inside of another:
+测试字符串是否包含在另一个字符串中：
 
 ```yaml
 contains "cat" "catch"
 ```
 
-上述结果为： `true` because `catch` contains `cat`.
+上述结果为： `true` 因为 `catch` 包含了 `cat`.
 
 ### hasPrefix and hasSuffix
 
-The `hasPrefix` and `hasSuffix` functions test whether a string has a given
-prefix or suffix:
+`hasPrefix` 和 `hasSuffix` 函数测试字符串是否有给定的前缀或后缀：
 
 ```yaml
 hasPrefix "cat" "catch"
 ```
 
-上述结果为： `true` because `catch` has the prefix `cat`.
+上述结果为： `true` 因为 `catch` 有 `cat`.
 
 ### quote and squote
 
-These functions wrap a string in double quotes (`quote`) or single quotes
-(`squote`）。
+该函数将字符串用双引号(`quote`) 或者单引号(`squote`)括起来。
 
 ### cat
 
@@ -524,7 +518,7 @@ them with spaces:
 cat "hello" "beautiful" "world"
 ```
 
-The above produces `hello beautiful world`
+上述结果为： `hello beautiful world`
 
 ### indent
 
@@ -740,7 +734,7 @@ Returns true if the input string contains any match of the regular expression.
 regexMatch "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$" "test@acme.com"
 ```
 
-The above produces `true`
+上述结果为： `true`
 
 `regexMatch` panics if there is a problem and `mustRegexMatch` returns an error
 to the template engine if there is a problem.
@@ -755,7 +749,7 @@ means return all matches
 regexFindAll "[2,4,6,8]" "123456789" -1
 ```
 
-The above produces `[2 4 6 8]`
+上述结果为： `[2 4 6 8]`
 
 `regexFindAll` panics if there is a problem and `mustRegexFindAll` returns an
 error to the template engine if there is a problem.
@@ -768,7 +762,7 @@ Return the first (left most) match of the regular expression in the input string
 regexFind "[a-zA-Z][1-9]" "abcd1234"
 ```
 
-The above produces `d1`
+上述结果为： `d1`
 
 `regexFind` panics if there is a problem and `mustRegexFind` returns an error to
 the template engine if there is a problem.
@@ -784,7 +778,7 @@ submatch
 regexReplaceAll "a(x*)b" "-ab-axxb-" "${1}W"
 ```
 
-The above produces `-W-xxW-`
+上述结果为： `-W-xxW-`
 
 `regexReplaceAll` panics if there is a problem and `mustRegexReplaceAll` returns
 an error to the template engine if there is a problem.
@@ -799,7 +793,7 @@ without using Expand
 regexReplaceAllLiteral "a(x*)b" "-ab-axxb-" "${1}"
 ```
 
-The above produces `-${1}-${1}-`
+上述结果为： `-${1}-${1}-`
 
 `regexReplaceAllLiteral` panics if there is a problem and
 `mustRegexReplaceAllLiteral` returns an error to the template engine if there is
@@ -816,7 +810,7 @@ matches
 regexSplit "z+" "pizza" -1
 ```
 
-The above produces `[pi a]`
+上述结果为： `[pi a]`
 
 `regexSplit` panics if there is a problem and `mustRegexSplit` returns an error
 to the template engine if there is a problem.
