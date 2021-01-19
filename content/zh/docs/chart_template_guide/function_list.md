@@ -511,8 +511,7 @@ hasPrefix "cat" "catch"
 
 ### cat
 
-The `cat` function concatenates multiple strings together into one, separating
-them with spaces:
+`cat` 函数将多个字符串合并成一个，用空格分隔：
 
 ```yaml
 cat "hello" "beautiful" "world"
@@ -522,64 +521,57 @@ cat "hello" "beautiful" "world"
 
 ### indent
 
-The `indent` function indents every line in a given string to the specified
-indent width. This is useful when aligning multi-line strings:
+`indent` 以指定长度缩进给定字符串所在行，在对齐多行字符串时很有用：
 
 ```yaml
 indent 4 $lots_of_text
 ```
 
-The above will indent every line of text by 4 space characters.
+上述结果会将每行缩进4个空格。
 
 ### nindent
 
-The `nindent` function is the same as the indent function, but prepends a new
-line to the beginning of the string.
+`nindent` 函数和indent函数一样，但可以在字符串开头添加新行。
 
 ```yaml
 nindent 4 $lots_of_text
 ```
 
-The above will indent every line of text by 4 space characters and add a new
-line to the beginning.
+上述结果会在字符串所在行缩进4个字符，并且在开头新添加一行。
 
 ### replace
 
-Perform simple string replacement.
+执行简单的字符串替换。
 
-It takes three arguments:
+需要三个参数
 
-* string to replace
-* string to replace with
-* source string
+* 待替换字符串
+* 要替换字符串
+* 源字符串
 
 ```yaml
 "I Am Henry VIII" | replace " " "-"
 ```
 
-The above will produce `I-Am-Henry-VIII`
+上述结果为： `I-Am-Henry-VIII`
 
 ### plural
 
-Pluralize a string.
+字符串复数化。
 
 ```yaml
 len $fish | plural "one anchovy" "many anchovies"
 ```
 
-In the above, if the length of the string is 1, the first argument will be
-printed (`one anchovy`）。 Otherwise, the second argument will be printed (`many
-anchovies`）。
+如上，如果字符串长度为1，则第一个参数会被打印(`one anchovy`）。否则，会打印第二个参数(`many anchovies`）。
 
-The arguments are:
+参数包括：
 
-* singular string
-* plural string
-* length integer
+* 单数字符串
+* 复数字符串
+* 整形长度
 
-NOTE: Helm does not currently support languages with more complex pluralization
-rules. And `0` is considered a plural because the English language treats it as
-such (`zero anchovies`）。
+注意： Helm 现在不支持多语言复杂的复数规则。`0`被认为是复数的因为英文中作为(`zero anchovies`) 对待。
 
 ### snakecase
 
