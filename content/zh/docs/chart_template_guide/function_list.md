@@ -676,40 +676,36 @@ list 1 2 3 | toStrings
 toJson .Item
 ```
 
-上述结果为： JSON string representation of `.Item`.
+上述结果为： `.Item`的JSON字符串表示。
 
 ### toPrettyJson, mustToPrettyJson
 
-The `toPrettyJson` function encodes an item into a pretty (indented) JSON
-string.
+`toPrettyJson`函数将内容编码为好看的（缩进的）JSON字符串。
 
 ```yaml
 toPrettyJson .Item
 ```
 
-上述结果为： indented JSON string representation of `.Item`.
+上述结果为： `.Item`的已缩进的JSON字符串表示。
 
 ### toRawJson, mustToRawJson
 
-The `toRawJson` function encodes an item into JSON string with HTML characters
-unescaped.
+`toRawJson` 函数将内容编码成包含非转义HTML字符的JSON字符串。
 
 ```yaml
 toRawJson .Item
 ```
 
-上述结果为： unescaped JSON string representation of `.Item`.
+上述结果为： `.Item`的非转义的JSON字符串表示。
 
 ## Regular Expressions
 
-Helm includes the following regular expression functions: [regexFind
-(mustRegexFind)](#regexfindall-mustregexfindall), [regexFindAll
-(mustRegexFindAll)](#regexfind-mustregexfind), [regexMatch
+Helm 包含以下正则表达式函数 [regexFind(mustRegexFind)](#regexfindall-mustregexfindall),
+[regexFindAll(mustRegexFindAll)](#regexfind-mustregexfind), [regexMatch
 (mustRegexMatch)](#regexmatch-mustregexmatch), [regexReplaceAll
 (mustRegexReplaceAll)](#regexreplaceall-mustregexreplaceall),
-[regexReplaceAllLiteral
-(mustRegexReplaceAllLiteral)](#regexreplaceallliteral-mustregexreplaceallliteral),
-[regexSplit (mustRegexSplit)](#regexsplit-mustregexsplit）。
+[regexReplaceAllLiteral(mustRegexReplaceAllLiteral)](#regexreplaceallliteral-mustregexreplaceallliteral),
+[regexSplit (mustRegexSplit)](#regexsplit-mustregexsplit)。
 
 ### regexMatch, mustRegexMatch
 
