@@ -1317,176 +1317,159 @@ Helm 提供了以下列表函数： [append(mustAppend)](#append-mustappend), [c
 
 ### last, mustLast
 
-To get the last item on a list, use `last`:
+使用`last`获取列表的最后一项：
 
-`last $myList` returns `5`. This is roughly analogous to reversing a list and
-then calling `first`.
+`last $myList` 返回 `5`。这大致类似于反转列表然后调用`first`。
 
 ### initial, mustInitial
 
-This compliments `last` by returning all _but_ the last element. `initial
-$myList` returns `[1 2 3 4]`.
+通过返回所有元素 _但_ 除了最后一个元素来赞赏`last`。 `initial $myList` 返回 `[1 2 3 4]`。
 
-`initial` panics if there is a problem while `mustInitial` returns an error to
-the template engine if there is a problem.
+`initial`有问题时会出错，但是 `mustInitial` 有问题时会向模板引擎返回错误。
 
 ### append, mustAppend
 
-Append a new item to an existing list, creating a new list.
+在已有列表中追加一项，创建一个新的列表。
 
 ```yaml
 $new = append $myList 6
 ```
 
-The above would set `$new` to `[1 2 3 4 5 6]`. `$myList` would remain unaltered.
+上述语句会设置 `$new` 为 `[1 2 3 4 5 6]`。 `$myList`会保持不变。
 
-`append` panics if there is a problem while `mustAppend` returns an error to the
-template engine if there is a problem.
+`append` 有问题时会出错，但 `mustAppend` 有问题时会向模板引擎返回错误。
 
 ### prepend, mustPrepend
 
-Push an element onto the front of a list, creating a new list.
+将元素添加到列表的前面，生成一个新的列表。
 
 ```yaml
 prepend $myList 0
 ```
 
-The above would produce `[0 1 2 3 4 5]`. `$myList` would remain unaltered.
+上述语句会生成 `[0 1 2 3 4 5]`。 `$myList`会保持不变。
 
-`prepend` panics if there is a problem while `mustPrepend` returns an error to
-the template engine if there is a problem.
+`prepend` 有问题时会出错，但 `mustPrepend` 有问题时会向模板引擎返回错误。
 
 ### concat
 
-Concatenate arbitrary number of lists into one.
+将任意数量的列表串联成一个。
 
 ```yaml
 concat $myList ( list 6 7 ) ( list 8 )
 ```
 
-The above would produce `[1 2 3 4 5 6 7 8]`. `$myList` would remain unaltered.
+上述语句会生成 `[1 2 3 4 5 6 7 8]`。 `$myList` 会保持不变。
 
 ### reverse, mustReverse
 
-Produce a new list with the reversed elements of the given list.
+反转给定的列表生成一个新列表。
 
 ```yaml
 reverse $myList
 ```
 
-The above would generate the list `[5 4 3 2 1]`.
+上述语句会生成一个列表： `[5 4 3 2 1]`。
 
-`reverse` panics if there is a problem while `mustReverse` returns an error to
-the template engine if there is a problem.
+`reverse` 有问题时会出错，但 `mustReverse` 有问题时会向模板引擎返回错误。
 
 ### uniq, mustUniq
 
-Generate a list with all of the duplicates removed.
+生成一个移除重复项的列表。
 
 ```yaml
 list 1 1 1 2 | uniq
 ```
 
-The above would produce `[1 2]`
+上述语句会生成 `[1 2]`
 
-`uniq` panics if there is a problem while `mustUniq` returns an error to the
-template engine if there is a problem.
+`uniq` 有问题时会出错，但 `mustUniq` 有问题时会向模板引擎返回错误。
 
 ### without, mustWithout
 
-The `without` function filters items out of a list.
+`without` 函数从列表中过滤内容。
 
 ```yaml
 without $myList 3
 ```
 
-The above would produce `[1 2 4 5]`
+上述语句会生成 `[1 2 4 5]`
 
-Without can take more than one filter:
+一个过滤器可以过滤多个元素：
 
 ```yaml
 without $myList 1 3 5
 ```
 
-That would produce `[2 4]`
+这样会得到： `[2 4]`
 
-`without` panics if there is a problem while `mustWithout` returns an error to
-the template engine if there is a problem.
+`without` 有问题时会出错，但 `mustWithout` 有问题时会向模板引擎返回错误。
 
 ### has, mustHas
 
-Test to see if a list has a particular element.
+验证列表是否有特定元素。
 
 ```yaml
 has 4 $myList
 ```
 
-The above would return `true`, while `has "hello" $myList` would return false.
+上述语句会返回 `true`, 但 `has "hello" $myList` 就会返回false。
 
-`has` panics if there is a problem while `mustHas` returns an error to the
-template engine if there is a problem.
+`has` 有问题时会出错，但 `mustHas` 有问题时会向模板引擎返回错误。
 
 ### compact, mustCompact
 
-Accepts a list and removes entries with empty values.
+接收一个列表并删除空值项。
 
 ```yaml
 $list := list 1 "a" "foo" ""
 $copy := compact $list
 ```
 
-`compact` will return a new list with the empty (i.e., "") item removed.
+`compact` 会返回一个移除了空值(比如， "")的新列表。
 
-`compact` panics if there is a problem and `mustCompact` returns an error to the
-template engine if there is a problem.
+`compact` 有问题时会出错，但 `mustCompact` 有问题时会向模板引擎返回错误。
 
 ### slice, mustSlice
 
-To get partial elements of a list, use `slice list [n] [m]`. It is equivalent of
-`list[n:m]`.
+从列表中获取部分元素，使用 `slice list [n] [m]`。等同于 `list[n:m]`.
 
-* `slice $myList` returns `[1 2 3 4 5]`. It is same as `myList[:]`.
-* `slice $myList 3` returns `[4 5]`. It is same as `myList[3:]`.
-* `slice $myList 1 3` returns `[2 3]`. It is same as `myList[1:3]`.
-* `slice $myList 0 3` returns `[1 2 3]`. It is same as `myList[:3]`.
+* `slice $myList` 返回 `[1 2 3 4 5]`。 等同于 `myList[:]`。
+* `slice $myList 3` 返回 `[4 5]`等同于 `myList[3:]`。
+* `slice $myList 1 3` 返回 `[2 3]`等同于 `myList[1:3]`。
+* `slice $myList 0 3` 返回 `[1 2 3]`等同于 `myList[:3]`。
 
-`slice` panics if there is a problem while `mustSlice` returns an error to the
-template engine if there is a problem.
+`slice` 有问题时会出错，但 `mustSlice` 有问题时会向模板引擎返回错误。
 
 ### until
 
-The `until` function builds a range of integers.
+`until` 函数构建一个整数范围。
 
 ```yaml
 until 5
 ```
 
-The above generates the list `[0, 1, 2, 3, 4]`.
+上述语句会生成一个列表： `[0, 1, 2, 3, 4]`。
 
-This is useful for looping with `range $i, $e := until 5`.
+对循环语句很有用： `range $i, $e := until 5`。
 
 ### untilStep
 
-Like `until`, `untilStep` generates a list of counting integers. But it allows
-you to define a start, stop, and step:
+类似`until`， `untilStep` 生成一个可计数的整形列表。但允许你定义开始，结束和步长：
 
 ```yaml
 untilStep 3 6 2
 ```
 
-The above will produce `[3 5]` by starting with 3, and adding 2 until it is
-equal or greater than 6. This is similar to Python's `range` function.
+上述语句会生成 `[3 5]`，从3开始，每次加2，直到大于等于6。类似于Python的 `range` 函数。
 
 ### seq
 
-Works like the bash `seq` command.
+原理和bash的 `seq` 命令类似。
 
-* 1 parameter  (end) - will generate all counting integers between 1 and `end`
-  inclusive.
-* 2 parameters (start, end) - will generate all counting integers between
-  `start` and `end` inclusive incrementing or decrementing by 1.
-* 3 parameters (start, step, end) - will generate all counting integers between
-  `start` and `end` inclusive incrementing or decrementing by `step`.
+* 1 单个参数  (结束位置) - 会生成所有从1到包含 `end` 的整数。
+* 2 多个参数 (开始， 结束) - 会生成所有包含`start` 和 `end` 的整数，递增或者递减。
+* 3 多个参数 (开始， 步长， 结束) - 会生成所有包含 `start` 和 `end` 按 `step`递增或递减的整数。
 
 ```yaml
 seq 5       => 1 2 3 4 5
