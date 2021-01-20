@@ -1046,8 +1046,7 @@ now | date_modify "-1.5h"
 
 ### htmlDate
 
-The `htmlDate` function formats a date for inserting into an HTML date picker
-input field.
+`htmlDate`函数用于格式化插入到HTML日期选择器输入字段的日期。
 
 ```yaml
 now | htmlDate
@@ -1302,21 +1301,19 @@ Helm 提供了以下列表函数： [append(mustAppend)](#append-mustappend), [c
 
 ### first, mustFirst
 
-To get the head item on a list, use `first`.
+获取列表中的第一项，使用 `first`。
 
-`first $myList` returns `1`
+`first $myList` 返回 `1`
 
-`first` panics if there is a problem while `mustFirst` returns an error to the
-template engine if there is a problem.
+`first` 有问题时会出错，`mustFirst` 有问题时会向模板引擎返回错误。
 
 ### rest, mustRest
 
-To get the tail of the list (everything but the first item), use `rest`.
+获取列表的尾部内容(除了第一项外的所有内容)，使用`rest`。
 
 `rest $myList` returns `[2 3 4 5]`
 
-`rest` panics if there is a problem while `mustRest` returns an error to the
-template engine if there is a problem.
+`rest`有问题时会出错，`mustRest` 有问题时会向模板引擎返回错误。
 
 ### last, mustLast
 
