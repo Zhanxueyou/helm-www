@@ -729,12 +729,11 @@ regexFindAll "[2,4,6,8]" "123456789" -1
 
 上述结果为： `[2 4 6 8]`
 
-`regexFindAll` panics if there is a problem and `mustRegexFindAll` returns an
-error to the template engine if there is a problem.
+`regexFindAll` 有问题时会出错， `mustRegexFindAll` 有问题时会向模板引擎返回错误。
 
 ### regexFind, mustRegexFind
 
-Return the first (left most) match of the regular expression in the input string
+返回输入字符串的第一个 (最左边的) 正则匹配。
 
 ```yaml
 regexFind "[a-zA-Z][1-9]" "abcd1234"
@@ -742,15 +741,11 @@ regexFind "[a-zA-Z][1-9]" "abcd1234"
 
 上述结果为： `d1`
 
-`regexFind` panics if there is a problem and `mustRegexFind` returns an error to
-the template engine if there is a problem.
+`regexFind` 有问题时会出错， `mustRegexFind` 有问题时会向模板引擎返回错误。
 
 ### regexReplaceAll, mustRegexReplaceAll
 
-Returns a copy of the input string, replacing matches of the Regexp with the
-replacement string replacement. Inside string replacement, $ signs are
-interpreted as in Expand, so for instance $1 represents the text of the first
-submatch
+返回输入字符串的拷贝，用替换字符串替换Regexp的匹配项。在替换字符串里面， $ 标志被解释为扩展，因此对于实例来说 $1 表示第一个子匹配的文本
 
 ```yaml
 regexReplaceAll "a(x*)b" "-ab-axxb-" "${1}W"
@@ -758,14 +753,11 @@ regexReplaceAll "a(x*)b" "-ab-axxb-" "${1}W"
 
 上述结果为： `-W-xxW-`
 
-`regexReplaceAll` panics if there is a problem and `mustRegexReplaceAll` returns
-an error to the template engine if there is a problem.
+`regexReplaceAll` 有问题时会出错， `mustRegexReplaceAll` 有问题时会向模板引擎返回错误。
 
 ### regexReplaceAllLiteral, mustRegexReplaceAllLiteral
 
-Returns a copy of the input string, replacing matches of the Regexp with the
-replacement string replacement The replacement string is substituted directly,
-without using Expand
+返回输入字符串的拷贝，用替换字符串替换Regexp的匹配项。匹配字符串直接替换而不是扩展。
 
 ```yaml
 regexReplaceAllLiteral "a(x*)b" "-ab-axxb-" "${1}"
@@ -773,16 +765,11 @@ regexReplaceAllLiteral "a(x*)b" "-ab-axxb-" "${1}"
 
 上述结果为： `-${1}-${1}-`
 
-`regexReplaceAllLiteral` panics if there is a problem and
-`mustRegexReplaceAllLiteral` returns an error to the template engine if there is
-a problem.
+`regexReplaceAllLiteral` 有问题时会出错，`mustRegexReplaceAllLiteral` 有问题时会向模板引擎返回错误。
 
 ### regexSplit, mustRegexSplit
 
-Slices the input string into substrings separated by the expression and returns
-a slice of the substrings between those expression matches. The last parameter
-`n` determines the number of substrings to return, where `-1` means return all
-matches
+将输入字符串切成有表达式分隔的子字符串，并返回表达式匹配项之间的切片。最后一个参数`n`确定要返回的子字符串数量，`-1`表示返回所有匹配。
 
 ```yaml
 regexSplit "z+" "pizza" -1
@@ -790,21 +777,18 @@ regexSplit "z+" "pizza" -1
 
 上述结果为： `[pi a]`
 
-`regexSplit` panics if there is a problem and `mustRegexSplit` returns an error
-to the template engine if there is a problem.
+`regexSplit` 有问题时会出错，`mustRegexSplit` 有问题时会向模板引擎返回错误。
 
 ## Cryptographic and Security Functions
 
-Helm provides some advanced cryptographic functions. They include
-[adler32sum](#adler32sum), [buildCustomCert](#buildcustomcert),
-[decryptAES](#decryptaes), [derivePassword](#derivepassword),
-[encryptAES](#encryptaes), [genCA](#genca), [genPrivateKey](#genprivatekey),
-[genSelfSignedCert](#genselfsignedcert), [genSignedCert](#gensignedcert),
-[htpasswd](#htpasswd), [sha1sum](#sha1sum), and [sha256sum](#sha256sum）。
+Helm提供了一些高级的加密函数。包括了 [adler32sum](#adler32sum), [buildCustomCert](#buildcustomcert),
+[decryptAES](#decryptaes), [derivePassword](#derivepassword),[encryptAES](#encryptaes),
+[genCA](#genca), [genPrivateKey](#genprivatekey), [genSelfSignedCert](#genselfsignedcert),
+[genSignedCert](#gensignedcert), [htpasswd](#htpasswd), [sha1sum](#sha1sum)， 以及 [sha256sum](#sha256sum)。
 
 ### sha1sum
 
-The `sha1sum` function receives a string, and computes it's SHA1 digest.
+`sha1sum`函数接收一个字符串，并计算它的SHA1摘要。
 
 ```yaml
 sha1sum "Hello world!"
@@ -812,18 +796,17 @@ sha1sum "Hello world!"
 
 ### sha256sum
 
-The `sha256sum` function receives a string, and computes it's SHA256 digest.
+`sha256sum` 函数接收一个字符串，并计算它的SHA256摘要。
 
 ```yaml
 sha256sum "Hello world!"
 ```
 
-The above will compute the SHA 256 sum in an "ASCII armored" format that is safe
-to print.
+上述语句会以“ASCII包装”格式计算SHA 256 校验和，并安全打印出来。
 
 ### adler32sum
 
-The `adler32sum` function receives a string, and computes its Adler-32 checksum.
+`adler32sum`函数接收一个字符串，并计算它的Adler-32校验和。 
 
 ```yaml
 adler32sum "Hello world!"
@@ -831,103 +814,96 @@ adler32sum "Hello world!"
 
 ### htpasswd
 
-The `htpasswd` function takes a `username` and `password` and generates a
-`bcrypt` hash of the password. The result can be used for basic authentication
-on an [Apache HTTP
-Server](https://httpd.apache.org/docs/2.4/misc/password_encryptions.html#basic）。
+`htpasswd` 函数使用`username` 和 `password` 生成一个密码的`bcrypt`哈希值。该结果可用于[Apache HTTP 
+Server](https://httpd.apache.org/docs/2.4/misc/password_encryptions.html#basic) 的基础认证。
 
 ```yaml
 htpasswd "myUser" "myPassword"
 ```
 
-Note that it is insecure to store the password directly in the template.
+注意，将密码直接存储在模板中并不安全。
 
 ### derivePassword
 
-The `derivePassword` function can be used to derive a specific password based on
-some shared "master password" constraints. The algorithm for this is [well
-specified](https://masterpassword.app/masterpassword-algorithm.pdf）。
+`derivePassword` 函数可用于基于某些共享的“主密码”约束得到特定密码。这方面的算法有[详细说明](https://masterpassword.app/masterpassword-algorithm.pdf)。
 
 ```yaml
 derivePassword 1 "long" "password" "user" "example.com"
 ```
 
-Note that it is considered insecure to store the parts directly in the template.
+注意，将这部分直接存储在模板中并不安全。
 
 ### genPrivateKey
 
-The `genPrivateKey` function generates a new private key encoded into a PEM
-block.
+`genPrivateKey` 函数生成一个编码成PEM块的新私钥。
 
-It takes one of the values for its first param:
+第一个参数会采用以下某个值：
 
-* `ecdsa`: Generate an elliptic curve DSA key (P256)
-* `dsa`: Generate a DSA key (L2048N256)
-* `rsa`: Generate an RSA 4096 key
+* `ecdsa`: 生成椭圆曲线 DSA key (P256)
+* `dsa`: 生成 DSA key (L2048N256)
+* `rsa`: 生成 RSA 4096 key
 
 ### buildCustomCert
 
-The `buildCustomCert` function allows customizing the certificate.
+`buildCustomCert` 函数允许自定义证书。
 
-It takes the following string parameters:
+会采用以下字符串参数：
 
-* A base64 encoded PEM format certificate
-* A base64 encoded PEM format private key
+* base64 编码PEM格式证书
+* base64 编码PEM格式私钥
 
-It returns a certificate object with the following attributes:
+返回包含以下属性的整数对象：
 
-* `Cert`: A PEM-encoded certificate
-* `Key`: A PEM-encoded private key
+* `Cert`:PEM编码证书
+* `Key`: PEM编码私钥
 
-Example:
+示例：
 
 ```yaml
 $ca := buildCustomCert "base64-encoded-ca-crt" "base64-encoded-ca-key"
 ```
 
-Note that the returned object can be passed to the `genSignedCert` function to
-sign a certificate using this CA.
+注意返回的对象可以使用这个CA传递给`genSignedCert`函数进行签名。
 
 ### genCA
 
-The `genCA` function generates a new, self-signed x509 certificate authority.
+`genCA` 函数生成一个新的，自签名的x509 证书机构。
 
-It takes the following parameters:
+会采用以下参数：
 
-* Subject's common name (cn)
-* Cert validity duration in days
+* 主体通用名 (cn)
+* 证书有效期（天）
 
-It returns an object with the following attributes:
+会返回一个包含以下属性的对象：
 
-* `Cert`: A PEM-encoded certificate
-* `Key`: A PEM-encoded private key
+* `Cert`: PEM编码证书
+* `Key`: PEM编码私钥
 
-Example:
+示例：
 
 ```yaml
 $ca := genCA "foo-ca" 365
 ```
 
-Note that the returned object can be passed to the `genSignedCert` function to
-sign a certificate using this CA.
+注意返回的对象可以使用这个CA传递给`genSignedCert`函数进行签名。
 
 ### genSelfSignedCert
 
-The `genSelfSignedCert` function generates a new, self-signed x509 certificate.
+The `genSelfSignedCert` 函数生成一个新的，自签名的x509 证书。
 
-It takes the following parameters:
+会采用下列参数：
 
-* Subject's common name (cn)
-* Optional list of IPs; may be nil
-* Optional list of alternate DNS names; may be nil
-* Cert validity duration in days
+* 主体通用名 (cn)
+* 可选IP列表；可以为空
+* 可选备用DNS名称列表；可以为空
+* 证书有效期（天）
 
-It returns an object with the following attributes:
+会返回一个包含以下属性的对象：
 
-* `Cert`: A PEM-encoded certificate
-* `Key`: A PEM-encoded private key
+* `Cert`: PEM编码证书
+* `Key`: PEM编码私钥
 
-Example:
+示例：
 
 ```yaml
 $cert := genSelfSignedCert "foo.com" (list "10.0.0.1" "10.0.0.2") (list "bar.com" "bat.com") 365
@@ -935,18 +911,17 @@ $cert := genSelfSignedCert "foo.com" (list "10.0.0.1" "10.0.0.2") (list "bar.com
 
 ### genSignedCert
 
-The `genSignedCert` function generates a new, x509 certificate signed by the
-specified CA.
+`genSignedCert` 通过指定的CA签名生成一个新的， x509证书
 
-It takes the following parameters:
+会采用以下参数：
 
-* Subject's common name (cn)
-* Optional list of IPs; may be nil
-* Optional list of alternate DNS names; may be nil
-* Cert validity duration in days
-* CA (see `genCA`)
+* 主体通用名 (cn)
+* 可选IP列表；可以为空
+* 可选备用DNS名称列表；可以为空
+* 证书有效期（天）
+* CA (查看 `genCA`)
 
-Example:
+示例：
 
 ```yaml
 $ca := genCA "foo-ca" 365
