@@ -709,7 +709,7 @@ Helm 包含以下正则表达式函数 [regexFind(mustRegexFind)](#regexfindall-
 
 ### regexMatch, mustRegexMatch
 
-Returns true if the input string contains any match of the regular expression.
+如果输入字符串包含可匹配正则表达式任意字符串，则返回true。
 
 ```yaml
 regexMatch "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$" "test@acme.com"
@@ -717,14 +717,11 @@ regexMatch "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$" "test@acme.com"
 
 上述结果为： `true`
 
-`regexMatch` panics if there is a problem and `mustRegexMatch` returns an error
-to the template engine if there is a problem.
+`regexMatch`有问题时会出错， `mustRegexMatch`有问题时会向模板引擎返回错误。
 
 ### regexFindAll, mustRegexFindAll
 
-Returns a slice of all matches of the regular expression in the input string.
-The last parameter n determines the number of substrings to return, where -1
-means return all matches
+返回输入字符串匹配正则表达式的所有切片。最后一个参数表示要返回的子字符串的数量，-1表示返回所有。
 
 ```yaml
 regexFindAll "[2,4,6,8]" "123456789" -1
