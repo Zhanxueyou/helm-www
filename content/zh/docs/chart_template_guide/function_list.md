@@ -930,8 +930,7 @@ $cert := genSignedCert "foo.com" (list "10.0.0.1" "10.0.0.2") (list "bar.com" "b
 
 ### encryptAES
 
-The `encryptAES` function encrypts text with AES-256 CBC and returns a base64
-encoded string.
+`encryptAES` 函数使用AES-256 CBC 加密文本并返回一个base64编码字符串。
 
 ```yaml
 encryptAES "secretkey" "plaintext"
@@ -939,35 +938,33 @@ encryptAES "secretkey" "plaintext"
 
 ### decryptAES
 
-The `decryptAES` function receives a base64 string encoded by the AES-256 CBC
-algorithm and returns the decoded text.
+`decryptAES`函数接收一个AES-256 CBC编码的字符串并返回解密文本。
 
 ```yaml
 "30tEfhuJSVRhpG97XCuWgz2okj7L8vQ1s6V9zVUPeDQ=" | decryptAES "secretkey"
 ```
 
-## Date Functions
+## 日期 Functions
 
-Helm includes the following date functions you can use in templates:
-[ago](#ago), [date](#date), [dateInZone](#dateinzone), [dateModify
-(mustDateModify)](#datemodify-mustdatemodify), [duration](#duration),
+Helm 包含以下可以在模板中使用的函数：[ago](#ago), [date](#date), [dateInZone](#dateinzone),
+[dateModify(mustDateModify)](#datemodify-mustdatemodify), [duration](#duration),
 [durationRound](#durationround), [htmlDate](#htmldate),
-[htmlDateInZone](#htmldateinzone), [now](#now), [toDate
-(mustToDate)](#todate-musttodate), and [unixEpoch](#unixepoch）。
+[htmlDateInZone](#htmldateinzone), [now](#now),
+[toDate(mustToDate)](#todate-musttodate), and [unixEpoch](#unixepoch)。
 
 ### now
 
-The current date/time. Use this in conjunction with other date functions.
+当前日期/时间。和其他日期函数一起使用。
 
 ### ago
 
-The `ago` function returns duration from time.Now in seconds resolution.
+`ago` 函数返回距time.Now的以秒为单位的间隔时间。
 
 ```yaml
 ago .CreatedAt"
 ```
 
-returns in `time.Duration` String() format
+返回`time.Duration`的字符串格式
 
 ```yaml
 2h34m7s
@@ -975,29 +972,27 @@ returns in `time.Duration` String() format
 
 ### date
 
-The `date` function formats a date.
+`date`函数格式化日期
 
-Format the date to YEAR-MONTH-DAY:
+日期格式化为YEAR-MONTH-DAY：
 
 ```yaml
 now | date "2006-01-02"
 ```
 
-Date formatting in Go is a [little bit
-different](https://pauladamsmith.com/blog/2011/05/go_time.html）。
+日期格式化在Go中有[一些不同](https://pauladamsmith.com/blog/2011/05/go_time.html)。
 
-In short, take this as the base date:
+简言之，以此为基准日期：
 
 ```yaml
 Mon Jan 2 15:04:05 MST 2006
 ```
 
-Write it in the format you want. Above, `2006-01-02` is the same date, but in
-the format we want.
+将其写成你想要的格式，上面的例子中，`2006-01-02` 是同一个日期，却是我们需要的格式。
 
 ### dateInZone
 
-Same as `date`, but with a timezone.
+和 `date` 一样，但是和时区一起。
 
 ```yaml
 dateInZone "2006-01-02" (now) "UTC"
@@ -1005,9 +1000,9 @@ dateInZone "2006-01-02" (now) "UTC"
 
 ### duration
 
-Formats a given amount of seconds as a `time.Duration`.
+将给定的秒数格式化为`time.Duration`。
 
-This returns 1m35s
+这会返回 1m35s。
 
 ```yaml
 duration 95
@@ -1015,17 +1010,15 @@ duration 95
 
 ### durationRound
 
-Rounds a given duration to the most significant unit. Strings and
-`time.Duration` gets parsed as a duration, while a `time.Time` is calculated as
-the duration since.
+将给定时间舍入到最重要的单位。当`time.Time`计算为一个自某个时刻以来的时间，字符串和`time.Duration`被解析为一个时间段。
 
-This return 2h
+这会返回2h
 
 ```yaml
 durationRound "2h10m5s"
 ```
 
-This returns 3mo
+这会返回3mo
 
 ```yaml
 durationRound "2400h10m5s"
@@ -1033,7 +1026,7 @@ durationRound "2400h10m5s"
 
 ### unixEpoch
 
-Returns the seconds since the unix epoch for a `time.Time`.
+返回`time.Time`的unix时间戳。
 
 ```yaml
 now | unixEpoch
@@ -1041,16 +1034,15 @@ now | unixEpoch
 
 ### dateModify, mustDateModify
 
-The `dateModify` takes a modification and a date and returns the timestamp.
+`dateModify` 给定一个修改日期并返回时间戳。
 
-Subtract an hour and thirty minutes from the current time:
+从当前时间减去一个小时三十分钟：
 
 ```yaml
 now | date_modify "-1.5h"
 ```
 
-If the modification format is wrong `dateModify` will return the date
-unmodified. `mustDateModify` will return an error otherwise.
+如果修改格式错误， `dateModify`会返回日期未定义。而`mustDateModify`会返回错误。
 
 ### htmlDate
 
@@ -1063,7 +1055,7 @@ now | htmlDate
 
 ### htmlDateInZone
 
-Same as htmlDate, but with a timezone.
+和htmlDate一样，但多了个时区。
 
 ```yaml
 htmlDateInZone (now) "UTC"
@@ -1071,12 +1063,10 @@ htmlDateInZone (now) "UTC"
 
 ### toDate, mustToDate
 
-`toDate` converts a string to a date. The first argument is the date layout and
-the second the date string. If the string can't be convert it returns the zero
-value. `mustToDate` will return an error in case the string cannot be converted.
+`toDate` 将字符串转换成日期。第一个参数是日期格式，第二个参数是日期字符串。
+如果字符串无法转换就会返回0值。`mustToDate`以防无法转换会返回错误。
 
-This is useful when you want to convert a string date to another format (using
-pipe）。 The example below converts "2017-12-31" to "31/12/2017".
+这在你将日期字符串转换成其他格式时很有用（使用pipe）。下面的例子会将"2017-12-31" 转换成 "31/12/2017"。
 
 ```yaml
 toDate "2006-01-02" "2017-12-31" | date "02/01/2006"
@@ -1084,28 +1074,22 @@ toDate "2006-01-02" "2017-12-31" | date "02/01/2006"
 
 ## Dictionaries and Dict Functions
 
-Helm provides a key/value storage type called a `dict` (short for "dictionary",
-as in Python）。 A `dict` is an _unorder_ type.
+Helm 提供了一个key/value存储类型称为`dict`（"dictionary"的简称，Python中也有）。`dict`是无序类型。
 
-The key to a dictionary **must be a string**. However, the value can be any
-type, even another `dict` or `list`.
+字典的key **必须是字符串**。但值可以是任意类型，甚至是另一个`dict` 或 `list`。
 
-Unlike `list`s, `dict`s are not immutable. The `set` and `unset` functions will
-modify the contents of a dictionary.
+不像`list`， `dict`不是不可变的。`set`和`unset`函数会修改字典的内容。
 
-Helm provides the following functions to support working with dicts: [deepCopy
-(mustDeepCopy)](#deepcopy-mustdeepcopy), [dict](#dict), [get](#get),
-[hasKey](#haskey), [keys](#keys), [merge (mustMerge)](#merge-mustmerge),
+Helm 提供了以下函数支持使用字典：[deepCopy(mustDeepCopy)](#deepcopy-mustdeepcopy),
+[dict](#dict), [get](#get),[hasKey](#haskey), [keys](#keys), [merge (mustMerge)](#merge-mustmerge),
 [mergeOverwrite (mustMergeOverwrite)](#mergeoverwrite-mustmergeoverwrite),
-[omit](#omit), [pick](#pick), [pluck](#pluck), [set](#set), [unset](#unset), and
-[values](#values）。
+[omit](#omit), [pick](#pick), [pluck](#pluck), [set](#set), [unset](#unset),和[values](#values)。
 
 ### dict
 
-Creating dictionaries is done by calling the `dict` function and passing it a
-list of pairs.
+通过调用`dict`函数并传递一个键值对列表创建字典。
 
-The following creates a dictionary with three items:
+下面是创建三个键值对的字典：
 
 ```yaml
 $myDict := dict "name1" "value1" "name2" "value2" "name3" "value 3"
@@ -1113,7 +1097,7 @@ $myDict := dict "name1" "value1" "name2" "value2" "name3" "value 3"
 
 ### get
 
-Given a map and a key, get the value from the map.
+给定一个映射和一个键，从映射中获取值。
 
 ```yaml
 get $myDict "key1"
@@ -1121,92 +1105,78 @@ get $myDict "key1"
 
 上述结果为： `"value1"`
 
-Note that if the key is not found, this operation will simply return `""`. No
-error will be generated.
+注意如果没有找到，会简单返回`""`。不会生成error。
 
 ### set
 
-Use `set` to add a new key/value pair to a dictionary.
+使用`set`给字典添加一个键值对。
 
 ```yaml
 $_ := set $myDict "name4" "value4"
 ```
 
-Note that `set` _returns the dictionary_ (a requirement of Go template
-functions), so you may need to trap the value as done above with the `$_`
-assignment.
+注意`set` _返回字典_ (Go模板函数的一个要求)，因此你可能需要像上面那样使用使用`$_`赋值来获取值。
 
 ### unset
 
-Given a map and a key, delete the key from the map.
+给定一个映射和key，从映射中删除这个key。
 
 ```yaml
 $_ := unset $myDict "name4"
 ```
 
-As with `set`, this returns the dictionary.
+和`set`一样，需要返回字典。
 
-Note that if the key is not found, this operation will simply return. No error
-will be generated.
+注意，如果key没有找到，这个操作会简单返回，不会生成错误。
 
 ### hasKey
 
-The `hasKey` function returns `true` if the given dict contains the given key.
+`hasKey`函数会在给定字典中包含了给定key时返回`true`。
 
 ```yaml
 hasKey $myDict "name1"
 ```
 
-If the key is not found, this returns `false`.
+如果key没找到，会返回`false`。
 
 ### pluck
 
-The `pluck` function makes it possible to give one key and multiple maps, and
-get a list of all of the matches:
+`pluck` 函数给定一个键和多个映射，并获得所有匹配项的列表：
 
 ```yaml
 pluck "name1" $myDict $myOtherDict
 ```
 
-The above will return a `list` containing every found value (`[value1
-otherValue1]`）。
+上述会返回的`list`包含了每个找到的值(`[value1 otherValue1]`)。
 
-If the give key is _not found_ in a map, that map will not have an item in the
-list (and the length of the returned list will be less than the number of dicts
-in the call to `pluck`.
+如果可以在映射中 _没有找到_ ，列表中的映射就不会有内容，返回列表的长度也会小于调用`pluck`的字典。
 
-If the key is _found_ but the value is an empty value, that value will be
-inserted.
+如果key是 _存在的_， 但是值是空值，会插入一个值。
 
-A common idiom in Helm templates is to uses `pluck... | first` to get the first
-matching key out of a collection of dictionaries.
+Helm模板中的一个常见用法是`pluck... | first` 从字典集合中获取第一个匹配的键。
 
 ### merge, mustMerge
 
-Merge two or more dictionaries into one, giving precedence to the dest
-dictionary:
+将两个或多个字典合并为一个， 目标字典优先：
 
 ```yaml
 $newdict := merge $dest $source1 $source2
 ```
 
-This is a deep merge operation but not a deep copy operation. Nested objects
-that are merged are the same instance on both dicts. If you want a deep copy
-along with the merge than use the `deepCopy` function along with merging. For
-example,
+这是个深度合并操作，但不是深度拷贝操作。合并的嵌套对象是两个字典上的同一实例。如果想深度合并的同时进行深度拷贝，
+合并的时候同时使用`deepCopy`函数，比如：
 
 ```yaml
 deepCopy $source | merge $dest
 ```
 
-`mustMerge` will return an error in case of unsuccessful merge.
+`mustMerge` 会返回错误，以防出现不成功的合并。
 
 ### mergeOverwrite, mustMergeOverwrite
 
-Merge two or more dictionaries into one, giving precedence from **right to
-left**, effectively overwriting values in the dest dictionary:
+合并两个或多个字典，优先按照 **从右到左**，在目标字典中有效地覆盖值：
 
-Given:
+给定的：
 
 ```yaml
 dst:
@@ -1219,7 +1189,7 @@ src:
   key: false
 ```
 
-will result in:
+会生成：
 
 ```yaml
 newdict:
@@ -1232,29 +1202,25 @@ newdict:
 $newdict := mergeOverwrite $dest $source1 $source2
 ```
 
-This is a deep merge operation but not a deep copy operation. Nested objects
-that are merged are the same instance on both dicts. If you want a deep copy
-along with the merge than use the `deepCopy` function along with merging. For
-example,
+这是一个深度合并操作但不是深度拷贝操作。两个字典上嵌入的对象被合并到了同一个实例中。如果你想在合并的同时进行深度拷贝，
+使用`deepCopy`函数，比如：
 
 ```yaml
 deepCopy $source | mergeOverwrite $dest
 ```
 
-`mustMergeOverwrite` will return an error in case of unsuccessful merge.
+`mustMergeOverwrite` 会返回错误，以防出现不成功的合并。
 
 ### keys
 
-The `keys` function will return a `list` of all of the keys in one or more
-`dict` types. Since a dictionary is _unordered_, the keys will not be in a
-predictable order. They can be sorted with `sortAlpha`.
+`keys`函数会返回一个或多个`dict`类型中所有的key的`list`。由于字典是 _无序的_，key不会有可预料的顺序。
+可以使用`sortAlpha`存储。
 
 ```yaml
 keys $myDict | sortAlpha
 ```
 
-When supplying multiple dictionaries, the keys will be concatenated. Use the
-`uniq` function along with `sortAlpha` to get a unqiue, sorted list of keys.
+当提供了多个词典时，key会被串联起来。使用`uniq`函数和`sortAlpha`获取一个唯一有序的键列表。
 
 ```yaml
 keys $myDict $myOtherDict | uniq | sortAlpha
@@ -1262,8 +1228,7 @@ keys $myDict $myOtherDict | uniq | sortAlpha
 
 ### pick
 
-The `pick` function selects just the given keys out of a dictionary, creating a
-new `dict`.
+`pick`函数只从字典中选择给定的键，并创建一个新的`dict`。
 
 ```yaml
 $new := pick $myDict "name1" "name2"
@@ -1273,8 +1238,7 @@ $new := pick $myDict "name1" "name2"
 
 ### omit
 
-The `omit` function is similar to `pick`, except it returns a new `dict` with
-all the keys that _do not_ match the given keys.
+`omit`函数类似于`pick`，除它之外返回一个新的`dict`，所有的key _不_ 匹配给定的key。
 
 ```yaml
 $new := omit $myDict "name1" "name3"
@@ -1284,65 +1248,57 @@ $new := omit $myDict "name1" "name3"
 
 ### values
 
-The `values` function is similar to `keys`, except it returns a new `list` with
-all the values of the source `dict` (only one dictionary is supported）。
+`values`函数类似于`keys`，返回一个新的`list`包含源字典中所有的value(只支持一个字典)。
 
 ```yaml
 $vals := values $myDict
 ```
 
-上述结果为： `list["value1", "value2", "value 3"]`. Note that the `values`
-function gives no guarantees about the result ordering- if you care about this,
-then use `sortAlpha`.
+上述结果为： `list["value1", "value2", "value 3"]`。注意 `values`不能保证结果的顺序-如果你需要顺序，
+请使用`sortAlpha`。
 
 ### deepCopy, mustDeepCopy
 
-The `deepCopy` and `mustDeepCopy` functions takes a value and makes a deep copy
-of the value. This includes dicts and other structures. `deepCopy` panics when
-there is a problem while `mustDeepCopy` returns an error to the template system
-when there is an error.
+`deepCopy` 和 `mustDeepCopy` 函数给定一个值并深度拷贝这个值。包括字典和其他结构体。 `deepCopy`有问题时会出错，
+而`mustDeepCopy`会返回一个错误给模板系统。
 
 ```yaml
 dict "a" 1 "b" 2 | deepCopy
 ```
 
-### A Note on Dict Internals
+### 字典的内部说明
 
-A `dict` is implemented in Go as a `map[string]interface{}`. Go developers can
-pass `map[string]interface{}` values into the context to make them available to
-templates as `dict`s.
+`dict` 在Go里是作为`map[string]interface{}`执行的。Go开发者可以传`map[string]interface{}`值给上下文，
+将其作为 `dict` 提供给模板。
 
-## Encoding Functions
+## 编码函数
 
-Helm has the following encoding and decoding functions:
+Helm有以下编码和解码函数：
 
-* `b64enc`/`b64dec`: Encode or decode with Base64
-* `b32enc`/`b32dec`: Encode or decode with Base32
+* `b64enc`/`b64dec`: 编码或解码 Base64
+* `b32enc`/`b32dec`: 编码或解码 Base32
 
-## Lists and List Functions
+## 列表和列表函数
 
-Helm provides a simple `list` type that can contain arbitrary sequential lists
-of data. This is similar to arrays or slices, but lists are designed to be used
-as immutable data types.
+Helm 提供了一个简单的`list`类型，包含任意顺序的列表。类似于数组或切片，但列表是被设计用于不可变数据类型。
 
-Create a list of integers:
+创建一个整形列表：
 
 ```yaml
 $myList := list 1 2 3 4 5
 ```
 
-The above creates a list of `[1 2 3 4 5]`.
+上述会生成一个列表 `[1 2 3 4 5]`。
 
-Helm provides the following list functions: [append
-(mustAppend)](#append-mustappend), [compact
-(mustCompact)](#compact-mustcompact), [concat](#concat), [first
-(mustFirst)](#first-mustfirst), [has (mustHas)](#has-musthas), [initial
+Helm 提供了以下列表函数： [append(mustAppend)](#append-mustappend), [compact
+(mustCompact)](#compact-mustcompact), [concat](#concat),
+[first(mustFirst)](#first-mustfirst), [has (mustHas)](#has-musthas), [initial
 (mustInitial)](#initial-mustinitial), [last (mustLast)](#last-mustlast),
 [prepend (mustPrepend)](#prepend-mustprepend), [rest
 (mustRest)](#rest-mustrest), [reverse (mustReverse)](#reverse-mustreverse),
 [seq](#seq), [slice (mustSlice)](#slice-mustslice), [uniq
-(mustUniq)](#uniq-mustuniq), [until](#until), [untilStep](#untilstep), and
-[without (mustWithout)](#without-mustwithout）。
+(mustUniq)](#uniq-mustuniq), [until](#until), [untilStep](#untilstep), 和
+[without (mustWithout)](#without-mustwithout)。
 
 ### first, mustFirst
 
