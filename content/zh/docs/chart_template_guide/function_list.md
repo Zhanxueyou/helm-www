@@ -1538,76 +1538,72 @@ max 1 2 3
 
 ### floor
 
-Returns the greatest float value less than or equal to input value
+返回小于等于输入值的最大浮点整数。
 
 `floor 123.9999` will return `123.0`
 
 ### ceil
 
-Returns the greatest float value greater than or equal to input value
+返回大于等于输入值的最小浮点整数。
 
 `ceil 123.001` will return `124.0`
 
 ### round
 
-Returns a float value with the remainder rounded to the given number to digits
-after the decimal point.
+返回一个四舍五入到给定小数位的数。
 
 `round 123.555555 3` will return `123.556`
 
 ### len
 
-Returns the length of the argument as an integer.
+以整数返回参数的长度。
 
 ```yaml
 len .Arg
 ```
 
-## Network Functions
+## 网络函数
 
-Helm has a single network function, `getHostByName`.
+Helm提供了一个网络函数： `getHostByName`.
 
-The `getHostByName` receives a domain name and returns the ip address.
+`getHostByName`接收一个域名返回IP地址。
 
 ```yaml
 getHostByName "www.google.com" would return the corresponding ip address of www.google.com
 ```
 
-## File Path Functions
+## 文件路径函数
 
-While Helm template functions do not grant access to the filesystem, they do
-provide functions for working with strings that follow file path conventions.
-Those include [base](#base), [clean](#clean), [dir](#dir), [ext](#ext), and
-[isAbs](#isabs）。
+Helm模板函数没有访问文件系统的权限，提供了遵循文件路径规范的函数。包括[base](#base), [clean](#clean),
+[dir](#dir), [ext](#ext), 和 [isAbs](#isabs) 。
 
 ### base
 
-Return the last element of a path.
+返回最后一个元素路径。
 
 ```yaml
 base "foo/bar/baz"
 ```
 
-The above prints "baz"
+返回 "baz"
 
 ### dir
 
-Return the directory, stripping the last part of the path. So `dir
-"foo/bar/baz"` returns `foo/bar`
+返回目录， 去掉路径的最后一部分。因此 `dir "foo/bar/baz"` 返回 `foo/bar`
 
 ### clean
 
-Clean up a path.
+清除路径
 
 ```yaml
 clean "foo/bar/../baz"
 ```
 
-The above resolves the `..` and returns `foo/baz`
+上述语句会清理 `..` 并返回`foo/baz`。
 
 ### ext
 
-Return the file extension.
+返回文件扩展。
 
 ```yaml
 ext "foo.bar"
@@ -1617,237 +1613,195 @@ ext "foo.bar"
 
 ### isAbs
 
-To check whether a file path is absolute, use `isAbs`.
+检查文件路径是否为绝对路径，使用 `isAbs`。
 
-## Reflection Functions
+## 反射函数
 
-Helm provides rudimentary reflection tools. These help advanced template
-developers understand the underlying Go type information for a particular value.
-Helm is written in Go and is strongly typed. The type system applies within
-templates.
+Helm 提供了基本的反射工具。这有助于高级模板开发者理解特定值的基本Go类型信息。Helm是由Go编写的且是强类型的。
+类型系统应用于模板中。
 
-Go has several primitive _kinds_, like `string`, `slice`, `int64`, and `bool`.
+Go 有一些原始 _类型_，比如 `string`, `slice`, `int64`, 和 `bool`。
 
-Go has an open _type_ system that allows developers to create their own types.
+Go 有一个开放的 _类型_ 系统，允许开发者创建自己的类型。
 
-Helm provides a set of functions for each via [kind functions](#kind-functions)
-and [type functions](#type-functions）。 A [deepEqual](#deepequal) function is
-also provided to compare to values.
+Helm 通过[kind functions](#kind-functions) 和 [type
+functions](#type-functions) 提供了一组函数。[deepEqual](#deepequal) 也可以用来比较值。
 
-### Kind Functions
+### 类型 Functions
 
-There are two Kind functions: `kindOf` returns the kind of an object.
+有两个类型函数： `kindOf` 返回对象类型。
 
 ```yaml
 kindOf "hello"
 ```
 
-The above would return `string`. For simple tests (like in `if` blocks), the
-`isKind` function will let you verify that a value is a particular kind:
+上述语句返回 `string`。对于简单测试(比如在`if`块中)，`isKind`函数可以验证值是否为特定类型：
 
 ```yaml
 kindIs "int" 123
 ```
 
-The above will return `true`
+上述返回 `true`
 
-### Type Functions
+### Type 函数
 
-Types are slightly harder to work with, so there are three different functions:
+类型处理起来稍微有点复杂，所以有三个不同的函数：
 
-* `typeOf` returns the underlying type of a value: `typeOf $foo`
-* `typeIs` is like `kindIs`, but for types: `typeIs "*io.Buffer" $myVal`
-* `typeIsLike` works as `typeIs`, except that it also dereferences pointers.
+* `typeOf` 返回值的基础类型： `typeOf $foo`
+* `typeIs` 类似 `kindIs`， 但针对type： `typeIs "*io.Buffer" $myVal`
+* `typeIsLike` 类似 `typeIs`，除非取消指针引用。
 
-**Note:** None of these can test whether or not something implements a given
-interface, since doing so would require compiling the interface in ahead of
-time.
+**注意：** 这些都不能测试是否实现了给定的接口，因为在这之前需要提前编译接口。
 
 ### deepEqual
 
-`deepEqual` returns true if two values are ["deeply
-equal"](https://golang.org/pkg/reflect/#DeepEqual)
+ 如果两个值相比是["deeply equal"](https://golang.org/pkg/reflect/#DeepEqual)，`deepEqual`返回true。
 
-Works for non-primitive types as well (compared to the built-in `eq`）。
+也适用于非基本类型 (相较于内置的 `eq`）。
 
 ```yaml
 deepEqual (list 1 2 3) (list 1 2 3)
 ```
 
-The above will return `true`
+上述会返回 `true`。
 
-## Semantic Version Functions
+## 语义版本函数
 
-Some version schemes are easily parseable and comparable. Helm provides
-functions for working with [SemVer 2](http://semver.org) versions. These include
-[semver](#semver) and [semverCompare](#semvercompare）。 Below you will also find
-details on using ranges for comparisons.
+有些版本结构易于分析和比较。Helm提供了适用于[SemVer 2](http://semver.org) 版本的函数。包括[semver](#semver)和
+[semverCompare](#semvercompare)。下面你也能看到使用范围和比较的细节。
 
 ### semver
 
-The `semver` function parses a string into a Semantic Version:
+`semver`函数将字符串解析为语义版本：
 
 ```yaml
 $version := semver "1.2.3-alpha.1+123"
 ```
 
-_If the parser fails, it will cause template execution to halt with an error._
+_如果解析失败，会由一个错误引起模板执行中断。_
 
-At this point, `$version` is a pointer to a `Version` object with the following
-properties:
+ `$version`是一个指向`Version`对象的指针，包含了一下属性：
 
-* `$version.Major`: The major number (`1` above)
-* `$version.Minor`: The minor number (`2` above)
-* `$version.Patch`: The patch number (`3` above)
-* `$version.Prerelease`: The prerelease (`alpha.1` above)
-* `$version.Metadata`: The build metadata (`123` above)
-* `$version.Original`: The original version as a string
+* `$version.Major`: 主版本号 (上面的`1`)
+* `$version.Minor`: 次版本号 (上面的`2`)
+* `$version.Patch`: 补丁版本号 (上面的`3`)
+* `$version.Prerelease`: 预发布版本号 (上面的`alpha.1`)
+* `$version.Metadata`: 构建元数据 (上面的`123`)
+* `$version.Original`: 原始版本字符串
 
-Additionally, you can compare a `Version` to another `version` using the
-`Compare` function:
+另外，你可以使用`Compare`函数比较一个`Version`和另一个`version`：
 
 ```yaml
-semver "1.4.3" | (semver "1.2.3"）。Compare
+semver "1.4.3" | (semver "1.2.3").Compare
 ```
 
-The above will return `-1`.
+上面会返回 `-1`。
 
-The return values are:
+返回值可以是：
 
-* `-1` if the given semver is greater than the semver whose `Compare` method was
- called
-* `1` if the version who's `Compare` function was called is greater.
-* `0` if they are the same version
+* `-1` 如果给定的版本大于`Compare`方法调用的版本
+* `1` 如果`Compare`调用的版本更大
+* `0` 如果版本相同
 
-(Note that in SemVer, the `Metadata` field is not compared during version
-comparison operations.)
+(注意在语义版本中，`Metadata` 字段在版本比较时不比较)
 
 ### semverCompare
 
-A more robust comparison function is provided as `semverCompare`. This version
-supports version ranges:
+一个更健壮的比较函数是`semverCompare`。 这个版本支持版本范围：
 
-* `semverCompare "1.2.3" "1.2.3"` checks for an exact match
-* `semverCompare "~1.2.0" "1.2.3"` checks that the major and minor versions
-  match, and that the patch number of the second version is _greater than or
-  equal to_ the first parameter.
+* `semverCompare "1.2.3" "1.2.3"` 检查精确匹配
+* `semverCompare "~1.2.0" "1.2.3"` 检查主要版本和次要版本，且补丁版本第二个版本是 _大于等于_ 第一个。
 
-The SemVer functions use the [Masterminds semver
-library](https://github.com/Masterminds/semver), from the creators of Sprig.
+SemVer函数使用[semver规划库](https://github.com/Masterminds/semver)，由Sprig作者创建。
 
-### Basic Comparisons
+### 基本比较
 
-There are two elements to the comparisons. First, a comparison string is a list
-of space or comma separated AND comparisons. These are then separated by || (OR)
-comparisons. For example, `">= 1.2 < 3.0.0 || >= 4.2.3"` is looking for a
-comparison that's greater than or equal to 1.2 and less than 3.0.0 or is greater
-than or equal to 4.2.3.
+两个元素的比较。首先，比较字符串是以空格或逗号分隔的。然后以|| (OR)分隔。比如：`">= 1.2 < 3.0.0 || >= 4.2.3"`
+是要比较大于等于1.2且小于等于3.0.0 或者大于等于4.2.3的。
 
-The basic comparisons are:
+基本比较符有：
 
-* `=`: equal (aliased to no operator)
-* `!=`: not equal
-* `>`: greater than
-* `<`: less than
-* `>=`: greater than or equal to
-* `<=`: less than or equal to
+* `=`: 相等
+* `!=`: 不相等
+* `>`: 大于
+* `<`: 小于
+* `>=`: 大于等于
+* `<=`: 小于等于
 
-_Note, according to the Semantic Version specification pre-releases may not be
-API compliant with their release counterpart. It says,_
+_注意，根据语义版本指定的预发布版本可能不与对应的发行版本兼容。_
 
-### Working With Prerelease Versions
+### 使用预发布版本
 
-Pre-releases, for those not familiar with them, are used for software releases
-prior to stable or generally available releases. Examples of prereleases include
-development, alpha, beta, and release candidate releases. A prerelease may be a
-version such as `1.2.3-beta.1` while the stable release would be `1.2.3`. In the
-order of precedence, prereleases come before their associated releases. In this
-example `1.2.3-beta.1 < 1.2.3`.
+预发布版本，对于那些不熟悉它们的人，是用于稳定版本或一般可用版本之前的软件版本。预发布版本的例子包括开发版、
+alpha版、beta版，和rc版本。稳定版`1.2.3`的预发布版本可能是`1.2.3-beta.1`。按照优先顺序，预发布版本在相关版本之前发布。
+比如：`1.2.3-beta.1 < 1.2.3` 。
 
-According to the Semantic Version specification prereleases may not be API
-compliant with their release counterpart. It says,
+根据语义版本指定的预发布版本可能不与对应的发行版本兼容。
 
-> A pre-release version indicates that the version is unstable and might not
-> satisfy the intended compatibility requirements as denoted by its associated
-> normal version.
+> 预发布版本表示版本不稳定且可能不满足其相关正常版本所表示的预期兼容性要求。
 
-SemVer comparisons using constraints without a prerelease comparator will skip
-prerelease versions. For example, `>=1.2.3` will skip prereleases when looking
-at a list of releases while `>=1.2.3-0` will evaluate and find prereleases.
+使用不带预发布版本比较器约束的语义版本的比较会跳过预发布版本。比如 `>=1.2.3` 会跳过预发布而`>=1.2.3-0`会计算并查找预发布版本。
 
-The reason for the `0` as a pre-release version in the example comparison is
-because pre-releases can only contain ASCII alphanumerics and hyphens (along
-with `.` separators), per the spec. Sorting happens in ASCII sort order, again
-per the spec. The lowest character is a `0` in ASCII sort order (see an [ASCII
-Table](http://www.asciitable.com/))
+按照规范，上例中的`0`作为预发布的版本是因为预发布版本只能包含ASCII字母数字和连字符（以及`.`分隔符），
+with `.` separators)，另外排序按照ASCII排序顺序。在ASCII排序中，最小的字符是`0`(查看[ASCII表](http://www.asciitable.com/))。
 
-Understanding ASCII sort ordering is important because A-Z comes before a-z.
-That means `>=1.2.3-BETA` will return `1.2.3-alpha`. What you might expect from
-case sensitivity doesn't apply here. This is due to ASCII sort ordering which is
-what the spec specifies.
+理解ASCII排序顺序很重要因为A-Z是在a-z之前，这意味着`>=1.2.3-BETA` 会返回 `1.2.3-alpha`。这里并不适合大小写敏感，
+因为是按照ASCII排序规范指定顺序。
 
-### Hyphen Range Comparisons
+### 连字符范围比较
 
-There are multiple methods to handle ranges and the first is hyphens ranges.
-These look like:
+有多个方法处理范围，首先是连字符范围。像这样：
 
-* `1.2 - 1.4.5` which is equivalent to `>= 1.2 <= 1.4.5`
-* `2.3.4 - 4.5` which is equivalent to `>= 2.3.4 <= 4.5`
+* `1.2 - 1.4.5` 等同于 `>= 1.2 <= 1.4.5`
+* `2.3.4 - 4.5` 等同于 `>= 2.3.4 <= 4.5`
 
-### Wildcards In Comparisons
+### 比较中通配符
 
-The `x`, `X`, and `*` characters can be used as a wildcard character. This works
-for all comparison operators. When used on the `=` operator it falls back to the
-patch level comparison (see tilde below）。 For example,
+`x`, `X`, 和 `*` 可用于通配符。适用于所有比较运算符。当使用`=`运算符时，会返回补丁级别的比较。比如：
 
-* `1.2.x` is equivalent to `>= 1.2.0, < 1.3.0`
-* `>= 1.2.x` is equivalent to `>= 1.2.0`
-* `<= 2.x` is equivalent to `< 3`
-* `*` is equivalent to `>= 0.0.0`
+* `1.2.x` 相当于 `>= 1.2.0, < 1.3.0`
+* `>= 1.2.x` 相当于 `>= 1.2.0`
+* `<= 2.x` 相当于 `< 3`
+* `*` 相当于 `>= 0.0.0`
 
-### Tilde Range Comparisons (Patch)
+### 波浪符号范围比较 (补丁版本)
 
-The tilde (`~`) comparison operator is for patch level ranges when a minor
-version is specified and major level changes when the minor number is missing.
-For example,
+波浪 (`~`) 比较运算符是补丁级别范围的比较，在指定次要版本和主要版本变化且没有次要版本时使，比如：
 
-* `~1.2.3` is equivalent to `>= 1.2.3, < 1.3.0`
-* `~1` is equivalent to `>= 1, < 2`
-* `~2.3` is equivalent to `>= 2.3, < 2.4`
-* `~1.2.x` is equivalent to `>= 1.2.0, < 1.3.0`
-* `~1.x` is equivalent to `>= 1, < 2`
+* `~1.2.3` 相当于 `>= 1.2.3, < 1.3.0`
+* `~1` 相当于 `>= 1, < 2`
+* `~2.3` 相当于 `>= 2.3, < 2.4`
+* `~1.2.x` 相当于 `>= 1.2.0, < 1.3.0`
+* `~1.x` 相当于 `>= 1, < 2`
 
-### Caret Range Comparisons (Major)
+### 插入符号比较 (主要版本)
 
-The caret (`^`) comparison operator is for major level changes once a stable
-(1.0.0) release has occurred. Prior to a 1.0.0 release the minor versions acts
-as the API stability level. This is useful when comparisons of API versions as a
-major change is API breaking. For example,
+插入符(`^`)比较运算是主版本级别改变时使用。在1.0.0 发布之前，次要版本充当API稳定级别版本。
+当比较主要的API版本更改时，这很有用，比如：
 
-* `^1.2.3` is equivalent to `>= 1.2.3, < 2.0.0`
-* `^1.2.x` is equivalent to `>= 1.2.0, < 2.0.0`
-* `^2.3` is equivalent to `>= 2.3, < 3`
-* `^2.x` is equivalent to `>= 2.0.0, < 3`
-* `^0.2.3` is equivalent to `>=0.2.3 <0.3.0`
-* `^0.2` is equivalent to `>=0.2.0 <0.3.0`
-* `^0.0.3` is equivalent to `>=0.0.3 <0.0.4`
-* `^0.0` is equivalent to `>=0.0.0 <0.1.0`
-* `^0` is equivalent to `>=0.0.0 <1.0.0`
+* `^1.2.3` 相当于 `>= 1.2.3, < 2.0.0`
+* `^1.2.x` 相当于 `>= 1.2.0, < 2.0.0`
+* `^2.3` 相当于 `>= 2.3, < 3`
+* `^2.x` 相当于 `>= 2.0.0, < 3`
+* `^0.2.3` 相当于 `>=0.2.3 <0.3.0`
+* `^0.2` 相当于 `>=0.2.0 <0.3.0`
+* `^0.0.3` 相当于 `>=0.0.3 <0.0.4`
+* `^0.0` 相当于 `>=0.0.0 <0.1.0`
+* `^0` 相当于 `>=0.0.0 <1.0.0`
 
-## URL Functions
+## URL 函数
 
-Helm includes the [urlParse](#urlparse), [urlJoin](#urljoin), and
-[urlquery](#urlquery) functions enabling you to work with URL parts.
+Helm 包含 [urlParse](#urlparse), [urlJoin](#urljoin), 和[urlquery](#urlquery) 函数可以用做处理URL。
 
 ### urlParse
 
-Parses string for URL and produces dict with URL parts
+解析URL的字符串并生成包含URL部分的字典。
 
 ```yaml
 urlParse "http://admin:secret@server.com:8080/api?list=false#anchor"
 ```
 
-上述结果为： a dict, containing URL object:
+上述结果为： 包含URL对象的字典：
 
 ```yaml
 scheme:   'http'
@@ -1859,8 +1813,7 @@ fragment: 'anchor'
 userinfo: 'admin:secret'
 ```
 
-This is implemented used the URL packages from the Go standard library. For more
-info, check https://golang.org/pkg/net/url/#URL
+这是使用Go标准库中的URL包实现的。更多信息，请查看 https://golang.org/pkg/net/url/#URL。
 
 ### urlJoin
 
