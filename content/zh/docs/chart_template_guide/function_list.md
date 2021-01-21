@@ -1480,17 +1480,17 @@ seq 0 2 10  => 0 2 4 6 8 10
 seq 0 -2 -5 => 0 -2 -4
 ```
 
-## Math Functions
+## Math 函数
 
-All math functions operate on `int64` values unless specified otherwise.
+除非另外指定，否则所有的math函数都是操作 `int64` 的值。
 
-The following math functions are available: [add](#add), [add1](#add1),
+有以下math函数可用： [add](#add), [add1](#add1),
 [ceil](#ceil), [div](#div), [floor](#floor), [len](#len), [max](#max),
 [min](#min), [mod](#mod), [mul](#mul), [round](#round), and [sub](#sub）。
 
 ### add
 
-Sum numbers with `add`. Accepts two or more inputs.
+使用`add`求和。接受两个或多个输入。
 
 ```yaml
 add 1 2 3
@@ -1498,23 +1498,23 @@ add 1 2 3
 
 ### add1
 
-To increment by 1, use `add1`
+自增加1，使用 `add1`
 
 ### sub
 
-To subtract, use `sub`
+相减使用 `sub`
 
 ### div
 
-Perform integer division with `div`
+整除使用 `div`
 
 ### mod
 
-Modulo with `mod`
+取模使用`mod`
 
 ### mul
 
-Multiply with `mul`. Accepts two or more inputs.
+相乘使用`mul`。接受两个或多个输入。
 
 ```yaml
 mul 1 2 3
@@ -1522,9 +1522,9 @@ mul 1 2 3
 
 ### max
 
-Return the largest of a series of integers:
+返回一组整数中最大的整数。
 
-This will return `3`:
+下列会返回`3`:
 
 ```yaml
 max 1 2 3
@@ -1532,9 +1532,9 @@ max 1 2 3
 
 ### min
 
-Return the smallest of a series of integers.
+返回一组数中最小的数。
 
-`min 1 2 3` will return `1`
+`min 1 2 3` 会返回 `1`
 
 ### floor
 
