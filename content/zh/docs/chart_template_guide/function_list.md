@@ -1817,13 +1817,13 @@ userinfo: 'admin:secret'
 
 ### urlJoin
 
-Joins map (produced by `urlParse`) to produce URL string
+将一个映射(由`urlParse`生成的)连接成URL字符串
 
 ```yaml
 urlJoin (dict "fragment" "fragment" "host" "host:80" "path" "/path" "query" "query" "scheme" "http")
 ```
 
-上述结果为： the following string:
+上述结果会生成以下字符串：
 
 ```yaml
 proto://host:80/path?query#fragment
@@ -1831,55 +1831,46 @@ proto://host:80/path?query#fragment
 
 ### urlquery
 
-Returns the escaped version of the value passed in as an argument so that it is
-suitable for embedding in the query portion of a URL.
+返回作为参数传入的值的转义版本，这样就可以嵌入到URL的查询部分。
 
 ```yaml
 $var := urlquery "string for query"
 ```
 
-## UUID Functions
+## UUID 函数
 
-Helm can generate UUID v4 universally unique IDs.
+Helm 可以生成UUID v4 通用唯一ID。
 
 ```yaml
 uuidv4
 ```
 
-上述结果为： a new UUID of the v4 (randomly generated) type.
+上述结果为： 一个新的v4类型的UUID（随机生成）。
 
-## Kubernetes and Chart Functions
+## Kubernetes 和 Chart 函数
 
-Helm includes functions for working with Kubernetes including
-[.Capabilities.APIVersions.Has](#capabilitiesapiversionshas),
-[Files](#file-functions), and [lookup](#lookup）。
+Helm 包含了用于 Kubernetes的函数，包括[.Capabilities.APIVersions.Has](#capabilitiesapiversionshas),
+[Files](#file-functions), 和 [lookup](#lookup)。
 
 ### lookup
 
-`lookup` is used to look up resource in a running cluster. When used with the
-`helm template` command it always returns an empty response.
+`lookup` 用于在正在运行的集群中查找资源。当和`helm template`命令一起使用时会返回一个空响应。
 
-You can find more detail in the [documentation on the lookup
-function](functions_and_pipelines.md/#using-the-lookup-function）。
+可以在 [lookup函数文档](https://helm.sh/zh/docs/chart_template_guide/#using-the-lookup-function)查看更多细节。
 
 ### .Capabilities.APIVersions.Has
 
-Returns if an API version or resource is available in a cluster.
+返回API版本或资源是否在集群中可用。
 
 ```yaml
 .Capabilities.APIVersions.Has "apps/v1"
 .Capabilities.APIVersions.Has "apps/v1/Deployment"
 ```
 
-More information is available on the [built-in object
-documentation](builtin_objects.md）。
+更多信息可查看 [内置对象文档](https://helm.sh/zh/docs/chart_template_guide/builtin_objects.md)。
 
-### File Functions
+### 文件函数
 
-There are several functions that enable you to get to non-special files within a
-chart. For example, to access application configuration files. These are
-documented in [Accessing Files Inside Templates](accessing_files.md）。
+有几个函数能使您能够访问图表中的非特殊文件。比如访问应用配置文件。请查看[模板中访问文件](https://helm.sh/zh/docs/chart_template_guide/accessing_files.md)。
 
-_Note, the documentation for many of these functions come from
-[Sprig](https://github.com/Masterminds/sprig）。 Sprig is a template function
-library available to Go applications._
+_注意，这里很多函数的文档是来自[Sprig](https://github.com/Masterminds/sprig)。Sprig是一个适用于Go应用的函数模板库。_
