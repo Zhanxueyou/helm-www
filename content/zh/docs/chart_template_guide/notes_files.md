@@ -1,21 +1,18 @@
 ---
-title: "Creating a NOTES.txt File"
-description: "How to provide instructions to your Chart users."
+title: "创建一个NOTES.txt文件"
+description: "如何向chart用户提供说明。"
 weight: 10
 ---
 
-In this section we are going to look at Helm's tool for providing instructions
-to your chart users. At the end of a `helm install` or `helm upgrade`, Helm can
-print out a block of helpful information for users. This information is highly
-customizable using templates.
+该部分会介绍为chart用户提供说明的Helm工具。在`helm install` 或 `helm upgrade`命令的最后，Helm会打印出对用户有用的信息。
+使用模板可以高度自定义这部分信息。
 
-To add installation notes to your chart, simply create a `templates/NOTES.txt`
-file. This file is plain text, but it is processed like as a template, and has
-all the normal template functions and objects available.
+要在chart添加安装说明，只需创建`templates/NOTES.txt`文件即可。该文件是纯文本，但会像模板一样处理，
+所有正常的模板函数和对象都是可用的。
 
-Let's create a simple `NOTES.txt` file:
+让我们创建一个简单的`NOTES.txt`文件：
 
-```
+```yaml
 Thank you for installing {{ .Chart.Name }}.
 
 Your release is named {{ .Release.Name }}.
@@ -27,10 +24,9 @@ To learn more about the release, try:
 
 ```
 
-Now if we run `helm install rude-cardinal ./mychart` we will see this message at
-the bottom:
+现在如果我们执行`helm install rude-cardinal ./mychart` 会在底部看到：
 
-```
+```yaml
 RESOURCES:
 ==> v1/Secret
 NAME                   TYPE      DATA      AGE
@@ -52,6 +48,4 @@ To learn more about the release, try:
   $ helm get all rude-cardinal
 ```
 
-Using `NOTES.txt` this way is a great way to give your users detailed
-information about how to use their newly installed chart. Creating a `NOTES.txt`
-file is strongly recommended, though it is not required.
+使用`NOTES.txt`这种方式是给用户提供关于如何使用新安装的chart细节信息的好方法。尽管并不是必需的，强烈建议创建一个`NOTES.txt`文件。
