@@ -1,20 +1,15 @@
 ---
-title: "Next Steps"
-description: "Wrapping up - some useful pointers to other documentation that will help you."
+title: "下一步"
+description: "收尾 - 一些能帮到你的指向其他的文档的链接。"
 weight: 14
 ---
 
-This guide is intended to give you, the chart developer, a strong understanding
-of how to use Helm's template language. The guide focuses on the technical
-aspects of template development.
+本指南旨在为chart开发者提供对如何使用Helm模板语言的强大理解能力。该模板聚焦于模板开发的技术层面。
 
-But there are many things this guide has not covered when it comes to the
-practical day-to-day development of charts. Here are some useful pointers to
-other documentation that will help you as you create new charts:
+但涉及到chart的实际日常开发时，很多内容本指南并没有覆盖到。这里有一些有用的文档链接帮助你创建新的chart:
 
-- The [Helm Charts project](https://github.com/helm/charts) is an indispensable
-  source of charts. That project also sets the standard for best practices in
-  chart development.
+- [Helm的Chart项目](https://github.com/helm/charts) 是不可或缺的chart资源。这个项目也定义了
+chart开发最佳实践的标准。
 - The Kubernetes [Documentation](https://kubernetes.io/docs/home/) provides
   detailed examples of the various resource kinds that you can use, from
   ConfigMaps and Secrets to DaemonSets and Deployments.
