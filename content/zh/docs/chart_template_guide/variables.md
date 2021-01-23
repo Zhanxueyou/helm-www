@@ -1,15 +1,13 @@
 ---
-title: "Variables"
-description: "Using variables in templates."
+title: "变量"
+description: "在模板中使用变量。"
 weight: 8
 ---
 
-With functions, pipelines, objects, and control structures under our belts, we
-can turn to one of the more basic ideas in many programming languages:
-variables. In templates, they are less frequently used. But we will see how to
-use them to simplify code, and to make better use of `with` and `range`.
+函数、管道符、对象和控制结构都可以控制，我们转向很多编程语言中更基本的思想之一：变量。
+在模板中，很少被使用。但是我们可以使用变量简化代码，并更好地使用`with`和`range`。
 
-In an earlier example, we saw that this code will fail:
+在之前的例子中，我们看到下面的代码会失败：
 
 ```yaml
   {{- with .Values.favorite }}
@@ -19,13 +17,10 @@ In an earlier example, we saw that this code will fail:
   {{- end }}
 ```
 
-`Release.Name` is not inside of the scope that's restricted in the `with` block.
-One way to work around scoping issues is to assign objects to variables that can
-be accessed without respect to the present scope.
+`Release.Name` 不在`with`块的限制范围内。解决作用域问题的一种方法是将对象分配给可以不考虑当前作用域而访问的变量。
 
-In Helm templates, a variable is a named reference to another object. It follows
-the form `$name`. Variables are assigned with a special assignment operator:
-`:=`. We can rewrite the above to use a variable for `Release.Name`.
+Helm模板中，变量是对另一个对象的命名引用。遵循`$name`变量的格式且指定了一个特殊的赋值运算符：`:=`。
+我们可以使用针对`Release.Name`的变量重写上述内容。
 
 ```yaml
 apiVersion: v1
@@ -42,11 +37,10 @@ data:
   {{- end }}
 ```
 
-Notice that before we start the `with` block, we assign `$relname :=
-.Release.Name`. Now inside of the `with` block, the `$relname` variable still
-points to the release name.
+注意在`with`块开始之前，赋值`$relname := .Release.Name`。
+现在在`with`块中，`$relname`变量仍会执行版本名称。
 
-Running that will produce this:
+运行之后会生成以下内容：
 
 ```yaml
 # Source: mychart/templates/configmap.yaml
@@ -61,8 +55,7 @@ data:
   release: viable-badger
 ```
 
-Variables are particularly useful in `range` loops. They can be used on
-list-like objects to capture both the index and the value:
+变量在`range`循环中特别有用。可以用于类似列表的对象，以捕获索引和值：
 
 ```yaml
   toppings: |-
@@ -72,9 +65,8 @@ list-like objects to capture both the index and the value:
 
 ```
 
-Note that `range` comes first, then the variables, then the assignment operator,
-then the list. This will assign the integer index (starting from zero) to
-`$index` and the value to `$topping`. Running it will produce:
+注意先是`range`，然后是变量，然后是赋值运算符，然后是列表。会将整形索引（从0开始）赋值给`$index`并将值赋值给`$topping`。
+执行会生成：
 
 ```yaml
   toppings: |-
@@ -84,8 +76,7 @@ then the list. This will assign the integer index (starting from zero) to
       3: onions
 ```
 
-For data structures that have both a key and a value, we can use `range` to get
-both. For example, we can loop through `.Values.favorite` like this:
+对于数据结构有key和value，可以使用`range`获取key和value。比如，可以通过`.Values.favorite`进行循环：
 
 ```yaml
 apiVersion: v1
@@ -99,9 +90,8 @@ data:
   {{- end }}
 ```
 
-Now on the first iteration, `$key` will be `drink` and `$val` will be `coffee`,
-and on the second, `$key` will be `food` and `$val` will be `pizza`. Running the
-above will generate this:
+第一次迭代，`$key`会是`drink`且`$val`会是`coffee`，第二次迭代`$key`会是`food`且`$val`会是`pizza`。
+运行之后会生成：
 
 ```yaml
 # Source: mychart/templates/configmap.yaml
@@ -115,17 +105,13 @@ data:
   food: "pizza"
 ```
 
-Variables are normally not "global". They are scoped to the block in which they
-are declared. Earlier, we assigned `$relname` in the top level of the template.
-That variable will be in scope for the entire template. But in our last example,
-`$key` and `$val` will only be in scope inside of the `{{ range... }}{{ end }}`
-block.
+变量一般不是"全局的"。作用域是其声明所在的块。上面我们在模板的顶层赋值了`$relname`。变量的作用域会是整个模板。
+但在最后一个例子中`$key`和`$val`作用域会在`{{ range... }}{{ end }}`块内。
 
-However, there is one variable that is always global - `$` - this variable will
-always point to the root context.  This can be very useful when you are looping
-in a range and you need to know the chart's release name.
+但有个变量一直是全局的 - `$` - 这个变量一直是指向根的上下文。当在一个范围内循环时会很有用，同时你要知道chart的版本名称。
 
-An example illustrating this:
+举例说明如下：
+
 ```yaml
 {{- range .Values.tlsSecrets }}
 apiVersion: v1
@@ -150,7 +136,5 @@ data:
 {{- end }}
 ```
 
-So far we have looked at just one template declared in just one file. But one of
-the powerful features of the Helm template language is its ability to declare
-multiple templates and use them together. We'll turn to that in the next
-section.
+到目前为止，我们只看到在一个文件声明的一个模板。但是Helm模板语言一个很强大的特性是能够声明多个模板并将它们一起使用。
+我们将在下一节讨论这个问题。
