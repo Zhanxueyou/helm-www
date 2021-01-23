@@ -22,7 +22,7 @@ pattern for hooks.
 
 The following hooks are defined:
 
-| Annotation Value | Description                                                                                           |
+| 注释值            | 描述                                                                                           |
 | ---------------- | ----------------------------------------------------------------------------------------------------- |
 | `pre-install`    | Executes after templates are rendered, but before any resources are created in Kubernetes             |
 | `post-install`   | Executes after all resources are loaded into Kubernetes                                               |
