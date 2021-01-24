@@ -1,6 +1,6 @@
 ---
-title: "Appendix: YAML Techniques"
-description: "A closer look at the YAML specification and how it applies to Helm."
+title: "附录： YAML技术"
+description: "详细描述了YAML规范以及如何应用于Helm。"
 weight: 15
 ---
 
@@ -75,7 +75,6 @@ port: !!int "80"
 In the above, `!!str` tells the parser that `age` is a string, even if it looks
 like an int. And `port` is treated as an int, even though it is quoted.
 
-
 ## Strings in YAML
 
 Much of the data that we place in YAML documents are strings. YAML has more than
@@ -125,7 +124,7 @@ coffee: |
 
 Because `Latte` is incorrectly indented, we'd get an error like this:
 
-```
+```shell
 Error parsing file: error converting YAML to JSON: yaml: line 7: did not find expected key
 ```
 
@@ -351,5 +350,4 @@ coffees:
 - Espresso
 ```
 
-Because Helm and Kubernetes often read, modify, and then rewrite YAML files, the
-anchors will be lost.
+因为Helm和Kubernetes经常读取，修改和重写YAML文件，锚点会丢失。

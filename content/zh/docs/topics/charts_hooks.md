@@ -1,7 +1,6 @@
 ---
-title: "Chart Hooks"
-description: "Describes how to work with chart hooks."
-aliases: ["/docs/charts_hooks/"]
+title: "Chart Hook"
+description: "详述如何使用chart hook"
 weight: 2
 ---
 
