@@ -44,7 +44,7 @@ $ helm repo add bitnami https://charts.bitnami.com/bitnami
 $ helm pull bitnami/wordpress --untar
 ```
 
-```
+```consol
 wordpress/
   Chart.yaml
   README.md
