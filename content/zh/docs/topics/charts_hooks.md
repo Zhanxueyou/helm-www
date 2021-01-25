@@ -4,34 +4,29 @@ description: "详述如何使用chart hook"
 weight: 2
 ---
 
-Helm provides a _hook_ mechanism to allow chart developers to intervene at
-certain points in a release's life cycle. For example, you can use hooks to:
+Helm 提供了一个 _hook_ 机制允许chart开发者在发布生命周期的某些点进行干预。比如你可以使用hook用于：
 
-- Load a ConfigMap or Secret during install before any other charts are loaded.
-- Execute a Job to back up a database before installing a new chart, and then
-  execute a second job after the upgrade in order to restore data.
-- Run a Job before deleting a release to gracefully take a service out of
-  rotation before removing it.
+- 安装时在加载其他chart之前加载配置映射或密钥
+- 安装新chart之前执行备份数据库的任务，然后在升级之后执行第二个任务用于存储数据。
+- 在删除发布之前执行一个任务以便在删除服务之前退出滚动。
 
-Hooks work like regular templates, but they have special annotations that cause
-Helm to utilize them differently. In this section, we cover the basic usage
-pattern for hooks.
+钩子的工作方式与常规模板类似，但因为Helm对其不同的使用方式，会有一些特殊的注释。这部分会讲述钩子的基本使用模式。
 
-## The Available Hooks
+## 可用的钩子
 
-The following hooks are defined:
+定义了以下钩子：
 
-| 注释值            | 描述                                                                                           |
+| 注释值            | 描述                                                                                                  |
 | ---------------- | ----------------------------------------------------------------------------------------------------- |
-| `pre-install`    | Executes after templates are rendered, but before any resources are created in Kubernetes             |
-| `post-install`   | Executes after all resources are loaded into Kubernetes                                               |
-| `pre-delete`     | Executes on a deletion request before any resources are deleted from Kubernetes                       |
-| `post-delete`    | Executes on a deletion request after all of the release's resources have been deleted                 |
-| `pre-upgrade`    | Executes on an upgrade request after templates are rendered, but before any resources are updated     |
-| `post-upgrade`   | Executes on an upgrade request after all resources have been upgraded                                 |
-| `pre-rollback`   | Executes on a rollback request after templates are rendered, but before any resources are rolled back |
-| `post-rollback`  | Executes on a rollback request after all resources have been modified                                 |
-| `test`           | Executes when the Helm test subcommand is invoked ([view test docs](/docs/chart_tests/))              |
+| `pre-install`    | 在模板渲染之后，Kubernetes资源创建之前执行                                                               |
+| `post-install`   | 在所有资源加载到Kubernetes之后执行                                                                      |
+| `pre-delete`     | 在Kubernetes删除之前，执行删除请求                                                                      |
+| `post-delete`    | 在所有的版本资源删除之后执行删除请求                                                                     |
+| `pre-upgrade`    | 在模板渲染之后，资源更新之前执行一个升级请求                                                              |
+| `post-upgrade`   | 所有资源升级之后执行一个升级请求                                                                         |
+| `pre-rollback`   | 在模板渲染之后，资源回滚之前，执行一个回滚请求                                                            |
+| `post-rollback`  | 在所有资源被修改之后执行一个回滚请求                                                                     |
+| `test`           | 调用Helm test子命令时执行 ([test文档](https://helm.sh/zh/docs/topics/chart_tests/))                     |
 
 _Note that the `crd-install` hook has been removed in favor of the `crds/`
 directory in Helm 3._
