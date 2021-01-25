@@ -1,43 +1,33 @@
 ---
-title: "Chart Tests"
-description: "Describes how to run and test your charts."
-aliases: ["/docs/chart_tests/"]
+title: "Chart Test"
+description: "描述如何执行和测试你的chart"
 weight: 3
 ---
 
-A chart contains a number of Kubernetes resources and components that work
-together. As a chart author, you may want to write some tests that validate that
-your chart works as expected when it is installed. These tests also help the
-chart consumer understand what your chart is supposed to do.
+&emsp;&emsp;chart包含了很多一起工作的Kubernetes资源和组件。作为一个chart作者，你可能想写一些测试验证chart安装时是否按照预期工作。
+这些测试同时可以帮助chart用户理解你的chart在做什么。
 
-A **test** in a helm chart lives under the `templates/` directory and is a job
-definition that specifies a container with a given command to run. The container
-should exit successfully (exit 0) for a test to be considered a success. The job
-definition must contain the helm test hook annotation: `helm.sh/hook: test`.
+**test** 在helm chart中放在 `templates/`目录，并且是一个指定了容器和给定命令的任务。如果测试通过，容器应该成功退出 (exit 0)
+任务的定义必须包含helm测试钩子的注释：`helm.sh/hook: test`。
 
-Note that until Helm v3, the job definition needed to contain one of these helm
-test hook annotations: `helm.sh/hook: test-success` or `helm.sh/hook: test-failure`.
-`helm.sh/hook: test-success` is still accepted as a backwards-compatible
-alternative to `helm.sh/hook: test`.
+注意Helm v3中，任务定义需要包含helm的测试钩子注释之一：`helm.sh/hook: test-success` 或者 `helm.sh/hook: test-failure`。
+`helm.sh/hook: test-success` 仍然向后兼容，也可以是 `helm.sh/hook: test`。
 
-Example tests:
+示例测试以下内容：
 
-- Validate that your configuration from the values.yaml file was properly
-  injected.
-  - Make sure your username and password work correctly
-  - Make sure an incorrect username and password does not work
-- Assert that your services are up and correctly load balancing
-- etc.
+- 验证你values.yaml文件中的配置可以正确注入。
+  - 确保你的用户名和密码是对的
+  - 确保不正确的用户名和密码不会工作
+- 判断你的服务只启动的并且正确地负载均衡
+- 等等。
 
-You can run the pre-defined tests in Helm on a release using the command `helm
-test <RELEASE_NAME>`. For a chart consumer, this is a great way to check that
-their release of a chart (or application) works as expected.
+你可以在Helm的一个版本中运行预定义的测试，执行 `helm test <RELEASE_NAME>`。对于chart用户来说，
+这是验证chart发布（或应用）可以正常运行的很好的方式。
 
 ## Example Test
 
-Here is an example of a helm test pod definition in the [bitnami wordpress
-chart](https://hub.helm.sh/charts/bitnami/wordpress). If you download a copy of
-the chart, you can look at the files locally:
+这是一个helm对[bitnami wordpress chart](https://hub.helm.sh/charts/bitnami/wordpress)的pod定义的测试。
+如果你下载了一个chart的拷贝，可以在本地看到以下文件：
 
 ```console
 $ helm repo add bitnami https://charts.bitnami.com/bitnami
@@ -54,8 +44,7 @@ wordpress/
   templates/tests/test-mariadb-connection.yaml
 ```
 
-In `wordpress/templates/tests/test-mariadb-connection.yaml`, you'll see a test
-you can try:
+在`wordpress/templates/tests/test-mariadb-connection.yaml`中，会看到一个test，可以试试：
 
 ```yaml
 {{- if .Values.mariadb.enabled }}
@@ -97,11 +86,10 @@ spec:
 {{- end }}
 ```
 
-## Steps to Run a Test Suite on a Release
+## 运行一个发布版本测试套件的步骤
 
-First, install the chart on your cluster to create a release. You may have to
-wait for all pods to become active; if you test immediately after this install,
-it is likely to show a transitive failure, and you will want to re-test.
+首先，安装chart到你的集群中创建一个版本。需要等待所有的pod变成active的状态；如果安装之后立即执行test，
+可能会出现相应的失败，你不得不再执行一次test。
 
 ```console
 $ helm install quirky-walrus wordpress --namespace default
@@ -131,12 +119,9 @@ Phase:          Succeeded
 [...]
 ```
 
-## Notes
+## 注意
 
-- You can define as many tests as you would like in a single yaml file or spread
-  across several yaml files in the `templates/` directory.
-- You are welcome to nest your test suite under a `tests/` directory like
-  `<chart-name>/templates/tests/` for more isolation.
-- A test is a [Helm hook](/docs/charts_hooks/), so annotations like
-  `helm.sh/hook-weight` and `helm.sh/hook-delete-policy` may be used with test
-  resources.
+- 你可以在单个yaml文件中定义尽可能多的测试或者分布在`templates/`目录中的多个yaml文件中。
+- 为了更好地隔离，欢迎你将测试套件嵌套放在`tests/`目录中，类似`<chart-name>/templates/tests/`。
+- 一个test就是一个[Helm 钩子](https://helm.sh/zh/docs/topics/charts_hooks)，所以类似于
+`helm.sh/hook-weight`和`helm.sh/hook-delete-policy`的注释可以用于测试资源。
