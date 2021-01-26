@@ -48,21 +48,16 @@ Helm 为`install`周期定义了两个钩子：`pre-install`和`post-install`。
 2. Helm库调用安装API
 3. 在 `crds/`目录中的CRD会被安装
 4. 在一些验证之后，库会渲染`foo`模板
-5. The library prepares to execute the `pre-install` hooks (loading hook
-   resources into Kubernetes)
-6. The library sorts hooks by weight (assigning a weight of 0 by default),
-   by resource kind and finally by name in ascending order.
-7. The library then loads the hook with the lowest weight first (negative to
-   positive)
-8. The library waits until the hook is "Ready" (except for CRDs)
-9. The library loads the resulting resources into Kubernetes. Note that if the
-   `--wait` flag is set, the library will wait until all resources are in a
-   ready state and will not run the `post-install` hook until they are ready.
-10. The library executes the `post-install` hook (loading hook resources)
-11. The library waits until the hook is "Ready"
-12. The library returns the release object (and other data) to the client
-13. The client exits
-
+5. 库准备执行`pre-install`钩子(将hook资源加载到Kubernetes中)
+6. 库按照权重对钩子排序(默认将权重指定为0)，然后在资源种类排序，最后按名称正序排列。
+7. 库先加载最小权重的钩子(从负到正)
+8. 库会等到钩子是 "Ready"状态(CRD除外)
+9. 库将生成的资源加载到Kubernetes中。注意如果设置了`--wait`参数，库会等所有资源是ready状态，
+   且所有资源准备就绪后才会执行`post-install`钩子。
+10. 库执行`post-install`钩子(加载钩子资源)。
+11. 库会等到钩子是"Ready"状态
+12. 库会返回发布对象(和其他数据)给客户端
+13. 客户端退出
 What does it mean to wait until a hook is ready? This depends on the resource
 declared in the hook. If the resource is a `Job` or `Pod` kind, Helm will wait
 until it successfully runs to completion. And if the hook fails, the release

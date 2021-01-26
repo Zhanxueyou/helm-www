@@ -1,6 +1,6 @@
 ---
-title: "Subcharts and Global Values"
-description: "Interacting with a subchart's and global values."
+title: "子chart和全局值"
+description: "与子chart和全局值进行交互"
 weight: 11
 ---
 
