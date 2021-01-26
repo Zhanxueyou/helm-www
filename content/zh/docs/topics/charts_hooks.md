@@ -58,48 +58,30 @@ Helm 为`install`周期定义了两个钩子：`pre-install`和`post-install`。
 11. 库会等到钩子是"Ready"状态
 12. 库会返回发布对象(和其他数据)给客户端
 13. 客户端退出
-What does it mean to wait until a hook is ready? This depends on the resource
-declared in the hook. If the resource is a `Job` or `Pod` kind, Helm will wait
-until it successfully runs to completion. And if the hook fails, the release
-will fail. This is a _blocking operation_, so the Helm client will pause while
-the Job is run.
 
-For all other kinds, as soon as Kubernetes marks the resource as loaded (added
-or updated), the resource is considered "Ready". When many resources are
-declared in a hook, the resources are executed serially. If they have hook
-weights (see below), they are executed in weighted order. 
-Starting from Helm 3.2.0 hook resources with same weight are installed in the same 
-order as normal non-hook resources. Otherwise, ordering is
-not guaranteed. (In Helm 2.3.0 and after, they are sorted alphabetically. That
-behavior, though, is not considered binding and could change in the future.) It
-is considered good practice to add a hook weight, and set it to `0` if weight is
-not important.
+&emsp;&emsp;等钩子准备好是什么意思？ 这取决于钩子声明的资源。如果资源是 `Job` 或 `Pod`类型，Helm会等到直到他成功运行完成。
+如果钩子失败，发布就会失败。这是一个 _阻塞操作_,所以Helm客户端会在这个任务执行时暂停。
 
-### Hook resources are not managed with corresponding releases
+&emsp;&emsp;针对其他种类，一旦Kubernetes将资源标记为已加载(已添加或已更新)，资源会被认为是"Ready"。 当一个钩子中声明了很多资源时，
+资源会串行执行。如果有钩子权重，会按照权重顺序执行。从Helm 3.2.0开始，具有相同权重的钩子资源会和普通非钩子资源以相同的顺序安装。
+否则，顺序就无法保证。（Helm 2.3.0及之后，它们按照字母排序。不过该行为并不会绑定，将来可能会改变。）增加钩子权重被认为是很好的做法，
+如果权重不重要，可以设置为`0`。
 
-The resources that a hook creates are currently not tracked or managed as part
-of the release. Once Helm verifies that the hook has reached its ready state, it
-will leave the hook resource alone. Garbage collection of hook resources when
-the corresponding release is deleted may be added to Helm 3 in the future, so
-any hook resources that must never be deleted should be annotated with
-`helm.sh/resource-policy: keep`.
+### 钩子资源不使用对应版本管理
 
-Practically speaking, this means that if you create resources in a hook, you
-cannot rely upon `helm uninstall` to remove the resources. To destroy such
-resources, you need to either [add a custom `helm.sh/hook-delete-policy`
-annotation](#hook-deletion-policies) to the hook template file, or [set the time
-to live (TTL) field of a Job
-resource](https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/).
+钩子创建的资源无法作为发布的一部分进行跟踪和管理。一旦Helm验证hook达到ready状态，将不使用钩子资源。
+当对应发布删除后，钩子资源的垃圾回收会在将来添加到Helm 3中，因此不能被删除的钩子资源应该添加注释：
+`helm.sh/resource-policy: keep`。
 
-## Writing a Hook
+实际上，如果你在钩子中创建了资源，不能依靠`helm uninstall`去删除资源。要删除这些资源，要么在钩子模板文件中[添加一个自定义的`helm.sh/hook-delete-policy`
+注释](#hook-deletion-policies)，要么[设置任务资源的生存时间（TTL）字段](https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/)。
 
-Hooks are just Kubernetes manifest files with special annotations in the
-`metadata` section. Because they are template files, you can use all of the
-normal template features, including reading `.Values`, `.Release`, and
-`.Template`.
+## 编写一个钩子
 
-For example, this template, stored in `templates/post-install-job.yaml`,
-declares a job to be run on `post-install`:
+钩子就是在`metadata`部分指定了特殊注释的Kubernetes清单文件。因为是模板文件，你可以使用所有的普通模板特性，包括读取 `.Values`，
+`.Release`，和 `.Template`。
+
+比如这个模板，存储在`templates/post-install-job.yaml`，声明了一个要运行在`post-install`上的任务：
 
 ```yaml
 apiVersion: batch/v1
@@ -134,58 +116,48 @@ spec:
 
 ```
 
-What makes this template a hook is the annotation:
+使模板称为钩子的是注释：
 
 ```yaml
 annotations:
   "helm.sh/hook": post-install
 ```
 
-One resource can implement multiple hooks:
+一个资源可以实现多个钩子：
 
 ```yaml
 annotations:
   "helm.sh/hook": post-install,post-upgrade
 ```
 
-Similarly, there is no limit to the number of different resources that may
-implement a given hook. For example, one could declare both a secret and a
-config map as a pre-install hook.
+类似的，执行一个给定钩子的不同资源的数量也没有限制。比如，一个pre-install钩子可以同时声明密钥和配置映射。
 
-When subcharts declare hooks, those are also evaluated. There is no way for a
-top-level chart to disable the hooks declared by subcharts.
+当子chart声明钩子时，这些也会被评估。顶级chart无法禁用子chart声明的钩子。
 
-It is possible to define a weight for a hook which will help build a
-deterministic executing order. Weights are defined using the following
-annotation:
+可以为钩子定义权重，这有助于建立一个确定性的执行顺序。权重使用以下注释定义：
 
 ```yaml
 annotations:
   "helm.sh/hook-weight": "5"
 ```
 
-Hook weights can be positive or negative numbers but must be represented as
-strings. When Helm starts the execution cycle of hooks of a particular Kind it
-will sort those hooks in ascending order.
+钩子权重可以正数也可以是负数，但一定要是字符串。Helm开始执行特定种类的钩子时，会正序排列这些钩子。
 
 ### Hook deletion policies
 
-It is possible to define policies that determine when to delete corresponding
-hook resources. Hook deletion policies are defined using the following
-annotation:
+可以定义策略来决定何时删除对应的钩子资源。钩子的删除策略使用以下注释定义：
 
 ```yaml
 annotations:
   "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
 ```
 
-You can choose one or more defined annotation values:
+可以选择一个或多个定义的注释值：
 
-| Annotation Value       | Description                                                          |
+| 注释值                 | 描述                                                                  |
 | ---------------------- | -------------------------------------------------------------------- |
-| `before-hook-creation` | Delete the previous resource before a new hook is launched (default) |
-| `hook-succeeded`       | Delete the resource after the hook is successfully executed          |
-| `hook-failed`          | Delete the resource if the hook failed during execution              |
+| `before-hook-creation` | 新钩子启动前删除之前的资源 (默认)                                       |
+| `hook-succeeded`       | 钩子成功执行之后删除资源                                               |
+| `hook-failed`          | 如果钩子执行失败，删除资源                                             |
 
-If no hook deletion policy annotation is specified, the `before-hook-creation`
-behavior applies by default.
+如果没有指定钩子删除策略的注释，默认使用`before-hook-creation`。
