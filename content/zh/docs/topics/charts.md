@@ -106,7 +106,7 @@ nginx-1.2.3.tgz
 
 ### `appVersion` 字段
 
-Note that the `appVersion` field is not related to the `version` field. It is a
+注意这个`appVersion`字段与`version`字段并不相关。It is a
 way of specifying the version of the application. For example, the `drupal`
 chart may have an `appVersion: "8.2.1"`, indicating that the version of Drupal
 included in the chart (by default) is `8.2.1`. This field is informational, and
