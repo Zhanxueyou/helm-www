@@ -65,7 +65,7 @@ maintainers: # （可选）
     email: 维护者邮箱 （每个维护者可选）
     url: 维护者URL （每个维护者可选）
 icon: 用做icon的SVG或PNG图片URL （可选）
-appVersion: 包含的应用版本（可选）。不需要是语义化的
+appVersion: 包含的应用版本（可选）。不需要是语义化，建议使用引号
 deprecated: 不被推荐的chart （可选，布尔值）
 annotations:
   example: 按名称输入的批注列表 （可选）.
