@@ -106,13 +106,12 @@ nginx-1.2.3.tgz
 
 ### `appVersion` 字段
 
-注意这个`appVersion`字段与`version`字段并不相关。It is a
-way of specifying the version of the application. For example, the `drupal`
-chart may have an `appVersion: "8.2.1"`, indicating that the version of Drupal
-included in the chart (by default) is `8.2.1`. This field is informational, and
-has no impact on chart version calculations. Wrapping the version in quotes is highly recommended. It forces the YAML parser to treat the version number as a string. Leaving it unquoted can lead to parsing issues in some cases. For example, YAML interprets `1.0` as a floating point value, and a git commit SHA like `1234e10` as scientific notation.
+注意这个`appVersion`字段与`version`字段并不相关。这是指定应用版本的一种方式。比如，这个`drupal` chart可能有一个
+`appVersion: "8.2.1"`，表示包含在chart（默认）的Drupal的版本是`8.2.1`。此字段仅供参考，对图表版本计算没有影响。
+强烈建议使用引号将版本括起来。它强制YAML解析器将版本号视为字符串。不加引号在某些场景会出现解析问题。
+比如，YAML将`1.0`解释为浮点值，且git提交的SHA类似`1234e10`是科学计数法。
 
-As of Helm v3.5.0, `helm create` wraps the default `appVersion` field in quotes.
+从Helm v3.5.0开始，`helm create`会将默认的`appVersion`用引号括起来。
 
 ### `kubeVersion` 字段
 
