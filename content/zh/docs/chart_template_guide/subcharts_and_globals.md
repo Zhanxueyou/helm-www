@@ -186,34 +186,27 @@ data:
 
 ## 与子chart共享模板
 
-Parent charts and subcharts can share templates. Any defined block in any chart
-is available to other charts.
+父chart和子chart可以共享模板。在任意chart中定义的块在其他chart中也是可用的。
 
-For example, we can define a simple template like this:
+比如，我们可以这样定义一个简单的模板：
 
 ```yaml
 {{- define "labels" }}from: mychart{{ end }}
 ```
 
-Recall how the labels on templates are _globally shared_. Thus, the `labels`
-chart can be included from any other chart.
+回想一下模板标签时如何 _全局共享的_。因此，`标签`chart可以包含在任何其他chart中。
 
-While chart developers have a choice between `include` and `template`, one
-advantage of using `include` is that `include` can dynamically reference
-templates:
+当chart开发者在`include` 和 `template` 之间选择时，使用`include`的一个优势是`include`可以动态引用模板：
 
 ```yaml
 {{ include $mytemplate }}
 ```
 
-The above will dereference `$mytemplate`. The `template` function, in contrast,
-will only accept a string literal.
+上述会取消对`$mytemplate`的引用，相反，`template`函数只接受字符串字符。
 
-## Avoid Using Blocks
+## 避免使用块
 
-The Go template language provides a `block` keyword that allows developers to
-provide a default implementation which is overridden later. In Helm charts,
-blocks are not the best tool for overriding because if multiple implementations
-of the same block are provided, the one selected is unpredictable.
+Go 模板语言提供了一个 `block` 关键字允许开发者提供一个稍后会被重写的默认实现。在Helm chart中，
+块并不是用于覆盖的最好工具，因为如果提供了同一个块的多个实现，无法预测哪个会被选定。
 
-The suggestion is to instead use `include`.
+建议改为使用`include`。
