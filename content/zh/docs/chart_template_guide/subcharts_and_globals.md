@@ -4,27 +4,21 @@ description: "与子chart和全局值进行交互"
 weight: 11
 ---
 
-To this point we have been working only with one chart. But charts can have
-dependencies, called _subcharts_, that also have their own values and templates.
-In this section we will create a subchart and see the different ways we can
-access values from within templates.
+到目前为止，我们只使用了一个图表。但chart可以使用依赖，称为 _子chart_，且有自己的值和模板。
+该章节我们会创建一个子chart并能看到访问模板中的值的不同方式。
 
-Before we dive into the code, there are a few important details to learn about
-subcharts.
+在深入研究代码之前，需要了解一些子chart的重要细节：
 
-1. A subchart is considered "stand-alone", which means a subchart can never
-   explicitly depend on its parent chart.
-2. For that reason, a subchart cannot access the values of its parent.
-3. A parent chart can override values for subcharts.
-4. Helm has a concept of _global values_ that can be accessed by all charts.
+1. 子chart被认为是“独立的”，意味着子chart从来不会显示依赖它的父chart。
+2. 因此，子chart无法访问父chart的值。
+3. 父chart可以覆盖子chart的值。
+4. Helm有一个 _全局值_ 的概念，所有的chart都可以访问。
 
-As we walk through the examples in this section, many of these concepts will
-become clearer.
+浏览本节的示例之后，这些概念会变得更加清晰。
 
-## Creating a Subchart
+## 创建子chart
 
-For these exercises, we'll start with the `mychart/` chart we created at the
-beginning of this guide, and we'll add a new chart inside of it.
+为了做这些练习，我们可以从本指南开始时创建的`mychart/`开始，并在其中添加一个新的chart。
 
 ```console
 $ cd mychart/charts
@@ -33,23 +27,19 @@ Creating mysubchart
 $ rm -rf mysubchart/templates/*.*
 ```
 
-Notice that just as before, we deleted all of the base templates so that we can
-start from scratch. In this guide, we are focused on how templates work, not on
-managing dependencies. But the [Charts Guide]({{< ref "../topics/charts.md" >}})
-has more information on how subcharts work.
+注意，和以前一样，我们删除了所有的基本模板，然后从头开始，在这个指南中，我们聚焦于模板如何工作，而不是管理依赖。
+但[Chart指南](https://helm.sh/zh/docs/topics/charts)提供了更多子chart运行的信息。
 
-## Adding Values and a Template to the Subchart
+## 在子chart中添加值和模板
 
-Next, let's create a simple template and values file for our `mysubchart` chart.
-There should already be a `values.yaml` in `mychart/charts/mysubchart`. We'll
-set it up like this:
+下一步，为`mysubchart`创建一个简单的模板和values文件。`mychart/charts/mysubchart`应该已经有一个`values.yaml`。
+设置如下：
 
 ```yaml
 dessert: cake
 ```
 
-Next, we'll create a new ConfigMap template in
-`mychart/charts/mysubchart/templates/configmap.yaml`:
+下一步，在`mychart/charts/mysubchart/templates/configmap.yaml`中创建一个新的配置映射模板：
 
 ```yaml
 apiVersion: v1
@@ -60,8 +50,7 @@ data:
   dessert: {{ .Values.dessert }}
 ```
 
-Because every subchart is a _stand-alone chart_, we can test `mysubchart` on its
-own:
+因为每个子chart都是 _独立的chart_，可以单独测试`mysubchart`：
 
 ```console
 $ helm install --generate-name --dry-run --debug mychart/charts/mysubchart
@@ -81,15 +70,11 @@ data:
   dessert: cake
 ```
 
-## Overriding Values from a Parent Chart
+## 覆盖父chart中的值
 
-Our original chart, `mychart` is now the _parent_ chart of `mysubchart`. This
-relationship is based entirely on the fact that `mysubchart` is within
-`mychart/charts`.
+原始chart，`mychart`现在是`mysubchart`的 _父_。这种关系是基于`mysubchart`在`mychart/charts`中这一事实。
 
-Because `mychart` is a parent, we can specify configuration in `mychart` and
-have that configuration pushed into `mysubchart`. For example, we can modify
-`mychart/values.yaml` like this:
+因为`mychart`是父级，可以在`mychart`指定配置并将配置推送到`mysubchart`。比如可以修改`mychart/values.yaml`如下：
 
 ```yaml
 favorite:
@@ -105,9 +90,8 @@ mysubchart:
   dessert: ice cream
 ```
 
-Note the last two lines. Any directives inside of the `mysubchart` section will
-be sent to the `mysubchart` chart. So if we run `helm install --dry-run --debug
-mychart`, one of the things we will see is the `mysubchart` ConfigMap:
+注意最后两行，在`mysubchart`中的所有指令会被发送到`mysubchart`chart中。因此如果运行`helm install --dry-run --debug
+mychart`，会看到一项`mysubchart`的配置：
 
 ```yaml
 # Source: mychart/charts/mysubchart/templates/configmap.yaml
@@ -119,26 +103,19 @@ data:
   dessert: ice cream
 ```
 
-The value at the top level has now overridden the value of the subchart.
+现在，顶层的值已经被子chart的值覆盖了。
 
-There's an important detail to notice here. We didn't change the template of
-`mychart/charts/mysubchart/templates/configmap.yaml` to point to
-`.Values.mysubchart.dessert`. From that template's perspective, the value is
-still located at `.Values.dessert`. As the template engine passes values along,
-it sets the scope. So for the `mysubchart` templates, only values specifically
-for `mysubchart` will be available in `.Values`.
+这里需要注意个重要细节。我们不会改变`mychart/charts/mysubchart/templates/configmap.yaml`模板到
+`.Values.mysubchart.dessert`的指向。从模板的角度来看，值依然是在`.Values.dessert`。当模板引擎传递值时，会设置范围。
+因此对于`mysubchart`模板，`.Values`中只提供专门用于`mysubchart`的值。
 
-Sometimes, though, you do want certain values to be available to all of the
-templates. This is accomplished using global chart values.
+但是有时确实希望某些值对所有模板都可用。这是使用全局chart值完成的。
 
-## Global Chart Values
+## 全局Chart值
 
-Global values are values that can be accessed from any chart or subchart by
-exactly the same name. Globals require explicit declaration. You can't use an
-existing non-global as if it were a global.
+全局值是使用完全一样的名字在所有的chart及子chart中都能访问的值。全局变量需要显示声明。不能将现有的非全局值作为全局值使用。
 
-The Values data type has a reserved section called `Values.global` where global
-values can be set. Let's set one in our `mychart/values.yaml` file.
+这些值数据类型有个保留部分叫`Values.global`，可以用来设置全局值。在`mychart/values.yaml`文件中设置一个值如下：
 
 ```yaml
 favorite:
@@ -157,9 +134,8 @@ global:
   salad: caesar
 ```
 
-Because of the way globals work, both `mychart/templates/configmap.yaml` and
-`mysubchart/templates/configmap.yaml` should be able to access that value as
-`{{ .Values.global.salad }}`.
+因为全局的工作方式，`mychart/templates/configmap.yaml`和`mysubchart/templates/configmap.yaml`
+应该都能以`{{ .Values.global.salad }}`进行访问。
 
 `mychart/templates/configmap.yaml`:
 
@@ -184,7 +160,7 @@ data:
   salad: {{ .Values.global.salad }}
 ```
 
-Now if we run a dry run install, we'll see the same value in both outputs:
+现在如果预安装，两个输出会看到相同的值：
 
 ```yaml
 # Source: mychart/templates/configmap.yaml
@@ -206,10 +182,9 @@ data:
   salad: caesar
 ```
 
-Globals are useful for passing information like this, though it does take some
-planning to make sure the right templates are configured to use globals.
+全局值在类似这样传递信息时很有用，不过要确保使用全局值配置正确的模板，确实需要一些计划。
 
-## Sharing Templates with Subcharts
+## 与子chart共享模板
 
 Parent charts and subcharts can share templates. Any defined block in any chart
 is available to other charts.
