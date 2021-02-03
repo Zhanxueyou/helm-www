@@ -4,17 +4,14 @@ description: "详细描述了YAML规范以及如何应用于Helm。"
 weight: 15
 ---
 
-Most of this guide has been focused on writing the template language. Here,
-we'll look at the YAML format. YAML has some useful features that we, as
-template authors, can use to make our templates less error prone and easier to
-read.
+本指南大部分都聚焦于编写模板语言。这里，我们要看看YAML格式。作为模板作者，YAML有一些有用的特性
+使我们的模板不易出错，更易阅读。
 
-## Scalars and Collections
+## 标量和集合
 
-According to the [YAML spec](https://yaml.org/spec/1.2/spec.html), there are two
-types of collections, and many scalar types.
+根据 [YAML 规范](https://yaml.org/spec/1.2/spec.html)，有两种集合类型和很多标量类型。
 
-The two types of collections are maps and sequences:
+两种集合类型是map和sequence：
 
 ```yaml
 map:
@@ -28,43 +25,39 @@ sequence:
   - three
 ```
 
-Scalar values are individual values (as opposed to collections)
+标量值是单个值，（与集合相反）
 
-### Scalar Types in YAML
+### YAML中的标量类型
 
-In Helm's dialect of YAML, the scalar data type of a value is determined by a
-complex set of rules, including the Kubernetes schema for resource definitions.
-But when inferring types, the following rules tend to hold true.
+在Helm内部的YAML语言中，一个标量值的数据类型是由一组复杂的规则决定的，包含了资源定义的Kubernetes模式。
+但在推断类型时，以下规则往往是正确的。
 
-If an integer or float is an unquoted bare word, it is typically treated as a
-numeric type:
+如果整形或浮点型数字没有引号，通常被视为数字类型：
 
 ```yaml
 count: 1
 size: 2.34
 ```
 
-But if they are quoted, they are treated as strings:
+但是如果被引号引起来，会被当做字符串：
 
 ```yaml
 count: "1" # <-- string, not int
 size: '2.34' # <-- string, not float
 ```
 
-The same is true of booleans:
+布尔函数也是如此：
 
 ```yaml
 isGood: true   # bool
 answer: "true" # string
 ```
 
-The word for an empty value is `null` (not `nil`).
+空字符串是 `null` （不是 `nil`）。
 
-Note that `port: "80"` is valid YAML, and will pass through both the template
-engine and the YAML parser, but will fail if Kubernetes expects `port` to be an
-integer.
+注意 `port: "80"`是合法的YAML，可以通过模板引擎和YAML解释器传值，但是如果Kubernetes希望`port`是整形，就会失败。
 
-In some cases, you can force a particular type inference using YAML node tags:
+在一些场景中，可以使用YAML节点标签强制推断特定类型：
 
 ```yaml
 coffee: "yes, please"
@@ -72,16 +65,13 @@ age: !!str 21
 port: !!int "80"
 ```
 
-In the above, `!!str` tells the parser that `age` is a string, even if it looks
-like an int. And `port` is treated as an int, even though it is quoted.
+如上所示，`!!str`告诉解释器`age`是一个字符串，即使它看起来像是整形。即使`port`被引号括起来，也会被视为int。
 
-## Strings in YAML
+## YAML中的字符串
 
-Much of the data that we place in YAML documents are strings. YAML has more than
-one way to represent a string. This section explains the ways and demonstrates
-how to use some of them.
+YAML中的大多数数据都是字符串。YAML有多种表示字符串的方法。本节解释这些方法并演示如何使用其中一些方法。
 
-There are three "inline" ways of declaring a string:
+有三种单行方式声明一个字符串：
 
 ```yaml
 way1: bare words
@@ -89,17 +79,13 @@ way2: "double-quoted strings"
 way3: 'single-quoted strings'
 ```
 
-All inline styles must be on one line.
+单行样式必须在一行：
 
-- Bare words are unquoted, and are not escaped. For this reason, you have to be
-  careful what characters you use.
-- Double-quoted strings can have specific characters escaped with `\`. For
-  example `"\"Hello\", she said"`. You can escape line breaks with `\n`.
-- Single-quoted strings are "literal" strings, and do not use the `\` to escape
-  characters. The only escape sequence is `''`, which is decoded as a single
-  `'`.
+- 裸字没有引号，也没有转义，因此，必须小心使用字符。
+- 双引号字符串可以使用`\`转义指定字符。比如，`"\"Hello\", she said"`。可以使用`\n`转义换行。
+- 单引号字符串是字面意义的字符串，不用`\`转义，只有单引号`''`需要转义，转成单个`'`。
 
-In addition to the one-line strings, you can declare multi-line strings:
+除了单行字符串，可以声明多行字符串：
 
 ```yaml
 coffee: |
@@ -108,11 +94,9 @@ coffee: |
   Espresso
 ```
 
-The above will treat the value of `coffee` as a single string equivalent to
-`Latte\nCappuccino\nEspresso\n`.
+上述会被当作`coffee`的字符串值，等同于`Latte\nCappuccino\nEspresso\n`。
 
-Note that the first line after the `|` must be correctly indented. So we could
-break the example above by doing this:
+注意在第一行`|`后面必须正确缩进。可以这样破坏上述示例：
 
 ```yaml
 coffee: |
@@ -122,14 +106,13 @@ coffee: |
 
 ```
 
-Because `Latte` is incorrectly indented, we'd get an error like this:
+由于`Latte`没有正确缩进，会遇到这样的错误：
 
 ```shell
 Error parsing file: error converting YAML to JSON: yaml: line 7: did not find expected key
 ```
 
-In templates, it is sometimes safer to put a fake "first line" of content in a
-multi-line document just for protection from the above error:
+模板中，有时候为了避免上述错误，在多行文本中添加一个假的“第一行”会更加安全：
 
 ```yaml
 coffee: |
