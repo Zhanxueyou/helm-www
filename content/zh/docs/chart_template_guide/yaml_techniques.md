@@ -123,17 +123,12 @@ coffee: |
 
 ```
 
-Note that whatever that first line is, it will be preserved in the output of the
-string. So if you are, for example, using this technique to inject a file's
-contents into a ConfigMap, the comment should be of the type expected by
-whatever is reading that entry.
+注意无论第一行是什么，都会保存在字符串的输出中。比如你要这样把文件内容注入到配置映射中，注释应该是读取该条目需要的类型。
 
-### Controlling Spaces in Multi-line Strings
+### 控制多行字符串中的空格
 
-In the example above, we used `|` to indicate a multi-line string. But notice
-that the content of our string was followed with a trailing `\n`. If we want the
-YAML processor to strip off the trailing newline, we can add a `-` after the
-`|`:
+在上述示例中，使用了 `|` 来表示多行字符串。但是注意字符串后面有一个尾随的`\n`。如果需要YAML处理器去掉末尾的换行符，在`|`
+后面添加`-`：
 
 ```yaml
 coffee: |-
@@ -142,11 +137,9 @@ coffee: |-
   Espresso
 ```
 
-Now the `coffee` value will be: `Latte\nCappuccino\nEspresso` (with no trailing
-`\n`).
+现在 `coffee`的值变成了： `Latte\nCappuccino\nEspresso` (没有末尾的`\n`)。
 
-Other times, we might want all trailing whitespace to be preserved. We can do
-this with the `|+` notation:
+其他时候，可能希望保留尾随空格。可以使用 `|+`符号：
 
 ```yaml
 coffee: |+
@@ -158,10 +151,9 @@ coffee: |+
 another: value
 ```
 
-Now the value of `coffee` will be `Latte\nCappuccino\nEspresso\n\n\n`.
+现在`coffee`的值是 `Latte\nCappuccino\nEspresso\n\n\n`。
 
-Indentation inside of a text block is preserved, and results in the preservation
-of line breaks, too:
+文本块中的缩进会被保留，也会保留行跳出的结果：
 
 ```yaml
 coffee: |-
@@ -172,38 +164,28 @@ coffee: |-
   Espresso
 ```
 
-In the above case, `coffee` will be `Latte\n  12 oz\n  16
-oz\nCappuccino\nEspresso`.
+上述示例中，`coffee`会变成 `Latte\n  12 oz\n  16 oz\nCappuccino\nEspresso`。
 
-### Indenting and Templates
+### 缩进和模板
 
-When writing templates, you may find yourself wanting to inject the contents of
-a file into the template. As we saw in previous chapters, there are two ways of
-doing this:
+编写模板时，你可能会想将文件内容插入到模板中。正如在之前的章节中看到的，有两种方法处理：
 
-- Use `{{ .Files.Get "FILENAME" }}` to get the contents of a file in the chart.
-- Use `{{ include "TEMPLATE" . }}` to render a template and then place its
-  contents into the chart.
+- 使用 `{{ .Files.Get "FILENAME" }}` 获取chart中的文件内容。
+- 使用 `{{ include "TEMPLATE" . }}` 渲染模板并将其放到chart中。
 
-When inserting files into YAML, it's good to understand the multi-line rules
-above. Often times, the easiest way to insert a static file is to do something
-like this:
+把文件插入到YAML时，就很好理解上面的多行规则了。通常，插入一个静态文件最简单的方式是像这样：
 
 ```yaml
 myfile: |
 {{ .Files.Get "myfile.txt" | indent 2 }}
 ```
 
-Note how we do the indentation above: `indent 2` tells the template engine to
-indent every line in "myfile.txt" with two spaces. Note that we do not indent
-that template line. That's because if we did, the file content of the first line
-would be indented twice.
+注意上面是怎么做缩进的： `indent 2` 告诉模板引擎在文件"myfile.txt"中每行缩进两个空格。注意我们没有缩进模板的行。
+因为如果缩进了，文件内容的第一行会缩进两次。
 
-### Folded Multi-line Strings
+### 折叠多行字符串
 
-Sometimes you want to represent a string in your YAML with multiple lines, but
-want it to be treated as one long line when it is interpreted. This is called
-"folding". To declare a folded block, use `>` instead of `|`:
+有事需要在YAML中表示多行字符串，但是被解释时被当做单行字符串。这被称为"折叠"。要声明一个折叠块，使用 `>` 代替 `|`：
 
 ```yaml
 coffee: >
@@ -214,12 +196,10 @@ coffee: >
 
 ```
 
-The value of `coffee` above will be `Latte Cappuccino Espresso\n`. Note that all
-but the last line feed will be converted to spaces. You can combine the
-whitespace controls with the folded text marker, so `>-` will replace or trim
-all newlines.
+上面`coffee`的值是： `Latte Cappuccino Espresso\n`。 注意，除了最后一个换行符之外，所有的换行符都将转换成空格。
+可以组合空格控制符和折叠字符标记 `>-` 来替换或取消所有的新行。
 
-Note that in the folded syntax, indenting text will cause lines to be preserved.
+注意在折叠语法中，缩进文本将导致保留行。
 
 ```yaml
 coffee: >-
@@ -230,14 +210,11 @@ coffee: >-
   Espresso
 ```
 
-The above will produce `Latte\n  12 oz\n  16 oz\nCappuccino Espresso`. Note that
-both the spacing and the newlines are still there.
+上述结果为：`Latte\n  12 oz\n  16 oz\nCappuccino Espresso`。注意空格和换行都保存下来了。
 
-## Embedding Multiple Documents in One File
+## 在一个文件中嵌入多个文档
 
-It is possible to place more than one YAML documents into a single file. This is
-done by prefixing a new document with `---` and ending the document with
-`...`
+可以将多个YAML文档放在单个文件中。 文档前使用 `---`，文档后使用 `...`
 
 ```yaml
 
@@ -249,24 +226,17 @@ document: 2
 ...
 ```
 
-In many cases, either the `---` or the `...` may be omitted.
+很多情况下，可以省略`---`或者`...`。
 
-Some files in Helm cannot contain more than one doc. If, for example, more than
-one document is provided inside of a `values.yaml` file, only the first will be
-used.
+Helm中的有些文件无法包含多个文档。比如，如果`values.yaml`文件提供了多个文档，只会使用第一个。
 
-Template files, however, may have more than one document. When this happens, the
-file (and all of its documents) is treated as one object during template
-rendering. But then the resulting YAML is split into multiple documents before
-it is fed to Kubernetes.
+但是模板文件可以有多个文档。这种情况下，文件会被当做一个对象进行渲染。但是将结果YAML提供给Kubernetes时，会被分成多个文档。
 
-We recommend only using multiple documents per file when it is absolutely
-necessary. Having multiple documents in a file can be difficult to debug.
+我们建议在确实需要时才将多个文档写入单个文件。单个文件中的多个文档会变得很难调试。
 
-## YAML is a Superset of JSON
+## YAML是JSON的超集
 
-Because YAML is a superset of JSON, any valid JSON document _should_ be valid
-YAML.
+由于YAML是一个JSON的超集，任何合法的JSON文档 _都应该_ 是合法的YAML。
 
 ```json
 {
@@ -277,7 +247,7 @@ YAML.
 }
 ```
 
-The above is another way of representing this:
+上述json的另一种表述方式是：
 
 ```yaml
 coffee: yes, please
@@ -287,22 +257,20 @@ coffees:
 - Espresso
 ```
 
-And the two can be mixed (with care):
+而且两种可以混合（要小心）：
 
 ```yaml
 coffee: "yes, please"
 coffees: [ "Latte", "Cappuccino", "Espresso"]
 ```
 
-All three of these should parse into the same internal representation.
+所有这三个都应该解析为相同的内部表示形式。
 
-While this means that files such as `values.yaml` may contain JSON data, Helm
-does not treat the file extension `.json` as a valid suffix.
+这意味着类似 `values.yaml` 可能包含JSON数据，Helm将`.json`后缀文件视为不合法的文件。
 
-## YAML Anchors
+## YAML 锚点
 
-The YAML spec provides a way to store a reference to a value, and later refer to
-that value by reference. YAML refers to this as "anchoring":
+YAML规范存储了一种引用值的方法，然后通过引用指向该值。YAML称之为“锚定”：
 
 ```yaml
 coffee: "yes, please"
@@ -313,16 +281,12 @@ coffees:
   - Espresso
 ```
 
-In the above, `&favoriteCoffee` sets a reference to `Cappuccino`. Later, that
-reference is used as `*favoriteCoffee`. So `coffees` becomes `Latte, Cappuccino,
-Espresso`.
+上面示例中，`&favoriteCoffee` 设置成了`Cappuccino`的引用。之后，通过`*favoriteCoffee`使用引用。
+这样`coffees` 就变成了 `Latte, Cappuccino, Espresso`。
 
-While there are a few cases where anchors are useful, there is one aspect of
-them that can cause subtle bugs: The first time the YAML is consumed, the
-reference is expanded and then discarded.
+锚点在一些场景中很有用，但另一方面，锚点可能会引起细微的错误：第一次使用YAML时，将展开引用，然后将其丢弃。
 
-So if we were to decode and then re-encode the example above, the resulting YAML
-would be:
+因此，如果我们解码再重新编码上述示例，产生的YAML就会时这样：
 
 ```yaml
 coffee: yes, please
