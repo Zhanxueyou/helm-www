@@ -145,7 +145,7 @@ nginx-1.2.3.tgz
 
 在Chart仓库管理chart时，有时需要废弃一个chart。 `Chart.yaml` 中可选的`deprecated`字段可以用来标记已弃用的chart。
 如果**latest**版本被标记为已弃用，则所有的chart都会被认为是已弃用的。以后可以通过发布未标记为已弃用的新版本来重新使用chart名称。
-[kubernetes/charts](https://github.com/helm/charts) 项目遵循的弃用图标的工作流是：
+弃用chart的工作流是：
 
 1. 升级chart的 `Chart.yaml`  文件，将这个chart标记为已弃用， 并更改版本
 2. 在chart仓库中发布新版的chart
@@ -553,7 +553,7 @@ spec:
 
 所有的值都是模板作者定义的。Helm不需要或指定参数。
 
-要了解更多chart的工作，请查阅[Kubernetes Charts 项目](https://github.com/helm/charts)
+要了解更多chart的工作，请查阅CNCF的 [Artifact Hub](https://artifacthub.io/packages/search?kind=0)。
 
 ### 预定义的Values
 
