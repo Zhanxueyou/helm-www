@@ -1,64 +1,55 @@
 ---
-title: "Helm Architecture"
+title: "Helm 架构"
 description: "Describes the Helm architecture at a high level."
-aliases: ["/docs/architecture/"]
 weight: 8
 ---
 
-# Helm Architecture
+# Helm 架构
 
-This document describes the Helm architecture at a high level.
+本文从较高的层次描述Helm的体系结构。
 
-## The Purpose of Helm
+## Helm的目标
 
-Helm is a tool for managing Kubernetes packages called _charts_. Helm can do the
-following:
+Helm管理名为chart的Kubernetes包的工具。Helm可以做以下的事情：
 
-- Create new charts from scratch
-- Package charts into chart archive (tgz) files
-- Interact with chart repositories where charts are stored
-- Install and uninstall charts into an existing Kubernetes cluster
-- Manage the release cycle of charts that have been installed with Helm
+- 从头开始创建新的chart
+- 将chart打包成归档(tgz)文件
+- 与存储chart的仓库进行交互
+- 在现有的Kubernetes集群中安装和卸载chart
+- 管理与Helm一起安装的chart的发布周期
 
-For Helm, there are three important concepts:
+对于Helm，有三个重要的概念：
 
-1. The _chart_ is a bundle of information necessary to create an instance of a
-   Kubernetes application.
-2. The _config_ contains configuration information that can be merged into a
-   packaged chart to create a releasable object.
-3. A _release_ is a running instance of a _chart_, combined with a specific
-   _config_.
+1. _chart_ 创建Kubernetes应用程序所必需的一组信息。
+2. _config_ 包含了可以合并到打包的chart中的配置信息，用于创建一个可发布的对象。
+3. _release_ 是一个与特定配置相结合的chart的运行实例。
 
-## Components
+## 组件
 
-Helm is an executable which is implemented into two distinct parts:
+Helm是一个可执行文件，执行时分成两个不同的部分：
 
-**The Helm Client** is a command-line client for end users. The client is
-responsible for the following:
+**Helm客户端** 是终端用户的命令行客户端。负责以下内容：
 
-- Local chart development
-- Managing repositories
-- Managing releases
-- Interfacing with the Helm library
-  - Sending charts to be installed
-  - Requesting upgrading or uninstalling of existing releases
+- 本地chart开发
+- 管理仓库
+- 管理发布
+- 与Helm库建立接口
+  - 发送安装的chart
+  - 发送升级或卸载现有发布的请求
 
-**The Helm Library** provides the logic for executing all Helm operations. It
-interfaces with the Kubernetes API server and provides the following capability:
+**Helm库** 提供执行所有Helm操作的逻辑。与Kubernetes API服务交互并提供以下功能：
 
-- Combining a chart and configuration to build a release
-- Installing charts into Kubernetes, and providing the subsequent release object
-- Upgrading and uninstalling charts by interacting with Kubernetes
+- 结合chart和配置来构建版本
+- 将chart安装到Kubernetes中，并提供后续发布对象
+- 与Kubernetes交互升级和卸载chart
 
-The standalone Helm library encapsulates the Helm logic so that it can be
-leveraged by different clients.
+独立的Helm库封装了Helm逻辑以便不同的客户端可以使用它。
 
-## Implementation
+## 执行
 
-The Helm client and library is written in the Go programming language.
+Helm客户端和库是使用Go编程语言编写的
 
-The library uses the Kubernetes client library to communicate with Kubernetes.
-Currently, that library uses REST+JSON. It stores information in Secrets located
-inside of Kubernetes. It does not need its own database.
+这个库使用Kubernetes客户端库与Kubernetes通信。现在，这个库使用REST+JSON。它将信息存储在Kubernetes的密钥中。
+不需要自己的数据库。
 
-Configuration files are, when possible, written in YAML.
+如果可能，配置文件是用YAML编写的。
