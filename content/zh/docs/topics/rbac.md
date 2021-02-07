@@ -1,7 +1,6 @@
 ---
-title: "Role-based Access Control"
-description: "Explains how Helm interacts with Kubernetes' Role-Based Access Control."
-aliases: ["/docs/rbac/"]
+title: "基于角色的访问控制"
+description: "解释Helm如何与Kubernetes基于角色的访问控制交互。"
 weight: 11
 ---
 

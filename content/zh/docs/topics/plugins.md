@@ -1,7 +1,6 @@
 ---
-title: "The Helm Plugins Guide"
-description: "Introduces how to use and create plugins to extend Helm's functionality."
-aliases: ["/docs/plugins/"]
+title: "Helm插件指南"
+description: "介绍如何使用和创建插件来扩展Helm功能。"
 weight: 12
 ---
 
@@ -14,7 +13,7 @@ Existing plugins can be found on [related]({{< ref "related.md#helm-plugins"
 
 This guide explains how to use and create plugins.
 
-## An Overview
+## 概述
 
 Helm plugins are add-on tools that integrate seamlessly with Helm. They provide
 a way to extend the core feature set of Helm, but without requiring every new
@@ -37,7 +36,7 @@ being the _plumbing_. This is a shorthand way of suggesting that Helm provides
 the user experience and top level processing logic, while the plugins do the
 "detail work" of performing a desired action.
 
-## Installing a Plugin
+## 安装一个插件
 
 Plugins are installed using the `$ helm plugin install <path|url>` command. You
 can pass in a path to a plugin on your local file system or a url of a remote
@@ -53,12 +52,12 @@ If you have a plugin tar distribution, simply untar the plugin into the
 directly from url by issuing `helm plugin install
 https://domain/path/to/plugin.tar.gz`
 
-## Building Plugins
+## 构建插件
 
 In many ways, a plugin is similar to a chart. Each plugin has a top-level
 directory, and then a `plugin.yaml` file.
 
-```
+```console
 $HELM_PLUGINS/
   |- keybase/
       |
@@ -146,7 +145,8 @@ There are some strategies for working with plugin commands:
   `--help`. Helm will use `usage` and `description` for `helm help` and `helm
   help myplugin`, but will not handle `helm myplugin --help`.
 
-## Downloader Plugins
+## 下载插件
+
 By default, Helm is able to pull Charts using HTTP/S. As of Helm 2.4.0, plugins
 can have a special capability to download Charts from arbitrary sources.
 
@@ -179,7 +179,7 @@ specify for example `bin/mydownloader subcommand -d` in the `plugin.yaml`. This
 is useful if you want to use the same executable for the main plugin command and
 the downloader command, but with a different sub-command for each.
 
-## Environment Variables
+## 环境变量
 
 When Helm executes a plugin, it passes the outer environment to the plugin, and
 also injects some additional environment variables.
@@ -207,7 +207,7 @@ The following variables are guaranteed to be set:
 Additionally, if a Kubernetes configuration file was explicitly specified, it
 will be set as the `KUBECONFIG` variable
 
-## A Note on Flag Parsing
+## 参数解析说明
 
 When executing a plugin, Helm will parse global flags for its own use. None of
 these flags are passed on to the plugin.
@@ -223,12 +223,12 @@ these flags are passed on to the plugin.
 Plugins _should_ display help text and then exit for `-h` and `--help`. In all
 other cases, plugins may use flags as appropriate.
 
-## Providing shell auto-completion
+## 提供shell自动补全
 
 As of Helm 3.2, a plugin can optionally provide support for shell
 auto-completion as part of Helm's existing auto-completion mechanism.
 
-### Static auto-completion
+### 静态自动补全
 
 If a plugin provides its own flags and/or sub-commands, it can inform Helm of
 them by having a `completion.yaml` file located in the plugin's root directory.
@@ -254,7 +254,8 @@ commands:
      <and so on, recursively>
 ```
 
-Notes:
+注意：
+
 1. All sections are optional but should be provided if applicable.
 1. Flags should not include the `-` or `--` prefix.
 1. Both short and long flags can and should be specified. A short flag need not
@@ -329,7 +330,7 @@ commands:
     - dry-run
 ```
 
-### Dynamic completion
+### 动态补全
 
 Also starting with Helm 3.2, plugins can provide their own dynamic shell
 auto-completion. Dynamic shell auto-completion is the completion of parameter
@@ -352,7 +353,7 @@ of the plugin when using older helm versions.
 The output of the `plugin.complete` script should be a new-line separated list
 such as:
 
-```
+```console
 rel1
 rel2
 rel3
@@ -391,7 +392,7 @@ $HELM_PLUGIN_DIR/status.sh --complete "$@"
 The `fullstatus` plugin's real script (`status.sh`) must then look for the
 `--complete` flag and if found, printout the proper completions.
 
-### Tips and tricks
+### 提示和技巧
 
 1. The shell will automatically filter out completion choices that don't match
    user input. A plugin can therefore return all relevant completions without

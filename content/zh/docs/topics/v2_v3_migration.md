@@ -1,11 +1,10 @@
 ---
-title: "Migrating Helm v2 to v3"
-description: "Learn how to migrate Helm v2 to v3."
+title: "Helm v2 迁移到 v3"
+description: "了解如何将Helm v2 迁移到v3。"
 weight: 13
 ---
 
-This guide shows how to migrate  Helm v2 to v3. Helm v2 needs to be installed
-and managing releases in one or more clusters.
+该指南介绍如何将Helm v2迁移到v3。Helm v2需要被安装且在一个或多个集群中管理版本。
 
 ## Overview of Helm 3 Changes
 
