@@ -1,7 +1,6 @@
 ---
-title: "Deprecated Kubernetes APIs"
-description: "Explains deprecated Kubernetes APIs in Helm"
-aliases: ["docs/k8s_apis/"]
+title: "弃用的 Kubernetes API"
+description: "解释Helm不推荐使用的Kubernetes API"
 ---
 
 Kubernetes is an API-driven system and the API evolves over time to reflect the
