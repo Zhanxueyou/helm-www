@@ -6,7 +6,7 @@ weight: 13
 
 该指南介绍如何将Helm v2迁移到v3。Helm v2需要被安装且在一个或多个集群中管理版本。
 
-## Overview of Helm 3 Changes
+## Helm 3变化概述
 
 The full list of changes from Helm 2 to 3 are documented in the [FAQ
 section](https://v3.helm.sh/docs/faq/#changes-since-helm-2). The following is a
@@ -66,9 +66,9 @@ during migration:
      the Helm 2 library
    - Release binaries are now hosted on `get.helm.sh`
 
-## Migration Use Cases
+## 迁移用例
 
-The migration use cases are as follows:
+迁移用例如下：
 
 1. Helm v2 and v3 managing the same cluster:
    - This use case is only recommended if you intend to phase out Helm v2
@@ -119,8 +119,7 @@ The migration use cases are as follows:
    - The migration process is automated by the Helm v3
      [2to3](https://github.com/helm/helm-2to3) plugin
 
-## Reference
+## 参考
 
-   - Helm v3 [2to3](https://github.com/helm/helm-2to3) plugin
-   - Blog [post](https://helm.sh/blog/migrate-from-helm-v2-to-helm-v3/)
-     explaining `2to3` plugin usage with examples
+- Helm v3 [2to3](https://github.com/helm/helm-2to3) plugin
+- Blog [post](https://helm.sh/blog/migrate-from-helm-v2-to-helm-v3/) explaining `2to3` plugin usage with examples
