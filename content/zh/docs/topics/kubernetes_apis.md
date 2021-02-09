@@ -3,91 +3,56 @@ title: "弃用的 Kubernetes API"
 description: "解释Helm不推荐使用的Kubernetes API"
 ---
 
-Kubernetes is an API-driven system and the API evolves over time to reflect the
-evolving understanding of the problem space. This is common practice across
-systems and their APIs. An important part of evolving APIs is a good deprecation
-policy and process to inform users of how changes to APIs are implemented. In
-other words, consumers of your API need to know in advance and in what release
-an API will be removed or changed. This removes the element of surprise and
-breaking changes to consumers.
+Kubernetes是一个API驱动系统，且API会随着时间的推移而变化，以反映对问题理解的不断推移。这是系统及API的普遍做法。
+API推移的一个重要部分时良好的弃用策略和通知用户更改API是如何实现的。换句话说，你的API使用者需要提前知道要发布的API
+删除或更改了什么。这消除了重大改变对用户造成的恐惧。
 
-The [Kubernetes deprecation
-policy](https://kubernetes.io/docs/reference/using-api/deprecation-policy/)
-documents how Kubernetes handles the changes to its API versions. The policy for
-deprecation states the timeframe that API versions will be supported following a
-deprecation announcement. It is therefore important to be aware of deprecation
-announcements and know when API versions will be removed, to help minimize the
-effect.
+[Kubernetes弃用策略](https://kubernetes.io/docs/reference/using-api/deprecation-policy/)
+文档描述了如何处理API版本的变化。弃用策略声明了在弃用声明之后支持的API版本的时间范围。因此关注弃用声明并知道API何时被移除很重要。
+有助于将影响降到最低。
 
-This is an example of an announcement [for the removal of deprecated API
-versions in Kubernetes
-1.16](https://kubernetes.io/blog/2019/07/18/api-deprecations-in-1-16/) and was
-advertised a few months prior to the release. These API versions would have been
-announced for deprecation prior to this again. This shows that there is a good
-policy in place which informs consumers of API version support. 
+这是一个声明示例， [针对Kubernetes 1.6弃用的API版本](https://kubernetes.io/blog/2019/07/18/api-deprecations-in-1-16/)，
+而且是在版本发布的几个月之前公布。在这之前，这些API版本可能已经宣布不再使用了。这表明一个好的策略可以通知用户API的版本支持。
 
-Helm templates specify a [Kubernetes API
-group](https://kubernetes.io/docs/concepts/overview/kubernetes-api/#api-groups)
-when defining a Kubernetes object, similar to a Kubernetes manifest file. It is
-specified in the `apiVersion` field of the template and it identifies the API
-version of the Kubernetes object. This means that Helm users and chart
-maintainers need to be aware when Kubernetes API versions have been deprecated
-and in what Kubernetes version they will be removed.
+Helm模板定义Kubernetes对象时指定了一个 [Kubernetes
+API组](https://kubernetes.io/docs/concepts/overview/kubernetes-api/#api-groups)，类似于Kubernetes的manifest文件。
+在模板的`apiVersion`字段指定并标识了Kubernetes对象的API版本。这意味着Helm用户和chart维护者需要关注Kubernetes的API版本
+何时会被弃用且在哪个Kubernetes版本中被移除。
 
 ## Chart Maintainers
 
-You should audit your charts checking for Kubernetes API versions that are
-deprecated or are removed in a Kubernetes version. The API versions found as due
-to be or that are now out of support, should be updated to the supported version
-and a new version of the chart released. The API version is defined by the
-`kind` and `apiVersion` fields. For example, here is a removed `Deployment`
-object API version in Kubernetes 1.16:
+你应该审核chart，检查Kubernetes中已弃用或已删除的Kubernetes API版本。如果API版本不再被支持，应该更新为支持版本并发布新的
+chart版本。API版本由`kind`和`apiVersion`字段定义。比如，Kubernetes 1.16 中有个被移除的`Deployment`对象API版本：
 
 ```yaml
 apiVersion: apps/v1beta1
 kind: Deployment
 ```
 
-## Helm Users
+## Helm用户
 
-You should audit the charts that you use (similar to [chart
-maintainers](#chart-maintainers)) and identify any charts where API versions are
-deprecated or removed in a Kubernetes version. For the charts identified, you
-need to check for the latest version of the chart (which has supported API
-versions) or update the chart yourself.
+你应该审核你使用的chart(类似于[chart维护者](#chart-maintainers))，并识别所有的chart中Kubernetes版本弃用或移除的API版本。
+针对确定的chart，需要检查（有支持的API版本的）chart最新的版本，或者手动更新。
 
-Additionally, you also need to audit any charts deployed (i.e. Helm releases)
-checking again for any deprecated or removed API versions. This can be done by
-getting details of a release using the `helm get manifest` command.
+另外，你还需要审核已经部署的chart（即Helm版本）还有没有弃用或移除的API版本。可以使用`helm get manifest`获取详细信息。
 
-The means for updating a Helm release to supported APIs depends on your findings
-as follows:
+将Helm更新为支持的API取决于你通过以下方式找到的：
 
-1. If you find deprecated API versions only then:
-  - Perform a `helm upgrade` with a version of the chart with supported
-    Kubernetes API versions
-  - Add a description in the upgrade, something along the lines to not perform a
-    rollback to a Helm version prior to this current version
-2.  If you find any API version(s) that is/are removed in a Kubernetes version
-    then:
-  - If you are running a Kubernetes version where the API version(s) are still
-    available (for example, you are on Kubernetes 1.15 and found you use APIs
-    that will be removed in Kubernetes 1.16):
-    - Follow the step 1 procedure
-  - Otherwise (for example, you are already running a Kubernetes version where
-    some API versions reported by `helm get manifest` are no longer available):
-    - You need to edit the release manifest that is stored in the cluster to
-      update the API versions to supported APIs. See [Updating API Versions of a
-      Release Manifest](#updating-api-versions-of-a-release-manifest) for more
-      details
+1. 如果你只找到弃用的API版本，则：
 
-> Note: In all cases of updating a Helm release with supported APIs, you should
-never rollback the release to a version prior to the release version with the
-supported APIs.
+    - 执行`helm upgrade`升级Kubernetes API版本支持的chart版本
+    - 在升级中添加一个描述，在当前版本之前不执行Helm版本回滚
 
-> Recommendation: The best practice is to upgrade releases using deprecated API
-versions to supported API versions, prior to upgrading to a kubernetes cluster
-that removes those API versions. 
+2. 如果你发现了在Kubernetes版本中被移除的API版本，则：
+
+    - 如果你运行的Kubernetes版本中API版本依然可用（比如，你在Kubernetes 1.15 且你发现使用的API会在1.16中移除）：
+      - 遵循第1步的步骤
+    - 否则（比如，你运行的Kubernetes 版本中某些API版本通过`helm get manifest`显示不可用）：
+      - 需要编辑存储在集群中的版本清单，更新API版本到支持的API。查看[更新版本清单的API版本](#updating-api-versions-of-a-release-manifest)
+
+> 注意：在所有使用支持的API更新Helm版本的场景中，决不应该将发布版本回滚到API版本支持的之前的版本
+
+> 建议：最佳实践是将正在使用的弃用版本升级到支持的API版本，在升级Kubernetes 集群之前删除这些API版本。
 
 If you don't update a release as suggested previously, you will have an error
 similar to the following when trying to upgrade a release in a Kubernetes
