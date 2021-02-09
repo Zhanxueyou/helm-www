@@ -4,25 +4,16 @@ description: "解释Helm如何与Kubernetes基于角色的访问控制交互。"
 weight: 11
 ---
 
-In Kubernetes, granting roles to a user or an application-specific service
-account is a best practice to ensure that your application is operating in the
-scope that you have specified. Read more about service account permissions [in
-the official Kubernetes
-docs](https://kubernetes.io/docs/admin/authorization/rbac/#service-account-permissions).
+在Kubernetes中，向用户或应用程序特定的服务账户授予角色是确保你的应用程序在指定范围运行的最佳实践。
+有关服务账户权限的更多信息请查看[官方Kubernetes文档](https://kubernetes.io/docs/admin/authorization/rbac/#service-account-permissions)。
 
-From Kubernetes 1.6 onwards, Role-based Access Control is enabled by default.
-RBAC allows you to specify which types of actions are permitted depending on the
-user and their role in your organization.
+从Kubernetes 1.6开始，基于角色的访问控制默认是启用的。RBAC允许你根据你组织中的用户和角色指定行为类型。
 
-With RBAC, you can
+有了RBAC，您可以：
 
-- grant privileged operations (creating cluster-wide resources, like new roles)
-  to administrators
-- limit a user's ability to create resources (pods, persistent volumes,
-  deployments) to specific namespaces, or in cluster-wide scopes (resource
-  quotas, roles, custom resource definitions)
-- limit a user's ability to view resources either in specific namespaces or at a
-  cluster-wide scope.
+- 授权特殊操作 (创建集群范围内的资源，比如新角色) 给管理员
+- 限制用户在指定命名空间创建资源的能力 (pod，持久卷，工作负载)，或者是集群范围内(资源配额，角色，自定义资源)
+- 限制用户在特定命名空间或集群范围内查看资源的能力
 
 This guide is for administrators who want to restrict the scope of a user's
 interaction with the Kubernetes API.
