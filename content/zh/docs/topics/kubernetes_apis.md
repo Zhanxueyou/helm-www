@@ -54,77 +54,57 @@ kind: Deployment
 
 > 建议：最佳实践是将正在使用的弃用版本升级到支持的API版本，在升级Kubernetes 集群之前删除这些API版本。
 
-If you don't update a release as suggested previously, you will have an error
-similar to the following when trying to upgrade a release in a Kubernetes
-version where its API version(s) is/are removed:
+如果你没有按照之前的建议更新版本， 当升级的Kubernetes版本中API的版本已经移除，会出现类似下面的错误：
 
-```
+```console
 Error: UPGRADE FAILED: current release manifest contains removed kubernetes api(s)
 for this kubernetes version and it is therefore unable to build the kubernetes
 objects for performing the diff. error from kubernetes: unable to recognize "":
 no matches for kind "Deployment" in version "apps/v1beta1"
 ```
 
-Helm fails in this scenario because it attempts to create a diff patch between
-the current deployed release (which contains the Kubernetes APIs that are
-removed in this Kubernetes version) against the chart you are passing with the
-updated/supported API versions. The underlying reason for failure is that when
-Kubernetes removes an API version, the Kubernetes Go client library can no
-longer parse the deprecated objects and Helm therefore fails when calling the
-library. Helm unfortunately is unable to recover from this situation and is no
-longer able to manage such a release. See [Updating API Versions of a Release
-Manifest](#updating-api-versions-of-a-release-manifest) for more details on how
-to recover from this scenario.
+Helm在这个情况中会失败，因为试图它在当前部署的和你传了更新/支持的API版本的chart之间创建一个diff补丁（包含在这个Kubernetes
+版本中删除的Kubernetes API）。失败的根本原因是，当Kubernetes删除了一个API版本时，Kubernetes的Go客户端库不再解析弃用的对象，
+所以Helm调用库时会失败。不幸的是，Helm无法从这种情况下恢复，且无法再管理这样的版本。查看
+[升级发布清单的API版本](#updating-api-versions-of-a-release-manifest) 获取更多如何从这种情况恢复的细节信息。
 
 ## Updating API Versions of a Release Manifest
 
-The manifest is a property of the Helm release object which is stored in the
-data field of a Secret (default) or ConfigMap in the cluster. The data field
-contains a gzipped object which is base 64 encoded (there is an additional base
-64 encoding for a Secret). There is a Secret/ConfigMap per release
-version/revision in the namespace of the release.
+清单manifest是Helm发布对象的一个特性，存储在集群中的密钥（默认）或配置映射的数据字段中。数据字段包含了一个base64编码的gzip压缩的对象
+（对于密钥是一个额外的base 64 编码）。在版本的命名空间中每个版本或修订都对应一个密钥或配置映射。
 
-You can use the Helm [mapkubeapis](https://github.com/hickeyma/helm-mapkubeapis)
-plugin to perform the update of a release to supported APIs. Check out the
-readme for more details.
+可以使用Helm [mapkubeapis](https://github.com/hickeyma/helm-mapkubeapis) 插件对支持API执行版本升级。查看readme获取更多信息。
 
-Alternatively, you can follow these manual steps to perform an update of the API
-versions of a release manifest. Depending on your configuration you will follow
-the steps for the Secret or ConfigMap backend.
+或者，可以按照这些步骤手动执行发布清单的API版本升级。根据你的配置，应该遵循密钥或配置映射的后台步骤。
 
-- Get the name of the Secret or Configmap associated with the latest deployed
-  release:
-  - Secrets backend: `kubectl get secret -l
+- 获取最近部署的版本的密钥或配置映射：
+  - Secrets后台： `kubectl get secret -l
     owner=helm,status=deployed,name=<release_name> --namespace
     <release_namespace> | awk '{print $1}' | grep -v NAME`
-  - ConfigMap backend: `kubectl get configmap -l
+  - ConfigMap后台：  `kubectl get configmap -l
     owner=helm,status=deployed,name=<release_name> --namespace
     <release_namespace> | awk '{print $1}' | grep -v NAME`
-- Get latest deployed release details:
-  - Secrets backend: `kubectl get secret <release_secret_name> -n
+- 获取最新部署版本细节：
+  - Secrets后台： `kubectl get secret <release_secret_name> -n
     <release_namespace> -o yaml > release.yaml`
-  - ConfigMap backend: `kubectl get configmap <release_configmap_name> -n
+  - ConfigMap后台： `kubectl get configmap <release_configmap_name> -n
     <release_namespace> -o yaml > release.yaml`
-- Backup the release in case you need to restore if something goes wrong:
+- 备份版本以便出错时恢复：
   - `cp release.yaml release.bak`
-  - In case of emergency, restore: `kubectl apply -f release.bak -n
+  - 在紧急情况下恢复： `kubectl apply -f release.bak -n
     <release_namespace>`
-- Decode the release object: 
-  - Secrets backend:`cat release.yaml | grep -oP '(?<=release: ).*' | base64 -d
+- 解码发布版本对象：
+  - Secrets后台： `cat release.yaml | grep -oP '(?<=release: ).*' | base64 -d
     | base64 -d | gzip -d > release.data.decoded`
-  - ConfigMap backend: `cat release.yaml | grep -oP '(?<=release: ).*' | base64
+  - ConfigMap后台： `cat release.yaml | grep -oP '(?<=release: ).*' | base64
     -d | gzip -d > release.data.decoded`
-- Change API versions of the manifests. Can use any tool (e.g. editor) to make
-  the changes. This is in the `manifest` field of your decoded release object
+- 修改清单的API版本。可以使用任意工具（如编辑器）修改。在你解码的发布对象的`manifest`字段。
   (`release.data.decoded`)
-- Encode the release object:
-  - Secrets backend: `cat release.data.decoded | gzip | base64 | base64`
-  - ConfigMap backend: `cat release.data.decoded | gzip | base64`
-- Replace `data.release` property value in the deployed release file
-  (`release.yaml`) with the new encoded release object
-- Apply file to namespace: `kubectl apply -f release.yaml -n
+- 编码发布对象：
+  - Secrets 后台： `cat release.data.decoded | gzip | base64 | base64`
+  - ConfigMap 后台： `cat release.data.decoded | gzip | base64`
+- 用新编码的发布对象替换部署的发布文件(`release.yaml`)中`data.release`的值
+- 将文件部署到命名空间： `kubectl apply -f release.yaml -n
   <release_namespace>`
-- Perform a `helm upgrade` with a version of the chart with supported Kubernetes
-  API versions
-- Add a description in the upgrade, something along the lines to not perform a
-  rollback to a Helm version prior to this current version
+- 用支持Kubernetes API版本的chart执行 `helm upgrade`
+- 在升级中添加一个描述，不要执行回滚到当前版本之前的版本
