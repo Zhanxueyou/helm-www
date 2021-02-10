@@ -110,11 +110,9 @@ platformCommand:
 
 ## 下载插件
 
-By default, Helm is able to pull Charts using HTTP/S. As of Helm 2.4.0, plugins
-can have a special capability to download Charts from arbitrary sources.
+默认情况下，Helm能够使用HTTP/S拉取chart。从Helm 2.4.0开始，插件有一种能力从任意来源下载chart。
 
-Plugins shall declare this special capability in the `plugin.yaml` file (top
-level):
+插件应该在`plugin.yaml`（顶层的）文件中声明这个特殊能力：
 
 ```yaml
 downloaders:
