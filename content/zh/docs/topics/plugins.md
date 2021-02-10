@@ -4,58 +4,42 @@ description: "介绍如何使用和创建插件来扩展Helm功能。"
 weight: 12
 ---
 
-A Helm plugin is a tool that can be accessed through the `helm` CLI, but which
-is not part of the built-in Helm codebase.
+Helm插件是一个可以通过`helm` CLI访问的工具，但不是Helm的内置代码。
 
-Existing plugins can be found on [related]({{< ref "related.md#helm-plugins"
->}}) section or by searching
-[GitHub](https://github.com/search?q=topic%3Ahelm-plugin&type=Repositories).
+已有插件可以搜索[GitHub](https://github.com/search?q=topic%3Ahelm-plugin&type=Repositories)。
 
-This guide explains how to use and create plugins.
+该指南描述如何使用和创建插件。
 
 ## 概述
 
-Helm plugins are add-on tools that integrate seamlessly with Helm. They provide
-a way to extend the core feature set of Helm, but without requiring every new
-feature to be written in Go and added to the core tool.
+Helm插件是与Helm无缝集成的附加工具。插件提供一种扩展Helm核心特性集的方法，但不需要每个新的特性都用Go编写并加入核心工具中。
 
-Helm plugins have the following features:
+Helm插件有以下特性：
 
-- They can be added and removed from a Helm installation without impacting the
-  core Helm tool.
-- They can be written in any programming language.
-- They integrate with Helm, and will show up in `helm help` and other places.
+- 可以在不影响Helm核心工具的情况下添加和移除。
+- 可以用任意编程语言编写。
+- 与Helm集成，并展示在`helm help`和其他地方。
 
-Helm plugins live in `$HELM_PLUGINS`. You can find the current value of this,
-including the default value when not set in the environment, using the
-`helm env` command.
+Helm插件存在与`$HELM_PLUGINS`。你可以找到该变量的当前值，包括不设置环境变量的默认值，使用`helm env`命令。
 
-The Helm plugin model is partially modeled on Git's plugin model. To that end,
-you may sometimes hear `helm` referred to as the _porcelain_ layer, with plugins
-being the _plumbing_. This is a shorthand way of suggesting that Helm provides
-the user experience and top level processing logic, while the plugins do the
-"detail work" of performing a desired action.
+Helm插件模型部分基于Git的插件模型。为此，你有时可能听到`helm`已插件为基础被用作_porcelain_ 层。这是一种Helm提供用户体验和顶级处理逻辑的简写方式。
+而插件执行所需操作的“细节工作”。
 
 ## 安装一个插件
 
-Plugins are installed using the `$ helm plugin install <path|url>` command. You
-can pass in a path to a plugin on your local file system or a url of a remote
-VCS repo. The `helm plugin install` command clones or copies the plugin at the
-path/url given into `$HELM_PLUGINS`
+插件使用 `$ helm plugin install <path|url>` 命令安装插件。你可以在本地文件系统上传一个路径或远程仓库url给插件。The `helm plugin install`
+命令会克隆或拷贝给定路径的插件到 `$HELM_PLUGINS`。
 
 ```console
 $ helm plugin install https://github.com/adamreese/helm-env
 ```
 
-If you have a plugin tar distribution, simply untar the plugin into the
-`$HELM_PLUGINS` directory. You can also install tarball plugins
-directly from url by issuing `helm plugin install
-https://domain/path/to/plugin.tar.gz`
+如果是插件tar包，仅需解压插件到`$HELM_PLUGINS`目录。也可以用tar包的url直接安装：
+`helm plugin install https://domain/path/to/plugin.tar.gz`。
 
 ## 构建插件
 
-In many ways, a plugin is similar to a chart. Each plugin has a top-level
-directory, and then a `plugin.yaml` file.
+在很多方面，插件类似于chart。每个插件有个顶级目录和一个`plugin.yaml`文件。
 
 ```console
 $HELM_PLUGINS/
@@ -66,12 +50,9 @@ $HELM_PLUGINS/
 
 ```
 
-In the example above, the `keybase` plugin is contained inside of a directory
-named `keybase`. It has two files: `plugin.yaml` (required) and an executable
-script, `keybase.sh` (optional).
+上述示例中，`keybase`插件包含在`keybase`目录中。有两个文件：`plugin.yaml`（必需）和一个可执行脚本，`keybase.sh`（可选）。
 
-The core of a plugin is a simple YAML file named `plugin.yaml`. Here is a plugin
-YAML for a plugin that adds support for Keybase operations:
+插件的核心是一个简单的YAML文件`plugin.yaml`。下面是一个插件YAML，用于添加对Keybase操作的支持：
 
 ```yaml
 name: "last"
@@ -92,58 +73,40 @@ platformCommand:
     command: "$HELM_BIN list --short --max 1 --date -r"
 ```
 
-The `name` is the name of the plugin. When Helm executes this plugin, this is
-the name it will use (e.g. `helm NAME` will invoke this plugin).
+`name`是插件名称。当Helm执行此插件时使用此名称。（比如，`helm NAME`会调用此插件）。
 
-_`name` should match the directory name._ In our example above, that means the
-plugin with `name: keybase` should be contained in a directory named `keybase`.
+上述示例中，_`name`应该匹配目录名称_，意味着`keybase`目录中应该包含 `name: keybase` 插件。
 
-Restrictions on `name`:
+`name`的限制：
 
-- `name` cannot duplicate one of the existing `helm` top-level commands.
-- `name` must be restricted to the characters ASCII a-z, A-Z, 0-9, `_` and `-`.
+- `name` 无法复用现有的 `helm` 顶级命令。
+- `name` 的字符必须限制为ASCII a-z， A-Z， 0-9， `_` 和 `-`。
 
-`version` is the SemVer 2 version of the plugin. `usage` and `description` are
-both used to generate the help text of a command.
+`version` 是插件的语义化2的版本。 `usage` 和 `description` 用于生成命令的帮助文本。
 
-The `ignoreFlags` switch tells Helm to _not_ pass flags to the plugin. So if a
-plugin is called with `helm myplugin --foo` and `ignoreFlags: true`, then
-`--foo` is silently discarded.
+`ignoreFlags` 开关告诉 Helm _不要_ 给插件传递的参数。因此如果一个插件使用 `helm myplugin --foo`调用且
+`ignoreFlags: true`，那么`--foo`会被悄悄忽略。
 
-Finally, and most importantly, `platformCommand` or `command` is the command
-that this plugin will execute when it is called. The `platformCommand` section
-defines the OS/Architecture specific variations of a command. The following
-rules will apply in deciding which command to use:
+最后，尤其重要的是 `platformCommand` 或 `command` 是插件调用时执行的命令。`platformCommand` 部分定义了命令在
+系统/架构的特定变体。以下规则用于决定使用哪个命令：
 
-- If `platformCommand` is present, it will be searched first.
-- If both `os` and `arch` match the current platform, search will stop and the
-  command will be used.
-- If `os` matches and there is no more specific `arch` match, the command will
-  be used.
-- If no `platformCommand` match is found, the default `command` will be used.
-- If no matches are found in `platformCommand` and no `command` is present, Helm
-  will exit with an error.
+- 如果`platformCommand`存在，会优先被搜索。
+- 如果`os` 和 `arch` 匹配了当前平台，搜索会停止并使用命令。
+- 如果`os`匹配且没有匹配 `arch` ，命令会被使用。
+- 如果没有匹配`platformCommand`，会使用默认的`command`。
+- 如果没有匹配 `platformCommand` 且不存在 `command`，Helm会报错退出。
 
-Environment variables are interpolated before the plugin is executed. The
-pattern above illustrates the preferred way to indicate where the plugin program
-lives.
+环境变量会在插件执行前被插入。上述模式说明了表示插件所在位置的首选方法。
 
-There are some strategies for working with plugin commands:
+有一些使用插件命令的策略：
 
-- If a plugin includes an executable, the executable for a `platformCommand:` or
-  a `command:` should be packaged in the plugin directory.
-- The `platformCommand:` or `command:` line will have any environment variables
-  expanded before execution. `$HELM_PLUGIN_DIR` will point to the plugin
-  directory.
-- The command itself is not executed in a shell. So you can't oneline a shell
-  script.
-- Helm injects lots of configuration into environment variables. Take a look at
-  the environment to see what information is available.
-- Helm makes no assumptions about the language of the plugin. You can write it
-  in whatever you prefer.
-- Commands are responsible for implementing specific help text for `-h` and
-  `--help`. Helm will use `usage` and `description` for `helm help` and `helm
-  help myplugin`, but will not handle `helm myplugin --help`.
+- 如果插件中包含可执行文件，可执行文件针对于 `platformCommand:`或`command:`命令，应该打包到插件目录中。
+- `platformCommand:` 或者 `command:` 行会在执行之前展开任何环境变量。`$HELM_PLUGIN_DIR`会指向插件目录。
+- 命令本身不是在shell中执行的。 所以不能一行一个shell脚本。
+- Helm在环境变量中插入很多配置。查看环境变量获取可用信息。
+- Helm对插件语言不做任何假设。你想写什么写什么。
+- `-h` 和 `--help`命令负责实现特定的帮助文本。Helm会在`helm help` 和 `helm help myplugin`中使用`usage`
+  和 `description`，但不处理`helm myplugin --help`。
 
 ## 下载插件
 
@@ -209,16 +172,15 @@ will be set as the `KUBECONFIG` variable
 
 ## 参数解析说明
 
-When executing a plugin, Helm will parse global flags for its own use. None of
-these flags are passed on to the plugin.
+当执行插件时，Helm会解析自己的全局参数。这些参数都不会传递给插件。
 
-- `--debug`: If this is specified, `$HELM_DEBUG` is set to `1`
-- `--registry-config`: This is converted to `$HELM_REGISTRY_CONFIG`
-- `--repository-cache`: This is converted to `$HELM_REPOSITORY_CACHE`
-- `--repository-config`: This is converted to `$HELM_REPOSITORY_CONFIG`
-- `--namespace` and `-n`: This is converted to `$HELM_NAMESPACE`
-- `--kube-context`: This is converted to `$HELM_KUBECONTEXT`
-- `--kubeconfig`: This is converted to `$KUBECONFIG`
+- `--debug`: 如果指定， `$HELM_DEBUG` 设置为 `1`
+- `--registry-config`: 链接到了 `$HELM_REGISTRY_CONFIG`
+- `--repository-cache`: 链接到了 `$HELM_REPOSITORY_CACHE`
+- `--repository-config`: 链接到了 `$HELM_REPOSITORY_CONFIG`
+- `--namespace` and `-n`: 链接到了 `$HELM_NAMESPACE`
+- `--kube-context`: 链接到了 `$HELM_KUBECONTEXT`
+- `--kubeconfig`: 链接到了 `$KUBECONFIG`
 
 Plugins _should_ display help text and then exit for `-h` and `--help`. In all
 other cases, plugins may use flags as appropriate.
