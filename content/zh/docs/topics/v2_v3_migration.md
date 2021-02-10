@@ -8,118 +8,78 @@ weight: 13
 
 ## Helm 3变化概述
 
-The full list of changes from Helm 2 to 3 are documented in the [FAQ
-section](https://v3.helm.sh/docs/faq/#changes-since-helm-2). The following is a
-summary of some of those changes that a user should be aware of before and
-during migration:
+Helm 2 to 3完整的变化列表在 [FAQ 部分](https://v3.helm.sh/docs/faq/#changes-since-helm-2)。
+以下是用户在迁移之前应该要注意的一些改变的概述：
 
-1. Removal of Tiller:
-   - Replaces client/server with client/library architecture (`helm` binary
-     only)
-   - Security is now on per user basis (delegated to Kubernetes user cluster
-     security)
-   - Releases are now stored as in-cluster secrets and the release object
-     metadata has changed
-   - Releases are persisted on a release namespace basis and not in the Tiller
-     namespace anymore
-2. Chart repository updated:
-   - `helm search` now supports both local repository searches and making search
-     queries against Artifact Hub
-3. Chart apiVersion bumped to "v2" for following specification changes:
-   - Dynamically linked chart dependencies moved to `Chart.yaml`
-     (`requirements.yaml` removed and  requirements --> dependencies)
-   - Library charts (helper/common charts) can now be added as dynamically
-     linked chart dependencies
-   - Charts have a `type` metadata field to define the chart to be of an
-     `application` or `library` chart. It is application by default which means
-     it is renderable and installable
-   - Helm 2 charts (apiVersion=v1) are still installable
-4. XDG directory specification added:
-   - Helm home removed and replaced with XDG directory specification for storing
-     configuration files
-   - No longer need to initialize Helm
-   - `helm init` and `helm home` removed
-5. Additional changes:
-   - Helm install/set-up is simplified:
-     - Helm client (helm binary) only (no Tiller)
-     - Run-as-is paradigm
-   - `local` or `stable` repositories are not set-up by default
-   - `crd-install` hook removed and replaced with `crds` directory in chart
-     where all CRDs defined in it will be installed before any rendering of the
-     chart
-   - `test-failure` hook annotation value removed, and `test-success`
-     deprecated. Use `test` instead
-   - Commands removed/replaced/added:
-       - delete --> uninstall : removes all release history by default
-         (previously needed `--purge`)
+1. 移除了Tiller:
+   - 用client/library结构（仅仅`helm`）替换了 client/server
+   - 安全性现在是每个用户的基础（委托给了Kubernetes用户集群安全）
+   - 发布版本现在作为集群内的密钥存储且改变了发布对象的元数据
+   - 发布版本是在版本命名空间的基础上持久化的并且不再是Tiller的命名空间
+2. 升级了Chart仓库：
+   - `helm search` 现在支持本地仓库搜索和Artifact Hub查询
+3. 对于以下更新的规范，Chart的apiVersion升级到了"v2"：
+   - 动态依赖的chart依赖移动到了`Chart.yaml`
+     (删除了`requirements.yaml` 且 requirements --> dependencies)
+   - 库chart (辅助/公共库) 现在可以添加为动态链接的chart依赖
+   - Chart有个`type`元数据字段将chart定义为`application`或`library`的chart。默认是可渲染和安装的应用
+   - Helm 2 的chart (apiVersion=v1) 依然可用
+4. 添加了XDG目录规范：
+   - Helm根目录针对存储配置文件删除和替换了XDG目录规范
+   - 不再需要初始化Helm
+   - 移除了`helm init` 和 `helm home`
+5. 其他更改：
+   - 简化了Helm的安装和设置：
+     - 仅针对Helm客户端 (二进制)
+     - 按照已有范式运行
+   - 不再默认设置`local`或`stable`仓库
+   - 删除了`crd-install`钩子并用chart中的`crds`目录替换了，在渲染chart之前会安装所有的crd
+   - 删除了`test-failure`钩子注释值，且弃用了`test-success`。使用`test`代替
+   - 删除/替换/添加的命令：
+       - delete --> uninstall : 默认删除所有的发布记录（之前需要`--purge`）
        - fetch --> pull
-       - home (removed)
-       - init (removed)
-       - install: requires release name or `--generate-name` argument
+       - home (已删除)
+       - init (已删除)
+       - install: 需要发布名称或者`--generate-name` 参数
        - inspect --> show
-       - reset (removed)
-       - serve (removed)
-       - template: `-x`/`--execute` argument renamed to `-s`/`--show-only`
-       - upgrade: Added argument `--history-max` which limits the maximum number
-         of revisions saved per release (0 for no limit)
-   - Helm 3 Go library has undergone a lot of changes and is incompatible with
-     the Helm 2 library
-   - Release binaries are now hosted on `get.helm.sh`
+       - reset (已删除)
+       - serve (已删除)
+       - template: `-x`/`--execute` 参数重命名为 `-s`/`--show-only`
+       - upgrade: 添加了参数 `--history-max`，限制每个版本保存的最大记录数量（0表示不限制）
+   - Helm 3 Go库经历了很多变化，不再兼容Helm 2库
+   - 发行版二进制包现在托管在 `get.helm.sh`
 
 ## 迁移用例
 
 迁移用例如下：
 
-1. Helm v2 and v3 managing the same cluster:
-   - This use case is only recommended if you intend to phase out Helm v2
-     gradually and do not require v3 to manage any releases deployed by v2. All
-     new releases being deployed should be performed by v3 and existing v2
-     deployed releases are updated/removed by v2 only
-   - Helm v2 and v3 can quite happily manage the same cluster. The Helm versions
-     can be installed on the same or separate systems
-   - If installing Helm v3 on the same system, you need to perform an additional
-     step to ensure that both client versions can co-exist until ready to remove
-     Helm v2 client. Rename or put the Helm v3 binary in a different folder to
-     avoid conflict
-   - Otherwise there are no conflicts between both versions because of the
-     following distinctions:
-     - v2 and v3 release (history) storage are independent of each other. The
-       changes include the Kubernetes resource for storage and the release
-       object metadata contained in the resource. Releases will also be on a per
-       user namespace instead of using the Tiller namespace (for example, v2
-       default Tiller namespace kube-system). v2 uses "ConfigMaps" or "Secrets"
-       under the Tiller namespace and `TILLER`ownership. v3 uses "Secrets" in
-       the user namespace and `helm` ownership. Releases are incremental in both
-       v2 and v3
-     - The only issue could be if Kubernetes cluster scoped resources (e.g.
-       `clusterroles.rbac`) are defined in a chart. The v3 deployment would then
-       fail even if unique in the namespace as the resources would clash
-     - v3 configuration no longer uses `$HELM_HOME` and uses XDG directory
-       specification instead. It is also created on the fly as need be. It is
-       therefore independent of v2 configuration. This is applicable only when
-       both versions are installed on the same system
+1. Helm v2和v3 来管理相同的集群：
+   - 只有打算逐步淘汰Helm v2时，才建议使用此用例，且不需要使用v3管理任何v2部署的发布。所有的新发布都应该使用v3部署且现有v2部署的只能用v2删除和升级
+   - Helm v2 和 v3 可以很欢快地管理同一个集群。Helm 版本可以安装在相同或单独的系统上。
+   - 如果将Helm v3安装在相同的系统上，需要执行额外的步骤来保证两个客户端版本可以共存，直到删除Helm v2客户端。重命名或者将Helm
+     v3执行文件放在不同的文件夹中以避免冲突
+   - 否则由于以下区别两个版本不存在冲突：
+     - v2 和 v3 发布（历史）存储是独立的。修改包括存储的Kubernetes资源和包含在资源中的发布对象元数据。发布版本会在每个用户命名空间而不是
+       Tiller命名空间（比如，v2默认的命名空间kube-system）。v2使用Tiller命名空间中的"ConfigMaps"或"Secrets"和
+       `TILLER`所有权。v3在用户命名空间中使用"Secrets"和`helm`所有权。发布版本在v2和v3中都是增量的。
+     - 唯一的问题是如果Kubernetes集群范围内的资源(比如`clusterroles.rbac`)定义在chart中。即使资源在命名空间中是唯一的，
+       因为冲突v3部署会失败。
+     - v3配置不再使用`$HELM_HOME`并使用XDG目录规范代替。还可以根据需要动态创建。因此它独立于v2配置。这仅适用于两个版本安装在同一个系统上的情况。
 
-2. Migrating Helm v2 to Helm v3:
-   - This use case applies when you want Helm v3 to manage existing Helm v2
-     releases
-   - It should be noted that a Helm v2 client:
-     - can manage 1 to many Kubernetes clusters
-     - can connect to 1 to many Tiller instances for  a cluster
-   - This means that you have to be aware of this when migrating as releases
-     are deployed into clusters by Tiller and its namespace. You have to
-     therefore be aware of migrating for each cluster and each Tiller instance
-     that is managed by the Helm v2 client instance
-   - The recommended data migration path is as follows:
-     1. Backup v2 data
-     2. Migrate Helm v2 configuration
-     3. Migrate Helm v2 releases
-     4. When confident that Helm v3 is managing all Helm v2 data (for all
-        clusters and Tiller instances of the Helm v2 client instance) as
-        expected, then clean up Helm v2 data
-   - The migration process is automated by the Helm v3
-     [2to3](https://github.com/helm/helm-2to3) plugin
+2. 将Helm v2迁移到Helm v3：
+   - 此案例适用于你希望用Helm v3管理现有Helm v2版本时
+   - 需要注意的是Helm v2 客户端：
+     - 可以管理1个或多个Kubernetes集群
+     - 可以为一个集权连接1个或多个Tiller实例
+   - 这意味着你必须注意当通过Tiller和它的命名空间迁移部署在集群中的发布。因此你必须注意使用Helm v2客户端实例管理的每个集群和Tiller实例的迁移
+   - 推荐的数据迁移步骤如下：
+     1. 备份v2数据
+     2. 迁移Helm v2配置
+     3. 迁移Helm v2发布
+     4. 当确信Helm v3按预期管理所有的Helm v2 数据时（针对Helm v2 客户端实例的所有集群和Tiller实例）
+   - 迁移过程有Helm v3的[2to3](https://github.com/helm/helm-2to3)插件自动完成
 
 ## 参考
 
-- Helm v3 [2to3](https://github.com/helm/helm-2to3) plugin
-- Blog [post](https://helm.sh/blog/migrate-from-helm-v2-to-helm-v3/) explaining `2to3` plugin usage with examples
+- Helm v3 [2to3](https://github.com/helm/helm-2to3) 插件
+- [post](https://helm.sh/blog/migrate-from-helm-v2-to-helm-v3/) 附带示例阐述了 `2to3`插件的使用
