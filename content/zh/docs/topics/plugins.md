@@ -122,8 +122,7 @@ downloaders:
   - "myprotocols"
 ```
 
-If such plugin is installed, Helm can interact with the repository using the
-specified protocol scheme by invoking the `command`. The special repository
+如果这个插件已经安装，Helm可以通过调用`command`可以使用指定的协议方案与存储仓库进行交互。 The special repository
 shall be added similarly to the regular ones: `helm repo add favorite
 myprotocol://example.com/` The rules for the special repos are the same to the
 regular ones: Helm must be able to download the `index.yaml` file in order to
