@@ -122,37 +122,28 @@ downloaders:
   - "myprotocols"
 ```
 
-如果这个插件已经安装，Helm可以通过调用`command`可以使用指定的协议方案与存储仓库进行交互。 The special repository
-shall be added similarly to the regular ones: `helm repo add favorite
-myprotocol://example.com/` The rules for the special repos are the same to the
-regular ones: Helm must be able to download the `index.yaml` file in order to
-discover and cache the list of available Charts.
+如果这个插件已经安装，Helm可以通过调用`command`可以使用指定的协议方案与存储仓库进行交互。
+特殊仓库的添加与常规仓库类似：`helm repo add favorite myprotocol://example.com/`。
+特殊仓库的的规则也和常规仓库相同：为了发现和缓存chart的可用列表，Helm必须下载`index.yaml`文件。
 
-The defined command will be invoked with the following scheme: `command certFile
-keyFile caFile full-URL`. The SSL credentials are coming from the repo
-definition, stored in `$HELM_REPOSITORY_CONFIG`
-(i.e., `$HELM_CONFIG_HOME/repositories.yaml`). A Downloader plugin
-is expected to dump the raw content to stdout and report errors on stderr.
+已定义的命令可以通过以下结构调用： `command certFile keyFile caFile full-URL`。SSL证书有仓库定义，存储在
+`$HELM_REPOSITORY_CONFIG`(即：`$HELM_CONFIG_HOME/repositories.yaml`)。
+下载器插件将原始内容使用stdout输出并使用stderr报告错误。
 
-The downloader command also supports sub-commands or arguments, allowing you to
-specify for example `bin/mydownloader subcommand -d` in the `plugin.yaml`. This
-is useful if you want to use the same executable for the main plugin command and
-the downloader command, but with a different sub-command for each.
+下载器命令也支持子命令和参数，允许在`plugin.yaml`指定，比如`bin/mydownloader subcommand -d`。
+如果你想在相同的可执行文件中执行主要的插件命令和下载器命令，这就变得很有用，但每个命令都有不同的子命令。
 
 ## 环境变量
 
-When Helm executes a plugin, it passes the outer environment to the plugin, and
-also injects some additional environment variables.
+当Helm执行插件时，会传递外部环境变量给插件，且会加入一些额外的环境变量。
 
-Variables like `KUBECONFIG` are set for the plugin if they are set in the outer
-environment.
+像 `KUBECONFIG` 这样的变量，如果是在外部环境中设置的，则是为插件设置的。
 
-The following variables are guaranteed to be set:
+要保证设置以下变量：
 
-- `HELM_PLUGINS`: The path to the plugins directory.
-- `HELM_PLUGIN_NAME`: The name of the plugin, as invoked by `helm`. So `helm
-  myplug` will have the short name `myplug`.
-- `HELM_PLUGIN_DIR`: The directory that contains the plugin.
+- `HELM_PLUGINS`: 插件目录路径。
+- `HELM_PLUGIN_NAME`: `helm`调用的插件名称。
+- `HELM_PLUGIN_DIR`: 包含插件的目录。
 - `HELM_BIN`: The path to the `helm` command (as executed by the user).
 - `HELM_DEBUG`: Indicates if the debug flag was set by helm.
 - `HELM_REGISTRY_CONFIG`: The location for the registry configuration (if
