@@ -144,19 +144,15 @@ downloaders:
 - `HELM_PLUGINS`: 插件目录路径。
 - `HELM_PLUGIN_NAME`: `helm`调用的插件名称。
 - `HELM_PLUGIN_DIR`: 包含插件的目录。
-- `HELM_BIN`: The path to the `helm` command (as executed by the user).
-- `HELM_DEBUG`: Indicates if the debug flag was set by helm.
-- `HELM_REGISTRY_CONFIG`: The location for the registry configuration (if
-  using). Note that the use of Helm with registries is an experimental feature.
-- `HELM_REPOSITORY_CACHE`: The path to the repository cache files.
-- `HELM_REPOSITORY_CONFIG`: The path to the repository configuration file.
-- `HELM_NAMESPACE`: The namespace given to the `helm` command (generally using
-  the `-n` flag).
-- `HELM_KUBECONTEXT`: The name of the Kubernetes config context given to the
-  `helm` command.
+- `HELM_BIN`: （当前用户的）`helm`命令的路径。
+- `HELM_DEBUG`: 表示helm是否设置了debug。
+- `HELM_REGISTRY_CONFIG`: 注册配置的位置（如果启用）。注意Helm使用注册中心是实验特性。
+- `HELM_REPOSITORY_CACHE`: 缓存文件路径。
+- `HELM_REPOSITORY_CONFIG`: 配置文件路径。
+- `HELM_NAMESPACE`: `helm`命令指定的命名空间（一般使用`-n`参数）。
+- `HELM_KUBECONTEXT`: `helm`命令给定的Kubernetes配置上下文的名称。
 
-Additionally, if a Kubernetes configuration file was explicitly specified, it
-will be set as the `KUBECONFIG` variable
+另外，如果明确指定Kubernetes配置文件，需要配置成 `KUBECONFIG`变量。
 
 ## 参数解析说明
 
@@ -166,23 +162,20 @@ will be set as the `KUBECONFIG` variable
 - `--registry-config`: 链接到了 `$HELM_REGISTRY_CONFIG`
 - `--repository-cache`: 链接到了 `$HELM_REPOSITORY_CACHE`
 - `--repository-config`: 链接到了 `$HELM_REPOSITORY_CONFIG`
-- `--namespace` and `-n`: 链接到了 `$HELM_NAMESPACE`
+- `--namespace` 和 `-n`: 链接到了 `$HELM_NAMESPACE`
 - `--kube-context`: 链接到了 `$HELM_KUBECONTEXT`
 - `--kubeconfig`: 链接到了 `$KUBECONFIG`
 
-Plugins _should_ display help text and then exit for `-h` and `--help`. In all
-other cases, plugins may use flags as appropriate.
+插件 _应该_ 使用`-h` 和 `--help`显示帮助文本然后退出。在所有其他情况下，插件根据需要使用参数。
 
 ## 提供shell自动补全
 
-As of Helm 3.2, a plugin can optionally provide support for shell
-auto-completion as part of Helm's existing auto-completion mechanism.
+从Helm 3.2开始，作为Helm现有的自动补全机制的一部分，插件可以选择性提供对shell自动补全的支持。
 
 ### 静态自动补全
 
-If a plugin provides its own flags and/or sub-commands, it can inform Helm of
-them by having a `completion.yaml` file located in the plugin's root directory.
-The `completion.yaml` file has the form:
+如果插件提供了自己的参数或者子命令，可以通过位于插件根目录的`completion.yaml`文件通知 Helm。
+`completion.yaml`格式如下：
 
 ```yaml
 name: <pluginName>
@@ -206,33 +199,20 @@ commands:
 
 注意：
 
-1. All sections are optional but should be provided if applicable.
-1. Flags should not include the `-` or `--` prefix.
-1. Both short and long flags can and should be specified. A short flag need not
-   be associated with its corresponding long form, but both forms should be
-   listed.
-1. Flags need not be ordered in any way, but need to be listed at the correct
-   point in the sub-command hierarchy of the file.
-1. Helm's existing global flags are already handled by Helm's auto-completion
-   mechanism, therefore plugins need not specify the following flags `--debug`,
-   `--namespace` or `-n`, `--kube-context`, and `--kubeconfig`, or any other
-   global flag.
-1. The `validArgs` list provides a static list of possible completions for the
-   first parameter following a sub-command.  It is not always possible to
-   provide such a list in advance (see the [Dynamic
-   Completion](#dynamic-completion) section below), in which case the
-   `validArgs` section can be omitted.
+1. 所有部分都是可选的，应该在适用时提供。
+2. 参数不该包含`-` 或 `--`前缀。
+3. 可以而且应该指定端的和长的参数。短参数不需要与其对应的长格式关联，但是都应被列出。
+4. 参数不需要以任何方式排序，但是需要列举在文件子命令层次结构的正确位置。
+5. Helm现有的全局参数已经由Helm的自动补全机制处理，因此插件不需要指定以下参数：`--debug`，`--namespace`或`-n`，
+   `--kube-context`，以及`--kubeconfig`，或者其他全局参数。
+6. `validArgs`列表提供了一个以下子命令的第一个参数可能补全的静态列表。并不总是能事先提供这样一份清单。
+   (查看下面的[动态补全](#dynamic-completion)部分)，这种情况下`validArgs`部分可以省略。
 
-The `completion.yaml` file is entirely optional.  If it is not provided, Helm
-will simply not provide shell auto-completion for the plugin (unless [Dynamic
-Completion](#dynamic-completion) is supported by the plugin).  Also, adding a
-`completion.yaml` file is backwards-compatible and will not impact the behavior
-of the plugin when using older helm versions.
+`completion.yaml`文件是完全可选的。如果没有提供，Helm不会为插件提供shell自动补全功能(除非插件支持 [动态补全](#dynamic-completion))。
+并且，添加`completion.yaml`文件是向后兼容的，而且不会影响到插件使用helm旧版本的操作。
 
-As an example, for the [`fullstatus
-plugin`](https://github.com/marckhouzam/helm-fullstatus) which has no
-sub-commands but accepts the same flags as the `helm status` command, the
-`completion.yaml` file is:
+举个例子，针对[`fullstatus plugin`](https://github.com/marckhouzam/helm-fullstatus)，没有子命令但是接受
+与`helm status`命令相同的参数，`completion.yaml`文件如下：
 
 ```yaml
 name: fullstatus
@@ -242,8 +222,7 @@ flags:
 - revision
 ```
 
-A more intricate example for the [`2to3
-plugin`](https://github.com/helm/helm-2to3), has a `completion.yaml` file of:
+一个使用[`2to3 plugin`](https://github.com/helm/helm-2to3)更复杂的例子，`completion.yaml`文件如下：
 
 ```yaml
 name: 2to3
@@ -280,28 +259,17 @@ commands:
     - dry-run
 ```
 
-### 动态补全
+### Dynamic completion
 
-Also starting with Helm 3.2, plugins can provide their own dynamic shell
-auto-completion. Dynamic shell auto-completion is the completion of parameter
-values or flag values that cannot be defined in advance.  For example,
-completion of the names of helm releases currently available on the cluster.
+也是从Helm 3.2开始，插件可以提供它们自己的动态shell补全。动态补全是补全事先没有定义的参数值或标签值。比如说，补全集群中现在可用的helm发布的名称。
 
-For the plugin to support dynamic auto-completion, it must provide an
-**executable** file called `plugin.complete` in its root directory. When the
-Helm completion script requires dynamic completions for the plugin, it will
-execute the `plugin.complete` file, passing it the command-line that needs to be
-completed.  The `plugin.complete` executable will need to have the logic to
-determine what the proper completion choices are and output them to standard
-output to be consumed by the Helm completion script.
+对于支持动态补全的插件，必须在根目录中提供一个命名为`plugin.complete`的**可执行**文件。当Helm的自动补全脚本需要为这个插件动态补全时，会执行
+`plugin.complete`文件，传递需要补全的命令行。`plugin.complete`可执行文件需要有判断核实补全选项的逻辑并将其通过Helm补全脚本输出到标准输出。
 
-The `plugin.complete` file is entirely optional.  If it is not provided, Helm
-will simply not provide dynamic auto-completion for the plugin.  Also, adding a
-`plugin.complete` file is backwards-compatible and will not impact the behavior
-of the plugin when using older helm versions.
+`plugin.complete`文件是完全可选的。如果没有提供，Helm不会为插件提供动态自动补全。并且，添加`plugin.complete`文件是向后兼容的，
+而且不会影响到插件使用Helm旧版本的操作。
 
-The output of the `plugin.complete` script should be a new-line separated list
-such as:
+`plugin.complete`脚本的输出应该是以行分隔的列表，例如：
 
 ```console
 rel1
@@ -309,27 +277,17 @@ rel2
 rel3
 ```
 
-When `plugin.complete` is called, the plugin environment is set just like when
-the plugin's main script is called. Therefore, the variables `$HELM_NAMESPACE`,
-`$HELM_KUBECONTEXT`, and all other plugin variables will already be set, and
-their corresponding global flags will be removed.
+当调用`plugin.complete`时，插件环境的设置与调用插件的主脚本时一样。因此，变量 `$HELM_NAMESPACE`，`$HELM_KUBECONTEXT`，
+以及所有其他插件变量都已经设置好了，且它们对应的全局标志会被移除。
 
-The `plugin.complete` file can be in any executable form; it can be a shell
-script, a Go program, or any other type of program that Helm can execute. The
-`plugin.complete` file ***must*** have executable permissions for the user. The
-`plugin.complete` file ***must*** exit with a success code (value 0).
+`plugin.complete`文件可以是任何可执行格式；可以是shell脚本，Go程序，或者任何其他Helm可以执行的类型。`plugin.complete`文件
+***必须***有对用户的可执行权限。`plugin.complete`文件 ***必须*** 以成功码退出（0）。
 
-In some cases, dynamic completion will require to obtain information from the
-Kubernetes cluster.  For example, the `helm fullstatus` plugin requires a
-release name as input. In the `fullstatus` plugin, for its `plugin.complete`
-script to provide completion for current release names, it can simply run `helm
-list -q` and output the result.
+在有些场景中，动态补全需要从Kubernetes集群中获取信息。比如，`helm fullstatus`插件需要发布名称作为输入。在`fullstatus`插件中，
+针对它的`plugin.complete`脚本提供当前发布名称的补全，执行`helm list -q`即可输出结果。
 
-If it is desired to use the same executable for plugin execution and for plugin
-completion, the `plugin.complete` script can be made to call the main plugin
-executable with some special parameter or flag; when the main plugin executable
-detects the special parameter or flag, it will know to run the completion. In
-our example, `plugin.complete` could be implemented like this:
+如果想插件执行和插件补全使用同一个可执行文件，`plugin.complete`脚本可以使用特殊的参数或标签调用主插件执行文件；当主插件执行文件检测到特殊的参数或标签，
+它就知道应该执行补全。在以下示例中，`plugin.complete`执行如下：
 
 ```sh
 #!/usr/bin/env sh
@@ -339,24 +297,16 @@ our example, `plugin.complete` could be implemented like this:
 $HELM_PLUGIN_DIR/status.sh --complete "$@"
 ```
 
-The `fullstatus` plugin's real script (`status.sh`) must then look for the
-`--complete` flag and if found, printout the proper completions.
+`fullstatus`脚本的实际脚本(`status.sh`)必须查找`--complete`，如果存在，打印出合适的补全。
 
 ### 提示和技巧
 
-1. The shell will automatically filter out completion choices that don't match
-   user input. A plugin can therefore return all relevant completions without
-   removing the ones that don't match the user input.  For example, if the
-   command-line is `helm fullstatus ngin<TAB>`, the `plugin.complete` script can
-   print *all* release names (of the `default` namespace), not just the ones
-   starting with `ngin`; the shell will only retain the ones starting with
-   `ngin`.
-1. To simplify dynamic completion support, especially if you have a complex
-   plugin, you can have your  `plugin.complete` script call your main plugin
-   script and request completion choices.  See the [Dynamic
-   Completion](#dynamic-completion) section above for an example.
-1. To debug dynamic completion and the `plugin.complete` file, one can run the
-   following to see the completion results :
-    - `helm __complete <pluginName> <arguments to complete>`.  For example:
-    - `helm __complete fullstatus --output js<ENTER>`,
+1. 脚本会自动过滤掉不匹配输入的补全。因此，插件会返回所有相关的补全，而不删除与用户输入不匹配的补全。比如，如果命令行是
+   `helm fullstatus ngin<TAB>`，不仅仅是以`ngin`开头的，`plugin.complete` 脚本可以打印 *所有* （`default`默认命名空间）的发布名称，
+    脚本只会保留以`ngin`开头的。
+2. 为了简化动态补全支持，尤其是如果你有个复杂的插件，你可以有你的`plugin.complete`脚本调用你的主插件脚本并请求补全选项。查看上面
+   [动态补全](#dynamic-completion)的例子。
+3. 要调试动态补全和`plugin.complete`文件，可以运行以下命令查看补全效果：
+    - `helm __complete <pluginName> <arguments to complete>`。比如：
+    - `helm __complete fullstatus --output js<ENTER>`，
     - `helm __complete fullstatus -o json ""<ENTER>`
