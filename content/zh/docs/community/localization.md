@@ -1,7 +1,6 @@
 ---
 title: "Localizing Helm Documentation"
 description: "Instructions for localizing the Helm documentation."
-aliases: ["/docs/localization/"]
 weight: 5
 ---
 
