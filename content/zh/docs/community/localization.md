@@ -82,12 +82,11 @@ cp content/en/docs/intro/install.md content/ko/docs/intro/install.md
 ![Screen Shot 2020-05-11 at 11 24 22
 AM](https://user-images.githubusercontent.com/686194/81597103-035de600-937a-11ea-9834-cd9dcef4e914.png)
 
-The site global
+站点全局
 [config.toml](https://github.com/helm/helm-www/blob/master/config.toml#L83L89)
-file is where language navigation is configured.
+文件可以配置语言导航。
 
-To add a new language, add a new set of parameters using the [two-letter
-language code](./localization/#two-letter-language-code) defined above. Example:
+添加新语言，可以使用上面定义的双字母语言码添加一组参数。比如：
 
 ```toml
 # Korean
@@ -99,11 +98,10 @@ languageName = "한국어 Korean"
 weight = 1
 ```
 
-## Resolving Internal Links
+## 解析内部链接
 
-Translated content will sometimes include links to pages that only exist in
-another language. This will result in site [build
-errors](https://app.netlify.com/sites/helm-merge/deploys). Example:
+翻译的内容有时会包含跳转到其他页面的链接，但只存在于其他语言中。就会出现
+[build errors](https://app.netlify.com/sites/helm-merge/deploys)。比如：
 
 ```shell
 12:45:31 PM: htmltest started at 12:45:30 on app
@@ -114,17 +112,15 @@ errors](https://app.netlify.com/sites/helm-merge/deploys). Example:
 12:45:31 PM: 1 error in 212 documents
 ```
 
-To resolve this, you need to check your content for internal links.
+为了解决这个问题，你需要检查翻译中的内部链接。
 
-- anchor links need to reflect the translated `id` value
-- internal page links need to be fixed
+- 锚点链接需要反映翻译的 `id` 值
+- 内部页面链接需要修复
 
-For internal pages that do not exist _(or have not been translated yet)_, the
-site will not build until a correction is made. As a fallback, the url can point
-to another language where that content _does_ exist as follows:
+对于不存在的内部页， _(或者还未被翻译的)_，站点不会构建，直到修复错误。应急的话可以指向
+另一个已经存在的语言：
 
 `< relref path="/docs/topics/library_charts.md" lang="en" >`
 
-See the [Hugo Docs on cross references between
-languages](https://gohugo.io/content-management/cross-references/#link-to-another-language-version)
-for more info.
+查看 [语言之间的交叉引用](https://gohugo.io/content-management/cross-references/#link-to-another-language-version)
+获取更多信息。
