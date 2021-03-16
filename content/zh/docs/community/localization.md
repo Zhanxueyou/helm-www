@@ -51,43 +51,33 @@ requests](https://help.github.com/en/github/collaborating-with-issues-and-pull-r
 
 ### 开始一个新语言
 
-When starting a new language there is a minimum needed. This includes:
+开始新语言时有些最低要求，包括：
 
-- Adding a `content/[LANG]/docs` directory containing an `_index.md` file. This
-  is the top level documentation landing page.
-- Creating a `[LANG].toml` file in the `i18n` directory. Initially you can copy
-  the `en.toml` file as a starting point.
-- Adding a section for the language to the `config.toml` file to expose the new
-  language. An existing language section can serve as a starting point.
+- 添加`content/[LANG]/docs`目录，包含`_index.md` 文件。这是顶层的文档落地页。
+- `[LANG].toml` 文件在`i18n`目录中。可以复制`en.toml`文件作为起点。
+- 在 `config.toml`文件中添加一部分用于展示新语言。可以用已有语言作为起点。
 
-### Translating
+### 翻译
 
-Translated content needs to reside in the `content/[LANG]/docs` directory. It
-should have the same URL as the English source. For example, to translate the
-intro into Korean it can be useful to copy the english source like:
+已翻译内容需要保留在 `content/[LANG]/docs` 目录中。应该有相同的URL作为英文源。
+比如，将intro翻译为韩文时拷贝英文是有用的：
 
 ```sh
 mkdir -p content/ko/docs/intro
 cp content/en/docs/intro/install.md content/ko/docs/intro/install.md
 ```
 
-The content in the new file can then be translated into the other language.
+这个新文件中的内容可以翻译成其他语言。
 
-Do not add an untranslated copy of an English file to `content/[LANG]/`.
-Once a language exists on the site, any untranslated pages will redirect to
-English automatically. Translation takes time, and you always want to be
-translating the most current version of the docs, not an outdated fork.
+不要在`content/[LANG]/`中添加未翻译的英文文件拷贝。语言存在之后，任何未翻译的页面
+都会自动重定向到英文。翻译需要时间，应该翻译最新版本的文档，而不是过时的fork。
 
-Make sure you remove any `aliases` lines from the header section. A line like
-`aliases: ["/docs/using_helm/"]` does not belong in the translations. Those
-are redirections for old links which don't exist for new pages.
+确保从头部删除`aliases`行。像 `aliases: ["/docs/using_helm/"]` 不属于翻译。
+这些是旧链接的重定向，新页面不存在这些链接。
 
-Note, translation tools can help with the process. This includes machine
-generated translations. Machine generated translations should be edited or
-otherwise reviewing for grammar and meaning by a native language speaker before
-publishing.
+注意翻译工具可以帮助完成这个过程。包括机器翻译内容。机器翻译内容在发布之前应该由说母语的人编辑或者审查语法和语义。
 
-## Navigating Between Languages
+## 在语言之间切换
 
 ![Screen Shot 2020-05-11 at 11 24 22
 AM](https://user-images.githubusercontent.com/686194/81597103-035de600-937a-11ea-9834-cd9dcef4e914.png)
