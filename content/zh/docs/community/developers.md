@@ -1,103 +1,83 @@
 ---
-title: "Developer Guide"
-description: "Instructions for setting up your environment for developing Helm."
+title: "开发者指南"
+description: "开发Helm的环境设置说明。"
 weight: 1
 ---
 
-This guide explains how to set up your environment for developing on Helm.
+该指南说明如何为开发Helm配置环境。
 
-## Prerequisites
+## 先决条件
 
-- The latest version of Go
-- A Kubernetes cluster w/ kubectl (optional)
+- Go最新版本
+- Kubernetes集群及kubectl（可选）
 - Git
 
-## Building Helm
+## 构建 Helm
 
-We use Make to build our programs. The simplest way to get started is:
+我们使用Make构建程序。最简单的开始方式是：
 
 ```console
 $ make
 ```
 
-NOTE: This will fail if not running from the path `$GOPATH/src/helm.sh/helm`.
-The directory `helm.sh` should not be a symlink or `build` will not find the
-relevant packages.
+注意： 如果不是从`$GOPATH/src/helm.sh/helm`路径执行就会失败。目录`helm.sh`不应该是软链接，否则
+`build` 找不到相关的包。
 
-If required, this will first install dependencies, rebuild the `vendor/` tree,
-and validate configuration. It will then compile `helm` and place it in
-`bin/helm`.
+有必要的话要先安装依赖，重新构建 `vendor/` 目录，并验证配置。然后会编译 `helm` 并将其放到`bin/helm`。
 
+在本地执行Helm，可以执行 `bin/helm`。
 
-To run Helm locally, you can run `bin/helm`.
+- Helm运行在 macOS 和大多数发行版上，包括 Alpine。
 
-- Helm is known to run on macOS and most Linux distributions, including Alpine.
+## 执行测试
 
-## Running tests
+要运行所有测试（除了`vendor/`），执行 `make test`。作为先决条件，需要安装
+[golangci-lint](https://golangci-lint.run)。
 
-To run all the tests (without running the tests for `vendor/`), run `make test`.
-As a pre-requisite, you would need to have 
-[golangci-lint](https://golangci-lint.run) 
-installed.
+## 贡献指南
 
+我们欢迎你的贡献。 该项目已经设置了一些指南，为了保证 (a) 代码的高质量，(b) 保持项目一致，
+(c) 贡献遵循开源法律要求。我们的目的不是为贡献者增加负担，但是要构建优雅和高质量的开源代码，
+这样我们的用户才能从中受益。
 
-## Contribution Guidelines
-
-We welcome contributions. This project has set up some guidelines in order to
-ensure that (a) code quality remains high, (b) the project remains consistent,
-and (c) contributions follow the open source legal requirements. Our intent is
-not to burden contributors, but to build elegant and high-quality open source
-code so that our users will benefit.
-
-Make sure you have read and understood the main CONTRIBUTING guide:
+确保你已经阅读并理解主要贡献指南：
 
 https://github.com/helm/helm/blob/master/CONTRIBUTING.md
 
-### Structure of the Code
+### 代码结构
 
-The code for the Helm project is organized as follows:
+Helm项目的代码组织如下：
 
-- The individual programs are located in `cmd/`. Code inside of `cmd/` is not
-  designed for library re-use.
-- Shared libraries are stored in `pkg/`.
-- The `scripts/` directory contains a number of utility scripts. Most of these
-  are used by the CI/CD pipeline.
+- 独立的程序位于 `cmd/`。`cmd/` 中的代码不是为库复用设计的。
+- 共享的库放在 `pkg/`。
+- `scripts/` 目录包含很多实用程序脚本。大多数用于CI/CD流水线。
 
-Go dependency management is in flux, and it is likely to change during the
-course of Helm's lifecycle. We encourage developers to _not_ try to manually
-manage dependencies. Instead, we suggest relying upon the project's `Makefile`
-to do that for you. With Helm 3, it is recommended that you are on Go version
-1.13 or later.
+Go依赖管理在不断变化，而且在Helm生命周期中很可能发生变化。我们建议开发者 _不要_ 手动管理依赖。
+而是建议依靠项目的 `Makefile` 来处理。使用Helm 3时，建议使用Go 1.13及更新版本。
 
-### Writing Documentation
+### 编写文档
 
-Since Helm 3, documentation has been moved to its own repository. When writing
-new features, please write accompanying documentation and submit it to the
-[helm-www](https://github.com/helm/helm-www) repository.
+从Helm 3开始，文档已经移动到了它自己的仓库中。当编制新特性时，请编写随附文档并提交到
+[helm-www](https://github.com/helm/helm-www) 仓库。
 
-### Git Conventions
+### Git 约定
 
-We use Git for our version control system. The `master` branch is the home of
-the current development candidate. Releases are tagged. If you are working on
-patches for Helm v2, the branch `dev-v2` is the base branch from which Helm 2
-releases are cut.
+我们使用Git作为版本控制系统。 `master` 分支是当前开发候选分支。发布版本会打tag。 如果你正在为Helm v2打补丁，
+ `dev-v2` 分支是从Helm 2发布版本开的基础分支。
 
-We accept changes to the code via GitHub Pull Requests (PRs). One workflow for
-doing this is as follows:
+我们通过GitHub的Pull Requests(PRs)接受更改。操作工作流如下：
 
-1. Go to your `$GOPATH/src` directory, then `mkdir helm.sh; cd helm.sh` and `git
-   clone` the `github.com/helm/helm` repository.
-2. Fork that repository into your GitHub account
-3. Add your repository as a remote for `$GOPATH/src/helm.sh/helm`
-4. Create a new working branch (`git checkout -b feat/my-feature`) and do your
-   work on that branch.
-5. When you are ready for us to review, push your branch to GitHub, and then
-   open a new pull request with us.
+1. 进入 `$GOPATH/src` 目录，然后 `mkdir helm.sh; cd helm.sh` 并`git clone`这个
+  `github.com/helm/helm`仓库。
+2. Fork仓库到自己的GitHub账户
+3. 为 `$GOPATH/src/helm.sh/helm` 添加自己的远程仓库
+4. 创建一个新分支(`git checkout -b feat/my-feature`) 并在新分支上开发。
+5. 当你准备好待审查代码时，将分支推送到GitHub，并开一个新的pull request 给我们。
 
-For Git commit messages, we follow the [Semantic Commit
-Messages](https://karma-runner.github.io/0.13/dev/git-commit-msg.html):
+对于Git提交信息，我们遵循
+[语义化提交信息](https://karma-runner.github.io/0.13/dev/git-commit-msg.html)：
 
-```
+```shell
 fix(helm): add --foo flag to 'helm install'
 
 When 'helm install --foo bar' is run, this will print "foo" in the
@@ -106,43 +86,36 @@ output regardless of the outcome of the installation.
 Closes #1234
 ```
 
-Common commit types:
+常见提交类型：
 
-- fix: Fix a bug or error
-- feat: Add a new feature
-- docs: Change documentation
-- test: Improve testing
-- ref: refactor existing code
+- fix: 修复bug或错误
+- feat: 添加新特性
+- docs: 更新文档
+- test: 完善测试
+- ref: 重构现有代码
 
-Common scopes:
+通用范围：
 
-- helm: The Helm CLI
-- pkg/lint: The lint package. Follow a similar convention for any package
-- `*`: two or more scopes
+- helm: Helm CLI
+- pkg/lint: lint包。对任意包都遵循类似的约定
+- `*`: 两个或更多范围
 
-Read more:
-- The [Deis
-  Guidelines](https://github.com/deis/workflow/blob/master/src/contributing/submitting-a-pull-request.md)
-  were the inspiration for this section.
+了解更多：
+
+- 灵感来源于 [Deis指南](https://github.com/deis/workflow/blob/master/src/contributing/submitting-a-pull-request.md)。
 - Karma Runner
-  [defines](https://karma-runner.github.io/0.13/dev/git-commit-msg.html) the
-  semantic commit message idea.
+  [定义](https://karma-runner.github.io/0.13/dev/git-commit-msg.html) 了语义提交信息的观点。
 
-### Go Conventions
+### Go 约定
 
-We follow the Go coding style standards very closely. Typically, running `go
-fmt` will make your code beautiful for you.
+我们非常严格地遵守Go编码风格标准。典型方式是，执行 `go fmt` 可以让代码更加整洁。
 
-We also typically follow the conventions recommended by `go lint` and
-`gometalinter`. Run `make test-style` to test the style conformance.
+我们通常也通过`go lint` 和`gometalinter`遵循推荐的约定。执行 `make test-style` 来测试风格一致性。
 
-Read more:
+了解更多：
 
-- Effective Go [introduces
-  formatting](https://golang.org/doc/effective_go.html#formatting).
-- The Go Wiki has a great article on
-  [formatting](https://github.com/golang/go/wiki/CodeReviewComments).
+- 有效的Go[引入格式](https://golang.org/doc/effective_go.html#formatting)。
+- Go Wiki有关于[formatting](https://github.com/golang/go/wiki/CodeReviewComments)很棒的文章。
 
-If you run the `make test` target, not only will unit tests be run, but so will
-style tests. If the `make test` target fails, even for stylistic reasons, your
-PR will not be considered ready for merging.
+如果运行`make test`，不仅单元测试会执行，格式测试也会自执行。如果 `make test`失败，即使是因为格式方面的原因，
+你的PR也不会被合并。

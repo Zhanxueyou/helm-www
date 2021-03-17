@@ -1,129 +1,94 @@
 ---
-title: "Localizing Helm Documentation"
-description: "Instructions for localizing the Helm documentation."
+title: "本地化Helm文档"
+description: "本地化Helm文档的说明。"
 weight: 5
 ---
 
-This guide explains how to localize the Helm documentation.
+本指南介绍如何本地化Helm文档。
 
-## Getting Started
+## 入门
 
-Contributions for translations use the same process as contributions for
-documentation. Translations are supplied through [pull
+翻译工作使用与文档稿件相同的过程。翻译通过[pull
 requests](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests)
-to the [helm-www](https://github.com/helm/helm-www) git repository and pull
-requests are reviewed by the team that manages the website.
+提供给 [helm-www](https://github.com/helm/helm-www) 仓库并由管理站点的团队审查。
 
-### Two-letter Language Code
+### 双字母语言代码
 
-Documentation is organized by the [ISO 639-1
-standard](https://www.loc.gov/standards/iso639-2/php/code_list.php) for the
-language codes. For example, the two-letter code for Korean is `ko`.
+语言代码文档由[ISO 639-1标准](https://www.loc.gov/standards/iso639-2/php/code_list.php)组织。
+比如，韩国的双字母代码是 `ko`。
 
-In content and configuration you will find the language code in use. Here are 3
-examples:
+在内容和配置中可以找到使用的语音码。三个例子如下：
 
-- In the `content` directory the language codes are the subdirectories and the
-  localized content for the language is in each directory. Primarily in the
-  `docs` subdirectory of each language code directory.
-- The `i18n` directory contains a configuration file for each language with
-  phrases used on the website. The files are named with the patter `[LANG].toml`
-  where `[LANG]` is the two letter language code.
-- In the top level `config.toml` file there is configuration for navigation and
-  other details organized by language code.
+- `content` 目录中的子目录以语言码命名且本地化内容在对应的目录中。 主要在每个语言码目录的 `docs`子目录中。
+- `i18n`目录包含一个网站使用的每种语言的配置文件。文件按照 `[LANG].toml` 形式命名，`[LANG]` 是双字母语言码。
+- 顶层`config.toml`文件中，有按语言码组织的导航和其他详细信息的配置。
 
-English, with a language code of `en`, is the default language and source for
-translations.
+英文使用语言码 `en`，是翻译的默认语言和资源。
 
 ### Fork, Branch, Change, Pull Request
 
-To contribute translations start by [creating a
-fork](https://help.github.com/en/github/getting-started-with-github/fork-a-repo)
-of the [helm-www repository](https://github.com/helm/helm-www) on GitHub. You
-will start by committing the changes to your fork.
+贡献翻译从[helm-www仓库](https://github.com/helm/helm-www)
+[创建fork](https://help.github.com/en/github/getting-started-with-github/fork-a-repo)开始。在你的fork中提交更改。
 
-By default your fork will be set to work on the default branch known as master.
-Please use branches to develop your changes and create pull requests. If you are
-unfamiliar with branches you can [read about them in the GitHub
-documentation](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-branches).
+默认情况下，fork将在名为master的默认分支上工作。请使用分支提交更改并创建pull requests。如果你不熟悉分支，可以
+[阅读GitHub文档](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-branches)。
 
-Once you have a branch make changes to add translations and localize the content
-to a language.
+一旦有了分支，就可以添加翻译，将内容本地化为一种语言。
 
-Note, Helm uses a [Developers Certificate of
-Origin](https://developercertificate.org/). All commits need to have signoff.
-When making a commit you can use the `-s` or `--signoff` flag to use your Git
-configured name and email address to signoff on the commit. More details are
-available in the
-[CONTRIBUTING.md](https://github.com/helm/helm-www/blob/master/CONTRIBUTING.md#sign-your-work)
-file.
+注意，Helm使用一个[Developers Certificate of Origin](https://developercertificate.org/)。
+所有的提交需要signoff。提交时可以使用 `-s` 或 `--signoff` 参数使用你Git配置的用户和邮箱签署这个提交。
+更多细节请查看 [CONTRIBUTING.md](https://github.com/helm/helm-www/blob/master/CONTRIBUTING.md#sign-your-work)
+文件。
 
-When you are ready, create a [pull
-request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests)
-with the translation back to the helm-www repository.
+准备好之后，创建一个 [pull request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests)
+将翻译提交到helm-www仓库。
 
-Once a pull request has been created one of the maintainers will review it.
-Details on that process are in the
-[CONTRIBUTING.md](https://github.com/helm/helm-www/blob/master/CONTRIBUTING.md)
-file.
+一旦创建了pull request，维护者会进行审查。过程细节查看 [CONTRIBUTING.md](https://github.com/helm/helm-www/blob/master/CONTRIBUTING.md)。
 
-## Translating Content
+## 翻译内容
 
-Localizing all of the Helm content is a large task. It is ok to start small. The
-translations can be expanded over time.
+本地化所有的Helm内容是一项巨大的任务。开始很小的改动是可以的。翻译会随着时间扩展。
 
-### Starting A New Language
+### 开始一个新语言
 
-When starting a new language there is a minimum needed. This includes:
+开始新语言时有些最低要求，包括：
 
-- Adding a `content/[LANG]/docs` directory containing an `_index.md` file. This
-  is the top level documentation landing page.
-- Creating a `[LANG].toml` file in the `i18n` directory. Initially you can copy
-  the `en.toml` file as a starting point.
-- Adding a section for the language to the `config.toml` file to expose the new
-  language. An existing language section can serve as a starting point.
+- 添加`content/[LANG]/docs`目录，包含`_index.md` 文件。这是顶层的文档落地页。
+- `[LANG].toml` 文件在`i18n`目录中。可以复制`en.toml`文件作为起点。
+- 在 `config.toml`文件中添加一部分用于展示新语言。可以用已有语言作为起点。
 
-### Translating
+### 翻译
 
-Translated content needs to reside in the `content/[LANG]/docs` directory. It
-should have the same URL as the English source. For example, to translate the
-intro into Korean it can be useful to copy the english source like:
+已翻译内容需要保留在 `content/[LANG]/docs` 目录中。应该有相同的URL作为英文源。
+比如，将intro翻译为韩文时拷贝英文是有用的：
 
 ```sh
 mkdir -p content/ko/docs/intro
 cp content/en/docs/intro/install.md content/ko/docs/intro/install.md
 ```
 
-The content in the new file can then be translated into the other language.
+这个新文件中的内容可以翻译成其他语言。
 
-Do not add an untranslated copy of an English file to `content/[LANG]/`.
-Once a language exists on the site, any untranslated pages will redirect to
-English automatically. Translation takes time, and you always want to be
-translating the most current version of the docs, not an outdated fork.
+不要在`content/[LANG]/`中添加未翻译的英文文件拷贝。语言存在之后，任何未翻译的页面
+都会自动重定向到英文。翻译需要时间，应该翻译最新版本的文档，而不是过时的fork。
 
-Make sure you remove any `aliases` lines from the header section. A line like
-`aliases: ["/docs/using_helm/"]` does not belong in the translations. Those
-are redirections for old links which don't exist for new pages.
+确保从头部删除`aliases`行。像 `aliases: ["/docs/using_helm/"]` 不属于翻译。
+这些是旧链接的重定向，新页面不存在这些链接。
 
-Note, translation tools can help with the process. This includes machine
-generated translations. Machine generated translations should be edited or
-otherwise reviewing for grammar and meaning by a native language speaker before
-publishing.
+注意翻译工具可以帮助完成这个过程。包括机器翻译内容。机器翻译内容在发布之前应该由说母语的人编辑或者审查语法和语义。
 
-
-## Navigating Between Languages
+## 在语言之间切换
 
 ![Screen Shot 2020-05-11 at 11 24 22
 AM](https://user-images.githubusercontent.com/686194/81597103-035de600-937a-11ea-9834-cd9dcef4e914.png)
 
-The site global
+站点全局
 [config.toml](https://github.com/helm/helm-www/blob/master/config.toml#L83L89)
-file is where language navigation is configured.
+文件可以配置语言导航。
 
-To add a new language, add a new set of parameters using the [two-letter
-language code](./localization/#two-letter-language-code) defined above. Example:
+添加新语言，可以使用上面定义的双字母语言码添加一组参数。比如：
 
-```
+```toml
 # Korean
 [languages.ko]
 title = "Helm"
@@ -133,13 +98,12 @@ languageName = "한국어 Korean"
 weight = 1
 ```
 
-## Resolving Internal Links
+## 解析内部链接
 
-Translated content will sometimes include links to pages that only exist in
-another language. This will result in site [build
-errors](https://app.netlify.com/sites/helm-merge/deploys). Example:
+翻译的内容有时会包含跳转到其他页面的链接，但只存在于其他语言中。就会出现
+[build errors](https://app.netlify.com/sites/helm-merge/deploys)。比如：
 
-```
+```shell
 12:45:31 PM: htmltest started at 12:45:30 on app
 12:45:31 PM: ========================================================================
 12:45:31 PM: ko/docs/chart_template_guide/accessing_files/index.html
@@ -148,17 +112,15 @@ errors](https://app.netlify.com/sites/helm-merge/deploys). Example:
 12:45:31 PM: 1 error in 212 documents
 ```
 
-To resolve this, you need to check your content for internal links.
+为了解决这个问题，你需要检查翻译中的内部链接。
 
-* anchor links need to reflect the translated `id` value
-* internal page links need to be fixed
+- 锚点链接需要反映翻译的 `id` 值
+- 内部页面链接需要修复
 
-For internal pages that do not exist _(or have not been translated yet)_, the
-site will not build until a correction is made. As a fallback, the url can point
-to another language where that content _does_ exist as follows:
+对于不存在的内部页， _(或者还未被翻译的)_，站点不会构建，直到修复错误。应急的话可以指向
+另一个已经存在的语言：
 
 `< relref path="/docs/topics/library_charts.md" lang="en" >`
 
-See the [Hugo Docs on cross references between
-languages](https://gohugo.io/content-management/cross-references/#link-to-another-language-version)
-for more info.
+查看 [语言之间的交叉引用](https://gohugo.io/content-management/cross-references/#link-to-another-language-version)
+获取更多信息。
