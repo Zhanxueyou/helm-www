@@ -6,45 +6,38 @@ weight: 2
 
 # 维护人员发布Helm指南
 
-Time for a new Helm release! As a Helm maintainer cutting a release, you are
-the best person to [update this
-release checklist](https://github.com/helm/helm-www/blob/master/content/en/docs/community/release_checklist.md)
-should your experiences vary from what's documented here.
+是时候发布新的Helm了！作为Helm维护者发布版本，如果你的经验与这里的文档不同，那你就是
+[更新版本checklist](https://github.com/helm/helm-www/blob/master/content/en/docs/community/release_checklist.md)
+的最佳人选。
 
-All releases will be of the form vX.Y.Z where X is the major version number, Y
-is the minor version number and Z is the patch release number. This project
-strictly follows [semantic versioning](https://semver.org/) so following this
-step is critical.
+所有版本都将采用vX.Y.Z的形式，X是主版本号，Y是次版本号，Z是补丁发布号。该项目严格遵守 [语义化版本](https://semver.org/)，
+因此遵循这一点非常重要。
 
-Helm announces in advance the date of its next minor release. Every effort
-should be made to respect the announced date.  Furthermore, when starting
-the release process, the date for the next release should have been selected
-as it will be used in the release process.
+Helm会提前宣布下个次版本发布的日期。应尽一切努力遵守宣布的日期。此外，在开始发布过程时，应该选择下一个发布的日期在发布过程中使用。
 
-These directions will cover initial configuration followed by the release
-process for three different kinds of releases:
+这些说明将涵盖三种不同版本的遵守发布过程的初始配置：
 
-* Major Releases - released less frequently - have breaking changes
-* Minor Releases - released every 3 to 4 months - no breaking changes
-* Patch Releases - released monthly - do not require all steps in this guide
+- 主版本 - 发布频率较低 - 有重大更新时
+- 次版本 - 每3到4个月发布 - 无重大更新
+- 补丁版本 - 每月发布 - 不需要指南中的所有步骤
 
-[Initial Configuration](#initial-configuration)
+[初始化配置](#initial-configuration)
 
-1. [Create the Release Branch](#1-create-the-release-branch)
-2. [Major/Minor releases: Change the Version Number in Git](#2-majorminor-releases-change-the-version-number-in-git)
-3. [Major/Minor releases: Commit and Push the Release Branch](#3-majorminor-releases-commit-and-push-the-release-branch)
-4. [Major/Minor releases: Create a Release Candidate](#4-majorminor-releases-create-a-release-candidate)
-5. [Major/Minor releases: Iterate on Successive Release Candidates](#5-majorminor-releases-iterate-on-successive-release-candidates)
-6. [Finalize the Release](#6-finalize-the-release)
-7. [Write the Release Notes](#7-write-the-release-notes)
-8. [PGP Sign the downloads](#8-pgp-sign-the-downloads)
-9. [Publish Release](#9-publish-release)
-10. [Update Docs](#10-update-docs)
-11. [Tell the Community](#11-tell-the-community)
+1. [创建发布分支](#1-create-the-release-branch)
+2. [主/次版本：在Git中更改版本号](#2-majorminor-releases-change-the-version-number-in-git)
+3. [主/次版本：提交并推送发布分支](#3-majorminor-releases-commit-and-push-the-release-branch)
+4. [主/次版本：创建一个发布候选](#4-majorminor-releases-create-a-release-candidate)
+5. [主/次版本：迭代连续的候选版本](#5-majorminor-releases-iterate-on-successive-release-candidates)
+6. [完成发布](#6-finalize-the-release)
+7. [编写发布日志](#7-write-the-release-notes)
+8. [PGP签名下载](#8-pgp-sign-the-downloads)
+9. [发布版本](#9-publish-release)
+10. [更新文档](#10-update-docs)
+11. [告知社区](#11-tell-the-community)
 
 ## Initial Configuration
 
-### Set Up Git Remote
+### 设置远程Git
 
 It is important to note that this document assumes that the git remote in your
 repository that corresponds to <https://github.com/helm/helm> is named
@@ -61,7 +54,7 @@ remote](https://docs.github.com/en/github/collaborating-with-issues-and-pull-req
 git remote add upstream git@github.com:helm/helm.git
 ```
 
-### Set Up Environment Variables
+### 设置环境变量
 
 In this doc, we are going to reference a few environment variables as well,
 which you may want to set for convenience. For major/minor releases, use the
@@ -81,7 +74,7 @@ export RELEASE_NAME=vX.Y.Z+1
 export RELEASE_BRANCH_NAME="release-X.Y"
 ```
 
-### Set Up Signing Key
+### 设置签名Key
 
 We are also going to be adding security and verification of the release process
 by hashing the binaries and providing signature files. We perform this using
@@ -190,12 +183,12 @@ index 712aae64..c1ed191e 100644
 In addition to updating the version within the `version.go` file, you will also
 need to update corresponding tests that are using that version number.
 
-* `cmd/helm/testdata/output/version.txt`
-* `cmd/helm/testdata/output/version-client.txt`
-* `cmd/helm/testdata/output/version-client-shorthand.txt`
-* `cmd/helm/testdata/output/version-short.txt`
-* `cmd/helm/testdata/output/version-template.txt`
-* `pkg/chartutil/capabilities_test.go`
+- `cmd/helm/testdata/output/version.txt`
+- `cmd/helm/testdata/output/version-client.txt`
+- `cmd/helm/testdata/output/version-client-shorthand.txt`
+- `cmd/helm/testdata/output/version-short.txt`
+- `cmd/helm/testdata/output/version-template.txt`
+- `pkg/chartutil/capabilities_test.go`
 
 ```shell
 git add .
