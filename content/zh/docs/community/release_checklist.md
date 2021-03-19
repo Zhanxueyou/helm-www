@@ -377,35 +377,25 @@ make sign
 
 ## 10. Update Docs
 
-The [Helm website docs section](https://helm.sh/docs) lists the Helm versions
-for the docs. Major, minor, and patch versions need to be updated on the site.
-The date for the next minor release is also published on the site and must be
-updated.
-To do that create a pull request against the [helm-www
-repository](https://github.com/helm/helm-www). In the `config.toml` file find
-the proper `params.versions` section and update the Helm version, like in this
-example of [updating the current
-version](https://github.com/helm/helm-www/pull/676/files).  In the same
-`config.toml` file, update the `params.nextversion` section.
+[Helm站点文档部分](https://helm.sh/docs)列出了Helm版本的文档。主、次及补丁版本需要更行到这个站点。
+下一个次要版本的发布日期也要发布出来且必须更新。这要创建一个pull request 到
+[helm-www仓库](https://github.com/helm/helm-www)。在 `config.toml` 文件中找到合适的
+`params.versions`部分并更新Helm版本，例如 [更新当前版本](https://github.com/helm/helm-www/pull/676/files)。
+在同一个`config.toml`文件中，更新`params.nextversion`部分。
 
-Close the [helm/helm milestone](https://github.com/helm/helm/milestones) for
-the release, if applicable.
+如果需要，关闭这个版本的[helm/helm 里程碑](https://github.com/helm/helm/milestones)。
 
-Update the [version
-skew](https://github.com/helm/helm-www/blob/master/content/en/docs/topics/version_skew.md)
-for major and minor releases.
+为主版本和次版本更新[version skew](https://github.com/helm/helm-www/blob/master/content/en/docs/topics/version_skew.md)。
 
-Update the release calendar [here](https://helm.sh/calendar/release):
-* create an entry for the next minor release with a reminder for that day at 5pm GMT
-* create an entry for the RC1 of the next minor release on the Monday of the week before the planned release, with a reminder for that day at 5pm GMT
+在[这里](https://helm.sh/calendar/release)更新版本日历：
+
+- 为下一个次要版本创建一个条目并在GMT下午5点设置提醒
+- 在计划发布的前一周的周一为下一个次要版本的RC1创建一个条目，设置GMT下午5点的提醒
 
 ## 11. Tell the Community
 
 恭喜，你已经完成了。去喝一杯吧。这是你应得的。
 
-After enjoying a nice $DRINK_OF_CHOICE, go forth and announce the new release
-in Slack and on Twitter with a link to the [release on
-GitHub](https://github.com/helm/helm/releases).
+然后继续前进并在Slack和Twitter上宣布这个新分支，并链接到[GitHub发布版本](https://github.com/helm/helm/releases)。
 
-Optionally, write a blog post about the new release and showcase some of the new
-features on there!
+或者，写一篇新版本的blog并在上面展示一些新特性！
