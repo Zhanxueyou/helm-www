@@ -1,71 +1,58 @@
 ---
-title: "Release Checklist"
-description: "Checklist for maintainers when releasing the next version of Helm."
+title: "版本 Checklist"
+description: "维护人员在发布下一个Helm版本时的checklist。"
 weight: 2
 ---
 
-# A Maintainer's Guide to Releasing Helm
+# 维护人员发布Helm指南
 
-Time for a new Helm release! As a Helm maintainer cutting a release, you are
-the best person to [update this
-release checklist](https://github.com/helm/helm-www/blob/master/content/en/docs/community/release_checklist.md)
-should your experiences vary from what's documented here.
+是时候发布新的Helm了！作为Helm维护者发布版本，如果你的经验与这里的文档不同，那你就是
+[更新版本checklist](https://github.com/helm/helm-www/blob/master/content/en/docs/community/release_checklist.md)
+的最佳人选。
 
-All releases will be of the form vX.Y.Z where X is the major version number, Y
-is the minor version number and Z is the patch release number. This project
-strictly follows [semantic versioning](https://semver.org/) so following this
-step is critical.
+所有版本都将采用vX.Y.Z的形式，X是主版本号，Y是次版本号，Z是补丁发布号。该项目严格遵守 [语义化版本](https://semver.org/)，
+因此遵循这一点非常重要。
 
-Helm announces in advance the date of its next minor release. Every effort
-should be made to respect the announced date.  Furthermore, when starting
-the release process, the date for the next release should have been selected
-as it will be used in the release process.
+Helm会提前宣布下个次版本发布的日期。应尽一切努力遵守宣布的日期。此外，在开始发布过程时，应该选择下一个发布的日期在发布过程中使用。
 
-These directions will cover initial configuration followed by the release
-process for three different kinds of releases:
+这些说明将涵盖三种不同版本的遵守发布过程的初始配置：
 
-* Major Releases - released less frequently - have breaking changes
-* Minor Releases - released every 3 to 4 months - no breaking changes
-* Patch Releases - released monthly - do not require all steps in this guide
+- 主版本 - 发布频率较低 - 有重大更新时
+- 次版本 - 每3到4个月发布 - 无重大更新
+- 补丁版本 - 每月发布 - 不需要指南中的所有步骤
 
-[Initial Configuration](#initial-configuration)
+[初始化配置](#initial-configuration)
 
-1. [Create the Release Branch](#1-create-the-release-branch)
-2. [Major/Minor releases: Change the Version Number in Git](#2-majorminor-releases-change-the-version-number-in-git)
-3. [Major/Minor releases: Commit and Push the Release Branch](#3-majorminor-releases-commit-and-push-the-release-branch)
-4. [Major/Minor releases: Create a Release Candidate](#4-majorminor-releases-create-a-release-candidate)
-5. [Major/Minor releases: Iterate on Successive Release Candidates](#5-majorminor-releases-iterate-on-successive-release-candidates)
-6. [Finalize the Release](#6-finalize-the-release)
-7. [Write the Release Notes](#7-write-the-release-notes)
-8. [PGP Sign the downloads](#8-pgp-sign-the-downloads)
-9. [Publish Release](#9-publish-release)
-10. [Update Docs](#10-update-docs)
-11. [Tell the Community](#11-tell-the-community)
+1. [创建发布分支](#1-create-the-release-branch)
+2. [主/次版本：在Git中更改版本号](#2-majorminor-releases-change-the-version-number-in-git)
+3. [主/次版本：提交并推送发布分支](#3-majorminor-releases-commit-and-push-the-release-branch)
+4. [主/次版本：创建一个候选发布](#4-majorminor-releases-create-a-release-candidate)
+5. [主/次版本：迭代连续的候选版本](#5-majorminor-releases-iterate-on-successive-release-candidates)
+6. [完成发布](#6-finalize-the-release)
+7. [编写发布日志](#7-write-the-release-notes)
+8. [PGP签名下载](#8-pgp-sign-the-downloads)
+9. [发布版本](#9-publish-release)
+10. [更新文档](#10-update-docs)
+11. [告知社区](#11-tell-the-community)
 
 ## Initial Configuration
 
-### Set Up Git Remote
+### 设置远程Git
 
-It is important to note that this document assumes that the git remote in your
-repository that corresponds to <https://github.com/helm/helm> is named
-"upstream". If yours is not (for example, if you've chosen to name it "origin"
-or something similar instead), be sure to adjust the listed snippets for your
-local environment accordingly. If you are not sure what your upstream remote is
-named, use a command like `git remote -v` to find out.
+需要注意的是该文档假设你的远程upstream仓库关联到了<https://github.com/helm/helm>。
+如果不是（比如，如果你选择了“origin”或其他类似的替代），请确保根据本地环境调整列出的代码段。
+如果你不确定使用了什么远程的upstream，使用`git remote -v`命令查看。
 
-If you don't have an [upstream
-remote](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/configuring-a-remote-for-a-fork)
-, you can add one using something like:
+如果你没有[上游远程](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/configuring-a-remote-for-a-fork)，
+可以类似这样添加：
 
 ```shell
 git remote add upstream git@github.com:helm/helm.git
 ```
 
-### Set Up Environment Variables
+### 设置环境变量
 
-In this doc, we are going to reference a few environment variables as well,
-which you may want to set for convenience. For major/minor releases, use the
-following:
+在该文档中，我们还会引用一些环境变量，更便于设置。针对主、次版本，使用以下选项：
 
 ```shell
 export RELEASE_NAME=vX.Y.0
@@ -73,7 +60,7 @@ export RELEASE_BRANCH_NAME="release-X.Y"
 export RELEASE_CANDIDATE_NAME="$RELEASE_NAME-rc.1"
 ```
 
-If you are creating a patch release, use the following instead:
+如果你在创建一个补丁版本，改用以下命令：
 
 ```shell
 export PREVIOUS_PATCH_RELEASE=vX.Y.Z
@@ -81,36 +68,25 @@ export RELEASE_NAME=vX.Y.Z+1
 export RELEASE_BRANCH_NAME="release-X.Y"
 ```
 
-### Set Up Signing Key
+### 设置签名Key
 
-We are also going to be adding security and verification of the release process
-by hashing the binaries and providing signature files. We perform this using
-[GitHub and
-GPG](https://help.github.com/en/articles/about-commit-signature-verification).
-If you do not have GPG already setup you can follow these steps:
+我们还会通过对二进制文件和提供的签名文件进行哈希计算增加发布过程的安全性和认证。
+使用[GitHub 和 GPG](https://help.github.com/en/articles/about-commit-signature-verification)来执行。
+如果还没设置GPG可以按照以下步骤操作：
 
-1. [Install GPG](https://gnupg.org/index.html)
-2. [Generate GPG
-   key](https://help.github.com/en/articles/generating-a-new-gpg-key)
-3. [Add key to GitHub
-   account](https://help.github.com/en/articles/adding-a-new-gpg-key-to-your-github-account)
-4. [Set signing key in
-   Git](https://help.github.com/en/articles/telling-git-about-your-signing-key)
+1. [安装 GPG](https://gnupg.org/index.html)
+2. [生成 GPG key](https://help.github.com/en/articles/generating-a-new-gpg-key)
+3. [将key添加到GitHub账户中](https://help.github.com/en/articles/adding-a-new-gpg-key-to-your-github-account)
+4. [在Git中设置签名密钥](https://help.github.com/en/articles/telling-git-about-your-signing-key)
 
-Once you have a signing key you need to add it to the KEYS file at the root of
-the repository. The instructions for adding it to the KEYS file are in the file.
-If you have not done so already, you need to add your public key to the
-keyserver network. If you use GnuPG you can follow the [instructions provided by
-Debian](https://debian-administration.org/article/451/Submitting_your_GPG_key_to_a_keyserver).
+一旦你有了签名密钥，需要将其添加到仓库根目录中的KEYS文件中。文件中有添加密钥到KEY文件的说明。如果还没有，需要将公钥添加到keyserver。
+如果使用了GnuPG，可以参照[Debian提供的说明](https://debian-administration.org/article/451/Submitting_your_GPG_key_to_a_keyserver)。
 
 ## 1. Create the Release Branch
 
-### Major/Minor Releases
+### 主、次版本
 
-Major releases are for new feature additions and behavioral changes *that break
-backwards compatibility*. Minor releases are for new feature additions that do
-not break backwards compatibility. To create a major or minor release, start by
-creating a `release-vX.Y.0` branch from master.
+主版本是为新特性及操作且*不具有向后兼容性*。次版本是为了不破坏向后兼容性的新特性。创建一个主版本或次版本，从主干分支创建`release-vX.Y.0`分支。
 
 ```shell
 git fetch upstream
@@ -118,28 +94,23 @@ git checkout upstream/master
 git checkout -b $RELEASE_BRANCH_NAME
 ```
 
-This new branch is going to be the base for the release, which we are going to
-iterate upon later.
+这个新分支是发布版本的基础分支，会在后面不断迭代。
 
-Verify that a [helm/helm milestone](https://github.com/helm/helm/milestones)
-for the release exists on GitHub (creating it if necessary). Make sure PRs and
-issues for this release are in this milestone.
+为GitHub上已存在的版本验证[helm/helm里程碑](https://github.com/helm/helm/milestones)。
+确保针对这个版本的PR和issue都在这个里程碑中。
 
-For major & minor releases, move on to step 2: [Major/Minor releases: Change
-the Version Number in Git](#2-majorminor-releases-change-the-version-number-in-git).
+针对主版本和次版本，跳转到 2: [主/次版本：在Git中更改版本号](#2-majorminor-releases-change-the-version-number-in-git)。
 
-### Patch releases
+### 补丁版本
 
-Patch releases are a few critical cherry-picked fixes to existing releases.
-Start by creating a `release-vX.Y.Z` branch:
+补丁版本是一些已有版本中严格的cherry-picked修复。以创建`release-vX.Y.Z`分支开始：
 
 ```shell
 git fetch upstream
 git checkout -b $RELEASE_BRANCH_NAME upstream/$RELEASE_BRANCH_NAME
 ```
 
-From here, we can cherry-pick the commits we want to bring into the patch
-release:
+在这里可以cherry-pick出需要带到补丁版本中的提交：
 
 ```shell
 # get the commits ids we want to cherry-pick
@@ -148,27 +119,23 @@ git log --oneline
 git cherry-pick -x <commit-id>
 ```
 
-After the commits have been cherry picked the release branch needs to be pushed.
+挑出提交之后这个版本分支需要被推送。
 
 ```shell
 git push upstream $RELEASE_BRANCH_NAME
 ```
 
-Pushing the branch will cause the tests to run. Make sure they pass prior to
-creating the tag. This new tag is going to be the base for the patch release.
+推送分支会触发测试。创建tag之前确保测试是通过的。
+这个新tag将成为补丁版本的基础。
 
-Creating a [helm/helm
-milestone](https://github.com/helm/helm/milestones) is optional for patch
-releases.
+针对补丁版本，创建[helm/helm里程碑](https://github.com/helm/helm/milestones)是可选的。
 
-Make sure to check [helm on CircleCI](https://circleci.com/gh/helm/helm) to see
-that the release passed CI before proceeding. Patch releases can skip steps 2-5
-and proceed to step 6 to [Finalize the Release](#6-finalize-the-release).
+继续之前确保[helm 在 CircleCI](https://circleci.com/gh/helm/helm)通过CI。补丁版本可以跳过2-5步，
+直接执行6 [完成发布](#6-finalize-the-release)。
 
 ## 2. Major/Minor releases: Change the Version Number in Git
 
-When doing a major or minor release, make sure to update
-`internal/version/version.go` with the new release version.
+当有主版本或次版本发布时，确保用新版本更新`internal/version/version.go`。
 
 ```shell
 $ git diff internal/version/version.go
@@ -187,26 +154,22 @@ index 712aae64..c1ed191e 100644
         metadata = ""
 ```
 
-In addition to updating the version within the `version.go` file, you will also
-need to update corresponding tests that are using that version number.
+除了在`version.go`文件中更行版本，还需要更新使用了新版本的相关测试。
 
-* `cmd/helm/testdata/output/version.txt`
-* `cmd/helm/testdata/output/version-client.txt`
-* `cmd/helm/testdata/output/version-client-shorthand.txt`
-* `cmd/helm/testdata/output/version-short.txt`
-* `cmd/helm/testdata/output/version-template.txt`
-* `pkg/chartutil/capabilities_test.go`
+- `cmd/helm/testdata/output/version.txt`
+- `cmd/helm/testdata/output/version-client.txt`
+- `cmd/helm/testdata/output/version-client-shorthand.txt`
+- `cmd/helm/testdata/output/version-short.txt`
+- `cmd/helm/testdata/output/version-template.txt`
+- `pkg/chartutil/capabilities_test.go`
 
 ```shell
 git add .
 git commit -m "bump version to $RELEASE_NAME"
 ```
 
-This will update it for the $RELEASE_BRANCH_NAME only. You will also need to
-pull this change into the master branch for when the next release is being
-created, as in [this example of 3.2 to
-3.3](https://github.com/helm/helm/pull/8411/files), and add it to the milestone
-for the next release.
+这只会对$RELEASE_BRANCH_NAME更新。也许要在下个版本更新时推送到主干分支，就像 [3.2 更新到
+3.3](https://github.com/helm/helm/pull/8411/files)，并将其添加到下一个版本的里程碑中。
 
 ```shell
 # get the last commit id i.e. commit to bump the version
@@ -225,84 +188,67 @@ git push origin bump-version-<release-version>
 
 ## 3. Major/Minor releases: Commit and Push the Release Branch
 
-In order for others to start testing, we can now push the release branch
-upstream and start the test process.
+为了让他人开始测试，我们可以推送发布分支到upstream并开始测试过程。
 
 ```shell
 git push upstream $RELEASE_BRANCH_NAME
 ```
 
-Make sure to check [helm on CircleCI](https://circleci.com/gh/helm/helm) to see
-that the release passed CI before proceeding.
+继续之前确保 [helm 在CircleCI](https://circleci.com/gh/helm/helm)版本通过CI。
 
-If anyone is available, let others peer-review the branch before continuing to
-ensure that all the proper changes have been made and all of the commits for the
-release are there.
+如果有人可用，让其他人在确保所有更改都已正确处理且所有该版本的提交都已存在，并提前对分支进行同行评审。
 
 ## 4. Major/Minor releases: Create a Release Candidate
 
-Now that the release branch is out and ready, it is time to start creating and
-iterating on release candidates.
+现在，发布分支已经准备好了，可以开始创建和迭代候选版本了。
 
 ```shell
 git tag --sign --annotate "${RELEASE_CANDIDATE_NAME}" --message "Helm release ${RELEASE_CANDIDATE_NAME}"
 git push upstream $RELEASE_CANDIDATE_NAME
 ```
 
-CircleCI will automatically create a tagged release image and client binary to
-test with.
+CircleCI 会自动创建一个打tag的发布镜像，同时测试客户端库。
 
-For testers, the process to start testing after CircleCI finishes building the
-artifacts involves the following steps to grab the client:
+对测试人员来说，在CircleCI完成测试构建过程之后开始测试，包括以下步骤来获取客户端：
 
-linux/amd64, using /bin/bash:
+linux/amd64, 使用 /bin/bash:
 
 ```shell
 wget https://get.helm.sh/helm-$RELEASE_CANDIDATE_NAME-linux-amd64.tar.gz
 ```
 
-darwin/amd64, using Terminal.app:
+darwin/amd64, 使用 Terminal.app:
 
 ```shell
 wget https://get.helm.sh/helm-$RELEASE_CANDIDATE_NAME-darwin-amd64.tar.gz
 ```
 
-windows/amd64, using PowerShell:
+windows/amd64, 使用 PowerShell:
 
 ```shell
 PS C:\> Invoke-WebRequest -Uri "https://get.helm.sh/helm-$RELEASE_CANDIDATE_NAME-windows-amd64.tar.gz" -OutFile "helm-$ReleaseCandidateName-windows-amd64.tar.gz"
 ```
 
-Then, unpack and move the binary to somewhere on your $PATH, or move it
-somewhere and add it to your $PATH (e.g. /usr/local/bin/helm for linux/macOS,
-C:\Program Files\helm\helm.exe for Windows).
+然后，将二进制包解压并移动到$PATH目录中，或者移动到某个位置并添加$PATH（比如linux/macOS的/usr/local/bin/helm，windows的
+C:\Program Files\helm\helm.exe for Windows）。
 
 ## 5. Major/Minor releases: Iterate on Successive Release Candidates
 
-Spend several days explicitly investing time and resources to try and break helm
-in every possible way, documenting any findings pertinent to the release. This
-time should be spent testing and finding ways in which the release might have
-caused various features or upgrade environments to have issues, not coding.
-During this time, the release is in code freeze, and any additional code changes
-will be pushed out to the next release.
+花了几天时间和资源去尝试用各种方式破坏helm，将所有的相关发现都记录到发布中。这段时间应该花在测试和寻找发行版可能导致各种特性或升级环境出现问题的方法上，
+不要编码。这段时间发布版本应该冻结代码，且任何要添加的代码更新都推到下个发布版本中。
 
-During this phase, the $RELEASE_BRANCH_NAME branch will keep evolving as you
-will produce new release candidates. The frequency of new candidates is up to
-the release manager: use your best judgement taking into account the severity of
-reported issues, testers' availability, and the release deadline date. Generally
-speaking, it is better to let a release roll over the deadline than to ship a
-broken release.
+这个阶段，$RELEASE_BRANCH_NAME 会随着你新产生的候选发布不断发展。新候选的频率取决于发布管理员：依据报告问题的严重性、
+测试人员效率和发布期限做出最佳判断。一般来说，即使跨过最后期限也不能发布坏版本。
 
-Each time you'll want to produce a new release candidate, you will start by
-adding commits to the branch by cherry-picking from master:
+在每次创建新的候选发布时，需要以添加从主干分支检出的commit开始：
 
 ```shell
 git cherry-pick -x <commit_id>
 ```
 
-You will also want to push the branch to GitHub and ensure it passes CI.
+你也需要推送这个分支到GitHub并保证通过CI。
 
-After that, tag it and notify users of the new release candidate:
+然后打tag并通知用户有新的候选版本了：
 
 ```shell
 export RELEASE_CANDIDATE_NAME="$RELEASE_NAME-rc.2"
@@ -310,17 +256,14 @@ git tag --sign --annotate "${RELEASE_CANDIDATE_NAME}" --message "Helm release ${
 git push upstream $RELEASE_CANDIDATE_NAME
 ```
 
-Once pushed to GitHub, check to ensure the branch with this tag builds in CI.
+一旦推送到了GitHub，检查分支确保tag在CI中构建。
 
-From here on just repeat this process, continuously testing until you're happy
-with the release candidate. For a release candidate, we don't write the full notes,
-but you can scaffold out some [release notes](#7-write-the-release-notes).
+从这里重复这个过程，持续测试直到你对候选发布满意为止。对于发布候选，我们不写完整的记录，但可以写一下
+[发布日志](#7-write-the-release-notes)。
 
 ## 6. Finalize the Release
 
-When you're finally happy with the quality of a release candidate, you can move
-on and create the real thing. Double-check one last time to make sure everything
-is in order, then finally push the release tag.
+当你最终对自己的候选发布的质量感到满意时，可以继续并创建一个真正的发布。 最后再检查一次确保一切正常，最后推送这个发布的tag。
 
 ```shell
 git checkout $RELEASE_BRANCH_NAME
@@ -328,26 +271,19 @@ git tag --sign --annotate "${RELEASE_NAME}" --message "Helm release ${RELEASE_NA
 git push upstream $RELEASE_NAME
 ```
 
-Verify that the release succeeded in
-[CircleCI](https://circleci.com/gh/helm/helm). If not, you will need to fix the
-release and push the release again.
+在[CircleCI](https://circleci.com/gh/helm/helm)中验证发布是否成功。如果不行，需要修复这个版本并重新推送。
 
-As the CI job will take some time to run, you can move on to writing release
-notes while you wait for it to complete.
+由于CI作业需要运行一段时间，你可以在等待其完成时去写发布日志。
 
 ## 7. Write the Release Notes
 
-We will auto-generate a changelog based on the commits that occurred during a
-release cycle, but it is usually more beneficial to the end-user if the release
-notes are hand-written by a human being/marketing team/dog.
+我们会根据发布周期提交的记录自动生成一个更新日志，但是，如果发布说明是由人或市场团队手写的，通常对最终用户会更有利。
 
-If you're releasing a major/minor release, listing notable user-facing features
-is usually sufficient. For patch releases, do the same, but make note of the
-symptoms and who is affected.
+如果你在发布一个主或次版本，一般列出值得注意的面向用户的特性就足够了。对于补丁版本同样，但要标记出问题和会受影响的人。
 
-The release notes should include the version and planned date of the next release.
+发布日志应该包含版本号和下一个版本的计划发布日期。
 
-An example release note for a minor release would look like this:
+针对次要版本的发布日志示例如下：
 
 ```markdown
 ## vX.Y.Z
@@ -393,8 +329,7 @@ The [Quickstart Guide](https://docs.helm.sh/using_helm/#quickstart-guide) will g
 - fix circle not building tags f4f932fabd197f7e6d608c8672b33a483b4b76fa (Matthew Fisher)
 ```
 
-A partially completed set of release notes including the changelog can be
-created by running the following command:
+通过运行以下命令可以创建一组包括更新日志的部分完成的发行说明：
 
 ```shell
 export VERSION="$RELEASE_NAME"
@@ -404,32 +339,23 @@ make fetch-dist
 make release-notes
 ```
 
-This will create a good baseline set of release notes to which you should just
-need to fill out the **Notable Changes** and **What's next** sections.
+这回生成一个发行日志的良好基线，你仅仅需要填写 **Notable Changes** 和 **What's next** 部分。
 
-Feel free to add your voice to the release notes; it's nice for people to think
-we're not all robots.
+可以在发布日志中随意添加你想说的，对用户来说会很好而不至于感觉我们是机器人。
 
-You should also double check the URLs and checksums are correct in the
-auto-generated release notes.
+你也需要再次检查自动生成的日志中的URL和校验和。
 
-Once finished, go into GitHub to [helm/helm
-releases](https://github.com/helm/helm/releases) and edit the release notes for
-the tagged release with the notes written here.
-For target branch, set to $RELEASE_BRANCH_NAME.
+完成之后，去GitHub的 [helm/helm releases](https://github.com/helm/helm/releases)
+中为已打tag的版本编辑发布说明。对于目标分支，设置$RELEASE_BRANCH_NAME。
 
-It is now worth getting other people to take a look at the release notes before
-the release is published. Send a request out to
-[#helm-dev](https://kubernetes.slack.com/messages/C51E88VDG) for review. It is
-always beneficial as it can be easy to miss something.
+现在需要让其他人在发行版本发布之前看看发行说明。发一个request到
+[#helm-dev](https://kubernetes.slack.com/messages/C51E88VDG)用于评审。发行日志很容易漏掉一些东西，因此评审总是有用的。
 
 ## 8. PGP Sign the downloads
 
-While hashes provide a signature that the content of the downloads is what it
-was generated, signed packages provide traceability of where the package came
-from.
+哈希生成一个表明下载内容就是其生成内容的签名，签名包提供了包来自何处的可追溯性。
 
-To do this, run the following `make` commands:
+为此，要执行以下 `make` 命令：
 
 ```shell
 export VERSION="$RELEASE_NAME"
@@ -438,53 +364,38 @@ make fetch-dist	# if not already run
 make sign
 ```
 
-This will generate ascii armored signature files for each of the files pushed by
-CI.
+这会生成通过CI推送的每个文件的ascii封装的签名文件。
 
-All of the signature files (`*.asc`) need to be uploaded to the release on
-GitHub (attach binaries).
+所有的签名文件(`*.asc`)需要上传到GitHub中的发布版本（附件二级制文件）中。
 
 ## 9. Publish Release
 
-Time to make the release official!
+是时候正式发布了！
 
-After the release notes are saved on GitHub, the CI build is completed, and
-you've added the signature files to the release, you can hit "Publish" on
-the release. This publishes the release, listing it as "latest", and shows this
-release on the front page of the [helm/helm](https://github.com/helm/helm) repo.
+发布说明保存在GitHub之后，CI构建已经完成，并且已经添加了发布版本的签名文件，你可以在发布版本上点击 "Publish" 了。
+发布的版本，标记为"latest"，并在[helm/helm](https://github.com/helm/helm)仓库的首页显示这个发布版本。
 
 ## 10. Update Docs
 
-The [Helm website docs section](https://helm.sh/docs) lists the Helm versions
-for the docs. Major, minor, and patch versions need to be updated on the site.
-The date for the next minor release is also published on the site and must be
-updated.
-To do that create a pull request against the [helm-www
-repository](https://github.com/helm/helm-www). In the `config.toml` file find
-the proper `params.versions` section and update the Helm version, like in this
-example of [updating the current
-version](https://github.com/helm/helm-www/pull/676/files).  In the same
-`config.toml` file, update the `params.nextversion` section.
+[Helm站点文档部分](https://helm.sh/docs)列出了Helm版本的文档。主、次及补丁版本需要更行到这个站点。
+下一个次要版本的发布日期也要发布出来且必须更新。这要创建一个pull request 到
+[helm-www仓库](https://github.com/helm/helm-www)。在 `config.toml` 文件中找到合适的
+`params.versions`部分并更新Helm版本，例如 [更新当前版本](https://github.com/helm/helm-www/pull/676/files)。
+在同一个`config.toml`文件中，更新`params.nextversion`部分。
 
-Close the [helm/helm milestone](https://github.com/helm/helm/milestones) for
-the release, if applicable.
+如果需要，关闭这个版本的[helm/helm 里程碑](https://github.com/helm/helm/milestones)。
 
-Update the [version
-skew](https://github.com/helm/helm-www/blob/master/content/en/docs/topics/version_skew.md)
-for major and minor releases.
+为主版本和次版本更新[version skew](https://github.com/helm/helm-www/blob/master/content/en/docs/topics/version_skew.md)。
 
-Update the release calendar [here](https://helm.sh/calendar/release):
-* create an entry for the next minor release with a reminder for that day at 5pm GMT
-* create an entry for the RC1 of the next minor release on the Monday of the week before the planned release, with a reminder for that day at 5pm GMT
+在[这里](https://helm.sh/calendar/release)更新版本日历：
+
+- 为下一个次要版本创建一个条目并在GMT下午5点设置提醒
+- 在计划发布的前一周的周一为下一个次要版本的RC1创建一个条目，设置GMT下午5点的提醒
 
 ## 11. Tell the Community
 
-Congratulations! You're done. Go grab yourself a $DRINK_OF_CHOICE. You've earned
-it.
+恭喜，你已经完成了。去喝一杯吧。这是你应得的。
 
-After enjoying a nice $DRINK_OF_CHOICE, go forth and announce the new release
-in Slack and on Twitter with a link to the [release on
-GitHub](https://github.com/helm/helm/releases).
+然后继续前进并在Slack和Twitter上宣布这个新分支，并链接到[GitHub发布版本](https://github.com/helm/helm/releases)。
 
-Optionally, write a blog post about the new release and showcase some of the new
-features on there!
+或者，写一篇新版本的blog并在上面展示一些新特性！
