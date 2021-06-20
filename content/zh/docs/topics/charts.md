@@ -71,7 +71,9 @@ annotations:
   example: 按名称输入的批注列表 （可选）.
 ```
 
-其他字段将被忽略。
+As of [v3.3.2](https://github.com/helm/helm/releases/tag/v3.3.2), additional
+fields are not allowed.
+The recommended approach is to add custom metadata in `annotations`
 
 ### Chart和版本控制
 
